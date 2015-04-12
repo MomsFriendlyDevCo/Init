@@ -1,15 +1,13 @@
 #!/bin/bash
 # Install CPAN modules
 
-echo "Installing CPAN base..."
-sudo cpan CPAN YAML Term::ReadLine::Perl
+echo "* Installing CPAN..."
+sudo apt-get install -y cpan
 
-echo "Installing prerequisites..."
-sudo cpan \
-Test::Exception \
+echo "* Installing CPAN base modules..."
+sudo cpan CPAN YAML Term::ReadLine::Perl Test::Exception
 
-
-echo "Installing desirable modules..."
+echo "* Installing CPAN common modules..."
 sudo cpan \
 Config::IniFiles \
 Data::Dump \
@@ -22,4 +20,5 @@ IMDB::Film \
 Number::Bytes::Human \
 Term::ReadKey \
 Text::Glob \
+
 

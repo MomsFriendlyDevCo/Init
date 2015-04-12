@@ -1,7 +1,6 @@
 #!/bin/bash
-# Create the shared /inc area
+# Create the system wide shared /inc area
 
 echo "Creating /inc shared area..."
-sudo mkdir ~/.ssh /inc/ /inc/X11 /inc/Transfers
+sudo mkdir /inc /inc/X11 /inc/Transfers
 sudo chmod 0777 -R /inc
-sudo ln -s ~/Papers/Scripts /inc/scripts

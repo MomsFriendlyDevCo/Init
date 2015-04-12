@@ -1,15 +1,14 @@
 #!/bin/bash
 # Removes unneeded default Ubuntu packages
 
-# Remove silly media players
+echo "* Remove silly media players..."
 sudo apt-get remove -y rhythmbox banshee abiword parole gmusicbrowser
 
-# Usless inter-program communication logger
+echo "* Remove usless inter-program communication logger"
 sudo apt-get remove -y zeitgeist whoopsie
 
-# Stupid APT indexer for Unity / Ubuntu package manager
-# Consumes 100% CPU weekly as a CronJob
+echo "* Remove stupid APT indexer for Unity / Ubuntu package manager..."
 sudo apt-get autoremove --purge -y apt-xapian-index
 
-# Final cleanup
+echo "* Cleanup orphaned APT packages..."
 sudo apt-get autoremove --purge

@@ -1,6 +1,8 @@
 #!/bin/bash
 # Install packages suitable for use as a desktop platform.
 
+echo "* Install desktop APT packages..."
+
 sudo apt-get install -y \
 audacity  \
 audacious \

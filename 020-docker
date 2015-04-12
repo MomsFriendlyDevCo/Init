@@ -1,17 +1,24 @@
 #!/bin/bash
 # Install docker
 
+echo "* Installing main linux image sources..."
 sudo apt-get install -y linux-image-extra-`uname -r`
 
+echo "* Installing Docker PPA key..."
 sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 36A1D7869245C8950F966E92D8576A8BA88D21E9
 
+echo "* Adding Docker PPA..."
 sudo sh -c "echo deb http://get.docker.io/ubuntu docker main\
 > /etc/apt/sources.list.d/docker.list"
 
+echo "* Updating APT..."
 sudo apt-get update
 
-sudo apt-get install lxc-docker git
+echo "* Installing Docker..."
+sudo apt-get install -y lxc-docker git
 
+echo "* Adjusting firewall policy to allow docker..."
 sudo perl -pi -e 's/DEFAULT_FORWARD_POLICY="DROP"/DEFAULT_FORWARD_POLICY="ACCEPT"/g' /etc/default/ufw
 
+echo "* Reloading firewall..."
 sudo ufw reload

@@ -1,7 +1,7 @@
 #!/bin/bash
 # Install Neovim
 
-echo "Install prereqs..."
+echo "* Install NeoVim prereqs..."
 sudo apt-get install -y \
 autoconf \
 automake \
@@ -15,9 +15,13 @@ unzip \
 
 
 echo "Install Python-PIP"
-cd /tmp
-wget https://raw.github.com/pypa/pip/master/contrib/get-pip.py --no-check-certificate
-sudo python get-pip.py
+pip --version 2>&1 >/dev/null
+
+if [ "$?" != 0 ]; then
+	cd /tmp
+	wget https://raw.github.com/pypa/pip/master/contrib/get-pip.py --no-check-certificate
+	sudo python get-pip.py
+fi
 
 
 echo "Install NeoVim python support..."

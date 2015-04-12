@@ -1,7 +1,12 @@
 #!/bin/bash
-# Install Pear modules
+# Install PHP-Pear modules
 
-echo "Installing desirable modules..."
+echo "* Install PHP-Pear..."
+sudo apt-get install -y php-pear
+
+echo "* Installing common Pear modules..."
+
 sudo pear install \
 PhpDocumentor \
+
 

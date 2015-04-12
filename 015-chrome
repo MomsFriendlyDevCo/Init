@@ -1,6 +1,12 @@
 #!/bin/bash
-echo "Installing Google Chrome PPA..."
+# Install Google Chrome
+
+echo "* Installing Google Chrome PPA..."
 wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | sudo apt-key add -
 echo "deb http://dl.google.com/linux/chrome/deb/ stable main" | sudo tee -a /etc/apt/sources.list.d/google.list >/dev/null
+
+echo "* Updating APT..."
 sudo apt-get update
+
+echo "* Installing Google Chrome..."
 sudo apt-get install google-chrome-stable

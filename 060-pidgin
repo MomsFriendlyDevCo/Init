@@ -1,7 +1,7 @@
 #!/bin/bash
 # Setup Pidgin correctly
 
-echo "Setting up Pidgin..."
+echo "* Set up Pidgin..."
 mkdir ~/.purple
 cd ~/.purple
 if [ -d "logs" ]; then

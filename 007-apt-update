@@ -1,4 +1,5 @@
 #!/bin/bash
-
 # Update Apt
+
+echo "* Updating APT..."
 sudo apt-get update
