@@ -1,5 +1,6 @@
 #!/bin/bash
 # Install packages suitable for use as a desktop platform.
+# REQUIRES: 007-apt-update
 
 echo "* Install desktop APT packages..."
 

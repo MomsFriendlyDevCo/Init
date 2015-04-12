@@ -1,5 +1,6 @@
 #!/bin/bash
 # Configure apache based on the usual MFDC settings
+# REQUIRES: pkg:apache2
 
 echo "* Patching PHP config..."
 sudo perl -pi -e 's/^display_errors = .*$/display_errors = On/g' /etc/php5/apache2/php.ini

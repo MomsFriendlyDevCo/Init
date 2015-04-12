@@ -1,5 +1,6 @@
 #!/bin/bash
 # Install packages specific to XFCE
+# REQUIRES: 007-apt-update
 
 echo "* Install common XFCE modules..."
 

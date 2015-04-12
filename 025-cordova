@@ -1,5 +1,6 @@
 #!/bin/bash
 # Install Cordova packages
+# REQUIRES: 007-apt-update
 
 echo "* Install Cordova PPA..."
 sudo apt-add-repository ppa:cordova-ubuntu/ppa

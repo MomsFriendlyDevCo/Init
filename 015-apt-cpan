@@ -1,5 +1,6 @@
 #!/bin/bash
 # Install CPAN modules
+# REQUIRES: 007-apt-update
 
 echo "* Installing CPAN..."
 sudo apt-get install -y cpan

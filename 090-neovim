@@ -1,5 +1,6 @@
 #!/bin/bash
 # Install Neovim
+# REQUIRES: 007-apt-update
 
 echo "* Install NeoVim prereqs..."
 sudo apt-get install -y \

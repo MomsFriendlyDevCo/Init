@@ -1,5 +1,6 @@
 #!/bin/bash
 # Creates the ~/Papers directory as an EncFS mount point
+# REQUIRES: pkg:encfs
 
 echo "* Setting up encrypted ~/Papers directory..."
 

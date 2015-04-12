@@ -1,5 +1,5 @@
 #!/bin/bash
-# Link all dot files
+# Link all dot files in ~/Papers/Dots
 
 echo "* Linking host dependent files..."
 if [ -d "$HOME/Papers/Dots/Hosts/$HOSTNAME" ]; then

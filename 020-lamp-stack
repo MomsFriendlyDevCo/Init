@@ -1,5 +1,6 @@
 #!/bin/bash
 # Install packages suitable for PHP web hosting
+# REQUIRES: 007-apt-update
 
 echo "* Install LAMP stack packages..."
 
