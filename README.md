@@ -1,6 +1,6 @@
 MomsFriendlyDevCo Init Scripts
 ==============================
-A collection of server setup scripts to deploy a server quickly.
+A collection of setup scripts to deploy a server quickly.
 
 
 
