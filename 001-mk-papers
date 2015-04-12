@@ -1,8 +1,11 @@
 #!/bin/bash
 # Creates the ~/Papers directory as an EncFS mount point
 
+echo "* Setting up encrypted ~/Papers directory..."
+
 if [ -d "$HOME/Papers" ]; then
 	echo "~/Papers is already setup (or mounted)"
+	exit 1
 else
 	echo "~/Papers is not setup correctly."
 	echo "Installing EncFS..."
@@ -16,5 +19,4 @@ else
 	echo "~/Papers is now setup as an encrypted area for Papers."
 	echo "Copy all files into this directory before continuing"
 	echo
-	exit
 fi
