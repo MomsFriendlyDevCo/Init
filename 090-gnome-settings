@@ -8,13 +8,6 @@ if [ `whoami` == 'root' ]; then
 	exit 1
 fi
 
-#echo "* Set Gnome proxy"
-#gconftool-2 -t string -s /system/proxy/mode "manual"
-#gconftool-2 -t string -s /system/proxy/secure_host "Bondproxy.bond.edu.au"
-#gconftool-2 -t int -s /system/proxy/secure_port "8080"
-#gconftool-2 -t string -s /system/http_proxy/host "Bondproxy.bond.edu.au"
-#gconftool-2 -t int -s /system/http_proxy/port "8080"
-
 echo " * Set gnome window settings"
 gconftool-2 -t string -s /apps/metacity/general/button_layout "menu:minimize,maximize,close"
 
