@@ -1,5 +1,8 @@
 #!/bin/bash
 # Setup Pidgin correctly
+# This script assumes you already have a pre-bundled Pidgin install
+
+PIDGIN_INSTALL="$HOME/Papers/Dots/Templates/Pidgin.tar.bz2"
 
 echo "* Set up Pidgin..."
 mkdir ~/.purple
@@ -17,5 +20,5 @@ fi
 if [ -d "certificates" ]; then
 	echo "Certificates directory already exists. Avoiding setting up Pidgin template install"
 else
-	tar xvfj ~/Papers/Dots/Templates/Pidgin.tar.bz2
+	tar xvfj "$PIDGIN_INSTALL"
 fi
