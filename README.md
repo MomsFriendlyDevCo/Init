@@ -1,6 +1,6 @@
-Hash-bang's Init Scripts
-========================
-A collection of server setup scripts.
+MomsFriendlyDevCo Init Scripts
+==============================
+A collection of server setup scripts to deploy a server quickly.
 
 
 
@@ -13,7 +13,7 @@ For example if you want a Node web server run:
 	./ROLE-server-node
 
 
-Cherry picking guide
+Cherry-picking guide
 --------------------
 Each script is designed to be run as a non-root user (escapting to sudo when needed).
 
