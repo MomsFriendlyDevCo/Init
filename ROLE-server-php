@@ -4,10 +4,12 @@
 # Quit on any error
 set -e
 
-./000-keygen
+./000-hostname
+./001-keygen
 ./007-apt-update
 ./010-apt-server
 ./020-lamp-stack
+./030-mail
 ./040-apache-config
 ./040-apache-symlink
 ./090-monit
