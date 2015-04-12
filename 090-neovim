@@ -15,12 +15,14 @@ python-pip \
 unzip \
 
 
-echo "Install Python-PIP"
+echo "* Check Python-PIP..."
 pip --version 2>&1 >/dev/null
 
 if [ "$?" != 0 ]; then
+	echo "* Download Python-PIP..."
 	cd /tmp
 	wget https://raw.github.com/pypa/pip/master/contrib/get-pip.py --no-check-certificate
+	echo "* Installing Python-PIP..."
 	sudo python get-pip.py
 fi
 
