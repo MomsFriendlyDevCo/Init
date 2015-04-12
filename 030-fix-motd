@@ -1,0 +1,9 @@
+#!/bin/bash
+# Fix the MOTD
+
+echo "Blanking the MOTD..."
+echo "" | sudo tee /etc/motd.tail >/dev/null
+echo "" | sudo tee /etc/motd >/dev/null
+
+echo "Disabling all UpdateMotd scripts..."
+sudo rm /etc/update-motd.d/*

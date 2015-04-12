@@ -1,0 +1,10 @@
+#!/bin/bash
+# Install packages specific to Gnome
+
+apt-get install -y \
+gnome-art \
+gnome-netstatus-applet \
+gnome-themes-extras \
+nautilus-open-terminal \
+timer-applet \
+

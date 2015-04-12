@@ -1,0 +1,21 @@
+#!/bin/bash
+# Setup Pidgin correctly
+
+echo "Setting up Pidgin..."
+mkdir ~/.purple
+cd ~/.purple
+if [ -d "logs" ]; then
+	echo "!!!! WARNING ~/.purple/logs is ALREADY a directory. It should be a link to ~/Papers/Logs. It may need merging manually !!!!"
+else
+	ln -s ~/Papers/Logs logs
+fi
+if [ -d "icons" ]; then
+	echo "!!!! WARNING ~/.purple/icons is ALREADY a directory. It should be a link to ~/Papers/Logs/Icons. It may need merging manually !!!!"
+else
+	ln -s ~/Papers/Logs/Icons icons
+fi
+if [ -d "certificates" ]; then
+	echo "Certificates directory already exists. Avoiding setting up Pidgin template install"
+else
+	tar xvfj ~/Papers/Dots/Templates/Pidgin.tar.bz2
+fi

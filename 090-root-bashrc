@@ -1,0 +1,5 @@
+#!/bin/bash
+# Setup any /etc config files
+
+echo "Installing PATH references into root users .bashrc"
+echo "PATH=$PATH:/inc/scripts/hosts/`hostname`:/inc/scripts/users/`whoami`:/inc/scripts" | sudo tee -a /root/.bashrc >/dev/null

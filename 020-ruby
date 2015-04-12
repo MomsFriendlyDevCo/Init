@@ -1,0 +1,5 @@
+#!/bin/bash
+# Install all Ruby dependencies + af (AppFog CLI)
+
+sudo apt-get install -y ruby1.9.1 ruby1.9.1-dev
+sudo gem install -V af

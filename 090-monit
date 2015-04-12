@@ -1,0 +1,18 @@
+#!/bin/bash
+# Install `monit` service monitor
+
+sudo apt-get install -y monit
+
+# Setup config
+
+echo 'set httpd port 2812 and' | tee -a '/etc/monit/monitrc'
+echo 'use address localhost' | tee -a '/etc/monit/monitrc'
+echo 'allow localhost' | tee -a '/etc/monit/monitrc'
+
+echo '' | tee -a '/etc/monit/monitrc'
+
+echo 'include /etc/monit/monitrc.d/mysql' | tee -a '/etc/monit/monitrc'
+echo 'include /etc/monit/monitrc.d/apache2' | tee -a '/etc/monit/monitrc'
+echo 'include /etc/monit/monitrc.d/postfix' | tee -a '/etc/monit/monitrc'
+
+sudo /etc/init.d/monit restart

@@ -1,0 +1,36 @@
+#!/bin/bash
+# Link all dot files
+
+echo "Linking host dependent files..."
+if [ -d "~/Papers/Dots/Hosts/$HOSTNAME" ]; then
+	ln -s ~/Papers/Dots/Hosts/`hostname`/.??* .
+	echo "Linking SSH Config..."
+	ln -s ~/Papers/Dots/Hosts/`hostname`/SSH-Config ~/.ssh/config
+else
+	echo "!!!!! WARNING - CANNOT LINK TO NONE EXISTANT HOST DIR ~/Papers/Dots/Hosts/$HOSTNAME !!!!!"
+	echo "Exiting!"
+	exit 1
+fi
+
+echo "Linking all dot files..."
+cd
+rm ~/.bashrc ~/.vimrc
+ln -s ~/Papers/Dots/.??* .
+ln -s ~/Papers/Notes/Notes.txt ~/notes
+ln -s ~/Papers/Scripts ~/Scripts
+
+echo "Linking config..."
+cd
+mkdir .config
+cd .config
+ln -s ~/Papers/Dots/config/* .
+cd
+
+echo "Linking Gnome-art..."
+ln -s ~/Papers/Dots/Special/gnome-art ~/.gnome2/gnome-art
+
+echo "Installing mount-papers Script..."
+cp ~/Papers/Scripts/mount-papers ~
+
+echo "Installing Nautilus Scripts..."
+ln -s ~/Papers/Dots/nautilus-scripts ~/.gnome2/nautilus-scripts

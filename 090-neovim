@@ -1,0 +1,44 @@
+#!/bin/bash
+# Install Neovim
+
+echo "Install prereqs..."
+sudo apt-get install -y \
+autoconf \
+automake \
+cmake \
+g++ \
+libtool \
+pkg-config \
+python2.7-dev \
+python-pip \
+unzip \
+
+
+echo "Install Python-PIP"
+cd /tmp
+wget https://raw.github.com/pypa/pip/master/contrib/get-pip.py --no-check-certificate
+sudo python get-pip.py
+
+
+echo "Install NeoVim python support..."
+sudo pip install neovim
+
+
+echo "Clone Neovim repo..."
+cd
+mkdir src
+cd src
+git clone git@github.com:neovim/neovim.git
+cd neovim
+
+echo "Build Neovim..."
+make
+sudo make install
+
+
+echo "Link config directories..."
+cd
+ln -s .vimrc .nvimrc
+ln -s .vim .nvim
+
+echo "Done"

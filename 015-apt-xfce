@@ -1,0 +1,8 @@
+#!/bin/bash
+# Install packages specific to Gnome
+
+sudo apt-get install --force-yes -y \
+xfce4-goodies \
+xfce4-mixer \
+xfce4-power-manager-plugins 
+

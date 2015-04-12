@@ -1,0 +1,55 @@
+#!/bin/bash
+# Install packages suitable for use as a desktop platform.
+
+sudo apt-get install -y \
+audacity  \
+audacious \
+conky \
+easytag \
+etherape \
+firefox \
+filelight \
+fslint \
+gcalctool \
+gdebi \
+geeqie \
+giggle \
+gftp \
+gimp \
+gimp-plugin-registry \
+gparted \
+gstreamer0.10-ffmpeg \
+gstreamer0.10-plugins-good \
+gstreamer0.10-plugins-bad \
+gstreamer0.10-plugins-ugly \
+gthumb \
+gweled \
+gwenview \
+k3b \
+krename \
+liquidwar \
+luola \
+luola-nostalgy \
+ffmpeg \
+ffmpegthumbs \
+ffmpegthumbnailer \
+meld \
+mencoder \
+mplayer \
+libreoffice \
+pdfshuffler \
+pidgin \
+pidgin-extprefs \
+pidgin-facebookchat \
+pidgin-plugin-pack \
+pidgin-themes \
+pulseaudio-module-bluetooth \
+vlc \
+wireshark \
+xmacro \
+xscreensaver-data \
+xscreensaver-data-extra \
+xscreensaver-gl \
+xscreensaver-gl-extra \
+xsel \
+

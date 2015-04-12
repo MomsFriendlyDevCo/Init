@@ -1,0 +1,12 @@
+#!/bin/bash
+# Install packages needed for Compiz
+
+sudo apt-get install -y \
+compiz \
+compizconfig-settings-manager \
+compiz-plugins \
+compiz-plugins-default \
+compiz-plugins-extra \
+compiz-plugins-main \
+compiz-plugins-main-default \
+

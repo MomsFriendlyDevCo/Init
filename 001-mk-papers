@@ -1,0 +1,20 @@
+#!/bin/bash
+# Creates the ~/Papers directory as an EncFS mount point
+
+if [ -d "$HOME/Papers" ]; then
+	echo "~/Papers is already setup (or mounted)"
+else
+	echo "~/Papers is not setup correctly."
+	echo "Installing EncFS..."
+	sudo apt-get install -y encfs
+	mkdir ~/.Papers
+	echo "Attempting to mount papers"
+	cd
+	sudo encfs "$HOME/.Papers" "$HOME/Papers" -- -o allow_other,uid=1000
+	echo "Done"
+	echo
+	echo "~/Papers is now setup as an encrypted area for Papers."
+	echo "Copy all files into this directory before continuing"
+	echo
+	exit
+fi

@@ -1,0 +1,52 @@
+#!/bin/bash
+# Install packages suitable for use as a server
+
+sudo apt-get install -y \
+autossh \
+bcrypt \
+build-essential \
+bzip2 \
+cron-apt \
+curl \
+dos2unix \
+encfs \
+expect \
+fail2ban \
+ftp \
+git-core \
+html2ps \
+iftop \
+imagemagick \
+iotop \
+iwatch \
+lftp \
+lsof \
+make \
+molly-guard \
+moreutils \
+mountpy \
+mutt \
+ncftp \
+netcat \
+netspeed \
+nmap \
+ntp \
+openssl \
+perl \
+pv \
+pwgen \
+screen \
+sshfs \
+sysv-rc-conf \
+tar \
+tcpdump \
+tmux \
+telnet \
+tofrodos \
+traceroute \
+vim \
+w3m \
+wget \
+whois \
+zsh \
+

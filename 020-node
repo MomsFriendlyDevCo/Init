@@ -1,0 +1,34 @@
+#!/bin/bash
+# Install Node + common NPM packages
+
+echo "Install Node from Apt..."
+sudo apt-get install -y nodejs npm mongodb
+
+echo "Fixing node symlink..."
+sudo ln -s /usr/bin/nodejs /usr/bin/node
+
+echo "Install node modules..."
+sudo npm install -g \
+bower \
+cli-foreachfile \
+csv2json \
+forever \
+grunt-cli \
+gulp \
+jscs \
+jshint \
+json-prettify \
+lodash \
+mocha \
+moment \
+nim \
+nocat \
+uglify-js \
+
+
+echo "Setting up symlinks..."
+sudo ln -s /usr/bin/json-prettify /usr/bin/json
+
+echo "Permitting NodeJS to have port 80 access..."
+sudo apt-get install -y libcap2-bin
+sudo setcap cap_net_bind_service=+ep /usr/bin/nodejs

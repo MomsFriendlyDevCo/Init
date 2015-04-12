@@ -1,0 +1,13 @@
+#!/bin/bash
+# Setup this box as a Node server
+
+# Quit on any error
+set -e
+
+./000-keygen
+./007-apt-update
+./010-apt-server
+./020-lamp-stack
+./040-apache-config
+./040-apache-symlink
+./090-monit

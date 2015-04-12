@@ -1,0 +1,10 @@
+#!/bin/bash
+# Setup this box as a generic server
+
+# Quit on any error
+set -e
+
+./000-keygen
+./007-apt-update
+./010-apt-server
+./020-node

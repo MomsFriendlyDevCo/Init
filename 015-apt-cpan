@@ -1,0 +1,25 @@
+#!/bin/bash
+# Install CPAN modules
+
+echo "Installing CPAN base..."
+sudo cpan CPAN YAML Term::ReadLine::Perl
+
+echo "Installing prerequisites..."
+sudo cpan \
+Test::Exception \
+
+
+echo "Installing desirable modules..."
+sudo cpan \
+Config::IniFiles \
+Data::Dump \
+Digest::MD5::File \
+File::Basename \
+File::DirWalk \
+File::Slurp \
+Getopt::Long \
+IMDB::Film \
+Number::Bytes::Human \
+Term::ReadKey \
+Text::Glob \
+

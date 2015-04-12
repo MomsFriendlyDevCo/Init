@@ -1,0 +1,4 @@
+#!/bin/bash
+# Install various Python/PIP packages
+
+sudo apt-get install python python-pip python-zmq
