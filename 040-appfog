@@ -1,0 +1,5 @@
+#!/bin/bash
+# Install AppFog client
+
+echo "* Install AppFog..."
+sudo gem install -V af
