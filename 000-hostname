@@ -1,0 +1,24 @@
+#!/bin/bash
+# Correctly setup the domain hostname
+
+HOSTNAME=`hostname`
+
+echo
+echo "Hostname is currently '$HOSTNAME'"
+echo "Please enter the domain name of this system or enter to accept this"
+echo "e.g. mywebsite.com"
+echo
+
+read -p "Hostname [$HOSTNAME] >" NEWHOSTNAME
+
+echo
+
+if [ -z "$NEWHOSTNAME" ]; then
+	NEWHOSTNAME="$HOSTNAME"
+fi
+
+if [ "$HOSTNAME" != "$NEWHOSTNAME" ]; then
+	echo "Changing server hostname..."
+	sudo hostname "$NEWHOSTNAME"
+	echo "$NEWHOSTNAME" | sudo tee /etc/hostname >/dev/null
+fi
