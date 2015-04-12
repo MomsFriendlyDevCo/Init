@@ -1,0 +1,35 @@
+#!/bin/bash
+# Setup a basic mail server, redirecting email to another address
+# Change the default relays at the bottom of this file as needed
+# REQUIRES: 000-hostname
+
+HOSTNAME=`hostname`
+
+echo "Installing Postfix..."
+sudo apt-get install -y postfix
+
+
+echo "Setting up Postfix virtuals config..."
+echo "virtual_alias_domains = $HOSTNAME" | sudo tee -a /etc/postfix/main.cf >/dev/null
+echo "virtual_alias_maps = hash:/etc/postfix/virtual" | sudo tee -a /etc/postfix/main.cf >/dev/null
+
+
+echo "Setting up mail redirects..."
+echo "info@$HOSTNAME		matt@mfdc.biz" | sudo tee -a /etc/postfix/virtual >/dev/null
+echo "root@$HOSTNAME		matt@mfdc.biz" | sudo tee -a /etc/postfix/virtual >/dev/null
+echo "admin@$HOSTNAME		matt@mfdc.biz" | sudo tee -a /etc/postfix/virtual >/dev/null
+echo "administrator@$HOSTNAME	matt@mfdc.biz" | sudo tee -a /etc/postfix/virtual >/dev/null
+echo "webmaster@$HOSTNAME		matt@mfdc.biz" | sudo tee -a /etc/postfix/virtual >/dev/null
+echo "hostmaster@$HOSTNAME	matt@mfdc.biz" | sudo tee -a /etc/postfix/virtual >/dev/null
+echo "mc@$HOSTNAME		matt@mfdc.biz" | sudo tee -a /etc/postfix/virtual >/dev/null
+echo "matt@$HOSTNAME		matt@mfdc.biz" | sudo tee -a /etc/postfix/virtual >/dev/null
+echo "vandy@$HOSTNAME		vandy@mfdc.biz" | sudo tee -a /etc/postfix/virtual >/dev/null
+echo "mark@$HOSTNAME		mark@mfdc.biz" | sudo tee -a /etc/postfix/virtual >/dev/null
+
+
+echo "Compiling redirects database..."
+sudo postmap /etc/postfix/virtual
+
+
+echo "Restarting postfix..."
+sudo /etc/init.d/postfix restart
