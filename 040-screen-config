@@ -1,0 +1,6 @@
+#!/bin/bash
+# Setup screen config
+
+echo "* Patching Screen config..."
+sudo perl -pi -e 's/^startup_message = on$/startup_message = off/g' /etc/screenrc
+sudo perl -pi -e 's/^vbell = on$/vbell = off/g' /etc/screenrc
