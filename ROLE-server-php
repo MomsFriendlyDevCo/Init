@@ -13,3 +13,4 @@ set -e
 ./040-apache-config
 ./040-apache-symlink
 ./090-monit
+./090-newrelic-php

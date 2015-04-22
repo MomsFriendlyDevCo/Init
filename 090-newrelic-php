@@ -1,0 +1,18 @@
+#!/bin/bash
+# Install NewRelic monitors for PHP
+
+echo "* Installing NewRelic PPA..."
+wget -O - https://download.newrelic.com/548C16BF.gpg | sudo apt-key add -
+sudo sh -c 'echo "deb http://apt.newrelic.com/debian/ newrelic non-free" >/etc/apt/sources.list.d/newrelic.list'
+
+echo "* Updating Apt..."
+sudo apt-get update
+
+echo "* Installing NewRelic deamon..."
+sudo apt-get install -y newrelic-php5
+
+echo "* Setting up NewRelic..."
+sudo newrelic-install install
+
+echo "* Restarting Apache..."
+sudo /etc/init.d/apache2 restart
