@@ -2,8 +2,8 @@
 # Generates the initial RSA identity of this server
 
 if [ -e "$HOME/.ssh/id_rsa" ]; then
-	echo "RSA key already genereated. Abort"
-	exit 1
+	echo "RSA key already genereated. Skip"
+	exit 0
 fi
 
 echo "* Generating RSA key..."
