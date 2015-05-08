@@ -2,6 +2,12 @@
 # Install packages suitable for use as a server
 # REQUIRES: 007-apt-update
 
+echo "* Remove Server unsuitable APT packages..."
+sudo apt-get remove -y \
+samba
+
+
+
 echo "* Install Server APT packages..."
 
 sudo apt-get install -y \
