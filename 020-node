@@ -5,6 +5,9 @@
 echo "* Install Node from Apt..."
 sudo apt-get install -y nodejs npm mongodb
 
+echo "* Install common Node system Apt packages..."
+sudo apt-get install -y imagemagick graphicsmagick potrace
+
 echo "* Fixing node symlink..."
 sudo ln -s /usr/bin/nodejs /usr/bin/node
 
