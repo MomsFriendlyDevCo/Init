@@ -7,6 +7,7 @@ echo "* Install desktop APT packages..."
 sudo apt-get install -y \
 audacity  \
 audacious \
+bmon \
 conky \
 easytag \
 etherape \
@@ -28,6 +29,8 @@ gstreamer0.10-plugins-ugly \
 gthumb \
 gweled \
 gwenview \
+htop \
+git \
 k3b \
 krename \
 liquidwar \
