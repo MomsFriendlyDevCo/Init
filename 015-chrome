@@ -9,4 +9,4 @@ echo "* Updating APT..."
 sudo apt-get update
 
 echo "* Installing Google Chrome..."
-sudo apt-get install google-chrome-stable
+sudo apt-get install -y google-chrome-stable

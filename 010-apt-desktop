@@ -22,7 +22,6 @@ gftp \
 gimp \
 gimp-plugin-registry \
 gparted \
-gstreamer0.10-ffmpeg \
 gstreamer0.10-plugins-good \
 gstreamer0.10-plugins-bad \
 gstreamer0.10-plugins-ugly \
@@ -40,13 +39,11 @@ ffmpeg \
 ffmpegthumbs \
 ffmpegthumbnailer \
 meld \
-mencoder \
 mplayer \
 libreoffice \
 pdfshuffler \
 pidgin \
 pidgin-extprefs \
-pidgin-facebookchat \
 pidgin-plugin-pack \
 pidgin-themes \
 pulseaudio-module-bluetooth \
