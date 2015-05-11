@@ -35,7 +35,7 @@ echo "Clone Neovim repo..."
 cd
 mkdir src
 cd src
-git clone git@github.com:neovim/neovim.git
+git clone https://github.com/neovim/neovim.git
 cd neovim
 
 echo "Build Neovim..."
