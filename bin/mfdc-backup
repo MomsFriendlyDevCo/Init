@@ -1,0 +1,107 @@
+#!/bin/bash
+# All purpose backup script
+# This script creates a temporary directory then queries local resources to determine what to backup
+# Then all contents are rsync'd over to the specified server
+#
+# @author Matt Carter <m@ttcarter.com>
+# @date 2015-05-18
+
+# Variable setup {{{
+HOST=`hostname`
+STAMP=`date '+%Y-%m-%dT%H:%M'`
+RSERVER="backups@office.mfdc.biz"
+RELROOT="/home/backups"
+RELPATH="backups/$HOST/$STAMP"
+RDIR="/home/backups/$RELPATH"
+# }}}
+
+# Sanity checks {{{
+if [ ! -e "$HOME/.ssh/id_rsa.pub" ]; then
+	echo "No SSH public key found"
+	exit 1
+fi
+
+echo "* Checking connectivity with remote backup server..."
+SRESPONSE=`ssh -n $RSERVER bash -c "export PWD=$RELROOT >/dev/null; mkdir --parents '$RELPATH' && echo 'Hello'"`
+if [ "$?" != 0 ]; then
+	echo "Failed to SSH into remote server '$RSERVER'"
+	echo "Check that the SSH key exchange has already occured"
+	exit 1
+fi
+if [ "$SRESPONSE" != 'Hello' ]; then
+	echo "Incorrect server handshake returned from remote server '$RSERVER'"
+	echo "Check that you can correctly SSH into this host"
+	echo "GOT: [$SRESPONSE]"
+	exit 1
+fi
+echo "    Connectivity OK"
+# }}}
+
+# Create temp dir + CD {{{
+echo "* Creating temporary directory..."
+DIR=`mktemp -d`
+DONE=""
+echo "     Host = $HOST"
+echo "    RHost = $RSERVER"
+echo "  TempDir = $DIR"
+echo "  DestDir = $RDIR"
+echo
+cd "$DIR"
+# }}}
+
+# Backup entities into $DIR {{{
+
+# Mail virtuals {{{
+if [ -e "/etc/postfix/virtual" ]; then
+	echo "* Backing up mail virtual redirects..."
+	cp "/etc/postfix/virtual" "$DIR/postfix-virtuals"
+	bzip2 "$DIR/postfix-virtuals"
+	DONE="$DONE Postfix-Virtuals"
+fi
+# }}}
+
+# MySQL {{{
+which mysql >/dev/null
+if [ "$?" == 0 ]; then
+	echo "* Dumping MySQL databases..."
+	mysqldump --opt --all-databases >"$DIR/mysql.sql"
+	bzip2 "$DIR/mysql.sql"
+	DONE="$DONE MySQL"
+fi
+# }}}
+
+# Mongo {{{
+which mongodump 
+if [ "$?" == 0 ]; then
+	echo "* Dumping MongoDB databases..."
+	mongodump -o mongodb
+	tar cvfj "mongo.tar.bz2" mongodb
+	rm -r mongodb
+	DONE="$DONE MongoDB"
+fi
+# }}}
+
+# zPanel {{{
+if [ -d "/var/zpanel/hostdata" ]; then
+	echo "* Backing up zPanel install..."
+	tar cvfj "$DIR/zpanel.tar.bz2" "/var/zpanel/hostdata"
+	DONE="$DONE zPanel-files"
+fi
+# }}}
+
+# }}}
+
+# RSYNC everything across {{{
+echo '* RSYNC...'
+rsync -auvP $DIR/* "$RSERVER:$RDIR/"
+# }}}
+
+# Cleanup + Exit {{{
+echo '* Cleaning up...'
+rm -r "$DIR"
+
+echo
+echo "BACKUP COMPLETE"
+echo "Entities backed up: $DONE"
+echo
+# }}}

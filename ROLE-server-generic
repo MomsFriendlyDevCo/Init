@@ -10,3 +10,4 @@ set -e
 ./010-apt-server
 ./020-node
 ./030-mail
+./150-backups-mfdc
