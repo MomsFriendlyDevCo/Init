@@ -9,6 +9,7 @@ automake \
 cmake \
 g++ \
 libtool \
+libtool-bin \
 pkg-config \
 python2.7-dev \
 python-pip \
