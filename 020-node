@@ -27,6 +27,8 @@ mocha \
 moment \
 nim \
 nocat \
+npm@latest \
+ruget \
 uglify-js \
 
 
