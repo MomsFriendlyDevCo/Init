@@ -11,6 +11,9 @@ sudo apt-get install -y imagemagick graphicsmagick potrace
 echo "* Fixing node symlink..."
 sudo ln -s /usr/bin/nodejs /usr/bin/node
 
+echo "* Upgrading NPM..."
+sudo npm install -g npm@latest
+
 echo "* Install node modules..."
 sudo npm install -g \
 bower \
@@ -27,7 +30,6 @@ mocha \
 moment \
 nim \
 nocat \
-npm@latest \
 ruget \
 uglify-js \
 
