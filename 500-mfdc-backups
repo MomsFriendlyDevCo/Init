@@ -16,4 +16,5 @@ sudo chmod +x /bin/mfdc-backup
 
 echo "* Installing crontab..."
 echo "MAILTO=demons@mfdc.biz" | sudo tee /var/spool/cron/crontabs/root >/dev/null
+echo "SHELL=/bin/sh" | sudo tee -a /var/spool/cron/crontabs/root >/dev/null
 echo "@daily /bin/mfdc-backup" | sudo tee -a /var/spool/cron/crontabs/root >/dev/null

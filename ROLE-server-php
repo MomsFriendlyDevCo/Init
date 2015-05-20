@@ -14,4 +14,4 @@ set -e
 ./040-apache-symlink
 ./090-monit
 ./090-newrelic-php
-./150-backups-mfdc
+./500-mfdc-backups
