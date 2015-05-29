@@ -16,7 +16,17 @@ sudo ln -s /usr/bin/nodejs /usr/bin/node
 echoStatus "Upgrade NPM to latest"
 sudo npm install -g npm@latest
 
-echoStatus "Install node modules"
+echoStatus "Install NPM config"
+echo 'email=m@ttcarter.com' >~/.npmrc
+echo 'tmp=/tmp/npm' >>~/.npmrc
+echo 'bin-links=true' >>~/.npmrc
+echo 'save=true' >>~/.npmrc
+echo 'spin=false' >>~/.npmrc
+echo 'loglevel=http' >>~/.npmrc
+echo 'registry=http://registry.npmjs.org' >>~/.npmrc
+
+
+echoStatus "Install common global NPMs"
 sudo npm install -g \
 bower \
 cli-foreachfile \
@@ -43,6 +53,6 @@ sudo ln -s /usr/bin/json-prettify /usr/bin/json
 echoStatus "Reset permissions on ~/.npm"
 chmod 0777 -R ~/.npm
 
-echoStatus "Permit NodeJS to have port 80 access"
+echoStatus "Permit Node to have port 80 access"
 sudo apt-get install -y libcap2-bin
 sudo setcap cap_net_bind_service=+ep /usr/bin/nodejs
