@@ -2,7 +2,9 @@
 # Install Neovim
 # REQUIRES: 007-apt-update
 
-echo "* Install NeoVim prereqs..."
+source common
+
+echoStatus "Install NeoVim prereqs from APT"
 sudo apt-get install -y \
 autoconf \
 automake \
@@ -16,37 +18,35 @@ python-pip \
 unzip \
 
 
-echo "* Check Python-PIP..."
+echoStatus "Check Python-PIP"
 pip --version 2>&1 >/dev/null
 
 if [ "$?" != 0 ]; then
-	echo "* Download Python-PIP..."
+	echoStatus "Download Python-PIP"
 	cd /tmp
 	wget https://raw.github.com/pypa/pip/master/contrib/get-pip.py --no-check-certificate
-	echo "* Installing Python-PIP..."
+	echoStatus "Install Python-PIP"
 	sudo python get-pip.py
 fi
 
 
-echo "Install NeoVim python support..."
+echoStatus "Install NeoVim python support"
 sudo pip install neovim
 
 
-echo "Clone Neovim repo..."
+echoStatus "Clone Neovim repo"
 cd
 mkdir src
 cd src
 git clone https://github.com/neovim/neovim.git
 cd neovim
 
-echo "Build Neovim..."
+echoStatus "Build Neovim"
 make
 sudo make install
 
 
-echo "Link config directories..."
+echoStatus "Link config directories"
 cd
 ln -s .vimrc .nvimrc
 ln -s .vim .nvim
-
-echo "Done"

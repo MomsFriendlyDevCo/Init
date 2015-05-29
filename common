@@ -1,0 +1,10 @@
+#!/bin/bash
+# Common functionality library imported by all other scripts in this directory
+
+# Print a status line in Bold Blue font
+function echoStatus {
+	echo
+	echo -ne "\e[34m\e[1m ● "
+	echo -n "$@"
+	echo -e "\e[0m"
+}

@@ -2,13 +2,17 @@
 # Install CPAN modules
 # REQUIRES: 007-apt-update
 
-echo "* Installing CPAN..."
+source common
+
+echoStatus "Install CPAN"
 sudo apt-get install -y cpan
 
-echo "* Installing CPAN base modules..."
+
+echoStatus "Install CPAN base modules"
 sudo cpan CPAN YAML Term::ReadLine::Perl Test::Exception
 
-echo "* Installing CPAN common modules..."
+
+echoStatus "Install common CPAN modules"
 sudo cpan \
 Config::IniFiles \
 Data::Dump \

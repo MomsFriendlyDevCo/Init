@@ -3,18 +3,20 @@
 # Also copies the public key to the MFDC backup server so the backup script can login
 # REQUIRES: 000-hostname 001-keygen
 
-echo "* Installing backup script..."
+source common
+
+echoStatus "Install backup script"
 echo
 echo "Connecting to office.mfdc.biz"
 echo "You may be asked for the backup server password"
 echo
 ssh-copy-id backups@office.mfdc.biz
 
-echo "* Copying backup script to /bin"
+echoStatus "Copy backup script to /bin"
 sudo cp bin/mfdc-backup /bin/mfdc-backup
 sudo chmod +x /bin/mfdc-backup
 
-echo "* Installing crontab..."
+echoStatus "Install crontab for backup script"
 echo "MAILTO=demons@mfdc.biz" | sudo tee /var/spool/cron/crontabs/root >/dev/null
 echo "SHELL=/bin/sh" | sudo tee -a /var/spool/cron/crontabs/root >/dev/null
 echo "@daily /bin/mfdc-backup" | sudo tee -a /var/spool/cron/crontabs/root >/dev/null

@@ -1,15 +1,17 @@
 #!/bin/bash
 # Install IO.js
 
-echo "* Installing NodeSource GPG key..."
+source common
+
+echoStatus "Install NodeSource GPG key"
 curl -s https://deb.nodesource.com/gpgkey/nodesource.gpg.key | sudo apt-key add -
 
-echo "* Install PPA repo..."
+echoStatus "Install PPA repo"
 sudo sh -c "echo deb https://deb.nodesource.com/iojs_1.x utopic main \
 >/etc/apt/sources.list.d/nodesource.list"
 
-echo "* Updating Apt..."
+echoStatus "Update APT"
 sudo apt-get update
 
-echo "* Installing io.js..."
+echoStatus "Install io.js from APT"
 sudo apt-get install -y iojs

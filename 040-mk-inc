@@ -1,6 +1,8 @@
 #!/bin/bash
 # Create the system wide shared /inc area
 
-echo "Creating /inc shared area..."
+source common
+
+echoStatus "Create /inc shared area"
 sudo mkdir /inc /inc/X11 /inc/Transfers
 sudo chmod 0777 -R /inc

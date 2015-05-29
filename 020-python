@@ -2,5 +2,7 @@
 # Install various Python/PIP packages
 # REQUIRES: 007-apt-update
 
-echo "* Install Python + PIP..."
+source common
+
+echoStatus "Install Python + PIP"
 sudo apt-get install -y python python-pip python-zmq

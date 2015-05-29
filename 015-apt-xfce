@@ -2,7 +2,9 @@
 # Install packages specific to XFCE
 # REQUIRES: 007-apt-update
 
-echo "* Install common XFCE modules..."
+source common
+
+echoStatus "Install common XFCE modules"
 
 sudo apt-get install -y \
 xfce4-goodies \

@@ -2,7 +2,9 @@
 # Install packages specific to Gnome
 # REQUIRES: 007-apt-update
 
-echo "* Install common GNOME modules..."
+source common
+
+echoStatus "Install common GNOME modules"
 
 apt-get install -y \
 gnome-art \

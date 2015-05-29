@@ -2,10 +2,12 @@
 # Install PHP-Pear modules
 # REQUIRES: 007-apt-update
 
-echo "* Install PHP-Pear..."
+source common
+
+echoStatus "Install PHP-Pear"
 sudo apt-get install -y php-pear
 
-echo "* Installing common Pear modules..."
+echoStatus "Install common Pear modules"
 
 sudo pear install \
 PhpDocumentor \

@@ -3,11 +3,13 @@
 # Also wipes the existing /var/www clean
 # REQUIRES: pkg:apache2
 
-echo "* Clearing /var/www..."
+source common
+
+echoStatus "Clear /var/www"
 sudo rm -r /var/www
 sudo mkdir /var/www
 chmod 0777 -R /var/www
 
-echo "* Creating symlink to /var/www..."
+echoStatus "Create symlink to /var/www"
 cd
 ln -s /var/www www

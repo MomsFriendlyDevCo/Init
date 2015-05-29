@@ -2,5 +2,7 @@
 # Install all Ruby dependencies + af (AppFog CLI)
 # REQUIRES: 007-apt-update
 
-echo "Install Ruby..."
+source common
+
+echoStatus "Install Ruby from APT"
 sudo apt-get install -y ruby1.9.1 ruby1.9.1-dev

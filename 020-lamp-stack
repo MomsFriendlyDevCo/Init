@@ -2,7 +2,9 @@
 # Install packages suitable for PHP web hosting
 # REQUIRES: 007-apt-update
 
-echo "* Install LAMP stack packages..."
+source common
+
+echoStatus "Install LAMP stack packages"
 
 sudo apt-get install -y \
 apache2 \
@@ -17,5 +19,7 @@ php5-imap \
 php5-mysql \
 php-pear \
 
+
+echoStatus "Install LAMP stack meta-package"
 
 sudo apt-get install --force-yes -y lamp-server^

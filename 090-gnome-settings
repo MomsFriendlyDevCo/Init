@@ -3,15 +3,16 @@
 # This script needs to be run as the logged in user (sudo doesn't work for some reason)
 # REQUIRES: 015-apt-gnome
 
+source common
+
 if [ `whoami` == 'root' ]; then
 	echo "This script MUST BE RUN AS THE LOGGED IN USER. NOT ROOT!"
 	exit 1
 fi
 
-echo " * Set gnome window settings"
+echoStatus "Set gnome window settings"
 gconftool-2 -t string -s /apps/metacity/general/button_layout "menu:minimize,maximize,close"
 
-echo " * Set default keyboard shortcuts"
-echo "     - Terminal = Ctrl+Z"
+echoStatus "Set default keyboard shortcuts"
 gconftool-2 -t string -s /apps/metacity/global_keybindings/run_command_terminal "<Shift><Control>z"
 gconftool-2 -t string -s /apps/metacity/keybinding_commands/command_1 "gnome-terminal --geometry=+0-0"

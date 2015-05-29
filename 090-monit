@@ -2,10 +2,12 @@
 # Install `monit` service monitor which keeps Apache, MySQL and Postfix running
 # REQUIRES: 007-apt-update
 
-echo "* Install monit..."
+source common
+
+echoStatus "Install monit from APT"
 sudo apt-get install -y monit
 
-echo "* Config monit..."
+echoStatus "Config monit"
 echo 'set httpd port 2812 and' | tee -a '/etc/monit/monitrc'
 echo 'use address localhost' | tee -a '/etc/monit/monitrc'
 echo 'allow localhost' | tee -a '/etc/monit/monitrc'
@@ -14,5 +16,5 @@ echo 'include /etc/monit/monitrc.d/mysql' | tee -a '/etc/monit/monitrc'
 echo 'include /etc/monit/monitrc.d/apache2' | tee -a '/etc/monit/monitrc'
 echo 'include /etc/monit/monitrc.d/postfix' | tee -a '/etc/monit/monitrc'
 
-echo "* Restart monit..."
+echoStatus "Restart monit"
 sudo /etc/init.d/monit restart

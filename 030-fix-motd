@@ -1,9 +1,11 @@
 #!/bin/bash
 # Fix the MOTD on Ubuntu to STFU
 
-echo "* Blank the MOTD..."
+source common
+
+echoStatus "Blank the MOTD"
 echo "" | sudo tee /etc/motd.tail >/dev/null
 echo "" | sudo tee /etc/motd >/dev/null
 
-echo "* Disabling all UpdateMotd scripts..."
+echoStatus "Disable all UpdateMotd scripts"
 sudo rm /etc/update-motd.d/*

@@ -2,9 +2,11 @@
 # Setup Pidgin correctly
 # This script assumes you already have a pre-bundled Pidgin install
 
+source common
+
 PIDGIN_INSTALL="$HOME/Papers/Dots/Templates/Pidgin.tar.bz2"
 
-echo "* Set up Pidgin..."
+echoStatus "Set up Pidgin"
 mkdir ~/.purple
 cd ~/.purple
 if [ -d "logs" ]; then

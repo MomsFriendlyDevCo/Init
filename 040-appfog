@@ -2,5 +2,7 @@
 # Install AppFog client
 # REQUIRES: 020-ruby
 
-echo "* Install AppFog..."
+source common
+
+echoStatus "Install AppFog"
 sudo gem install -V af

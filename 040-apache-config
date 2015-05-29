@@ -2,17 +2,19 @@
 # Configure apache based on the usual MFDC settings
 # REQUIRES: pkg:apache2
 
-echo "* Patching PHP config..."
+source common
+
+echoStatus "Patch PHP config"
 sudo perl -pi -e 's/^display_errors = .*$/display_errors = On/g' /etc/php5/apache2/php.ini
 sudo perl -pi -e 's/^short_open_tag = .*$/short_open_tag = On/g' /etc/php5/apache2/php.ini
 
-echo "* Patching Apache config..."
+echoStatus "Patch Apache config"
 sudo perl -pi -e 's/DocumentRoot \/var\/www\/html/DocumentRoot \/var\/www/g' /etc/apache2/sites-available/*default*
 sudo perl -pi -e 's/<\/VirtualHost>/\t<Directory "\/var\/www">\n\t\tAllowOverride all\n\t<\/Directory>\n<\/VirtualHost>/' /etc/apache2/sites-available/*default*
 
-echo "* Enabling common modules..."
+echoStatus "Enable common apache modules"
 sudo ln -s /etc/apache2/mods-available/rewrite.load /etc/apache2/mods-enabled/rewrite.load
 sudo ln -s /etc/apache2/mods-available/headers.load /etc/apache2/mods-enabled/headers.load
 
-echo "* Restarting Apache..."
+echoStatus "Restart Apache"
 sudo service apache2 restart

@@ -1,10 +1,12 @@
 #!/bin/bash
 # Generates the initial RSA identity of this server
 
+source common
+
 if [ -e "$HOME/.ssh/id_rsa" ]; then
-	echo "RSA key already genereated. Skip"
+	echoStatus "RSA key already genereated. Skip"
 	exit 0
 fi
 
-echo "* Generating RSA key..."
+echoStatus "Generate RSA key"
 ssh-keygen -f "$HOME/.ssh/id_rsa" -t rsa -N ''

@@ -2,7 +2,9 @@
 # Setup Gnome to use the &#$%!# Bond University Proxy
 # REQUIRES: 015-apt-gnome
 
-echo "* Set Gnome proxy"
+source common
+
+echoStatus "Set Gnome proxy"
 gconftool-2 -t string -s /system/proxy/mode "manual"
 gconftool-2 -t string -s /system/proxy/secure_host "Bondproxy.bond.edu.au"
 gconftool-2 -t int -s /system/proxy/secure_port "8080"

@@ -2,14 +2,16 @@
 # Creates the ~/Papers directory as an EncFS mount point
 # REQUIRES: pkg:encfs
 
-echo "* Setting up encrypted ~/Papers directory..."
+source common
+
+echoStatus "Set up encrypted ~/Papers directory"
 
 if [ -d "$HOME/Papers" ]; then
 	echo "~/Papers is already setup (or mounted)"
 	exit 1
 else
 	echo "~/Papers is not setup correctly."
-	echo "Installing EncFS..."
+	echoStatus "Install EncFS"
 	sudo apt-get install -y encfs
 	mkdir ~/.Papers
 	echo "Attempting to mount papers"

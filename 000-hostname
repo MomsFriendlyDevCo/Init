@@ -1,6 +1,8 @@
 #!/bin/bash
 # Correctly setup the domain hostname
 
+source common
+
 HOSTNAME=`hostname`
 
 echo
@@ -18,7 +20,7 @@ if [ -z "$NEWHOSTNAME" ]; then
 fi
 
 if [ "$HOSTNAME" != "$NEWHOSTNAME" ]; then
-	echo "Changing server hostname..."
+	echoStatus "Change server hostname"
 	sudo hostname "$NEWHOSTNAME"
 	echo "$NEWHOSTNAME" | sudo tee /etc/hostname >/dev/null
 fi

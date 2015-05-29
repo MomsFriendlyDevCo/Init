@@ -2,19 +2,21 @@
 # Install Node + common NPM packages
 # REQUIRES: 007-apt-update
 
-echo "* Install Node from Apt..."
+source common
+
+echoStatus "Install Node from Apt"
 sudo apt-get install -y nodejs npm mongodb
 
-echo "* Install common Node system Apt packages..."
+echoStatus "Install common Node system Apt packages"
 sudo apt-get install -y imagemagick graphicsmagick potrace
 
-echo "* Fixing node symlink..."
+echoStatus "Fix node symlink"
 sudo ln -s /usr/bin/nodejs /usr/bin/node
 
-echo "* Upgrading NPM..."
+echoStatus "Upgrade NPM to latest"
 sudo npm install -g npm@latest
 
-echo "* Install node modules..."
+echoStatus "Install node modules"
 sudo npm install -g \
 bower \
 cli-foreachfile \
@@ -34,9 +36,9 @@ ruget \
 uglify-js \
 
 
-echo "* Setting up symlinks..."
+echoStatus "Set up symlinks"
 sudo ln -s /usr/bin/json-prettify /usr/bin/json
 
-echo "* Permitting NodeJS to have port 80 access..."
+echoStatus "Permit NodeJS to have port 80 access"
 sudo apt-get install -y libcap2-bin
 sudo setcap cap_net_bind_service=+ep /usr/bin/nodejs

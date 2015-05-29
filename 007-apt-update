@@ -1,5 +1,7 @@
 #!/bin/bash
 # Update Apt
 
-echo "* Updating APT..."
+source common
+
+echoStatus "Update APT"
 sudo apt-get update
