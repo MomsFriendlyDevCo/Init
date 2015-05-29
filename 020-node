@@ -27,6 +27,7 @@ gulp \
 jscs \
 jshint \
 json-prettify \
+leasot \
 lodash \
 mocha \
 moment \
