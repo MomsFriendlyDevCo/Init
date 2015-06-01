@@ -1,0 +1,17 @@
+#!/bin/bash
+# Install MFDC Nagios monitoring setup
+# This creates a 'nagios' user and also installs all the Nagios scripts
+
+source common
+
+echoStatus "Create 'nagios' user"
+sudo useradd -m nagios
+sudo mkdir /home/nagios/.ssh
+
+echoStatus "Install Nagios public key"
+echo 'ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDJ9TTyZp3GCg1GVDUClbUzevxLAxAS4ykCDTGVwxqFboeJTRzmqH4J69qRlHugNtgRH7oUMO9Nb/sQAFfOEvHCU/esy8d1B6aksBwsqVsVZ/SfmspcReHLkAZTBwChRGcJhxgOBPoEytw9iiYA67y7E2pN/WIcj5RYE+FvKbzCLX1SUvIZXQnSTAVODuhIO7yesPfkf11hsOqgXdOjTPoT+CoOTA9TqWcq/AFbnA/8NOGWrvT2oNARI+Tk3/Scieagc5YxMxn5UUG0sclsGC3jDJWBhOr+3Hs1f20Q7fYrS4bYXfk/XaGFGWcGyKis8J7Ie2Zi3Xc8YrOo48S/MDLJ nagios@Zapp' | sudo tee /home/nagios/.ssh/authorized_keys >/dev/null
+sudo chmod 0600 /home/nagios/.ssh/authorized_keys
+sudo chown nagios -R /home/nagios/.ssh
+
+echoStatus "Install Nagios scripts"
+sudo apt-get install -y nagios-plugins nagios-plugins-basic nagios-plugins-common nagios-plugins-standard nagios-plugins-contrib nagios-plugins-extra
