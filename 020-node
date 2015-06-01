@@ -56,3 +56,14 @@ chmod 0777 -R ~/.npm
 echoStatus "Permit Node to have port 80 access"
 sudo apt-get install -y libcap2-bin
 sudo setcap cap_net_bind_service=+ep /usr/bin/nodejs
+
+
+echoStatus "Setup NODE_ENV"
+grep -q 'NODE_ENV' "$HOME/.bashrc"
+if [ "$?" == 0 ]; then
+	echo "NODE_ENV already setup. Skip"
+else
+	echo "Installing NODE_ENV into ~/.bashrc, assuming 'production'"
+	echo "export NODE_ENV=production" >>~/.bashrc
+	export NODE_ENV=production
+fi
