@@ -7,7 +7,7 @@ echoStatus "Link host dependent files"
 if [ -d "$HOME/Papers/Dots/Hosts/$HOSTNAME" ]; then
 	ln -s ~/Papers/Dots/Hosts/`hostname`/.??* .
 	echoStatus "Link SSH Config"
-	ln -s ~/Papers/Dots/Hosts/`hostname`/SSH-Config ~/.ssh/config
+	ln -s ~/Papers/Dots/SSH-Config ~/.ssh/config
 else
 	echo "!!!!! WARNING - CANNOT LINK TO NONE EXISTANT HOST DIR ~/Papers/Dots/Hosts/$HOSTNAME !!!!!"
 	echo "Exiting!"
