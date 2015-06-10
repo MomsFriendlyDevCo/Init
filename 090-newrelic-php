@@ -13,8 +13,5 @@ sudo apt-get update
 echoStatus "Install NewRelic deamon"
 sudo apt-get install -y newrelic-php5
 
-echoStatus "Set up NewRelic"
-sudo newrelic-install install
-
 echoStatus "Restart Apache"
 sudo /etc/init.d/apache2 restart
