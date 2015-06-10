@@ -13,9 +13,6 @@ sudo apt-get install -y imagemagick graphicsmagick potrace
 echoStatus "Fix node symlink"
 sudo ln -s /usr/bin/nodejs /usr/bin/node
 
-echoStatus "Upgrade NPM to latest"
-sudo npm install -g npm@latest
-
 echoStatus "Install NPM config"
 echo 'email=m@ttcarter.com' >~/.npmrc
 echo 'tmp=/tmp/npm' >>~/.npmrc
@@ -25,6 +22,8 @@ echo 'spin=false' >>~/.npmrc
 echo 'loglevel=http' >>~/.npmrc
 echo 'registry=http://registry.npmjs.org' >>~/.npmrc
 
+echoStatus "Upgrade NPM to latest"
+sudo npm install -g npm@latest
 
 echoStatus "Install common global NPMs"
 sudo npm install -g \
