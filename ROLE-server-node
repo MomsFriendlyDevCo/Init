@@ -7,6 +7,7 @@ set -e
 ./000-hostname
 ./001-keygen
 ./007-apt-update
+./010-apt-auto
 ./010-apt-server
 ./020-node
 ./030-mail

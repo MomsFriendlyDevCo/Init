@@ -1,0 +1,18 @@
+#!/bin/bash
+# Install all auto-updating APT security packages
+# REQUIRES: 007-apt-update
+
+source common
+
+echoStatus "Install all security packages via APT"
+
+sudo apt-get remove -y \
+samba
+
+
+echoStatus "Install Server APT packages"
+
+sudo apt-get install -y \
+cron-apt \
+unattended-upgrades \
+
