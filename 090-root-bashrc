@@ -3,5 +3,10 @@
 
 source common
 
-echoStatus "Install PATH into root users .bashrc"
-echo "PATH=$PATH:/inc/scripts/hosts/`hostname`:/inc/scripts/users/`whoami`:/inc/scripts" | sudo tee -a /root/.bashrc >/dev/null
+sudo grep -q '/inc/scripts/hosts' /root/.bashrc
+if [ "$?" == 0 ]; then
+	echoSkip "Root .bashrc file already configured"
+else
+	echoStatus "Install PATH into root users .bashrc"
+	echo "PATH=$PATH:/inc/scripts/hosts/`hostname`:/inc/scripts/users/`whoami`:/inc/scripts" | sudo tee -a /root/.bashrc >/dev/null
+fi

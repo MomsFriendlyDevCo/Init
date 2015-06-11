@@ -7,8 +7,8 @@ source common
 echoStatus "Set up encrypted ~/Papers directory"
 
 if [ -d "$HOME/Papers" ]; then
-	echo "~/Papers is already setup (or mounted)"
-	exit 1
+	echoSkip "~/Papers is already setup (or mounted)"
+	exit 0
 else
 	echo "~/Papers is not setup correctly."
 	echoStatus "Install EncFS"

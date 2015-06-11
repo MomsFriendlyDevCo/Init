@@ -8,13 +8,18 @@ echoStatus "Install monit from APT"
 sudo apt-get install -y monit
 
 echoStatus "Config monit"
-echo 'set httpd port 2812 and' | tee -a '/etc/monit/monitrc'
-echo 'use address localhost' | tee -a '/etc/monit/monitrc'
-echo 'allow localhost' | tee -a '/etc/monit/monitrc'
-echo '' | tee -a '/etc/monit/monitrc'
-echo 'include /etc/monit/monitrc.d/mysql' | tee -a '/etc/monit/monitrc'
-echo 'include /etc/monit/monitrc.d/apache2' | tee -a '/etc/monit/monitrc'
-echo 'include /etc/monit/monitrc.d/postfix' | tee -a '/etc/monit/monitrc'
+grep -q 'set httpd port 2812 and' '/etc/monit/monitrc'
+if [ "$?" == 0 ]; then
+	echoSkip "Monit already configured"
+else
+	echo 'set httpd port 2812 and' | tee -a '/etc/monit/monitrc'
+	echo 'use address localhost' | tee -a '/etc/monit/monitrc'
+	echo 'allow localhost' | tee -a '/etc/monit/monitrc'
+	echo '' | tee -a '/etc/monit/monitrc'
+	echo 'include /etc/monit/monitrc.d/mysql' | tee -a '/etc/monit/monitrc'
+	echo 'include /etc/monit/monitrc.d/apache2' | tee -a '/etc/monit/monitrc'
+	echo 'include /etc/monit/monitrc.d/postfix' | tee -a '/etc/monit/monitrc'
 
-echoStatus "Restart monit"
-sudo /etc/init.d/monit restart
+	echoStatus "Restart monit"
+	sudo /etc/init.d/monit restart
+fi

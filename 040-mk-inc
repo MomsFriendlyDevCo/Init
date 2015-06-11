@@ -3,6 +3,10 @@
 
 source common
 
-echoStatus "Create /inc shared area"
-sudo mkdir /inc /inc/X11 /inc/Transfers
-sudo chmod 0777 -R /inc
+if [ -d '/inc' ]; then
+	echoSkip "/inc already setup"
+else
+	echoStatus "Create /inc shared area"
+	sudo mkdir /inc /inc/X11 /inc/Transfers
+	sudo chmod 0777 -R /inc
+fi

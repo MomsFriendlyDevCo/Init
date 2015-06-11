@@ -4,11 +4,15 @@
 source common
 
 echoStatus "Install Google Chrome PPA"
-wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | sudo apt-key add -
-echo "deb http://dl.google.com/linux/chrome/deb/ stable main" | sudo tee -a /etc/apt/sources.list.d/google.list >/dev/null
+if [ ! -e '/etc/apt/sources.list.d/google.list' ]; then
+	echoSkip "PPA already exists"
+else
+	wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | sudo apt-key add -
+	echo "deb http://dl.google.com/linux/chrome/deb/ stable main" | sudo tee -a /etc/apt/sources.list.d/google.list >/dev/null
 
-echoStatus "Update APT"
-sudo apt-get update
+	echoStatus "Update APT"
+	sudo apt-get update
+fi
 
 echoStatus "Install Google Chrome"
 sudo apt-get install -y google-chrome-stable

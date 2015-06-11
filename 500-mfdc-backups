@@ -5,6 +5,11 @@
 
 source common
 
+if [ -e '/bin/mfdc-backup' ]; then
+	echoSkip "Backup script already installed"
+	exit 0;
+fi
+
 echoStatus "Install backup script"
 echo
 echo "Connecting to office.mfdc.biz"

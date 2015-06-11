@@ -24,3 +24,22 @@ You can queue up multiple scripts on the command line, picking the items you req
 For example to install NodeJS, Python and Ruby you could run:
 
 	./020-node && ./020-python && ./020-ruby
+
+
+Rules
+=====
+Each action script (i.e. any script matching `???-*`) must follow the following:
+
+Each script _must_:
+
+* Include a Bash hashbang (i.e. `#!/bin/bash`) as the first line and be executable
+* Include documentation in the header
+* Import the common library via `source common` somewhere in its header
+* Fail gracefully and not stop application flow unless a critical failure has occured
+* Be runnable multiple times - this is to support future upgrades. A script must be capable of being run again at some future date with no side effects
+
+
+Each script _should_:
+
+* Use `echoStatus <text>` or `echoSkip <text>` as a reporting mechanism instead of plain `echo`
+* Require little to no interaction past the initial execution

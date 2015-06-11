@@ -13,14 +13,18 @@ sudo apt-get install -y imagemagick graphicsmagick potrace
 echoStatus "Fix node symlink"
 sudo ln -s /usr/bin/nodejs /usr/bin/node
 
-echoStatus "Install NPM config"
-echo 'email=m@ttcarter.com' >~/.npmrc
-echo 'tmp=/tmp/npm' >>~/.npmrc
-echo 'bin-links=true' >>~/.npmrc
-echo 'save=true' >>~/.npmrc
-echo 'spin=false' >>~/.npmrc
-echo 'loglevel=http' >>~/.npmrc
-echo 'registry=http://registry.npmjs.org' >>~/.npmrc
+if [ -e "~/.npmrc" ]; then
+	echoSkip "NPM config already exists"
+else
+	echoStatus "Install NPM config"
+	echo 'email=m@ttcarter.com' >~/.npmrc
+	echo 'tmp=/tmp/npm' >>~/.npmrc
+	echo 'bin-links=true' >>~/.npmrc
+	echo 'save=true' >>~/.npmrc
+	echo 'spin=false' >>~/.npmrc
+	echo 'loglevel=http' >>~/.npmrc
+	echo 'registry=http://registry.npmjs.org' >>~/.npmrc
+fi
 
 echoStatus "Upgrade NPM to latest"
 sudo npm install -g npm@latest
@@ -60,7 +64,7 @@ sudo setcap cap_net_bind_service=+ep /usr/bin/nodejs
 echoStatus "Setup NODE_ENV"
 grep -q 'NODE_ENV' "$HOME/.bashrc"
 if [ "$?" == 0 ]; then
-	echo "NODE_ENV already setup. Skip"
+	echoSkip "NODE_ENV already setup"
 else
 	echo "Installing NODE_ENV into ~/.bashrc, assuming 'production'"
 	echo "export NODE_ENV=production" >>~/.bashrc

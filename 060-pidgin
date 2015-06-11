@@ -4,6 +4,11 @@
 
 source common
 
+if [ -d "~/.purple" ]; then
+	echoSkip "Pidgin already set up"
+	exit 0
+fi
+
 PIDGIN_INSTALL="$HOME/Papers/Dots/Templates/Pidgin.tar.bz2"
 
 echoStatus "Set up Pidgin"

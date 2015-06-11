@@ -7,15 +7,19 @@ source common
 echoStatus "Install main linux image sources"
 sudo apt-get install -y linux-image-extra-`uname -r`
 
-echoStatus "Install Docker PPA key"
-sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 36A1D7869245C8950F966E92D8576A8BA88D21E9
+if [ -e '/etc/apt/sources.list.d/docker.list' ] then
+	echoSkip "PPA already installed"
+else
+	echoStatus "Install Docker PPA key"
+	sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 36A1D7869245C8950F966E92D8576A8BA88D21E9
 
-echoStatus "Add Docker PPA"
-sudo sh -c "echo deb http://get.docker.io/ubuntu docker main\
-> /etc/apt/sources.list.d/docker.list"
+	echoStatus "Add Docker PPA"
+	sudo sh -c "echo deb http://get.docker.io/ubuntu docker main\
+	> /etc/apt/sources.list.d/docker.list"
 
-echoStatus "Update APT"
-sudo apt-get update
+	echoStatus "Update APT"
+	sudo apt-get update
+fi
 
 echoStatus "Install Docker from APT"
 sudo apt-get install -y lxc-docker git
