@@ -5,14 +5,9 @@
 
 source common
 
-if [ `whoami` == 'root' ]; then
-	echo "This script MUST BE RUN AS THE LOGGED IN USER. NOT ROOT!"
-	exit 1
-fi
-
 echoStatus "Set gnome window settings"
-gconftool-2 -t string -s /apps/metacity/general/button_layout "menu:minimize,maximize,close"
+sudo gconftool-2 -t string -s /apps/metacity/general/button_layout "menu:minimize,maximize,close"
 
 echoStatus "Set default keyboard shortcuts"
-gconftool-2 -t string -s /apps/metacity/global_keybindings/run_command_terminal "<Shift><Control>z"
-gconftool-2 -t string -s /apps/metacity/keybinding_commands/command_1 "gnome-terminal --geometry=+0-0"
+sudo gconftool-2 -t string -s /apps/metacity/global_keybindings/run_command_terminal "<Shift><Control>z"
+sudo gconftool-2 -t string -s /apps/metacity/keybinding_commands/command_1 "gnome-terminal --geometry=+0-0"
