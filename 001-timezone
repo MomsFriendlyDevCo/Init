@@ -1,0 +1,26 @@
+#!/bin/bash
+# Correctly setup the timezone
+
+source common
+
+TIMEZONE=`cat /etc/timezone`
+
+echo
+echo "Timezone is currently '$TIMEZONE'"
+echo "Please enter the the correct timezone of this system or enter to accept this"
+echo "e.g. Australia/Brisbane"
+echo
+
+read -p "Timezone [$TIMEZONE] >" NEWTIMEZONE
+
+echo
+
+if [ -z "$NEWTIMEZONE" ]; then
+	exit 0
+fi
+
+if [ "$TIMEZONE" != "$NEWTIMEZONE" ]; then
+	echoStatus "Change server timezone"
+	echo "$NEWTIMEZONE" | sudo tee /etc/timezone >/dev/null
+	sudo dpkg-reconfigure --frontend noninteractive tzdata
+fi
