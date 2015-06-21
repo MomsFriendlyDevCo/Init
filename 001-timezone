@@ -23,4 +23,5 @@ if [ "$TIMEZONE" != "$NEWTIMEZONE" ]; then
 	echoStatus "Change server timezone"
 	echo "$NEWTIMEZONE" | sudo tee /etc/timezone >/dev/null
 	sudo dpkg-reconfigure --frontend noninteractive tzdata
+	sudo /etc/init.d/cron restart
 fi
