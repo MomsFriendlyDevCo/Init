@@ -1,0 +1,68 @@
+#!/bin/bash
+# Interactive script which sets up a GitHub repo
+
+source common
+
+echoStatus "GitHub Deployment"
+echo
+echo "Press Enter to skip or enter the GitHub URL of the repo you wish to deploy to this server"
+echo
+echo "The GitHub URL is the full URL of the repo and NOT the SSH deployment URL. e.g.:"
+echo
+echo "    https://github.com/MomsFriendlyDevCo/Repo"
+echo
+echo
+
+read -p "GitHub URL [enter to skip] >" URL
+
+echo
+
+if [ -z "$URL" ]; then
+	echoSkip "Skipping GitHub deployment"
+	exit 0
+fi
+
+HOSTNAME=`hostname`
+PUBKEY=`cat ~/.ssh/id_rsa.pub`
+SSHURL=`echo "$URL" | perl -pe 's/^https?:\/\/github\.com\/(.*)$/git\@github.com:\1.git/g'`
+REPO=`echo "$URL" | perl -pe 's/.+\/(.*?)$/\1/'`
+
+echo
+echo "Visit $URL/settings/keys"
+echo
+echo "Add the following public key:"
+echo
+echo "Title: $HOSTNAME"
+echo
+echo "Key:"
+echo "$PUBKEY"
+echo
+echo
+read -p "Press enter when ready or Ctrl+C to abort"
+echo
+
+echoStatus "Cloning GitHub repo"
+cd
+git clone "$SSHURL"
+cd "$REPO"
+
+echoStatus "Installing project NPM dependencies"
+npm install
+
+echoStatus "Installing bower dependencies"
+bower install --allow-root
+
+if [ -e 'gulpfile.js' ]; then
+	echoStatus "Initial Gulp build"
+	gulp build
+
+	echoStatus "Building initial database"
+	gulp db
+fi
+
+if [ -e 'server.js' ]; then
+	echoStatus "Booting main server.js script inside forever"
+	forever start server.js
+	echo
+	echo "Use \"forever logs 0\" to see logs in future"
+fi

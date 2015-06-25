@@ -12,3 +12,4 @@ set -e
 ./020-node
 ./030-mail
 ./500-mfdc-backups
+./900-deploy-github
