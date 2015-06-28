@@ -65,7 +65,6 @@ mkdir "$HOME/.config"
 mkdir "$HOME/.config/configstore"
 echo 'optOut: true' >"$HOME/.config/configstore/insight-bower.yml"
 
-
 echoStatus "Setup NODE_ENV"
 grep -q 'NODE_ENV' "$HOME/.bashrc"
 if [ "$?" == 0 ]; then
