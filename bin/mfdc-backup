@@ -89,6 +89,18 @@ if [ -d "/var/zpanel/hostdata" ]; then
 fi
 # }}}
 
+# Site data - ${{NODE_SITE_DIR}}/data {{{
+if [ -n "$NODE_SITE_DIR" ]; then
+	if [ -d "$NODE_SITE_DIR/data" ]; then
+		cd
+		echo " * Backing up site data ($NODE_SITE_DIR/data)"
+		tar cvfj "$DIR/site-data.tar.bz2" "$NODE_SITE_DIR/data"
+		DONE="$DONE site-data"
+		cd "$DIR"
+	fi
+fi
+# }}}
+
 # }}}
 
 # RSYNC everything across {{{
