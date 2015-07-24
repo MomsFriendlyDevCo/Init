@@ -34,7 +34,6 @@ sudo npm install -g \
 bower \
 cli-foreachfile \
 csv2json \
-forever \
 grunt-cli \
 gulp \
 jscs \
@@ -46,6 +45,9 @@ mocha \
 moment \
 nim \
 nocat \
+pm2 \
+reflib \
+repl.history \
 ruget \
 uglify-js \
 
