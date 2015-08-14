@@ -68,4 +68,4 @@ if [ -e 'gulp-tasks/deploy.js' ]; then
 fi
 
 echoStatus "Add NODE_SITE_DIR environment variable"
-echo "export NODE_SITE_DIR='$REPO'" >~/.bashrc
+echo "export NODE_SITE_DIR='$REPO'" >>~/.bashrc
