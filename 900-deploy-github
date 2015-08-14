@@ -60,11 +60,11 @@ if [ -e 'gulpfile.js' ]; then
 	gulp db
 fi
 
-if [ -e 'server.js' ]; then
-	echoStatus "Booting main server.js script inside forever"
-	forever start server.js
+if [ -e 'gulp-tasks/deploy.js' ]; then
+	echoStatus "Executing deployment"
+	gulp deploy
 	echo
-	echo "Use \"forever logs 0\" to see logs in future"
+	echo "Use \"pm2 logs\" to see logs in future"
 fi
 
 echoStatus "Add NODE_SITE_DIR environment variable"
