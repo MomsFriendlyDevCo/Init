@@ -4,14 +4,18 @@
 
 source common
 
+echoStatus "Install MongoDB Apt repo"
+sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv 7F0CEB10
+echo "deb http://repo.mongodb.org/apt/ubuntu trusty/mongodb-org/3.0 multiverse" | sudo tee /etc/apt/sources.list.d/mongodb-org-3.0.list  >/dev/null
+
+echoStatus "Install NodeSource Apt PPA + Update Apt"
+curl -sL https://deb.nodesource.com/setup_4.x | sudo -E bash -
+
 echoStatus "Install Node from Apt"
-sudo apt-get install -y nodejs npm mongodb
+sudo apt-get install -y nodejs mongodb-org
 
 echoStatus "Install common Node system Apt packages"
 sudo apt-get install -y imagemagick graphicsmagick potrace
-
-echoStatus "Fix node symlink"
-sudo ln -s /usr/bin/nodejs /usr/bin/node
 
 if [ -e "~/.npmrc" ]; then
 	echoSkip "NPM config already exists"
