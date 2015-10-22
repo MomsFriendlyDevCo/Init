@@ -48,15 +48,14 @@ moment \
 nim \
 pm2 \
 repl.history \
-ruget \
 uglify-js \
 
 
 echoStatus "Set up symlinks"
 sudo ln -s /usr/bin/json-prettify /usr/bin/json
 
-echoStatus "Reset permissions on ~/.npm"
-chmod 0777 -R ~/.npm
+echoStatus "Reset permissions on ~/.npm and /tmp/npm"
+sudo chmod 0777 -R ~/.npm /tmp/npm
 
 echoStatus "Permit Node to have port 80 access"
 sudo apt-get install -y libcap2-bin
