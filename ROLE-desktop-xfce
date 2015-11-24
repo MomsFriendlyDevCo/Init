@@ -22,3 +22,4 @@ set -e
 ./040-screen-config
 ./090-neovim
 ./090-root-bashrc
+./100-ubuntu-desktop
