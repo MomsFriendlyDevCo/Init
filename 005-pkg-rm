@@ -6,8 +6,8 @@ source common
 echoStatus "Remove silly media players"
 sudo apt-get remove -y rhythmbox banshee abiword parole gmusicbrowser
 
-echoStatus "Remove usless inter-program communication logger"
-sudo apt-get remove -y zeitgeist whoopsie
+echoStatus "Remove usless crash loggers"
+sudo apt-get purge -y zeitgeist whoopsie
 
 echoStatus "Remove stupid APT indexer for Unity / Ubuntu package manager"
 sudo apt-get autoremove --purge -y apt-xapian-index
