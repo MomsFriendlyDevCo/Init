@@ -43,6 +43,7 @@ jshint \
 json-prettify \
 leasot \
 lodash \
+mfdc-repl \
 mocha \
 moment \
 nim \
