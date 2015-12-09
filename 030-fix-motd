@@ -6,6 +6,7 @@ source common
 echoStatus "Blank the MOTD"
 echo "" | sudo tee /etc/motd.tail >/dev/null
 echo "" | sudo tee /etc/motd >/dev/null
+echo "" | sudo tee /etc/ssh/sshd_banner >/dev/nul
 
 echoStatus "Disable all UpdateMotd scripts"
 sudo rm /etc/update-motd.d/*
