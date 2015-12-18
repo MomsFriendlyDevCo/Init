@@ -4,7 +4,7 @@
 
 source common
 
-echoStatus "Setting up Swap file
+echoStatus "Setting up Swap file"
 touch /var/swap.img
 chmod 0600 /var/swap.img
 dd if=/dev/zero of=/var/swap.img bs=1024k count=1000
@@ -12,5 +12,5 @@ mkswap /var/swap.img
 swapon /var/swap.img
 echo "/var/swap.img    none    swap    sw    0    0" >> /etc/fstab
 
-echoSatus "Setting up system Swappiness"
+echoStatus "Setting up system Swappiness"
 sysctl -w vm.swappiness=30
