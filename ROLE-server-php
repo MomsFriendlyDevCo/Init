@@ -15,5 +15,5 @@ set -e
 ./040-apache-symlink
 ./090-monit
 ./090-newrelic-php
-./500-mfdc-backups
+./500-mfdc-mindstate
 ./900-deploy-github

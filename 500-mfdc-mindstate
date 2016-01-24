@@ -1,0 +1,17 @@
+#!/bin/bash
+# Setup the automatic MFDC Mindstate backup process
+# REQUIRES: 000-hostname 001-keygen
+
+source common
+
+echoStatus "Install Mindstate NPM"
+sudo npm install -g mindstate
+
+echoStatus "Configure Mindstate"
+# NOTE: The mindstate setup process will also install other NPM plugin modules + copy the SSH key to the backup server
+sudo mindstate --setup
+
+echoStatus "Install Mindstate crontab"
+echo "MAILTO=daemons@mfdc.biz" | sudo tee /var/spool/cron/crontabs/root >/dev/null
+echo "SHELL=/bin/sh" | sudo tee -a /var/spool/cron/crontabs/root >/dev/null
+echo "@daily mindstate --backup" | sudo tee -a /var/spool/cron/crontabs/root >/dev/null

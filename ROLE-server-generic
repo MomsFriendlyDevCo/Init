@@ -11,4 +11,4 @@ set -e
 ./010-apt-server
 ./020-node
 ./030-mail
-./500-mfdc-backups
+./500-mfdc-mindstate
