@@ -5,12 +5,12 @@
 source common
 
 echoStatus "Setting up Swap file"
-touch /var/swap.img
-chmod 0600 /var/swap.img
-dd if=/dev/zero of=/var/swap.img bs=1024k count=1000
-mkswap /var/swap.img
-swapon /var/swap.img
-echo "/var/swap.img    none    swap    sw    0    0" >> /etc/fstab
+sudo touch /var/swap.img
+sudo chmod 0600 /var/swap.img
+sudo dd if=/dev/zero of=/var/swap.img bs=1024k count=1000
+sudo mkswap /var/swap.img
+sudo swapon /var/swap.img
+echo "/var/swap.img    none    swap    sw    0    0" | sudo tee -a /etc/fstab >/dev/null
 
 echoStatus "Setting up system Swappiness"
-sysctl -w vm.swappiness=30
+sudo sysctl -w vm.swappiness=30
