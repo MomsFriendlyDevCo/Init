@@ -22,7 +22,6 @@ curl \
 dos2unix \
 encfs \
 expect \
-fail2ban \
 ftp \
 htop \
 git \
