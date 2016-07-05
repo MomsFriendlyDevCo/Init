@@ -4,6 +4,9 @@
 
 source common
 
+echoStatus "Install Common Apt repos"
+sudo apt-get install -y inxi
+
 echoStatus "Install Mindstate NPM"
 sudo npm install -g mindstate
 
