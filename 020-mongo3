@@ -1,0 +1,25 @@
+#!/bin/bash
+# Install Mongo 3 via APT
+# REQUIRES: 007-apt-update
+
+source common
+
+echoStatus "Install MongoDB Apt repo"
+sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv EA312927
+
+
+echoStatus "Install Mongo Deb source"
+echo "deb http://repo.mongodb.org/apt/ubuntu xenial/mongodb-org/3.2 multiverse" | sudo tee /etc/apt/sources.list.d/mongodb-org-3.2.list
+
+
+echoStatus "Update Apt"
+sudo apt-get update
+
+
+echoStatus "Install Node from Apt"
+sudo apt-get install -y mongodb-org
+
+
+echoStatus "Start Mongo service"
+sudo service mongod start
+
