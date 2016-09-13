@@ -7,13 +7,6 @@ source common
 echoStatus "Install MongoDB Apt repo"
 sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv 7F0CEB10
 
-# v3
-# echo "deb http://repo.mongodb.org/apt/ubuntu trusty/mongodb-org/3.0 multiverse" | sudo tee /etc/apt/sources.list.d/mongodb-org-3.0.list  >/dev/null
-
-# v2.6
-echo 'deb http://downloads-distro.mongodb.org/repo/ubuntu-upstart dist 10gen' | sudo tee /etc/apt/sources.list.d/mongodb-org-2.6.list
-
-
 echoStatus "Install NodeSource Apt PPA + Update Apt"
 curl -sL https://deb.nodesource.com/setup_4.x | sudo -E bash -
 
@@ -21,7 +14,7 @@ echoStatus "Update Apt"
 sudo apt-get update
 
 echoStatus "Install Node from Apt"
-sudo apt-get install -y nodejs mongodb-org
+sudo apt-get install -y nodejs
 
 echoStatus "Install common Node system Apt packages"
 sudo apt-get install -y imagemagick graphicsmagick potrace
