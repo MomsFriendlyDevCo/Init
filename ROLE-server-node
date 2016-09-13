@@ -6,6 +6,8 @@ set -e
 
 ./000-hostname
 ./001-keygen
+./005-digital-ocean-minimal
+./005-pkg-rm
 ./007-apt-update
 ./010-apt-auto
 ./010-apt-server
