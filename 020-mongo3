@@ -1,5 +1,5 @@
 #!/bin/bash
-# Install Mongo 3 via APT
+# Install Mongo v3 (with WiredTiger storage engine)
 # REQUIRES: 007-apt-update
 
 source common
@@ -11,6 +11,8 @@ sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv EA312927
 echoStatus "Install Mongo Deb source"
 echo "deb http://repo.mongodb.org/apt/ubuntu xenial/mongodb-org/3.2 multiverse" | sudo tee /etc/apt/sources.list.d/mongodb-org-3.2.list
 
+# BUGFIX: Ignore the section in the Mongo install instructions about installing the SystemD service for Ubuntu 16.4 - its already there
+
 
 echoStatus "Update Apt"
 sudo apt-get update
@@ -18,6 +20,22 @@ sudo apt-get update
 
 echoStatus "Install Node from Apt"
 sudo apt-get install -y mongodb-org
+
+
+echoStatus "Stop Mongo service"
+sudo service mongod stop
+
+
+echoStatus "Patch Mongo to use WiredTiger storage engine"
+# BUGFIX: For some reason Mongo3 doesn't default to WiredTiger as the sotrage engine. Despite what the install docs say
+sudo perl -pi -e 's/^#  engine:.*$/  engine: "wiredTiger"/' /etc/mongod.conf
+
+
+echoStatus "Move Mongo storage directory (to use WiredTiger storage engine)"
+# BUGFIX: We also have to change the dbpath for some reason or Mongo still uses the wrong engine
+sudo perl -pi -e 's/^  dbPath:.*$/  dbPath: \/var\/lib\/mongodb.wt/' /etc/mongod.conf
+sudo mkdir /var/lib/mongodb.wt
+sudo chown mongodb:mongodb /var/lib/mongodb.wt
 
 
 echoStatus "Start Mongo service"
