@@ -10,6 +10,8 @@ set -e
 ./010-apt-auto
 ./010-apt-server
 ./020-node
+./020-mongo3
+./020-firewall
 ./030-fix-motd
 ./030-mail
 ./500-mfdc-mindstate
