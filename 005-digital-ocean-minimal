@@ -4,6 +4,14 @@
 
 source common
 
+read -p "Is this server a minimal Digital Ocean server (i.e. RAM =< 500mb)? (y|n) " SETUP
+echo
+
+if [ "$SETUP" != "y" ]; then
+	exit 0
+fi
+
+
 echoStatus "Setting up Swap file"
 sudo touch /var/swap.img
 sudo chmod 0600 /var/swap.img
