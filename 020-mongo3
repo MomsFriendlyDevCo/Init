@@ -27,7 +27,7 @@ sudo service mongod stop
 
 
 echoStatus "Patch Mongo to use WiredTiger storage engine"
-# BUGFIX: For some reason Mongo3 doesn't default to WiredTiger as the sotrage engine. Despite what the install docs say
+# BUGFIX: For some reason Mongo3 doesn't default to WiredTiger as the storage engine. Despite what the install docs say
 sudo perl -pi -e 's/^#  engine:.*$/  engine: "wiredTiger"/' /etc/mongod.conf
 
 
