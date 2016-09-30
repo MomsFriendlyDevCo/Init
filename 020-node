@@ -4,9 +4,6 @@
 
 source common
 
-echoStatus "Install MongoDB Apt repo"
-sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv 7F0CEB10
-
 echoStatus "Install NodeSource Apt PPA + Update Apt"
 curl -sL https://deb.nodesource.com/setup_4.x | sudo -E bash -
 
