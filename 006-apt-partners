@@ -1,0 +1,11 @@
+#!/bin/bash
+# Enables partner repos
+
+source common
+
+echoStatus "Enable partner APT sources"
+if [ ! -e '/etc/apt/sources.list' ]; then
+	echoSkip "Not a Debian based distro"
+else
+	sudo perl -pi -e 's/^# (.* partner)$/\1/g' /etc/apt/sources.list
+fi
