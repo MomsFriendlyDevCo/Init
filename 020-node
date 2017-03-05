@@ -34,23 +34,20 @@ sudo npm install -g npm@latest
 
 echoStatus "Install common global NPMs"
 sudo npm install -g \
-bower \
-grunt-cli \
-cli-foreachfile \
 coma \
+devtool \
+doop-cli \
+fkill-cli \
 gulp \
 jscs \
 jshint \
 json-prettify \
-leasot \
 lodash \
 mfdc-repl \
 mocha \
 moment \
-nim \
+npm-up \
 pm2 \
-repl.history \
-uglify-js \
 
 
 echoStatus "Set up symlinks"
