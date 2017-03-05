@@ -1,0 +1,59 @@
+#!/bin/bash
+# Directly pipeable script to clone this repo and provide a sane wizard
+# Usage: ./setup
+# From CURL: curl -L https://raw.githubusercontent.com/MomsFriendlyDevCo/Init/master/setup | sudo bash
+
+# Quit on any error
+set -e
+
+echo "Bootstrapping MFDC Init server setup..."
+cd
+if [ -d "Init" ]; then
+	echo " - Init directory already exists within $HOME. Skipping git clone"
+else
+	dpkg -l git | grep -q '^ii\s\+git'
+	if [ "$?" == 1 ]; then
+		echo " - Git not found, installing..."
+		echo
+		sudo apt-get install -y git
+		echo "---"
+	fi
+	echo " - Cloning Init repo..."
+	echo
+	git clone https://github.com/MomsFriendlyDevCo/Init.git
+	echo "---"
+fi
+cd "$HOME/Init"
+
+echo -n " - Checking Init environment is sane..."
+if [ -e "ROLE-server-node" ]; then
+	echo " yes"
+else
+	echo " no"
+	echo " ! MISSING 'ROLE-server-node'. Either something didn't download or something has gone wrong!"
+	exit 1
+fi
+
+
+echo " - Init setup completed"
+echo " - Setting up basic bash shell"
+echo
+echo
+echo "To continue enter the server profile you want:"
+echo
+echo "    ./ROLE-server-node          - Standard NodeJS + MongoDB environment"
+echo "    ./ROLE-server-php           - Standard PHP + MySQL environment"
+echo "    ./ROLE-server-generic       - Generic server setup"
+echo "    ./ROLE-desktop-xfce         - Basic desktop PC XFCE environment"
+echo
+echo "Or you can cherry-pick installation files:"
+echo
+echo " e.g. setup NodeJS + a firewall:"
+echo
+echo "    ./020-node && ./020-firewall"
+echo
+echo "Run 'ls' for a list of all scripts"
+echo
+echo
+
+bash
