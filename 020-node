@@ -59,14 +59,6 @@ echoStatus "Permit Node to have port 80 access"
 sudo apt-get install -y libcap2-bin
 sudo setcap cap_net_bind_service=+ep /usr/bin/nodejs
 
-echoStatus "Config Bower to STFU about usage reporting"
-mkdir "$HOME/.config"
-mkdir "$HOME/.config/configstore"
-echo 'optOut: true' >"$HOME/.config/configstore/insight-bower.yml"
-echo 'optOut: true' >"$HOME/.config/configstore/update-notifier-bower.yml"
-echo '{"optOut": true}' >"$HOME/.config/configstore/insight-bower.json"
-echo '{"optOut": true}' >"$HOME/.config/configstore/update-notifier-bower.json"
-
 echoStatus "Setup NODE_ENV"
 grep -q 'NODE_ENV' "$HOME/.bashrc"
 if [ "$?" == 0 ]; then
