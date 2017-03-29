@@ -43,9 +43,8 @@ jscs \
 jshint \
 json-prettify \
 lodash \
-mfdc-repl \
+@momsfriendlydevco/repl \
 mocha \
-moment \
 npm-up \
 pm2 \
 
