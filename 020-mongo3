@@ -72,10 +72,12 @@ echoStatus "Disable Kernel hugepages"
 echo never | sudo tee /sys/kernel/mm/transparent_hugepage/enabled >/dev/null
 echo never | sudo tee /sys/kernel/mm/transparent_hugepage/defrag >/dev/null
 
-# Set into rc.local so it also applies on restart
-echo "echo never > /sys/kernel/mm/transparent_hugepage/enabled" >/etc/rc.local
-echo "echo never > /sys/kernel/mm/transparent_hugepage/defrag" >>/etc/rc.local
-echo "exit 0"
+echoStatus "Disable Kernel hugepages (install into rc.local)"
+echo "#!/bin/sh -e" | sudo tee /etc/rc.local
+echo "echo never > /sys/kernel/mm/transparent_hugepage/enabled" | sudo tee -a /etc/rc.local
+echo "echo never > /sys/kernel/mm/transparent_hugepage/defrag" | sudo tee -a /etc/rc.local
+echo "exit 0" | sudo tee -a /etc/rc.local
+sudo chmod +x /etc/rc.local
 
 
 echoStatus "Start Mongo service"
