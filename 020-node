@@ -16,7 +16,7 @@ sudo apt-get install -y nodejs
 echoStatus "Install common Node system Apt packages"
 sudo apt-get install -y imagemagick graphicsmagick potrace
 
-if [ -e "~/.npmrc" ]; then
+if [ -e "$HOME/.npmrc" ]; then
 	echoSkip "NPM config already exists"
 else
 	echoStatus "Install NPM config"
