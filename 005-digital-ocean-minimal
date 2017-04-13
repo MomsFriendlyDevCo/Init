@@ -4,6 +4,7 @@
 
 source common
 
+echoStatus "DigitalOcean Minimal Setup"
 read -p "Is this server a minimal Digital Ocean server (i.e. RAM =< 500mb)? (y|n) " SETUP
 echo
 
@@ -19,6 +20,7 @@ sudo dd if=/dev/zero of=/var/swap.img bs=1024k count=1000
 sudo mkswap /var/swap.img
 sudo swapon /var/swap.img
 echo "/var/swap.img    none    swap    sw    0    0" | sudo tee -a /etc/fstab >/dev/null
+
 
 echoStatus "Setting up system Swappiness"
 sudo sysctl -w vm.swappiness=30
