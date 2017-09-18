@@ -13,11 +13,8 @@ set -e
 ./010-apt-server
 ./015-apt-xfce
 ./015-chrome
-./020-docker
-./020-lamp-stack
 ./020-node
 ./030-fix-motd
-./040-apache-config
 ./040-mk-inc
 ./040-screen-config
 ./090-neovim
