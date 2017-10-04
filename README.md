@@ -1,6 +1,6 @@
 MomsFriendlyDevCo Init Scripts
 ==============================
-A collection of setup scripts to deploy a Linux server.
+A collection of setup scripts to deploy a Linux environment.
 
 
 Quick start guide

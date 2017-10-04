@@ -24,6 +24,7 @@ expect \
 ftp \
 htop \
 git \
+glances \
 html2ps \
 iftop \
 imagemagick \
@@ -47,7 +48,9 @@ perl \
 pv \
 pwgen \
 screen \
+slurm \
 sshfs \
+sshpass \
 sysv-rc-conf \
 tar \
 tcpdump \
