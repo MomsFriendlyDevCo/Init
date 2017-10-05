@@ -10,46 +10,22 @@ if [ "$?" == 0 ]; then
 	exit 0
 fi
 
-echoStatus "Install NeoVim prereqs from APT"
-sudo apt-get install -y \
-autoconf \
-automake \
-cmake \
-g++ \
-libtool \
-libtool-bin \
-pkg-config \
-python2.7-dev \
-python-pip \
-unzip \
+echoStatus "Install NeoVim Apt PPA + Update Apt"
+sudo add-apt-repository ppa:neovim-ppa/stable
+sudo apt-get update
 
 
-echoStatus "Check Python-PIP"
-pip --version 2>&1 >/dev/null
-
-if [ "$?" != 0 ]; then
-	echoStatus "Download Python-PIP"
-	cd /tmp
-	wget https://raw.github.com/pypa/pip/master/contrib/get-pip.py --no-check-certificate
-	echoStatus "Install Python-PIP"
-	sudo python get-pip.py
-fi
+echoStatus "Install NeoVim"
+sudo apt-get install neovim
 
 
-echoStatus "Install NeoVim python support"
-sudo pip install neovim
-
-
-echoStatus "Clone Neovim repo"
-cd
-mkdir src
-cd src
-git clone https://github.com/neovim/neovim.git
-cd neovim
-
-echoStatus "Build Neovim"
-make
-sudo make install
+echoStatus "Set alternate linking for vi / vim / editor"
+sudo update-alternatives --install /usr/bin/vi vi /usr/bin/nvim 60
+sudo update-alternatives --config vi
+sudo update-alternatives --install /usr/bin/vim vim /usr/bin/nvim 60
+sudo update-alternatives --config vim
+sudo update-alternatives --install /usr/bin/editor editor /usr/bin/nvim 60
+sudo update-alternatives --config editor
 
 
 echoStatus "Link config directories"
