@@ -6,6 +6,7 @@ set -e
 
 ./000-hostname
 ./001-keygen
+./001-timezone
 ./005-pkg-rm
 ./007-apt-update
 ./010-apt-auto
