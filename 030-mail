@@ -26,8 +26,6 @@ else
 	echo "hostmaster@$HOSTNAME	matt@mfdc.biz" | sudo tee -a /etc/postfix/virtual >/dev/null
 	echo "mc@$HOSTNAME		matt@mfdc.biz" | sudo tee -a /etc/postfix/virtual >/dev/null
 	echo "matt@$HOSTNAME		matt@mfdc.biz" | sudo tee -a /etc/postfix/virtual >/dev/null
-	echo "vandy@$HOSTNAME		vandy@mfdc.biz" | sudo tee -a /etc/postfix/virtual >/dev/null
-	echo "mark@$HOSTNAME		mark@mfdc.biz" | sudo tee -a /etc/postfix/virtual >/dev/null
 
 
 	echoStatus "Compile redirects database"
