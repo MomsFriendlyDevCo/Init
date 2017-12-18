@@ -5,14 +5,14 @@
 source common
 
 echoStatus "Install Firewall scripts"
-apt-get install ufw -y
+sudo apt-get install ufw -y
 
 echoStatus "Configure Firewall"
-ufw default deny incoming
-ufw default allow outgoing
-ufw allow ssh
-ufw allow http
-ufw allow https
+sudo ufw default deny incoming
+sudo ufw default allow outgoing
+sudo ufw allow ssh
+sudo ufw allow http
+sudo ufw allow https
 
 echoStatus "Enable Firewall"
 sudo perl -pi -e 's/ENABLED=no/ENABLED=yes/g' /etc/ufw/ufw.conf
