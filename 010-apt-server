@@ -20,6 +20,7 @@ build-essential \
 bzip2 \
 curl \
 dos2unix \
+duc \
 expect \
 ftp \
 htop \
