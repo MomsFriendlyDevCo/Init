@@ -16,4 +16,4 @@ set -e
 ./020-mongo3
 ./020-firewall
 ./030-fix-motd
-./030-mail
+./100-scripts

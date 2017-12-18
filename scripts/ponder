@@ -1,0 +1,13 @@
+#!/bin/bash
+# Run a program but only spew its STDOUT/STDERR if it exits with a non-zero exit code
+# This script is useful if you want a program to STFU unless it fails (e.g. Cron tasks)
+# Usage: ponder <command>
+
+FILE=`mktemp`
+
+"$@" >$FILE
+
+if [ "$?" != 0 ]; then
+	cat "$FILE"
+fi
+rm "$FILE"
