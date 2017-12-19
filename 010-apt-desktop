@@ -39,6 +39,7 @@ ffmpegthumbs \
 ffmpegthumbnailer \
 meld \
 mplayer \
+numlockx \
 openssh-server \
 libreoffice \
 pdfshuffler \
@@ -51,6 +52,7 @@ sshuttle \
 synergy \
 vlc \
 wireshark \
+wmctrl \
 xbindkeys \
 xmacro \
 xscreensaver-data \
