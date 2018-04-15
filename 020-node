@@ -35,7 +35,6 @@ sudo npm install -g npm@latest
 echoStatus "Install common global NPMs"
 sudo npm install -g \
 coma \
-devtool \
 doop-cli \
 fkill-cli \
 gulp \
