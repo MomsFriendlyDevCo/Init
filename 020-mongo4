@@ -1,15 +1,15 @@
 #!/bin/bash
-# Install Mongo v3 (with WiredTiger storage engine)
+# Install Mongo v4 (with WiredTiger storage engine)
 # REQUIRES: 007-apt-update
 
 source common
 
 echoStatus "Install MongoDB Apt repo"
-sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv EA312927
+sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv 9DA31620334BD75D9DCB49F368818C72E52529D4
 
 
 echoStatus "Install Mongo Deb source"
-echo "deb http://repo.mongodb.org/apt/ubuntu xenial/mongodb-org/3.2 multiverse" | sudo tee /etc/apt/sources.list.d/mongodb-org-3.2.list
+echo "deb http://repo.mongodb.org/apt/ubuntu xenial/mongodb-org/4.0 multiverse" | sudo tee /etc/apt/sources.list.d/mongodb-org-4.0.list
 
 # BUGFIX: Ignore the section in the Mongo install instructions about installing the SystemD service for Ubuntu 16.4 - its already there
 
@@ -19,7 +19,7 @@ sudo apt-get update
 
 
 echoStatus "Install Node from Apt"
-sudo apt-get install -y mongodb-org
+sudo apt-get install -y mongodb-org mongodb-org-mongos mongodb-org-server mongodb-org-shell mongodb-org-tools
 
 
 # Has it already installed its upstart job?
@@ -57,15 +57,18 @@ fi
 
 
 echoStatus "Patch Mongo to use WiredTiger storage engine"
-# BUGFIX: For some reason Mongo3 doesn't default to WiredTiger as the storage engine. Despite what the install docs say
-sudo perl -pi -e 's/^#  engine:.*$/  engine: "wiredTiger"/' /etc/mongod.conf
+grep -q 'engine: "wiredTiger"' /etc/mongod.conf
+if [ "$?" != 0 ]; then
+	# BUGFIX: For some reason Mongo doesn't default to WiredTiger as the storage engine. Despite what the install docs say
+	sudo perl -pi -e 's/^#  engine:.*$/  engine: "wiredTiger"/' /etc/mongod.conf
 
 
-echoStatus "Move Mongo storage directory (to use WiredTiger storage engine)"
-# BUGFIX: We also have to change the dbpath for some reason or Mongo still uses the wrong engine
-sudo perl -pi -e 's/^  dbPath:.*$/  dbPath: \/var\/lib\/mongodb.wt/' /etc/mongod.conf
-sudo mkdir /var/lib/mongodb.wt
-sudo chown mongodb:mongodb /var/lib/mongodb.wt
+	echoStatus "Move Mongo storage directory (to use WiredTiger storage engine)"
+	# BUGFIX: We also have to change the dbpath for some reason or Mongo still uses the wrong engine
+	sudo perl -pi -e 's/^  dbPath:.*$/  dbPath: \/var\/lib\/mongodb.wt/' /etc/mongod.conf
+	sudo mkdir /var/lib/mongodb.wt
+	sudo chown mongodb:mongodb /var/lib/mongodb.wt
+fi
 
 
 echoStatus "Disable Kernel hugepages"
