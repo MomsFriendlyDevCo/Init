@@ -44,5 +44,8 @@ echo "exit 0" | sudo tee -a /etc/rc.local
 sudo chmod +x /etc/rc.local
 
 
+echoStatus "Enable Mongo at startup"
+sudo systemctl enable mongod
+
 echoStatus "Start Mongo service"
 sudo service mongod start
