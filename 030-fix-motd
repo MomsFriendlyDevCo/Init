@@ -8,5 +8,8 @@ echo "" | sudo tee /etc/motd.tail >/dev/null
 echo "" | sudo tee /etc/motd >/dev/null
 
 echoStatus "Disable all UpdateMotd scripts"
-sudo rm /etc/ssh/sshd_banner
+if [ -f /etc/ssh/sshd_banner ]; then
+	sudo rm /etc/ssh/sshd_banner
+fi
+
 sudo rm /etc/update-motd.d/*
