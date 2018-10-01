@@ -18,56 +18,17 @@ echoStatus "Update Apt"
 sudo apt-get update
 
 
-echoStatus "Install Node from Apt"
+echoStatus "Install Mongo prerequisites"
+sudo apt-get install -y libcurl3
+
+echoStatus "Install Mongo from Apt"
 sudo apt-get install -y mongodb-org mongodb-org-mongos mongodb-org-server mongodb-org-shell mongodb-org-tools
-
-
-# Has it already installed its upstart job?
-if [ -f "/etc/init/mongod.conf" ]; then
-	echoStatus "Stop Mongo service"
-	sudo service mongod stop
-else
-	echoStatus "Installing Upstart job"
-# Upstart job {{{
-cat <<EOF | sudo tee /etc/init/mongod.conf >/dev/null
-# Ubuntu upstart file at /etc/init/mongod.conf
-
-limit nofile 20000 20000
-
-kill timeout 300 # wait 300s between SIGTERM and SIGKILL.
-
-pre-start script
-	mkdir -p /var/lib/mongodb/
-	mkdir -p /var/log/mongodb/
-end script
-
-start on runlevel [2345]
-stop on runlevel [06]
-
-script
-	exec start-stop-daemon --make-pidfile --pidfile /var/run/mongodb.pid --start --quiet --chuid mongodb --exec  /usr/bin/mongod -- --config /etc/mongod.conf
-end script
-EOF
-# }}}
-
-	echoStatus "Installing Init.D script"
-	sudo ln -s /lib/init/upstart-job /etc/init.d/mongod
-fi
-
-
 
 echoStatus "Patch Mongo to use WiredTiger storage engine"
 grep -q 'engine: "wiredTiger"' /etc/mongod.conf
 if [ "$?" != 0 ]; then
 	# BUGFIX: For some reason Mongo doesn't default to WiredTiger as the storage engine. Despite what the install docs say
 	sudo perl -pi -e 's/^#  engine:.*$/  engine: "wiredTiger"/' /etc/mongod.conf
-
-
-	echoStatus "Move Mongo storage directory (to use WiredTiger storage engine)"
-	# BUGFIX: We also have to change the dbpath for some reason or Mongo still uses the wrong engine
-	sudo perl -pi -e 's/^  dbPath:.*$/  dbPath: \/var\/lib\/mongodb.wt/' /etc/mongod.conf
-	sudo mkdir /var/lib/mongodb.wt
-	sudo chown mongodb:mongodb /var/lib/mongodb.wt
 fi
 
 
