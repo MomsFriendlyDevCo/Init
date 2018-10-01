@@ -51,7 +51,6 @@ screen \
 slurm \
 sshfs \
 sshpass \
-sysv-rc-conf \
 tar \
 tcpdump \
 tmux \
