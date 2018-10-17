@@ -5,7 +5,7 @@
 source common
 
 echoStatus "Install NodeSource Apt PPA + Update Apt"
-curl -sL https://deb.nodesource.com/setup_8.x | sudo -E bash -
+curl -sL https://deb.nodesource.com/setup_10.x | sudo -E bash -
 
 echoStatus "Update Apt"
 sudo apt-get update
@@ -34,6 +34,7 @@ sudo npm install -g npm@latest
 
 echoStatus "Install common global NPMs"
 sudo npm install -g \
+clean-html \
 coma \
 devtool \
 doop-cli \
