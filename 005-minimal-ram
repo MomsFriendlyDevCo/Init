@@ -1,11 +1,11 @@
 #!/bin/bash
-# Various fixes for Digital Ocean minimal VMs
+# Various fixes for very small VMs
 # Mainly this is just Swap file hacks so NPM doesn't kill itself when searching in <512mb RAM
 
 source common
 
-echoStatus "DigitalOcean Minimal Setup"
-read -p "Is this server a minimal Digital Ocean server (i.e. RAM =< 500mb)? (y|n) " SETUP
+echoStatus "Minimal Server Setup"
+read -p "Is this server a tiny VM server with RAM < 512mb? (y|n) " SETUP
 echo
 
 if [ "$SETUP" != "y" ]; then

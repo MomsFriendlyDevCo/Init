@@ -8,7 +8,6 @@ echoStatus "Install common XFCE modules"
 
 sudo apt-get install -y \
 xfce4-goodies \
-xfce4-mixer \
 xfce4-power-manager-plugins 
 
 

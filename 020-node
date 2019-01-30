@@ -36,14 +36,12 @@ echoStatus "Install common global NPMs"
 sudo npm install -g \
 clean-html \
 coma \
-devtool \
 doop-cli \
 fkill-cli \
 gulp \
 jscs \
 jshint \
 json-prettify \
-lodash \
 @momsfriendlydevco/repl \
 mocha \
 npm-up \

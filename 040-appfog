@@ -1,8 +1,0 @@
-#!/bin/bash
-# Install AppFog client
-# REQUIRES: 020-ruby
-
-source common
-
-echoStatus "Install AppFog"
-sudo gem install -V af

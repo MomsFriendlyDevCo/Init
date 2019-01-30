@@ -1,7 +1,0 @@
-#!/bin/bash
-# Install Misc script files from ./scripts
-
-source common
-
-echoStatus "Install common scripts"
-sudo cp -v ./scripts/* /usr/bin/
