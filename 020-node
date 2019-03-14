@@ -50,8 +50,12 @@ npm-up \
 pm2 \
 
 
-echoStatus "Set up symlinks"
-sudo ln -s /usr/bin/json-prettify /usr/bin/json
+if [ -e /usr/bin/json-prettify ]; then
+	echoSkip "JSON prettifier already exists as /usr/bin/json"
+else
+	echoStatus "Set up symlinks"
+	sudo ln -s /usr/bin/json-prettify /usr/bin/json
+fi
 
 echoStatus "Reset permissions on ~/.npm and /tmp/npm"
 sudo chmod 0777 -R ~/.npm /tmp/npm
