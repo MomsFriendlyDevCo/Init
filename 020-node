@@ -34,16 +34,18 @@ sudo npm install -g npm@latest
 
 echoStatus "Install common global NPMs"
 sudo npm install -g \
-clean-html \
 coma \
 doop-cli \
 fkill-cli \
+fx \
+gronk \
 gulp \
+jaywalker \
 jscs \
 jshint \
 json-prettify \
-@momsfriendlydevco/repl \
 mocha \
+@momsfriendlydevco/repl \
 npm-up \
 pm2 \
 
