@@ -15,3 +15,4 @@ set -e
 ./020-node
 ./020-firewall
 ./030-fix-motd
+./050-zsh

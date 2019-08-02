@@ -18,6 +18,7 @@ set -e
 ./020-node
 ./030-fix-motd
 ./040-screen-config
+./050-zsh
 ./090-neovim
 ./090-root-bashrc
 ./100-ubuntu-desktop

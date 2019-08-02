@@ -11,7 +11,6 @@ samba
 
 
 echoStatus "Install Server APT packages"
-
 sudo apt-get install -y \
 autossh \
 bcrypt \
@@ -62,5 +61,4 @@ vim \
 w3m \
 wget \
 whois \
-zsh \
 

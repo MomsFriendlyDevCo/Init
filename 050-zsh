@@ -1,0 +1,11 @@
+#!/bin/bash
+# Set the current users default shell to ZSH
+
+source common
+
+echoStatus "Install ZSH"
+sudo apt-get install -y zsh
+
+
+echoStatus "Set shell"
+chsh -s /bin/zsh
