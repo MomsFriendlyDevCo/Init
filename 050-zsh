@@ -1,5 +1,6 @@
 #!/bin/bash
 # Set the current users default shell to ZSH
+# REQUIRES: 007-apt-update
 
 source common
 
