@@ -1,0 +1,24 @@
+#!/bin/bash
+# Install S3FS from source
+
+source common
+
+echoStatus "Install build tools"
+sudo apt-get install -y automake autotools-dev fuse g++ git libcurl4-gnutls-dev libfuse-dev libssl-dev libxml2-dev make pkg-config
+
+
+echoStatus "Download S3FS source"
+mkdir "$HOME/src"
+cd "$HOME/src"
+git clone https://github.com/s3fs-fuse/s3fs-fuse.git
+
+
+echoStatus "Compile S3FS"
+cd "$HOME/src/s3fs-fuse"
+./autogen.sh
+./configure
+make
+sudo make install
+
+
+s3fs --version
