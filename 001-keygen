@@ -4,7 +4,7 @@
 source common
 
 if [ -e "$HOME/.ssh/id_rsa" ]; then
-	echoStatus "RSA key already genereated. Skip"
+	echoSkip "RSA key already genereated. Skip"
 	exit 0
 fi
 
