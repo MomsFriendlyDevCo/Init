@@ -1,0 +1,16 @@
+#!/bin/bash
+# Patch overly agressive Ulimits
+
+source common
+
+echoStatus "Adjust system limits..."
+
+ULIMITS= <<EOF
+root            soft    nproc           62188
+root            hard    nproc           62188
+root            hard    memlock         64
+root            soft    sigpending      62188
+root            hard    sigpending      62188
+EOF
+
+echo "$ULIMITS" | tee -a /etc/security/limits.conf >/dev/null

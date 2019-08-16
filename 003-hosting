@@ -1,0 +1,42 @@
+#!/bin/bash
+# Query for a hosting profile and apply various patches
+# This script creates a file at /etc/hosting-profile with the selected profile
+
+source common
+
+PROFILEFILE="/etc/hosting-profile"
+
+if [ -e "$PROFILEFILE" ]; then
+	echoSkip "Hosting profile already set"
+	exit 0
+fi
+
+echoStatus "Hosting profile setup"
+
+echo
+echo "Select the hosting profile from the following list:"
+echo
+echo "#    Host                      Patches applied"
+echo "--------------------------------------------------------"
+echo "n    Normal / standalone       (none)"
+echo "do   Digital Ocean             (none)"
+echo "bl   Binary Lane               003-swap + 003-ulimits"
+echo
+read -p "Hosting profilet> " PROFILE
+echo
+
+if [ "$PROFILE" == "n" ]; then
+	echo "Selected normal hosting profile - applying no patches"
+	echo "standalone" | sudo tee "$PROFILEFILE" >/dev/null
+elif [ "$PROFILE" == "do" ]; then
+	echo "Selected Digital Ocean hosting profile - applying no patches"
+	echo "digialocean" | sudo tee "$PROFILEFILE" >/dev/null
+elif [ "$PROFILE" == "bl" ]; then
+	echoStatus "Apply Binary Lane patches"
+	./003-swap
+	./003-ulimits
+	echo "binarylane" | sudo tee "$PROFILEFILE" >/dev/null
+else
+	echo "Invalid hosting profile"
+	exit 1
+fi
