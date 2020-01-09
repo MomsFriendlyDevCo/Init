@@ -42,6 +42,7 @@ jscs \
 jshint \
 json-prettify \
 mocha \
+@momsfriendlydevco/cli-snip \
 @momsfriendlydevco/repl \
 npm-up \
 pm2 \
