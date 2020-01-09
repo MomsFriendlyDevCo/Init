@@ -1,0 +1,19 @@
+#!/bin/bash
+# Install Rust / Cargo + common Cargo packages
+# REQUIRES: 007-apt-update
+
+source common
+
+echoStatus "Install Rust"
+curl https://sh.rustup.rs -sSf | sh
+
+echoStatus "Install Cargo prerequisites"
+sudo apt-get install -y libclang1
+
+echoStatus "Install common Cargo tools"
+cargo install \
+bat \
+fd-find \
+ripgrep \
+
+
