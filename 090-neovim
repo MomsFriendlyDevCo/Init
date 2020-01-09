@@ -46,7 +46,9 @@ if [ "$SETUP" == "y" ]; then
 
 	echoStatus "Clone Neovim repo"
 	cd
-	mkdir src
+	if [ ! -d "src" ]; then
+		mkdir src
+	fi
 	cd src
 	git clone --depth 1 https://github.com/neovim/neovim.git
 	cd neovim
