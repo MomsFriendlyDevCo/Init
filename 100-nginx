@@ -1,0 +1,9 @@
+#!/bin/bash
+# Install Nginx as a HTTP / HTTPS reverse proxy
+# REQUIRES: 007-apt-update
+
+source common
+
+echoStatus "Install Nginx via Apt"
+sudo add-apt-repository ppa:nginx/stable
+sudo apt-get install -y nginx
