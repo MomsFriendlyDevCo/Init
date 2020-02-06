@@ -9,29 +9,6 @@ if [ -e "certbot-auto" ]; then
 	echoSkip "LetsEncrypt is already installed"
 else
 	echoStatus "Install LetsEncrypt"
-	wget https://dl.eff.org/certbot-auto
-	chmod +x certbot-auto
+	sudo apt install -y python3-pip
+	sudo pip3 install certbot certbot-dns-dnsmadeeasy
 fi
-
-
-HOSTNAME=`hostname`
-echo "Enter the domain you want to install the cert on"
-echo "e.g. acme.com"
-echo "DO NOT add a *.acme.com or www.acme.com prefixes"
-echo
-read -p "Domain to cert [$HOSTNAME] >" DOMAIN
-
-if [ -z "$DOMAIN" ]; then
-	DOMAIN="$HOSTNAME"
-fi
-
-echoStatus "Run LetsEncrypt certbot"
-
-sudo ./certbot-auto \
-	-d "$DOMAIN" \
-	--preferred-challenges http \
-	--standalone \
-	-m daemons@mfdc.biz \
-	--agree-tos \
-	--manual-public-ip-logging-ok \
-	certonly
