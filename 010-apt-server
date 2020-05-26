@@ -39,6 +39,7 @@ mountpy \
 mutt \
 ncftp \
 netcat \
+net-tools \
 nmap \
 ntp \
 openssl \
