@@ -13,13 +13,11 @@ samba
 echoStatus "Install Server APT packages"
 sudo apt-get install -y \
 autossh \
-bcrypt \
 bmon \
 build-essential \
 bzip2 \
 curl \
 dos2unix \
-dtrx \
 duc \
 expect \
 ftp \
