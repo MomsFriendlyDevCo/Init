@@ -4,25 +4,20 @@
 
 source common
 
-echoStatus "Install MongoDB Apt repo"
-sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv 9DA31620334BD75D9DCB49F368818C72E52529D4
+echoStatus "Download MongoDB DPKG"
+cd
+mkdir src 2>/dev/null
+cd src
+wget \
+	https://repo.mongodb.org/apt/ubuntu/dists/bionic/mongodb-org/4.2/multiverse/binary-amd64/mongodb-org-server_4.2.7_amd64.deb \
+	https://repo.mongodb.org/apt/ubuntu/dists/bionic/mongodb-org/4.2/multiverse/binary-amd64/mongodb-org-tools_4.2.7_amd64.deb \
+	https://repo.mongodb.org/apt/ubuntu/dists/bionic/mongodb-org/4.2/multiverse/binary-amd64/mongodb-org-shell_4.2.7_amd64.deb \
 
 
-echoStatus "Install Mongo Deb source"
-echo "deb http://repo.mongodb.org/apt/ubuntu xenial/mongodb-org/4.0 multiverse" | sudo tee /etc/apt/sources.list.d/mongodb-org-4.0.list
+echoStatus "Install MongoDB DPKGs"
+sudo dpkg -i mongodb-*.deb
+rm *.deb
 
-# BUGFIX: Ignore the section in the Mongo install instructions about installing the SystemD service for Ubuntu 16.4 - its already there
-
-
-echoStatus "Update Apt"
-sudo apt-get update
-
-
-echoStatus "Install Mongo prerequisites"
-sudo apt-get install -y libcurl3
-
-echoStatus "Install Mongo from Apt"
-sudo apt-get install -y mongodb-org mongodb-org-mongos mongodb-org-server mongodb-org-shell mongodb-org-tools
 
 echoStatus "Patch Mongo to use WiredTiger storage engine"
 grep -q 'engine: "wiredTiger"' /etc/mongod.conf
