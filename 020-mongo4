@@ -31,6 +31,7 @@ echoStatus "Disable Kernel hugepages"
 echo never | sudo tee /sys/kernel/mm/transparent_hugepage/enabled >/dev/null
 echo never | sudo tee /sys/kernel/mm/transparent_hugepage/defrag >/dev/null
 
+
 echoStatus "Disable Kernel hugepages (install into rc.local)"
 echo "#!/bin/sh -e" | sudo tee /etc/rc.local
 echo "echo never > /sys/kernel/mm/transparent_hugepage/enabled" | sudo tee -a /etc/rc.local
@@ -42,5 +43,10 @@ sudo chmod +x /etc/rc.local
 echoStatus "Enable Mongo at startup"
 sudo systemctl enable mongod
 
+
 echoStatus "Start Mongo service"
 sudo service mongod start
+
+
+echoStatus "Disable Mongo monitoring"
+mongo --eval 'db.disableFreeMonitoring()'
