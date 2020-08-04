@@ -13,9 +13,10 @@ set -e
 ./007-apt-update
 ./010-apt-auto
 ./010-apt-server
-./020-node
-./020-mongo4
 ./020-firewall
+./020-mongo4
+./020-node
+./020-rust
 ./030-fix-motd
 ./050-zsh
 ./100-letsencrypt
