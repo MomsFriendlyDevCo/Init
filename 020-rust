@@ -13,7 +13,11 @@ sudo apt-get install -y libclang1
 echoStatus "Install common Cargo tools"
 cargo install \
 bat \
+bandwhich \
+du-dust \
 fd-find \
 ripgrep \
+tokei \
+ytop \
 
 
