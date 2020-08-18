@@ -36,6 +36,8 @@ elif [ "$PROFILE" == "bl" ]; then
 	./003-deny-passwords
 	./003-swap
 	./003-ulimits
+	./003-journald
+	./003-swappiness
 	echo "binarylane" | sudo tee "$PROFILEFILE" >/dev/null
 else
 	echo "Invalid hosting profile"

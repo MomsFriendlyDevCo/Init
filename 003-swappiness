@@ -1,0 +1,14 @@
+#!/bin/bash
+# Adjust swappiness (cache RAM usage) for OS's that really care about total RAM used
+
+source common
+
+echoStatus "Releasing cache memory"
+sudo sysctl -w vm.drop_caches=3
+
+
+echoStatus "Adjusting swappiness"
+# Lower swappiness = cache agressively in RAM, higher = swap to disk more (use less cache RAM)
+sudo sysctl vm.swappiness=80
+
+echo 'vm.swappiness=80' | sudo tee -a /etc/sysctl.conf >/dev/null

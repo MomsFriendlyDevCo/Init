@@ -1,0 +1,12 @@
+#!/bin/bash
+# Set filesystem journaling to non-crazy limits and purge existing cache
+
+source common
+
+echoStatus "Minimizing existing JournalD storage size"
+sudo journalctl --vacuum-size=250M
+
+
+echoStatus "Saving JournalD config"
+sudo perl -pi -e 's/#SystemMaxUse=.*$/SystemMaxUse=250M/' /etc/systemd/journald.conf
+sudo systemctl restart systemd-journald
