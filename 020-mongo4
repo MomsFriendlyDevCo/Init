@@ -49,4 +49,4 @@ sudo service mongod start
 
 
 echoStatus "Disable Mongo monitoring"
-mongo --eval 'db.disableFreeMonitoring()'
+/usr/bin/mongo --eval 'db.disableFreeMonitoring()'
