@@ -48,5 +48,9 @@ echoStatus "Start Mongo service"
 sudo service mongod start
 
 
+echoStatus "Wait for Mongo service to come up"
+sleep 3
+
+
 echoStatus "Disable Mongo monitoring"
 /usr/bin/mongo --eval 'db.disableFreeMonitoring()'
