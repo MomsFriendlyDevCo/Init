@@ -9,6 +9,6 @@ if [ -e "certbot-auto" ]; then
 	echoSkip "LetsEncrypt is already installed"
 else
 	echoStatus "Install LetsEncrypt"
-	sudo apt install -y python3-pip
-	sudo pip3 install certbot certbot-dns-dnsmadeeasy
+	sudo apt install -y snapd
+	sudo snap install --classic certbot
 fi
