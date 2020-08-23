@@ -16,8 +16,8 @@ set -e
 ./020-firewall
 ./020-mongo4
 ./020-node
-./020-rust
 ./030-fix-motd
 ./050-zsh
 ./100-letsencrypt
 ./200-nginx
+./200-rust
