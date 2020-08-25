@@ -20,7 +20,7 @@ echo "#    Host                      Patches applied"
 echo "--------------------------------------------------------"
 echo "n    Normal / standalone       (none)"
 echo "do   Digital Ocean             (none)"
-echo "bl   Binary Lane               003-deny-passwords + 003-swap + 003-ulimits"
+echo "bl   Binary Lane               deny-passwords + swap + ulimits + journdald + swappiness"
 echo
 read -p "Hosting profilet> " PROFILE
 echo
