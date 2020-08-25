@@ -9,4 +9,4 @@ sudo apt-get install -y zsh
 
 
 echoStatus "Set shell"
-chsh -s /bin/zsh
+sudo chsh $USER -s /bin/zsh
