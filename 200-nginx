@@ -67,4 +67,4 @@ http {
 }
 EOF
 
-echo "$NCONFIG" >/etc/nginx/nginx.conf
+echo "$NCONFIG" | sudo tee /etc/nginx/nginx.conf >/dev/null
