@@ -11,4 +11,6 @@ else
 	echoStatus "Install LetsEncrypt"
 	sudo apt install -y snapd
 	sudo snap install --classic certbot
+	sudo snap set certbot trust-plugin-with-root=ok
+	sudo snap install --beta certbot-dns-dnsmadeeasy
 fi
