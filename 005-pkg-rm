@@ -4,13 +4,16 @@
 source common
 
 echoStatus "Remove silly media players"
-sudo apt-get remove -y rhythmbox banshee abiword parole gmusicbrowser
+sudo apt purge -y rhythmbox banshee abiword parole gmusicbrowser
 
 echoStatus "Remove usless crash loggers"
-sudo apt-get purge -y zeitgeist whoopsie
+sudo apt purge -y zeitgeist zeitgeist-* whoopsie apport-symptoms
 
 echoStatus "Remove stupid APT indexer for Unity / Ubuntu package manager"
-sudo apt-get autoremove --purge -y apt-xapian-index
+sudo apt purge -y apt-xapian-index
+
+echoStatus "Remove Ubuntu telemetry"
+sudo apt purge -y popularity-contest
 
 echoStatus "Cleanup orphaned APT packages"
-sudo apt-get autoremove --purge
+sudo apt autoremove --purge
