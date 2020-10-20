@@ -29,6 +29,7 @@ iftop \
 imagemagick \
 iotop \
 iwatch \
+libterm-readkey-perl \
 lftp \
 lsof \
 make \
