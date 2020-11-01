@@ -10,63 +10,10 @@ if [ "$?" == 0 ]; then
 	exit 0
 fi
 
-read -p "Use the NeoVim PPA instead of a full install? (y|N)" SETUP
-echo
-
-if [ "$SETUP" == "y" ]; then
-	echoStatus "Install NeoVim prereqs from APT"
-	sudo apt-get install -y \
-	autoconf \
-	automake \
-	cmake \
-	g++ \
-	libtool \
-	libtool-bin \
-	pkg-config \
-	python2.7-dev \
-	python-pip \
-	unzip \
-
-
-	echoStatus "Check Python-PIP"
-	pip --version 2>&1 >/dev/null
-
-	if [ "$?" != 0 ]; then
-		echoStatus "Download Python-PIP"
-		cd /tmp
-		wget https://raw.github.com/pypa/pip/master/contrib/get-pip.py --no-check-certificate
-		echoStatus "Install Python-PIP"
-		sudo python get-pip.py
-	fi
-
-
-	echoStatus "Install NeoVim python support"
-	sudo pip install neovim
-
-
-	echoStatus "Clone Neovim repo"
-	cd
-	if [ ! -d "src" ]; then
-		mkdir src
-	fi
-	cd src
-	git clone --depth 1 https://github.com/neovim/neovim.git
-	cd neovim
-
-	echoStatus "Build Neovim"
-	make
-	sudo make install
-
-else
-	
-	echoStatus "Install NeoVim Apt PPA + Update Apt"
-	sudo add-apt-repository -y ppa:neovim-ppa/stable
-	sudo apt-get update
-
-
-	echoStatus "Install NeoVim"
-	sudo apt-get install -y neovim
-fi
+echoStatus "Install Neovim PPA"
+sudo add-apt-repository ppa:neovim-ppa/unstable
+sudo apt update
+sudo apt install -y neovim
 
 
 echoStatus "Set alternate linking for vi / vim / editor"
