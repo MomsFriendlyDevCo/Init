@@ -13,4 +13,4 @@ root            soft    sigpending      62188
 root            hard    sigpending      62188
 EOF
 
-echo "$ULIMITS" | tee -a /etc/security/limits.conf >/dev/null
+echo "$ULIMITS" | sudo tee -a /etc/security/limits.conf >/dev/null
