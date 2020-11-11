@@ -1,0 +1,26 @@
+#!/bin/bash
+# Install ObjectiveFS, setup a mount point and install into fstab
+
+source common
+
+echoStatus "Install ObjectiveFS from Deb"
+cd src
+wget https://objectivefs.com/user/download/axn2xgkwt/objectivefs_6.7.2_amd64.deb
+sudo dpkg -i objectivefs_6.7.2_amd64.deb
+rm objectivefs_6.7.2_amd64.deb
+
+echoStatus "Setup ObjectiveFS"
+sudo mount.objectivefs config
+
+echoStatus "Create filesystem"
+read -p "Enter S3 mountpoint to create (only alpha + dashes): " FS
+sudo mount.objectivefs create <your filesystem name>
+
+echoStatus "Setup OFS-on-boot"
+read -p "Re-enter above passphase to install OFS into fstab: " PASS
+read -p "Enter mount path: " PATH
+echo "$PASS" | sudo tee /etc/objectivefs.env/OBJECTIVEFS_PASSPHRASE >/dev/null
+echo "s3://$FS $PATH objectivefs  auto,_netdev,mt,noatime,nodiratime 0 0" | sudo tee -a /etc/fstab >/dev/null
+
+echoStatus "Mounting OFS"
+sudo mount -a
