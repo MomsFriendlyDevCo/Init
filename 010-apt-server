@@ -23,6 +23,7 @@ expect \
 ftp \
 htop \
 git \
+git-lfs \
 glances \
 html2ps \
 iftop \
