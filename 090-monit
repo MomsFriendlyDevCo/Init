@@ -7,19 +7,41 @@ source common
 echoStatus "Install monit from APT"
 sudo apt-get install -y monit
 
-echoStatus "Config monit"
-grep -q 'set httpd port 2812 and' '/etc/monit/monitrc'
 if [ "$?" == 0 ]; then
 	echoSkip "Monit already configured"
 else
-	echo 'set httpd port 2812 and' | sudo tee -a '/etc/monit/monitrc'
-	echo 'use address localhost' | sudo tee -a '/etc/monit/monitrc'
-	echo 'allow localhost' | sudo tee -a '/etc/monit/monitrc'
-	echo '' | sudo tee -a '/etc/monit/monitrc'
-	echo 'include /etc/monit/monitrc.d/mysql' | sudo tee -a '/etc/monit/monitrc'
-	echo 'include /etc/monit/monitrc.d/apache2' | sudo tee -a '/etc/monit/monitrc'
-	echo 'include /etc/monit/monitrc.d/postfix' | sudo tee -a '/etc/monit/monitrc'
+	echoStatus "Config Monit"
+	sudo perl -pi -e 's/set daemon 120/set daemon 30/' /etc/monit/monitrc
 
-	echoStatus "Restart monit"
-	sudo /etc/init.d/monit restart
+	# Enable HTTP UI (needed for CLI command to work) {{{
+cat <<EOF | sudo tee -a /etc/monit/monitrc >/dev/null
+# Send alerts to daemons@mfdc.io
+set alert daemons@mfdc.io
+set mailserver localhost
+
+# Enable Monit HTTP interface so CLI commands work
+set httpd port 2812 and
+    use address localhost  # only accept connection from localhost
+    allow localhost        # allow localhost to connect to the server and
+EOF
+	# }}}
+
+	echoStatus "Setup MongoDB Monit profile"
+	# Add MongoDB profile {{{
+cat <<EOF | sudo tee /etc/monit/conf-available/mongodb >/dev/null
+check process mongodb with pidfile /var/lib/mongodb.wt/mongod.lock
+
+group database
+
+start program = "/bin/systemctl start mongodb"
+stop program = "/bin/systemctl stop mongodb"
+
+if failed host localhost port 27017 then restart
+EOF
+	# }}}
+
+	sudo ln -s /etc/monit/conf-available/mongodb /etc/monit/conf-enabled/mongodb
+
+	echoStatus "Restart Monit"
+	sudo service monit restart
 fi
