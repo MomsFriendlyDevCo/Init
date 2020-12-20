@@ -18,9 +18,9 @@ sudo mount.objectivefs create <your filesystem name>
 
 echoStatus "Setup OFS-on-boot"
 read -p "Re-enter above passphase to install OFS into fstab: " PASS
-read -p "Enter mount path: " PATH
+read -p "Enter mount path: " MOUNTPATH
 echo "$PASS" | sudo tee /etc/objectivefs.env/OBJECTIVEFS_PASSPHRASE >/dev/null
-echo "s3://$FS $PATH objectivefs  auto,_netdev,mt,noatime,nodiratime 0 0" | sudo tee -a /etc/fstab >/dev/null
+echo "s3://$FS $MOUNTPATH objectivefs  auto,_netdev,mt,noatime,nodiratime 0 0" | sudo tee -a /etc/fstab >/dev/null
 
 echoStatus "Mounting OFS"
 sudo mount -a
