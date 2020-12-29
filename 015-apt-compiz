@@ -6,7 +6,7 @@ source common
 
 echoStatus "Install Compiz + Compiz utilities"
 
-sudo apt-get install -y \
+sudo apt install -y \
 compiz \
 compizconfig-settings-manager \
 compiz-plugins \

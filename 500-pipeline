@@ -4,7 +4,7 @@
 source common
 
 echoStatus "Install prerequisites"
-sudo apt-get install -y libreadline-dev libncurses5-dev
+sudo apt install -y libreadline-dev libncurses5-dev
 
 echoStatus "Clone Pipeline git repo"
 cd

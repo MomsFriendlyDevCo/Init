@@ -10,7 +10,7 @@ Clone the repo and run one of the `ROLE-*` scripts to setup a server matching th
 For example if you want a Node web server run:
 
 	# Make sure Git is installed
-	sudo apt-get install -y git
+	sudo apt install -y git
 
 	# Clone everything
 	git clone https://github.com/MomsFriendlyDevCo/Init.git

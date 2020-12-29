@@ -5,7 +5,7 @@
 source common
 
 echoStatus "Install monit from APT"
-sudo apt-get install -y monit
+sudo apt install -y monit
 
 grep -q "daemons@mfdc.io" /etc/monit/monitrc
 if [ "$?" == 0 ]; then

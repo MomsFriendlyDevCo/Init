@@ -15,7 +15,7 @@ else
 	if [ "$?" == 1 ]; then
 		echo " - Git not found, installing..."
 		echo
-		sudo apt-get install -y git
+		sudo apt install -y git
 		echo "---"
 	fi
 	echo " - Cloning Init repo..."

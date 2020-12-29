@@ -7,7 +7,7 @@ source common
 echoStatus "Install Nginx via Apt"
 curl -fsSL https://nginx.org/keys/nginx_signing.key | sudo apt-key add -
 echo "deb http://nginx.org/packages/ubuntu `lsb_release -cs` nginx" | sudo tee /etc/apt/sources.list.d/nginx.list
-sudo apt-get install -y nginx
+sudo apt install -y nginx
 
 NCONFIG= <<EOF
 pid /var/run/nginx.pid;

@@ -11,7 +11,7 @@ samba
 
 
 echoStatus "Install Server APT packages"
-sudo apt-get install -y \
+sudo apt install -y \
 autossh \
 bmon \
 build-essential \

@@ -12,7 +12,7 @@ samba
 
 echoStatus "Install Server APT packages"
 
-sudo apt-get install -y \
+sudo apt install -y \
 cron-apt \
 unattended-upgrades \
 

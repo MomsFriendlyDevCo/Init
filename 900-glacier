@@ -13,4 +13,4 @@ echo 'deb http://ppa.launchpad.net/vsespb/mt-aws-glacier/ubuntu precise main' | 
 sudo apt-get update
 
 echoStatus "Install Glacier Perl Library"
-sudo apt-get install -y libapp-mtaws-perl
+sudo apt install -y libapp-mtaws-perl

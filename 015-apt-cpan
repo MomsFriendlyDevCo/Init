@@ -5,7 +5,7 @@
 source common
 
 echoStatus "Install CPAN"
-sudo apt-get install -y cpan
+sudo apt install -y cpan
 
 
 echoStatus "Install CPAN base modules"

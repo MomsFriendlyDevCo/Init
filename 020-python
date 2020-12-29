@@ -5,4 +5,4 @@
 source common
 
 echoStatus "Install Python + PIP"
-sudo apt-get install -y python python-pip python-zmq
+sudo apt install -y python python-pip python-zmq

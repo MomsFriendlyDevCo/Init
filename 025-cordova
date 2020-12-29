@@ -9,8 +9,8 @@ sudo apt-add-repository ppa:cordova-ubuntu/ppa
 sudo apt-get update
 
 echoStatus "Install Cordova from APT"
-sudo apt-get install -y cmake debhelper libx11-dev libicu-dev pkg-config qtbase5-dev qtchooser qtdeclarative5-dev qtfeedback5-dev qtlocation5-dev qtmultimedia5-dev qtpim5-dev qtsensors5-dev qtsystems5-dev
-sudo apt-get install -y cordova-cli
+sudo apt install -y cmake debhelper libx11-dev libicu-dev pkg-config qtbase5-dev qtchooser qtdeclarative5-dev qtfeedback5-dev qtlocation5-dev qtmultimedia5-dev qtpim5-dev qtsensors5-dev qtsystems5-dev
+sudo apt install -y cordova-cli
 
 echoStatus "Install Cordova from NPM"
 sudo npm install -g cordova

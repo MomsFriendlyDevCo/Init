@@ -8,7 +8,7 @@ echoStatus "Install Rust"
 curl https://sh.rustup.rs -sSf | sh
 
 echoStatus "Install Cargo prerequisites"
-sudo apt-get install -y libclang1
+sudo apt install -y libclang1
 
 echoStatus "Install common Cargo tools"
 cargo install \
