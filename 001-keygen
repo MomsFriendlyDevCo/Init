@@ -3,10 +3,12 @@
 
 source common
 
-if [ -e "$HOME/.ssh/id_rsa" ]; then
+KEYFILE=$HOME/.ssh/id_ed25519
+
+if [ -e "$KEYFILE" ]; then
 	echoSkip "RSA key already genereated. Skip"
 	exit 0
 fi
 
-echoStatus "Generate RSA key"
-ssh-keygen -f "$HOME/.ssh/id_rsa" -t rsa -N ''
+echoStatus "Generate SSH key"
+ssh-keygen -o -f "$KEYFILE" -t ed25519 -a 100 -N ''
