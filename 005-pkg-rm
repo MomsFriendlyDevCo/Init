@@ -16,4 +16,4 @@ echoStatus "Remove Ubuntu telemetry"
 sudo apt purge -y popularity-contest
 
 echoStatus "Cleanup orphaned APT packages"
-sudo apt autoremove --purge
+sudo apt autoremove -y --purge
