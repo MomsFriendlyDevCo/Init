@@ -44,8 +44,9 @@ jshint \
 json-prettify \
 mocha \
 @momsfriendlydevco/cli-snip \
+@momsfriendlydevco/extract \
 @momsfriendlydevco/repl \
-npm-up \
+npm-upgrade \
 pm2 \
 
 
