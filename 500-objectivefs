@@ -20,6 +20,9 @@ echoStatus "Setup OFS-on-boot"
 grep -s objectivefs /etc/fstab
 if [ "$?" == 0 ]; then
 	echoSkip "OFS already configured in /etc/fstab"
+
+	echoStatus "Unmounting OFS in fstab"
+	sudo umount -a -t objectivefs
 else
 	read -p "Re-enter above passphase to install OFS into fstab: " PASS
 	read -p "Enter mount path: " MOUNTPATH
@@ -28,4 +31,4 @@ else
 fi
 
 echoStatus "Mounting OFS"
-sudo mount -a
+sudo mount -a -t objectivefs
