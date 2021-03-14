@@ -12,11 +12,6 @@ rm objectivefs_6.8_amd64.deb
 echoStatus "Setup ObjectiveFS"
 sudo mount.objectivefs config
 
-echoStatus "Create filesystem"
-read -p "Enter S3 mountpoint to create (only alpha + dashes): " FS
-sudo mount.objectivefs create "$FS"
-
-echoStatus "Setup OFS-on-boot"
 grep -s objectivefs /etc/fstab
 if [ "$?" == 0 ]; then
 	echoSkip "OFS already configured in /etc/fstab"
@@ -24,7 +19,12 @@ if [ "$?" == 0 ]; then
 	echoStatus "Unmounting OFS in fstab"
 	sudo umount -a -t objectivefs
 else
-	read -p "Re-enter above passphase to install OFS into fstab: " PASS
+	echoStatus "Create OFS filesystem"
+	read -p "Enter S3 mountpoint to create (only alpha + dashes): " FS
+	sudo mount.objectivefs create "$FS"
+
+	echoStatus "Setup OFS-on-boot"
+	read -p "Re-enter OFS passphase to install OFS into fstab: " PASS
 	read -p "Enter mount path: " MOUNTPATH
 	echo "$PASS" | sudo tee /etc/objectivefs.env/OBJECTIVEFS_PASSPHRASE >/dev/null
 	echo "s3://$FS $MOUNTPATH objectivefs  auto,_netdev,mt,noatime,nodiratime 0 0" | sudo tee -a /etc/fstab >/dev/null
