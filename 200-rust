@@ -16,8 +16,9 @@ bat \
 bandwhich \
 du-dust \
 fd-find \
-ripgrep \
 tokei \
 ytop \
 
 
+echoStatus "Install RipGrep + PCRE2 support"
+cargo install ripgrep --features pcre2
