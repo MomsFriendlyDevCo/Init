@@ -14,6 +14,7 @@ echoStatus "Install common Cargo tools"
 cargo install \
 bat \
 bandwhich \
+diffr \
 du-dust \
 fd-find \
 tokei \
