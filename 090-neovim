@@ -16,6 +16,11 @@ sudo apt update
 sudo apt install -y neovim
 
 
+echoStatus "Install Python3 worker"
+sudo apt install -y python3 python3-pip
+sudo pip3 install neovim
+
+
 echoStatus "Set alternate linking for vi / vim / editor"
 sudo update-alternatives --install /usr/bin/vi vi /usr/local/bin/nvim 60
 sudo update-alternatives --config vi

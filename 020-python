@@ -1,8 +1,10 @@
 #!/bin/bash
-# Install various Python/PIP packages
+# Install various Python3 + PIP packages
 # REQUIRES: 007-apt-update
 
 source common
 
 echoStatus "Install Python + PIP"
-sudo apt install -y python python-pip python-zmq
+sudo apt install -y python3 python3-pip
+
+sudo pip3 install neovim
