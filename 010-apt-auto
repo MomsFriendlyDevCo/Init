@@ -4,14 +4,7 @@
 
 source common
 
-echoStatus "Install all security packages via APT"
-
-sudo apt-get remove -y \
-samba
-
-
 echoStatus "Install Server APT packages"
-
 sudo apt install -y \
 cron-apt \
 unattended-upgrades \
