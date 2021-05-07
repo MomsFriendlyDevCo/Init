@@ -32,6 +32,7 @@ sudo npm install -g npm@latest
 echoStatus "Install common global NPMs"
 sudo npm install -g \
 coma \
+depcheck \
 doop-cli \
 fkill-cli \
 fx \
