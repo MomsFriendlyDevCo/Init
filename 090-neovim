@@ -29,16 +29,15 @@ else
 	sudo update-alternatives --config editor
 fi
 
-if [ !-e "~/.vim/setup" ]; then
+if [ ! -e "~/.vim/setup" ]; then
 	echoStatus "Setup MC Nvim config"
 	cd
 	git clone https://github.com/hash-bang/vimrc.git .vim
-	mkdir -p .config/nvim 2>/dev/null
-	ln -s .vim/init.vim .config/nvim/init.vim
-	~/.vim/setup
+	ln -s "$HOME/.vim" "$HOME/.config/nvim"
+	$HOME/.vim/setup
 else
 	echoStatus "Update MC Nvim config"
 	cd ~/.vim
 	git pull
-	~/.vim/setup
+	$HOME/.vim/setup
 fi
