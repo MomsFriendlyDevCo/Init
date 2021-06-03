@@ -22,11 +22,12 @@ sudo pip3 install neovim
 
 
 echoStatus "Set alternate linking for vi / vim / editor"
-sudo update-alternatives --install /usr/bin/vi vi /usr/local/bin/nvim 60
+NVIM=`which nvim`
+sudo update-alternatives --install /usr/bin/vi vi $NVIM 60
 sudo update-alternatives --config vi
-sudo update-alternatives --install /usr/bin/vim vim /usr/local/bin/nvim 60
+sudo update-alternatives --install /usr/bin/vim vim $NVIM 60
 sudo update-alternatives --config vim
-sudo update-alternatives --install /usr/bin/editor editor /usr/local/bin/nvim 60
+sudo update-alternatives --install /usr/bin/editor editor $NVIM 60
 sudo update-alternatives --config editor
 
 
