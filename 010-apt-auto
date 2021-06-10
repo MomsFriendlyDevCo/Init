@@ -4,8 +4,9 @@
 
 source common
 
-echoStatus "Install Server APT packages"
+echoStatus "Install Auto-update APT packages"
 sudo apt install -y \
 cron-apt \
+software-properties-common \
 unattended-upgrades \
 
