@@ -1,33 +1,46 @@
 #!/bin/bash
-# Install Neovim
+# Install the Neovim Nightly from source
 # REQUIRES: 007-apt-update
+#
+# NOTE: This installs the source rather than the PPA (ppa:neovim-ppa/unstable)
+#	as that seems not to actually be a Nightly build
+#       - MC 2021-06-16
 
 source common
 
-dpkg -l | grep -q neovim
-if [ "$?" == 0 ]; then
-	echoSkip "NeoVim already installed"
+
+echoStatus "Install Python3 worker"
+sudo apt install -y python3 python3-pip
+sudo pip3 install neovim
+
+
+cd
+cd src
+if [ -d "neovim" ]; then
+	echoStatus "Updating Neovim source"
+	cd neovim
+	git pull
 else
-	echoStatus "Install Neovim PPA"
-	sudo add-apt-repository -y ppa:neovim-ppa/unstable
-	sudo apt update
-	sudo apt install -y neovim
-
-
-	echoStatus "Install Python3 worker"
-	sudo apt install -y python3 python3-pip
-	sudo pip3 install neovim
-
-
-	echoStatus "Set alternate linking for vi / vim / editor"
-	NVIM=`which nvim`
-	sudo update-alternatives --install /usr/bin/vi vi $NVIM 60
-	sudo update-alternatives --config vi
-	sudo update-alternatives --install /usr/bin/vim vim $NVIM 60
-	sudo update-alternatives --config vim
-	sudo update-alternatives --install /usr/bin/editor editor $NVIM 60
-	sudo update-alternatives --config editor
+	echoStatus "Downloading Neovim source"
+	git clone git@github.com:neovim/neovim.git
+	cd neovim
 fi
+
+echoStatus "Building Neovim"
+make CMAKE_BUILD_TYPE=Release
+
+echoStatus "Installing Neovim"
+sudo make install
+
+echoStatus "Set alternate linking for vi / vim / editor"
+NVIM=`which nvim`
+sudo update-alternatives --install /usr/bin/vi vi $NVIM 60
+sudo update-alternatives --config vi
+sudo update-alternatives --install /usr/bin/vim vim $NVIM 60
+sudo update-alternatives --config vim
+sudo update-alternatives --install /usr/bin/editor editor $NVIM 60
+sudo update-alternatives --config editor
+
 
 if [ ! -e "~/.vim/setup" ]; then
 	echoStatus "Setup MC Nvim config"
