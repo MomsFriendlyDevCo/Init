@@ -2,6 +2,8 @@
 # Install the Neovim Nightly from source
 # REQUIRES: 007-apt-update
 
+source common
+
 echoStatus "Install Redis PPA"
 sudo add-apt-repository -y ppa:redislabs/redis
 
