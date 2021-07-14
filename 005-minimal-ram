@@ -12,14 +12,17 @@ if [ "$SETUP" != "y" ]; then
 	exit 0
 fi
 
+# Size in GB of the swap file to set up. Must be a whole number
+# Webpack faults if total RAM size is less than 4gb so 4 is a good number here
+SIZEGB=4
 
-echoStatus "Setting up Swap file"
-sudo touch /var/swap.img
-sudo chmod 0600 /var/swap.img
-sudo dd if=/dev/zero of=/var/swap.img bs=1024k count=1000
-sudo mkswap /var/swap.img
-sudo swapon /var/swap.img
-echo "/var/swap.img    none    swap    sw    0    0" | sudo tee -a /etc/fstab >/dev/null
+echoStatus "Setting up ${SIZEGB}gb Swap file"
+sudo touch /var/swap-${SIZEGB}gb.img
+sudo chmod 0600 /var/swap-${SIZEGB}gb.img
+sudo dd if=/dev/zero of=/var/swap-${SIZEGB}gb.img bs=1024k count=${SIZEGB}000
+sudo mkswap /var/swap-${SIZEGB}gb.img
+sudo swapon /var/swap-${SIZEGB}gb.img
+echo "/var/swap-${SIZEGB}gb.img    none    swap    sw    0    0" | sudo tee -a /etc/fstab >/dev/null
 
 
 echoStatus "Setting up system Swappiness"
