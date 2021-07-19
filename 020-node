@@ -46,6 +46,7 @@ json-prettify \
 mocha \
 @momsfriendlydevco/cli-snip \
 @momsfriendlydevco/extract \
+@momsfriendlydevco/o \
 @momsfriendlydevco/repl \
 npm-upgrade \
 pm2 \
