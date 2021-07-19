@@ -10,7 +10,7 @@ source common
 
 
 echoStatus "Install Python3 worker"
-sudo apt install -y python3 python3-pip
+sudo apt install -y python3 python3-pip ninja-build gettext libtool libtool-bin autoconf automake cmake g++ pkg-config unzip
 sudo pip3 install neovim
 
 
