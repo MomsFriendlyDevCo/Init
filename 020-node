@@ -4,8 +4,15 @@
 
 source common
 
+which 'node' >/dev/null
+if [ "$?" == 0 ]; then
+	echoStatus "Remove existing Node installs"
+	sudo apt purge nodejs
+	sudo rm `which node`
+fi
+
 echoStatus "Install NodeSource Apt PPA + Update Apt"
-curl -sL https://deb.nodesource.com/setup_14.x | sudo -E bash -
+curl -sL https://deb.nodesource.com/setup_16.x | sudo -E bash -
 
 echoStatus "Install Node from Apt"
 sudo apt install -y nodejs
