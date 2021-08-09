@@ -50,6 +50,7 @@ jaywalker \
 jscs \
 jshint \
 json-prettify \
+mongoosh \
 mocha \
 @momsfriendlydevco/cli-snip \
 @momsfriendlydevco/extract \
