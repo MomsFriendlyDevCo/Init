@@ -12,6 +12,7 @@ set -e
 ./007-apt-update
 ./010-apt-auto
 ./010-apt-server
+./015-tmux
 ./020-node
 ./020-firewall
 ./030-fix-motd
