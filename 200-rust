@@ -26,8 +26,5 @@ ytop \
 xcp \
 
 
-echoStatus "Install Dog"
-cargo install --git https://github.com/ogham/dog dog
-
 echoStatus "Install RipGrep + PCRE2 support"
 cargo install ripgrep --features pcre2
