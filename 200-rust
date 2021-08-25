@@ -11,6 +11,7 @@ echoStatus "Install Cargo prerequisites"
 sudo apt install -y libclang1
 
 echoStatus "Install common Cargo tools"
+source "$HOME/.cargo/env"
 cargo install \
 bat \
 bandwhich \
