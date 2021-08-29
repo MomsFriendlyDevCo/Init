@@ -12,6 +12,7 @@ set -e
 ./007-apt-update
 ./010-apt-auto
 ./010-apt-desktop
+./010-apt-desktop-themes
 ./010-apt-server
 ./015-apt-xfce
 ./015-chrome

@@ -61,8 +61,3 @@ xscreensaver-data-extra \
 xscreensaver-gl \
 xscreensaver-gl-extra \
 xsel \
-
-
-echoStatus "Install desktop theme - Plata"
-sudo add-apt-repository -y ppa:tista/plata-theme
-sudo apt install -y plata-theme
