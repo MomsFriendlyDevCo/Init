@@ -1,0 +1,21 @@
+#!/bin/bash
+# Install the `dtrx` swiss-army-knife extrator
+# REQUIRES: 007-apt-update
+
+source common
+
+which dtrx >/dev/null 2>/dev/null
+if [ "$?" == 0 ]; then
+	echoSkip "DTRX already installed"
+else
+	echoStatus "Install DTRX prerequisites"
+	sudo apt install -y python2
+
+	echoStatus "Download DTRX source"
+	cd ~/src
+	git clone git@github.com:brettcs/dtrx.git
+
+	echoStatus "Build + install DTRX"
+	cd ~/src/dtrx
+	sudo python2 setup.py install
+fi

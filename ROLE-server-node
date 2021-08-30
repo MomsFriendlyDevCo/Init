@@ -20,6 +20,7 @@ set -e
 ./020-node
 ./030-fix-motd
 ./050-zsh
+./090-dtrx
 ./100-letsencrypt
 ./200-nginx
 ./200-rust

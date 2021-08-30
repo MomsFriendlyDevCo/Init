@@ -22,6 +22,7 @@ set -e
 ./040-screen-config
 ./050-snap-desktop
 ./050-zsh
+./090-dtrx
 ./090-neovim
 ./090-root-bashrc
 ./100-ubuntu-desktop
