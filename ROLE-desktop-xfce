@@ -19,6 +19,7 @@ set -e
 ./020-mongo4
 ./020-node
 ./030-fix-motd
+./030-xscreensaver
 ./040-screen-config
 ./050-snap-desktop
 ./050-zsh
