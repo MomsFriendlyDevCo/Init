@@ -13,7 +13,7 @@ else
 
 	echoStatus "Download DTRX source"
 	cd ~/src
-	git clone git@github.com:brettcs/dtrx.git
+	git clone https://github.com/brettcs/dtrx.git
 
 	echoStatus "Build + install DTRX"
 	cd ~/src/dtrx
