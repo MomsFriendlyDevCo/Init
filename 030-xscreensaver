@@ -1,1 +1,10 @@
-sudo add-apt-repository ppa:savoury1/xscreensaver
+#!/bin/bash
+# Install the latest XScreensaver package
+
+source common
+
+echoStatus "Install XScreensaver PPA"
+sudo add-apt-repository -y ppa:savoury1/xscreensaver
+
+echoStatus "Install XScreensaver components"
+sudo apt install -y xscreensaver xscreensaver-screensaver-bsod xscreensaver-gl xscreensaver-gl-extra xscreensaver-data xscreensaver-data-extra
