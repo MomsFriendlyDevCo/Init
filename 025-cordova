@@ -1,6 +1,5 @@
 #!/bin/bash
 # Install Cordova packages
-# REQUIRES: 007-apt-update
 
 source common
 
