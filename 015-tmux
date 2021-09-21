@@ -4,7 +4,7 @@
 source common
 
 echoStatus "Installing prerequisites"
-sudo apt install -y libevent-dev byacc
+sudo apt install -y autoconf automake byacc libevent-dev libncurses-dev pkg-config
 
 echoStatus "Downloading Tmux"
 mkdir -p ~/src 2>/dev/null
