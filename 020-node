@@ -38,9 +38,7 @@ sudo npm install -g npm@latest
 
 echoStatus "Install common global NPMs"
 sudo npm install -g \
-coma \
 depcheck \
-doop-cli \
 fkill-cli \
 fx \
 gronk \
@@ -48,7 +46,6 @@ gulp \
 hanson \
 jay-repl \
 jaywalker \
-jscs \
 jshint \
 json-prettify \
 mongoosh \
