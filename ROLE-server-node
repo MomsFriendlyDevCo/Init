@@ -16,7 +16,7 @@ set -e
 ./015-secure-ssh
 ./015-tmux
 ./020-firewall
-./020-mongo4
+./020-mongo
 ./020-node
 ./030-fix-motd
 ./050-zsh
