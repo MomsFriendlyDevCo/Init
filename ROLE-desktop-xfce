@@ -16,7 +16,6 @@ set -e
 ./010-apt-server
 ./015-apt-xfce
 ./015-chrome
-./020-mongo4
 ./020-node
 ./030-fix-motd
 ./030-xscreensaver
