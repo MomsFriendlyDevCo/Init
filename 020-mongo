@@ -1,18 +1,22 @@
 #!/bin/bash
-# Install Mongo v4 (with WiredTiger storage engine)
+# Install MongoDB
 # REQUIRES: 007-apt-update
 
 source common
+
+echoStatus "Remove existing Mongo installs"
+sudo apt remove 'mongodb*'
+
 
 echoStatus "Download MongoDB DPKG"
 cd
 mkdir src 2>/dev/null
 cd src
 wget \
-	https://repo.mongodb.org/apt/ubuntu/dists/bionic/mongodb-org/5.0/multiverse/binary-amd64/mongodb-org-server_5.0.3_amd64.deb \
-	https://repo.mongodb.org/apt/ubuntu/dists/bionic/mongodb-org/5.0/multiverse/binary-amd64/mongodb-org-tools_5.0.3_amd64.deb \
-	https://repo.mongodb.org/apt/ubuntu/dists/bionic/mongodb-org/5.0/multiverse/binary-amd64/mongodb-org-database-tools-extra_5.0.3_amd64.deb \
-	https://repo.mongodb.org/apt/ubuntu/dists/bionic/mongodb-org/5.0/multiverse/binary-amd64/mongodb-org-shell_5.0.3_amd64.deb \
+	https://repo.mongodb.org/apt/ubuntu/dists/focal/mongodb-org/5.0/multiverse/binary-amd64/mongodb-org-server_5.0.4_amd64.deb \
+	https://repo.mongodb.org/apt/ubuntu/dists/focal/mongodb-org/5.0/multiverse/binary-amd64/mongodb-org-shell_5.0.4_amd64.deb \
+	https://downloads.mongodb.com/compass/mongodb-mongosh_1.1.2_amd64.deb \
+	https://fastdl.mongodb.org/tools/db/mongodb-database-tools-ubuntu2004-x86_64-100.5.1.deb
 
 
 echoStatus "Install MongoDB DPKGs"
