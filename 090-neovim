@@ -8,12 +8,6 @@
 
 source common
 
-
-echoStatus "Install Python3 worker"
-sudo apt install -y python3 python3-pip ninja-build gettext libtool libtool-bin autoconf automake cmake g++ pkg-config unzip
-sudo pip3 install neovim
-
-
 cd
 cd src
 if [ -d "neovim" ]; then
@@ -21,6 +15,10 @@ if [ -d "neovim" ]; then
 	cd neovim
 	git pull
 else
+	echoStatus "Install Python3 worker"
+	sudo apt install -y python3 python3-pip ninja-build gettext libtool libtool-bin autoconf automake cmake g++ pkg-config unzip
+	sudo pip3 install neovim
+
 	echoStatus "Downloading Neovim source"
 	git clone https://github.com/neovim/neovim.git
 	cd neovim
@@ -35,22 +33,22 @@ sudo make install
 echoStatus "Set alternate linking for vi / vim / editor"
 NVIM=`which nvim`
 sudo update-alternatives --install /usr/bin/vi vi $NVIM 60
-sudo update-alternatives --config vi
+# sudo update-alternatives --config vi
 sudo update-alternatives --install /usr/bin/vim vim $NVIM 60
-sudo update-alternatives --config vim
+# sudo update-alternatives --config vim
 sudo update-alternatives --install /usr/bin/editor editor $NVIM 60
-sudo update-alternatives --config editor
+# sudo update-alternatives --config editor
 
 
-if [ ! -e "~/.vim/setup" ]; then
+if [ -e "~/.vim/setup" ]; then
+	echoStatus "Update MC Nvim config"
+	cd ~/.vim
+	git pull
+	$HOME/.vim/setup
+else
 	echoStatus "Setup MC Nvim config"
 	cd
 	git clone https://github.com/hash-bang/vimrc.git .vim
 	ln -s "$HOME/.vim" "$HOME/.config/nvim"
-	$HOME/.vim/setup
-else
-	echoStatus "Update MC Nvim config"
-	cd ~/.vim
-	git pull
 	$HOME/.vim/setup
 fi
