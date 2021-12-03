@@ -15,6 +15,7 @@ source "$HOME/.cargo/env"
 cargo install \
 bat \
 bandwhich \
+bottom \
 diffr \
 du-dust \
 fd-find \
@@ -22,7 +23,6 @@ hexyl \
 lsd \
 mcfly \
 tokei \
-ytop \
 xcp \
 
 
