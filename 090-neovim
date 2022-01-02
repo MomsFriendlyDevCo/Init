@@ -40,7 +40,7 @@ sudo update-alternatives --install /usr/bin/editor editor $NVIM 60
 # sudo update-alternatives --config editor
 
 
-if [ -e "~/.vim/setup" ]; then
+if [ -e "$HOME/.vim/setup" ]; then
 	echoStatus "Update MC Nvim config"
 	cd ~/.vim
 	git pull
