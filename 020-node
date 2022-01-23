@@ -30,7 +30,7 @@ else
 	echo 'save=true' >>~/.npmrc
 	echo 'spin=false' >>~/.npmrc
 	echo 'loglevel=http' >>~/.npmrc
-	echo 'registry=http://registry.npmjs.org' >>~/.npmrc
+	echo 'registry=https://registry.npmjs.org' >>~/.npmrc
 fi
 
 echoStatus "Upgrade NPM to latest"
