@@ -23,6 +23,7 @@ set -e
 ./050-snap-desktop
 ./050-zsh
 ./090-dtrx
+./090-fzf
 ./090-neovim
 ./090-root-bashrc
 ./100-ubuntu-desktop

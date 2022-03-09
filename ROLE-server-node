@@ -21,6 +21,7 @@ set -e
 ./030-fix-motd
 ./050-zsh
 ./090-dtrx
+./090-fzf
 ./100-letsencrypt
 ./200-nginx
 ./200-rust

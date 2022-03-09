@@ -1,0 +1,22 @@
+#!/bin/bash
+# Install the FZF binaries for Shell + Vim usage
+# REQUIRES: 007-apt-update
+#
+# NOTE: This installs the source rather than the PPA (ppa:neovim-ppa/unstable)
+#	as that seems not to actually be a Nightly build
+#       - MC 2021-06-16
+
+source common
+
+cd
+cd src
+if [ -d "fzf" ]; then
+	echoStatus "Updating FZF source"
+	cd fzf
+	git pull
+else
+	echoStatus "Install FZF"
+	git clone --depth 1 https://github.com/junegunn/fzf.git fzf
+	cd fzf
+	./install --key-bindings --completion --update-rc
+fi
