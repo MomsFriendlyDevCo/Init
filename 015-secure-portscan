@@ -1,0 +1,17 @@
+#!/bin/bash
+# Secure the Port Scan protection
+# REQUIRES: 010-apt-server
+
+source common
+
+
+echoStatus "Install PSAD"
+sudo apt install -y psad
+
+
+echoStatus "Add MFDC to Fail2Ban IP whitelist"
+sudo perl -pi -e "s/(EMAIL_ADDRESSES\s+)root@localhost/\1daemons@mfdc\.io/g; s/(HOSTNAME\s+)_CHANGEME_/\1$(hostname)/" /etc/psad/psad.conf
+
+
+echoStatus "Restarting Fail2Ban"
+sudo systemctl restart psad
