@@ -4,11 +4,18 @@
 
 source common
 
-echoStatus "Install Rust"
-curl https://sh.rustup.rs -sSf | sh
+if [ `which cargo >/dev/null; echo "$?"` == 0 ]; then
+	echoSkip "Rust / Cargo already installed"
+else
+	echoStatus "Install Rust"
+	wget 'https://sh.rustup.rs' -O /tmp/rustup.rs
+	chmod +x /tmp/rustup.rs
+	/tmp/rustup.rs -y
+	rm /tmp/rustup.rs
 
-echoStatus "Install Cargo prerequisites"
-sudo apt install -y libclang1
+	echoStatus "Install Cargo prerequisites"
+	sudo apt install -y libclang1 libssl-dev
+fi
 
 echoStatus "Install common Cargo tools"
 source "$HOME/.cargo/env"
@@ -22,10 +29,15 @@ exa \
 fd-find \
 hexyl \
 jless \
+lfs \
 lsd \
 mcfly \
 tokei \
 xcp \
+
+
+echoStatus "Install Dog"
+cargo install --git https://github.com/ogham/dog dog
 
 
 echoStatus "Install RipGrep + PCRE2 support"
