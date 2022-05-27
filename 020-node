@@ -25,7 +25,6 @@ if [ -e "$HOME/.npmrc" ]; then
 else
 	echoStatus "Install NPM config"
 	echo 'email=m@ttcarter.com' >~/.npmrc
-	echo 'tmp=/tmp/npm' >>~/.npmrc
 	echo 'bin-links=true' >>~/.npmrc
 	echo 'save=true' >>~/.npmrc
 	echo 'spin=false' >>~/.npmrc
