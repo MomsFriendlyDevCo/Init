@@ -8,13 +8,24 @@ echoStatus "Remove existing Mongo installs"
 sudo apt remove 'mongodb*'
 
 
+# Patch LibSSL1.1 not being available on Ubuntu>22.04
+if [ `dpkg -l 'libssl1.1*' >/dev/null; echo "$?"` == 0 ]; then
+	echoSkip "LibSSL1.1 already installed or known"
+else
+	echoStatus "Installing LibSSL1.1 for Ubuntu>=22.04"
+	wget 'http://archive.ubuntu.com/ubuntu/pool/main/o/openssl/libssl1.1_1.1.1l-1ubuntu1_amd64.deb'
+	sudo dpkg -i libssl*.deb
+	rm libssl*.deb
+fi
+
+
 echoStatus "Download MongoDB DPKG"
 cd
 mkdir src 2>/dev/null
 cd src
 wget \
-	https://repo.mongodb.org/apt/ubuntu/dists/focal/mongodb-org/5.0/multiverse/binary-amd64/mongodb-org-server_5.0.4_amd64.deb \
-	https://repo.mongodb.org/apt/ubuntu/dists/focal/mongodb-org/5.0/multiverse/binary-amd64/mongodb-org-shell_5.0.4_amd64.deb \
+	https://repo.mongodb.org/apt/ubuntu/dists/focal/mongodb-org/5.0/multiverse/binary-amd64/mongodb-org-server_5.0.8_amd64.deb \
+	https://repo.mongodb.org/apt/ubuntu/dists/focal/mongodb-org/5.0/multiverse/binary-amd64/mongodb-org-shell_5.0.8_amd64.deb \
 	https://downloads.mongodb.com/compass/mongodb-mongosh_1.1.2_amd64.deb \
 	https://fastdl.mongodb.org/tools/db/mongodb-database-tools-ubuntu2004-x86_64-100.5.1.deb
 
