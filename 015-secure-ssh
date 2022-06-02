@@ -6,14 +6,13 @@ source common
 
 
 echoStatus "Install Fail2Ban"
-
 sudo apt install -y fail2ban
 
 
 echoStatus "Add MFDC to Fail2Ban IP whitelist"
-
 sudo perl -pi -e 's/^ignoreip = .*$/ignoreip = 127.0.0.1\/8 10.0.0.1\/24 59.100.88.0\/24/' /etc/fail2ban/jail.conf
 
 
 echoStatus "Restarting Fail2Ban"
-sudo /etc/init.d/fail2ban restart
+sudo systemctl enable fail2ban
+sudo systemctl start fail2ban
