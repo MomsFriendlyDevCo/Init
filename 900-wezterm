@@ -1,0 +1,33 @@
+#!/bin/bash
+# Install Wezterm terminal emulator
+# REQUIRES: 200-rust
+
+source common
+
+cd
+cd src
+
+if [ -d "wezterm" ]; then
+	echoStatus "Updating Wezterm source"
+	cd wezterm
+	git pull
+
+	echoStatus "Installing submodules"
+	git submodule update --recursive
+else
+	echoStatus "Downloading Wezterm source"
+	git clone https://github.com/wez/wezterm.git wezterm
+	cd wezterm
+
+	echoStatus "Installing submodules"
+	git submodule update --init --recursive
+fi
+
+
+echoStatus "Installing dependencies"
+./get-deps
+
+
+echoStatus "Building Wezterm"
+cargo clean
+cargo build --release
