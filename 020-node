@@ -37,6 +37,7 @@ sudo npm install -g npm@latest
 
 echoStatus "Install common global NPMs"
 sudo npm install -g \
+@hash-bang/pss \
 depcheck \
 fkill-cli \
 fx \
