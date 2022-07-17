@@ -5,8 +5,11 @@
 source common
 
 
+echoStatus "Install PSAD prerequisites"
+sudo apt install -y firewalld iptables
+
 echoStatus "Install PSAD"
-sudo apt install -y iptables psad
+sudo apt install -y psad
 
 
 grep -q 'daemons@mfdc.io' /etc/psad/psad.conf
