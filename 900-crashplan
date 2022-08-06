@@ -1,0 +1,35 @@
+#!/bin/bash
+# Install Crashplan on a Linux server
+# REQUIRES: 007-apt-update
+
+source common
+
+echoStatus "Install Crashplan"
+
+echo "FIXME: Need installation process - this file currently only supports SystemD setup component"
+
+exit 1
+
+
+echoStatus "Setup SystemD service"
+
+cat <<EOF | sudo tee /etc/systemd/system/crashplan.service >/dev/null
+[Unit]
+Description=CrashPlan service
+After=network.target
+
+[Service]
+User=root
+Group=root
+ExecStart=/usr/local/crashplan/bin/service.sh start
+ExecStop=/usr/local/crashplan/bin/service.sh stop
+Restart=on-failure
+Type=forking
+
+[Install]
+WantedBy=default.target
+EOF
+
+sudo systemctl daemon-reload
+sudo systemctl start crashplan
+sudo systemctl enable crashplan
