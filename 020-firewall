@@ -16,3 +16,4 @@ sudo ufw allow https
 
 echoStatus "Enable Firewall"
 sudo perl -pi -e 's/ENABLED=no/ENABLED=yes/g' /etc/ufw/ufw.conf
+sudo ufw enable
