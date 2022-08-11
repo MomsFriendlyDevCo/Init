@@ -1,8 +1,7 @@
 #!/bin/bash
 # Setup this box as a regular Desktop machine running XFCE
 
-# Quit on any error
-set -e
+source common
 
 ./000-hostname
 ./001-keygen

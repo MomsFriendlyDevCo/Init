@@ -16,3 +16,9 @@ function echoSkip {
 	echo -n "$@"
 	echo -e "\e[0m"
 }
+
+# Force all scripts to use non-interactive DPKG prompts on install
+export DEBIAN_FRONTEND=noninteractive
+
+# Quit on any error
+set -e
