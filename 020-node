@@ -54,7 +54,7 @@ mocha \
 @momsfriendlydevco/extract \
 @momsfriendlydevco/o \
 @momsfriendlydevco/repl \
-npm-up \
+npm-check-update \
 pm2 \
 
 
