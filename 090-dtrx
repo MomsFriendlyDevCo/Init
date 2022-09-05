@@ -4,11 +4,11 @@
 
 source common
 
-if [ `which dtrx >/dev/null 2>/dev/null; echo "$?"` == 0 ]; then
+if [ `./utils/bin-available dtrx` == 1 ]; then
 	echoSkip "DTRX already installed"
 else
 	echoStatus "Install DTRX prerequisites"
-	sudo apt install -y python2
+	./utils/apt-install python2
 
 	echoStatus "Download DTRX source"
 	cd ~/src

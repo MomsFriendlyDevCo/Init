@@ -1,0 +1,16 @@
+#!/bin/bash
+# Return a '1' if a binary is installed within the current path, otherwise '0'
+# Usage: ./utils/bin-available <bin>
+#
+# @example test if the "foobar" binary is available within a Bash If
+# if [ `./utils/bin-available dtrx` == 1 ]; then
+#   echo "Is available"
+# fi
+
+
+if [ `which "$1" >/dev/null 2>/dev/null; echo "$0"` ]; then
+	exit 1
+else
+	exit 0
+fi
+

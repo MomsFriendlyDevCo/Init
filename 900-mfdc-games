@@ -14,4 +14,4 @@ echoStatus "Update APT"
 sudo apt-get update
 
 echoStatus "Install common games"
-sudo apt install -y warsow
+./utils/apt-install warsow

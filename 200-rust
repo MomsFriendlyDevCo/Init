@@ -11,7 +11,16 @@ chmod +x /tmp/rustup.rs
 rm /tmp/rustup.rs
 
 echoStatus "Install Cargo prerequisites"
-sudo apt install -y cmake libasound2-dev libclang1 libssl-dev libfreetype6-dev libexpat1-dev libxcb-composite0-dev pkg-config
+sudo apt install \
+	cmake \
+	libasound2-dev \
+	libclang1 \
+	libssl-dev \
+	libfreetype6-dev \
+	libexpat1-dev \
+	libxcb-composite0-dev \
+	pkg-config \
+
 
 echoStatus "Install common Cargo tools"
 source "$HOME/.cargo/env"

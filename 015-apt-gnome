@@ -6,7 +6,7 @@ source common
 
 echoStatus "Install common GNOME modules"
 
-apt install -y \
+./utils/apt-install \
 gnome-art \
 gnome-netstatus-applet \
 gnome-themes-extras \

@@ -1,0 +1,12 @@
+#!/bin/bash
+# Install a series of packages, updating the Apt repo if its older than a day
+# Usage: ./utils/apt-install <packages...>
+
+source ../common
+
+if [ `find /var/lib/apt/periodic/update-success-stamp -type f -mtime +1` != '' ]; then
+	echoStatus "Need to update Apt database"
+	sudo apt update
+fi
+
+sudo apt install -y "$@"

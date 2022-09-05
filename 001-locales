@@ -3,7 +3,7 @@
 source common
 
 echoStatus "Install locales pre-requisites"
-sudo apt install -y dialog locales
+./utils/apt-install dialog locales
 
 echoStatus "Setting Australian locale correctly"
 sudo locale-gen en_US en_US.UTF-8

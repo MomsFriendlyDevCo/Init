@@ -15,4 +15,4 @@ else
 fi
 
 echoStatus "Install Google Chrome"
-sudo apt install -y google-chrome-stable
+./utils/apt-install google-chrome-stable

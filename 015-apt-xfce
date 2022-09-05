@@ -6,7 +6,7 @@ source common
 
 echoStatus "Install common XFCE modules"
 
-sudo apt install -y \
+./utils/apt-install \
 ffmpegthumbnailer \
 tumbler \
 tumbler-plugins-extra \

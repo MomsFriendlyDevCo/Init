@@ -6,7 +6,7 @@ source common
 
 echoStatus "Install LAMP stack packages"
 
-sudo apt install -y \
+./utils/apt-install \
 apache2 \
 libapache2-mod-php5 \
 mysql-server \
@@ -21,5 +21,4 @@ php-pear \
 
 
 echoStatus "Install LAMP stack meta-package"
-
-sudo apt install --force-yes -y lamp-server^
+./utils/apt-install --force-yes -y lamp-server^

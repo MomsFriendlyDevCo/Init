@@ -5,4 +5,4 @@
 source common
 
 echoStatus "Install Ruby from APT"
-sudo apt install -y ruby1.9.1 ruby1.9.1-dev
+./utils/apt-install ruby1.9.1 ruby1.9.1-dev

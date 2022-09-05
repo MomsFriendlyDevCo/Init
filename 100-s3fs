@@ -9,7 +9,18 @@ sudo apt-get remove -y s3fs mlocate
 
 
 echoStatus "Install build tools"
-sudo apt install -y automake autotools-dev fuse g++ git libcurl4-gnutls-dev libfuse-dev libssl-dev libxml2-dev make pkg-config
+./utils/apt-install \
+	automake \
+	autotools-dev \
+	fuse \
+	g++ \
+	git \
+	libcurl4-gnutls-dev \
+	libfuse-dev \
+	libssl-dev \
+	libxml2-dev \
+	make \
+	pkg-config \
 
 
 echoStatus "Download S3FS source"

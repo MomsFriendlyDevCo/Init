@@ -9,7 +9,7 @@ if [ -e "certbot-auto" ]; then
 	echoSkip "LetsEncrypt is already installed"
 else
 	echoStatus "Install LetsEncrypt"
-	sudo apt install -y snapd
+	./utils/apt-install snapd
 	sudo snap install --classic certbot
 	sudo snap set certbot trust-plugin-with-root=ok
 	sudo snap install --beta certbot-dns-dnsmadeeasy

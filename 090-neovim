@@ -16,7 +16,7 @@ if [ -d "neovim" ]; then
 	git pull
 else
 	echoStatus "Install Python3 worker"
-	sudo apt install -y python3 python3-pip ninja-build gettext libtool libtool-bin autoconf automake cmake g++ pkg-config unzip
+	./utils/apt-install python3 python3-pip ninja-build gettext libtool libtool-bin autoconf automake cmake g++ pkg-config unzip
 	sudo pip3 install neovim
 
 	echoStatus "Downloading Neovim source"

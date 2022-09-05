@@ -61,8 +61,7 @@ fi
 # }}}
 
 # MySQL {{{
-which mysql >/dev/null
-if [ "$?" == 0 ]; then
+if [ `./utils/bin-available mysql` == 1 ]; then
 	echo "* Dumping MySQL databases..."
 	mysqldump --opt --all-databases >"$DIR/mysql.sql"
 	bzip2 "$DIR/mysql.sql"
@@ -71,8 +70,7 @@ fi
 # }}}
 
 # Mongo {{{
-which mongodump 
-if [ "$?" == 0 ]; then
+if [ `./utils/bin-available mongodump` == 1 ]; then
 	echo "* Dumping MongoDB databases..."
 	mongodump -o mongodb
 	tar cvfj "mongo.tar.bz2" mongodb

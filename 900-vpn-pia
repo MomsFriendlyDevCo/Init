@@ -6,7 +6,10 @@ source common
 
 echoStatus "Install OpenVPN"
 
-sudo apt install -y openvpn network-manager-openvpn network-manager-openvpn-gnome
+./utils/apt-install \
+	openvpn \
+	network-manager-openvpn \
+	network-manager-openvpn-gnome \
 
 
 echoStatus "Install PIA open VPN setup"
