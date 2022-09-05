@@ -4,8 +4,7 @@
 
 source common
 
-which dtrx >/dev/null 2>/dev/null
-if [ "$?" == 0 ]; then
+if [ `which dtrx >/dev/null 2>/dev/null; echo "$?"` == 0 ]; then
 	echoSkip "DTRX already installed"
 else
 	echoStatus "Install DTRX prerequisites"

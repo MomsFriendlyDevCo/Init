@@ -73,8 +73,8 @@ sudo apt install -y libcap2-bin
 sudo setcap cap_net_bind_service=+ep /usr/bin/node
 
 echoStatus "Setup NODE_ENV"
-grep -q 'NODE_ENV' "$HOME/.bashrc"
-if [ "$?" == 0 ]; then
+
+if [ `grep -q 'NODE_ENV' "$HOME/.bashrc"; echo "$?"` == 0 ]; then
 	echoSkip "NODE_ENV already setup"
 else
 	echo "Installing NODE_ENV into ~/.bashrc, assuming 'production'"
