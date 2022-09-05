@@ -9,4 +9,5 @@ sudo apt install -y zsh
 
 
 echoStatus "Set shell"
-sudo chsh $USER -s /bin/zsh
+sudo chsh "$USER" -s /bin/zsh
+sudo chown -R "$USER:$USER" "$HOME/.zsh"
