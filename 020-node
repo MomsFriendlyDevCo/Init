@@ -4,8 +4,8 @@
 
 source common
 
-which 'node' >/dev/null
-if [ "$?" == 0 ]; then
+
+if [ `which 'node' >/dev/null; echo "$?"` == 0 ]; then
 	echoStatus "Remove existing Node installs"
 	sudo apt purge nodejs
 	sudo rm `which node`
