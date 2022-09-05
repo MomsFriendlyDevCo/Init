@@ -23,7 +23,9 @@ fi
 
 echoStatus "Download MongoDB DPKG"
 cd
-mkdir src 2>/dev/null
+if [ ! -d 'src' ]; then
+	mkdir src 2>/dev/null
+fi
 cd src
 wget \
 	https://repo.mongodb.org/apt/ubuntu/dists/focal/mongodb-org/5.0/multiverse/binary-amd64/mongodb-org-server_5.0.8_amd64.deb \
@@ -37,9 +39,8 @@ sudo dpkg -i mongodb-*.deb
 rm *.deb
 
 
-echoStatus "Patch Mongo to use WiredTiger storage engine"
-grep -q 'engine: "wiredTiger"' /etc/mongod.conf
-if [ "$?" != 0 ]; then
+if [ `grep -q 'engine: "wiredTiger"' /etc/mongod.conf; echo "$?"` != 0 ]; then
+	echoStatus "Patch Mongo to use WiredTiger storage engine"
 	# BUGFIX: For some reason Mongo doesn't default to WiredTiger as the storage engine. Despite what the install docs say
 	sudo perl -pi -e 's/^#  engine:.*$/  engine: "wiredTiger"/' /etc/mongod.conf
 fi
@@ -49,6 +50,7 @@ if [ -f "/etc/logrotate.d/mongodb" ]; then
 else
 	echoSkip "Setup Logrotate"
 	# Add logRotate option to reopen on rotate
+	sudo snap install yq
 	yq '.systemLog.logRotate="reopen"' </etc/mongod.conf | sudo sponge /etc/mongod.conf
 
 cat <<'EOF' | sudo tee -a /etc/logrotate.d/mongodb >/dev/null
