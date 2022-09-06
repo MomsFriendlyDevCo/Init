@@ -22,7 +22,7 @@ function init {
 	UTIL=$1
 	shift
 	echo "CALLING [$UTIL]"
-	source "init $UTIL" "$@"
+	source "./utils/$UTIL" "$@"
 }
 
 # Force all scripts to use non-interactive DPKG prompts on install
