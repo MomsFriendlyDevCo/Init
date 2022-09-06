@@ -4,9 +4,14 @@
 
 source common
 
-if [ `init bin-available pip3` == 0 ]; then
+if [ ! `init bin-available pip3` ]; then
 	init status "Installing Python3 + Pip"
-	init apt-install pip3
+	init apt-install python3-pip
 fi
 
-sudo pip3 install "$@"
+if [[ ! -O "$HOME/.cache" || ! -O "$HOME/.cache/pip" ]]; then
+	init status "Correcting .cache permissions"
+	sudo chown -R "$USER" "$HOME/.cache"
+fi
+
+pip3 install "$@"
