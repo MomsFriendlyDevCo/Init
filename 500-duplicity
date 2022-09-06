@@ -1,0 +1,35 @@
+#!/bin/bash
+# Install Duplicity + Duply
+# REQUIRES: 000-hostname
+
+source common
+
+
+echoStatus "Install Duplicity"
+init apt-install duplicity
+
+
+echoStatus "Install Duply"
+cd
+if [ ! -d src ]; then
+	mkdir src
+fi
+cd src
+wget 'https://sourceforge.net/projects/ftplicity/files/duply%20%28simple%20duplicity%29/2.3.x/duply_2.3.1.tgz/download' -O duply.tar.gz
+tar xvfz duply.tar.gz
+rm duply.tar.gz
+cd duply*/
+cp duply /usr/local/bin
+cd ..
+rm -r duply*
+
+
+echoStatus "Configure Duply"
+mkdir /etc/duply
+chmod 700 /etc/duply
+
+
+echoStatus "Manual setup"
+echo "Recommended settings:"
+echo "* Create basic profile: > duply serverBackup create"
+echo "* Change TARGET: TARGET='sftp://backups@zapp.mfdc.biz/backups/$HOST'"
