@@ -1,0 +1,27 @@
+#!/bin/bash
+# Install the latest ZSH Nightly from source
+# This script is really only for older Linux versions that really need to build ZSH from source
+# REQUIRES: 007-apt-update
+
+
+source common
+
+echoStatus "Install ZSH prerequisites"
+init apt-install python2
+
+init source-clone zsh https://github.com/zsh-users/zsh.git
+
+
+echoStatus "Clearing state"
+make distclean
+
+
+echoStatus "Build ZSH"
+./Util/preconfig
+./configure --prefix=/usr/local --bindir=/bin --sbindir=/sbin
+make
+
+
+# Note we skip `make install` and pick the specifics as the `make install.man` is bugged at time of writing - MC 2022-03-15
+sudo make install.bin
+sudo make install.modules
