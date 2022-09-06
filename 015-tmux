@@ -13,12 +13,10 @@ echoStatus "Installing prerequisites"
 
 
 echoStatus "Downloading Tmux"
-mkdir -p ~/src 2>/dev/null
-cd ~/src
-git clone https://github.com/tmux/tmux.git
+./utils/source-clone tmux https://github.com/tmux/tmux.git
+
 
 echoStatus "Building Tmux"
-cd tmux
 sh autogen.sh
 ./configure
 make

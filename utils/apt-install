@@ -2,9 +2,9 @@
 # Install a series of packages, updating the Apt repo if its older than a day
 # Usage: ./utils/apt-install <packages...>
 
-source ../common
+source common
 
-if [ `find /var/lib/apt/periodic/update-success-stamp -type f -mtime +1` != '' ]; then
+if [ ! -z `find /var/lib/apt/periodic/update-success-stamp -type f -mtime +1` ]; then
 	echoStatus "Need to update Apt database"
 	sudo apt update
 fi

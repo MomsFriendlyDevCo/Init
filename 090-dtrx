@@ -4,17 +4,10 @@
 
 source common
 
-if [ `./utils/bin-available dtrx` == 1 ]; then
-	echoSkip "DTRX already installed"
-else
-	echoStatus "Install DTRX prerequisites"
-	./utils/apt-install python2
+echoStatus "Install DTRX prerequisites"
+./utils/apt-install python2
 
-	echoStatus "Download DTRX source"
-	cd ~/src
-	git clone https://github.com/brettcs/dtrx.git
+./utils/source-clone dtrx https://github.com/brettcs/dtrx.git
 
-	echoStatus "Build + install DTRX"
-	cd ~/src/dtrx
-	sudo python2 setup.py install
-fi
+echoStatus "Build + install DTRX"
+sudo python2 setup.py install

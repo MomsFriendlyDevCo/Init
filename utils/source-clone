@@ -1,0 +1,29 @@
+#!/bin/bash
+# Clone a Git-accessible repo into ~/src creating logical directories as needed
+# This script will:
+#    - Create ~/src if its missing
+#
+# Usage: ./utils/source-clone <alias> <git-url>
+#
+# @example Clone the DTRX repo
+# ./utils/source-clone dtrx https://github.com/brettcs/dtrx.git
+
+source common
+
+if [ -d "$HOME/src" ]; then
+	mkdir -p "$HOME/src"
+fi
+
+if [ -d "$1" ]; then
+	echoSkip "Updating ${1^}"
+	cd "$1"
+	git pull
+
+	if [ ! -z `git submodule status` ]; then
+		echoSkip "Updating ${1^} Submodules"
+		git submodule update --recursive
+	fi
+else
+	echoSkip "Cloning ${1^}"
+	git clone --recursive "$2" "$1"
+fi

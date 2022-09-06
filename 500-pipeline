@@ -3,20 +3,14 @@
 
 source common
 
-echoStatus "Install prerequisites"
+echoStatus "Install Pipeline prerequisites"
 ./utils/apt-install \
 	libreadline-dev \
 	libncurses5-dev \
 
 
 echoStatus "Clone Pipeline git repo"
-cd
-if [ ! -d "src" ]; then
-	mkdir src
-fi
-cd src
-git clone --depth 1 https://github.com/codekitchen/pipeline.git
-cd pipeline
+./utils/source-clone pipeline https://github.com/codekitchen/pipeline.git
 
 echoStatus "Setup Pipeline"
 autoreconf -fi

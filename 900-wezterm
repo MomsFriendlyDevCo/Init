@@ -4,24 +4,7 @@
 
 source common
 
-cd
-cd src
-
-if [ -d "wezterm" ]; then
-	echoStatus "Updating Wezterm source"
-	cd wezterm
-	git pull
-
-	echoStatus "Installing submodules"
-	git submodule update --recursive
-else
-	echoStatus "Downloading Wezterm source"
-	git clone https://github.com/wez/wezterm.git wezterm
-	cd wezterm
-
-	echoStatus "Installing submodules"
-	git submodule update --init --recursive
-fi
+source-clone "wezterm" https://github.com/wez/wezterm.git
 
 
 echoStatus "Installing dependencies"

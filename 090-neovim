@@ -8,21 +8,11 @@
 
 source common
 
-cd
-cd src
-if [ -d "neovim" ]; then
-	echoStatus "Updating Neovim source"
-	cd neovim
-	git pull
-else
-	echoStatus "Install Python3 worker"
-	./utils/apt-install python3 python3-pip ninja-build gettext libtool libtool-bin autoconf automake cmake g++ pkg-config unzip
-	sudo pip3 install neovim
+echoStatus "Install Pre-requisites"
+./utils/apt-install python3 python3-pip ninja-build gettext libtool libtool-bin autoconf automake cmake g++ pkg-config unzip
+sudo pip3 install neovim
 
-	echoStatus "Downloading Neovim source"
-	git clone https://github.com/neovim/neovim.git
-	cd neovim
-fi
+./utils/source-clone neovim https://github.com/neovim/neovim.git
 
 echoStatus "Clearing state"
 make distclean

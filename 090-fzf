@@ -8,15 +8,7 @@
 
 source common
 
-cd
-cd src
-if [ -d "fzf" ]; then
-	echoStatus "Updating FZF source"
-	cd fzf
-	git pull
-else
-	echoStatus "Install FZF"
-	git clone --depth 1 https://github.com/junegunn/fzf.git fzf
-	cd fzf
-	./install --key-bindings --completion --update-rc
-fi
+./utils/source-clone fzf https://github.com/junegunn/fzf.git
+
+echoStatus "Building FZF"
+./install --key-bindings --completion --update-rc
