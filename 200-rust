@@ -24,27 +24,27 @@ sudo apt install \
 
 echoStatus "Install common Cargo tools"
 source "$HOME/.cargo/env"
-cargo install \
-bat \
-bandwhich \
-bottom \
-diffr \
-du-dust \
-exa \
-fd-find \
-git-delta \
-hexyl \
-jless \
-lfs \
-lsd \
-mcfly \
-tokei \
-xcp \
+init rust-install \
+	bat \
+	bandwhich \
+	bottom \
+	diffr \
+	du-dust \
+	exa \
+	fd-find \
+	git-delta \
+	hexyl \
+	jless \
+	lfs \
+	lsd \
+	mcfly \
+	tokei \
+	xcp \
 
 
 echoStatus "Install Dog"
-cargo install --git https://github.com/ogham/dog dog
+rust-install --git https://github.com/ogham/dog dog
 
 
 echoStatus "Install RipGrep + PCRE2 support"
-cargo install ripgrep --features pcre2
+rust-install ripgrep --features pcre2
