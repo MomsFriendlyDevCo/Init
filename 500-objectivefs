@@ -3,32 +3,32 @@
 
 source common
 
-echoStatus "Install ObjectiveFS from Deb"
+init status "Install ObjectiveFS from Deb"
 cd src
 wget https://objectivefs.com/user/download/axn2xgkwt/objectivefs_6.8_amd64.deb
 sudo dpkg -i objectivefs_6.8_amd64.deb
 rm objectivefs_6.8_amd64.deb
 
-echoStatus "Setup ObjectiveFS"
+init status "Setup ObjectiveFS"
 sudo mount.objectivefs config
 
 grep -s objectivefs /etc/fstab
 if [ "$?" == 0 ]; then
-	echoSkip "OFS already configured in /etc/fstab"
+	init skip "OFS already configured in /etc/fstab"
 
-	echoStatus "Unmounting OFS in fstab"
+	init status "Unmounting OFS in fstab"
 	sudo umount -a -t objectivefs
 else
-	echoStatus "Create OFS filesystem"
+	init status "Create OFS filesystem"
 	read -p "Enter S3 mountpoint to create (only alpha + dashes): " FS
 	sudo mount.objectivefs create "$FS"
 
-	echoStatus "Setup OFS-on-boot"
+	init status "Setup OFS-on-boot"
 	read -p "Re-enter OFS passphase to install OFS into fstab: " PASS
 	read -p "Enter mount path: " MOUNTPATH
 	echo "$PASS" | sudo tee /etc/objectivefs.env/OBJECTIVEFS_PASSPHRASE >/dev/null
 	echo "s3://$FS $MOUNTPATH objectivefs  auto,_netdev,mt,noatime,nodiratime 0 0" | sudo tee -a /etc/fstab >/dev/null
 fi
 
-echoStatus "Mounting OFS"
+init status "Mounting OFS"
 sudo mount -a -t objectivefs

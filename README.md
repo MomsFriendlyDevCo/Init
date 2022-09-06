@@ -48,5 +48,21 @@ Each script _must_:
 
 Each script _should_:
 
-* Use `echoStatus <text>` or `echoSkip <text>` as a reporting mechanism instead of plain `echo`
+* Use `init status <text>` or `init skip <text>` as a reporting mechanism instead of plain `echo`
 * Require little to no interaction past the initial execution
+
+
+General Syntax
+==============
+This package comes complete with various helper functions which are all called with the `init` syntax.
+
+| Category            | Command                                | Description                                                               |
+|---------------------|----------------------------------------|---------------------------------------------------------------------------|
+| Status              | `init status <message>`                | Display a status message                                                  |
+|                     | `init skip <message>`                  | Same as `init status` but display that the operation was skipped          |
+| Installs + Packages | `init apt-install <pkgs...>`           | Install Apt packages                                                      |
+|                     | `init pip-install <pkgs...>`           | Install various Python3 + Pip packages                                    |
+|                     | `init rust-install <pkgs...>`          | Install various Rust / Cargo packages                                     |
+|                     | `init source-clone <alias> <git-url>`  | Clone / update a Git-Url into `~/src/$ALIAS` and change to that directory |
+| System querying     | `init bin-available <bin>`             | Return `1` if a Binary is available and within the PATH                   |
+|                     | `init file-grep-matches <file> <grep>` | Return `1` if the given file path contains the given Grep expression      |

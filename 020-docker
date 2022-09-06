@@ -4,28 +4,28 @@
 
 source common
 
-echoStatus "Install main linux image sources"
+init status "Install main linux image sources"
 init apt-install linux-image-extra-`uname -r`
 
 if [ -e '/etc/apt/sources.list.d/docker.list' ]; then
-	echoSkip "PPA already installed"
+	init skip "PPA already installed"
 else
-	echoStatus "Install Docker PPA key"
+	init status "Install Docker PPA key"
 	sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 36A1D7869245C8950F966E92D8576A8BA88D21E9
 
-	echoStatus "Add Docker PPA"
+	init status "Add Docker PPA"
 	sudo sh -c "echo deb http://get.docker.io/ubuntu docker main\
 	> /etc/apt/sources.list.d/docker.list"
 
-	echoStatus "Update APT"
+	init status "Update APT"
 	sudo apt-get update
 fi
 
-echoStatus "Install Docker from APT"
+init status "Install Docker from APT"
 init apt-install docker.io git
 
-echoStatus "Adjust firewall policy to allow Docker"
+init status "Adjust firewall policy to allow Docker"
 sudo perl -pi -e 's/DEFAULT_FORWARD_POLICY="DROP"/DEFAULT_FORWARD_POLICY="ACCEPT"/g' /etc/default/ufw
 
-echoStatus "Reload firewall"
+init status "Reload firewall"
 sudo ufw reload

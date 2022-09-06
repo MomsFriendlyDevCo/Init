@@ -4,14 +4,14 @@
 
 source common
 
-echoStatus "Install monit from APT"
+init status "Install monit from APT"
 init apt-install monit
 
 grep -q "daemons@mfdc.io" /etc/monit/monitrc
 if [ "$?" == 0 ]; then
-	echoSkip "Monit already configured"
+	init skip "Monit already configured"
 else
-	echoStatus "Config Monit"
+	init status "Config Monit"
 	sudo perl -pi -e 's/set daemon 120/set daemon 30/' /etc/monit/monitrc
 
 	# Enable HTTP UI (needed for CLI command to work) {{{
@@ -27,7 +27,7 @@ set httpd port 2812 and
 EOF
 	# }}}
 
-	echoStatus "Setup MongoDB Monit profile"
+	init status "Setup MongoDB Monit profile"
 	# Add MongoDB profile {{{
 cat <<EOF | sudo tee /etc/monit/conf-available/mongodb >/dev/null
 check process mongodb with pidfile /var/lib/mongodb.wt/mongod.lock
@@ -43,6 +43,6 @@ EOF
 
 	sudo ln -s /etc/monit/conf-available/mongodb /etc/monit/conf-enabled/mongodb
 
-	echoStatus "Restart Monit"
+	init status "Restart Monit"
 	sudo service monit restart
 fi

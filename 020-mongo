@@ -4,15 +4,15 @@
 
 source common
 
-echoStatus "Remove existing Mongo installs"
+init status "Remove existing Mongo installs"
 sudo apt remove 'mongodb*'
 
 
 # Patch LibSSL1.1 not being available on Ubuntu>22.04
 if [ `dpkg -l 'libssl1.1*' >/dev/null; echo "$?"` == 0 ]; then
-	echoSkip "LibSSL1.1 already installed or known"
+	init skip "LibSSL1.1 already installed or known"
 else
-	echoStatus "Installing LibSSL1.1 for Ubuntu>=22.04"
+	init status "Installing LibSSL1.1 for Ubuntu>=22.04"
 	cd ~/src
 	wget 'http://archive.ubuntu.com/ubuntu/pool/main/o/openssl/libssl1.1_1.1.1f-1ubuntu2_amd64.deb'
 	sudo dpkg -i libssl*.deb
@@ -21,7 +21,7 @@ else
 fi
 
 
-echoStatus "Download MongoDB DPKG"
+init status "Download MongoDB DPKG"
 cd
 if [ ! -d 'src' ]; then
 	mkdir src 2>/dev/null
@@ -34,21 +34,21 @@ wget \
 	https://fastdl.mongodb.org/tools/db/mongodb-database-tools-ubuntu2004-x86_64-100.5.1.deb
 
 
-echoStatus "Install MongoDB DPKGs"
+init status "Install MongoDB DPKGs"
 sudo dpkg -i mongodb-*.deb
 rm *.deb
 
 
 if [ `grep -q 'engine: "wiredTiger"' /etc/mongod.conf; echo "$?"` != 0 ]; then
-	echoStatus "Patch Mongo to use WiredTiger storage engine"
+	init status "Patch Mongo to use WiredTiger storage engine"
 	# BUGFIX: For some reason Mongo doesn't default to WiredTiger as the storage engine. Despite what the install docs say
 	sudo perl -pi -e 's/^#  engine:.*$/  engine: "wiredTiger"/' /etc/mongod.conf
 fi
 
 if [ -f "/etc/logrotate.d/mongodb" ]; then
-	echoSkip "Setup Logrotate (already exists)"
+	init skip "Setup Logrotate (already exists)"
 else
-	echoSkip "Setup Logrotate"
+	init skip "Setup Logrotate"
 	# Add logRotate option to reopen on rotate
 	sudo snap install yq
 	yq '.systemLog.logRotate="reopen"' </etc/mongod.conf | sudo sponge /etc/mongod.conf
@@ -72,12 +72,12 @@ EOF
 fi
 
 
-echoStatus "Disable Kernel hugepages"
+init status "Disable Kernel hugepages"
 echo never | sudo tee /sys/kernel/mm/transparent_hugepage/enabled >/dev/null
 echo never | sudo tee /sys/kernel/mm/transparent_hugepage/defrag >/dev/null
 
 
-echoStatus "Disable Kernel hugepages (install into rc.local)"
+init status "Disable Kernel hugepages (install into rc.local)"
 echo "#!/bin/sh -e" | sudo tee /etc/rc.local
 echo "echo never > /sys/kernel/mm/transparent_hugepage/enabled" | sudo tee -a /etc/rc.local
 echo "echo never > /sys/kernel/mm/transparent_hugepage/defrag" | sudo tee -a /etc/rc.local
@@ -85,17 +85,17 @@ echo "exit 0" | sudo tee -a /etc/rc.local
 sudo chmod +x /etc/rc.local
 
 
-echoStatus "Enable Mongo at startup"
+init status "Enable Mongo at startup"
 sudo systemctl enable mongod
 
 
-echoStatus "Start Mongo service"
+init status "Start Mongo service"
 sudo systemctl start mongod
 
 
-echoStatus "Wait for Mongo service to come up"
+init status "Wait for Mongo service to come up"
 sleep 3
 
 
-echoStatus "Disable Mongo monitoring"
+init status "Disable Mongo monitoring"
 /usr/bin/mongo --eval 'db.disableFreeMonitoring()'

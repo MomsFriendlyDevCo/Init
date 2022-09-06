@@ -10,5 +10,5 @@ source common
 
 init source-clone fzf https://github.com/junegunn/fzf.git
 
-echoStatus "Building FZF"
+init status "Building FZF"
 ./install --key-bindings --completion --update-rc

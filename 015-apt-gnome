@@ -4,7 +4,7 @@
 
 source common
 
-echoStatus "Install common GNOME modules"
+init status "Install common GNOME modules"
 
 init apt-install \
 	gnome-art \

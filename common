@@ -2,7 +2,7 @@
 # Common functionality library imported by all other scripts in this directory
 
 # Print a status line in Bold Blue font
-function echoStatus {
+function init status {
 	echo
 	echo -ne "\e[34m\e[1m ● "
 	echo -n "$@"
@@ -10,7 +10,7 @@ function echoStatus {
 }
 
 # Print a status line in dimmed grey font
-function echoSkip {
+function init skip {
 	echo
 	echo -ne "\e[30m\e[1m ✘ "
 	echo -n "$@"

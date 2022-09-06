@@ -6,24 +6,24 @@ source common
 
 
 if [ `which 'node' >/dev/null; echo "$?"` == 0 ]; then
-	echoStatus "Remove existing Node installs"
+	init status "Remove existing Node installs"
 	sudo apt purge nodejs
 	sudo rm `which node`
 fi
 
-echoStatus "Install NodeSource Apt PPA + Update Apt"
+init status "Install NodeSource Apt PPA + Update Apt"
 curl -sL https://deb.nodesource.com/setup_16.x | sudo -E bash -
 
-echoStatus "Install Node from Apt"
+init status "Install Node from Apt"
 sudo apt install -y nodejs
 
-echoStatus "Install common Node system Apt packages"
+init status "Install common Node system Apt packages"
 sudo apt install -y imagemagick graphicsmagick potrace
 
 if [ -e "$HOME/.npmrc" ]; then
-	echoSkip "NPM config already exists"
+	init skip "NPM config already exists"
 else
-	echoStatus "Install NPM config"
+	init status "Install NPM config"
 	echo 'email=m@ttcarter.com' >~/.npmrc
 	echo 'bin-links=true' >>~/.npmrc
 	echo 'save=true' >>~/.npmrc
@@ -32,10 +32,10 @@ else
 	echo 'registry=https://registry.npmjs.org' >>~/.npmrc
 fi
 
-echoStatus "Upgrade NPM to latest"
+init status "Upgrade NPM to latest"
 sudo npm install -g npm@latest
 
-echoStatus "Install common global NPMs"
+init status "Install common global NPMs"
 sudo npm install -g \
 @hash-bang/pss \
 depcheck \
@@ -59,23 +59,23 @@ pm2 \
 
 
 if [ -e /usr/bin/json-prettify ]; then
-	echoSkip "JSON prettifier already exists as /usr/bin/json"
+	init skip "JSON prettifier already exists as /usr/bin/json"
 else
-	echoStatus "Set up symlinks"
+	init status "Set up symlinks"
 	sudo ln -s /usr/bin/json-prettify /usr/bin/json
 fi
 
-echoStatus "Reset permissions on ~/.npm and /tmp/npm"
+init status "Reset permissions on ~/.npm and /tmp/npm"
 sudo chmod 0777 -R ~/.npm /tmp/npm
 
-echoStatus "Permit Node to have port 80 access"
+init status "Permit Node to have port 80 access"
 init apt-install libcap2-bin
 sudo setcap cap_net_bind_service=+ep /usr/bin/node
 
-echoStatus "Setup NODE_ENV"
+init status "Setup NODE_ENV"
 
 if [ `init file-grep-matches "$HOME/.bashrc" "NODE_ENV"` == 1 ]; then
-	echoSkip "NODE_ENV already setup"
+	init skip "NODE_ENV already setup"
 else
 	echo "Installing NODE_ENV into ~/.bashrc, assuming 'production'"
 	echo "export NODE_ENV=production" >>~/.bashrc

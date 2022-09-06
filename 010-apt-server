@@ -4,13 +4,13 @@
 
 source common
 
-echoStatus "Remove Server unsuitable APT packages"
+init status "Remove Server unsuitable APT packages"
 
 sudo apt-get remove -y \
 samba
 
 
-echoStatus "Install Server APT packages"
+init status "Install Server APT packages"
 init apt-install \
 autossh \
 bmon \

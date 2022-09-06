@@ -3,7 +3,7 @@
 
 source common
 
-echoStatus "GitHub Deployment"
+init status "GitHub Deployment"
 echo
 echo " 1. Press enter (with no input) to NOT clone any GitHub repo"
 echo " 2. Enter the GitHub URL of a repo to clone into a directory"
@@ -19,7 +19,7 @@ read -p "GitHub URL [enter to skip] >" URL
 echo
 
 if [ -z "$URL" ]; then
-	echoSkip "Skipping GitHub deployment"
+	init skip "Skipping GitHub deployment"
 	exit 0
 fi
 
@@ -42,31 +42,31 @@ echo
 read -p "Press enter when ready or Ctrl+C to abort"
 echo
 
-echoStatus "Cloning GitHub repo"
+init status "Cloning GitHub repo"
 cd
 git clone "$SSHURL"
 cd "$REPO"
 
-echoStatus "Installing project NPM dependencies"
+init status "Installing project NPM dependencies"
 npm install
 
-echoStatus "Installing bower dependencies"
+init status "Installing bower dependencies"
 bower install --allow-root
 
 if [ -e 'gulpfile.js' ]; then
-	echoStatus "Initial Gulp build"
+	init status "Initial Gulp build"
 	gulp build
 
-	echoStatus "Building initial database"
+	init status "Building initial database"
 	gulp db
 fi
 
 if [ -e 'gulp-tasks/deploy.js' ]; then
-	echoStatus "Executing deployment"
+	init status "Executing deployment"
 	gulp deploy
 	echo
 	echo "Use \"pm2 logs\" to see logs in future"
 fi
 
-echoStatus "Add NODE_SITE_DIR environment variable"
+init status "Add NODE_SITE_DIR environment variable"
 echo "export NODE_SITE_DIR='$REPO'" >>~/.bashrc

@@ -3,12 +3,12 @@
 
 source common
 
-echoStatus "Remove conflicting S3FS packages"
+init status "Remove conflicting S3FS packages"
 # mlocate (the updated deamon) tends to crash S3FS when it tries to cache the FS structure of infinite filesystems like S3
 sudo apt-get remove -y s3fs mlocate
 
 
-echoStatus "Install S3FS build tools"
+init status "Install S3FS build tools"
 init apt-install \
 	automake \
 	autotools-dev \
@@ -23,11 +23,11 @@ init apt-install \
 	pkg-config \
 
 
-echoStatus "Download S3FS source"
+init status "Download S3FS source"
 init source-clone s3fs https://github.com/s3fs-fuse/s3fs-fuse.git
 
 
-echoStatus "Compile S3FS"
+init status "Compile S3FS"
 ./autogen.sh
 ./configure
 make

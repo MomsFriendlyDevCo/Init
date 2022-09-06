@@ -3,7 +3,7 @@
 
 source common
 
-echoStatus "Adjust system limits..."
+init status "Adjust system limits..."
 
 cat <<'EOF' | sudo tee -a /etc/security/limits.conf >/dev/null
 root            soft    nproc           62188

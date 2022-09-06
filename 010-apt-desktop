@@ -4,7 +4,7 @@
 
 source common
 
-echoStatus "Install desktop APT packages"
+init status "Install desktop APT packages"
 init apt-install \
 audacity  \
 audacious \

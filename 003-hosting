@@ -7,11 +7,11 @@ source common
 PROFILEFILE="/etc/hosting-profile"
 
 if [ -e "$PROFILEFILE" ]; then
-	echoSkip "Hosting profile already set"
+	init skip "Hosting profile already set"
 	exit 0
 fi
 
-echoStatus "Hosting profile setup"
+init status "Hosting profile setup"
 
 echo
 echo "Select the hosting profile from the following list:"
@@ -32,7 +32,7 @@ elif [ "$PROFILE" == "do" ]; then
 	echo "Selected Digital Ocean hosting profile - applying no patches"
 	echo "digialocean" | sudo tee "$PROFILEFILE" >/dev/null
 elif [ "$PROFILE" == "bl" ]; then
-	echoStatus "Apply Binary Lane patches"
+	init status "Apply Binary Lane patches"
 	./003-deny-passwords
 	./003-swap
 	./003-ulimits

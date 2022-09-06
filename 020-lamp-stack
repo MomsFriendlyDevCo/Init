@@ -4,7 +4,7 @@
 
 source common
 
-echoStatus "Install LAMP stack"
+init status "Install LAMP stack"
 init apt-install \
 	apache2 \
 	libapache2-mod-php5 \
@@ -19,5 +19,5 @@ init apt-install \
 	php-pear \
 
 
-echoStatus "Install LAMP stack meta-package"
+init status "Install LAMP stack meta-package"
 init apt-install lamp-server^

@@ -3,5 +3,5 @@
 
 source common
 
-echoStatus "Disable Apport error reporting"
+init status "Disable Apport error reporting"
 sudo sed -i s/enabled=1/enabled=0/ /etc/default/apport

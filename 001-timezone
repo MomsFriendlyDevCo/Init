@@ -20,7 +20,7 @@ if [ -z "$NEWTIMEZONE" ]; then
 fi
 
 if [ "$TIMEZONE" != "$NEWTIMEZONE" ]; then
-	echoStatus "Change server timezone"
+	init status "Change server timezone"
 	sudo timedatectl set-timezone "$NEWTIMEZONE"
 	sudo /etc/init.d/cron restart
 	timedatectl

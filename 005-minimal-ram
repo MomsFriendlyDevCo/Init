@@ -4,7 +4,7 @@
 
 source common
 
-echoStatus "Minimal Server Setup"
+init status "Minimal Server Setup"
 read -p "Is this server a tiny VM server with RAM < 512mb? (y|n) " SETUP
 echo
 
@@ -16,7 +16,7 @@ fi
 # Webpack faults if total RAM size is less than 4gb so 4 is a good number here
 SIZEGB=4
 
-echoStatus "Setting up ${SIZEGB}gb Swap file"
+init status "Setting up ${SIZEGB}gb Swap file"
 sudo touch /var/swap-${SIZEGB}gb.img
 sudo chmod 0600 /var/swap-${SIZEGB}gb.img
 sudo dd if=/dev/zero of=/var/swap-${SIZEGB}gb.img bs=1024k count=${SIZEGB}000
@@ -25,5 +25,5 @@ sudo swapon /var/swap-${SIZEGB}gb.img
 echo "/var/swap-${SIZEGB}gb.img    none    swap    sw    0    0" | sudo tee -a /etc/fstab >/dev/null
 
 
-echoStatus "Setting up system Swappiness"
+init status "Setting up system Swappiness"
 sudo sysctl -w vm.swappiness=30

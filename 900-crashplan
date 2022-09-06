@@ -4,14 +4,14 @@
 
 source common
 
-echoStatus "Install Crashplan"
+init status "Install Crashplan"
 
 echo "FIXME: Need installation process - this file currently only supports SystemD setup component"
 
 exit 1
 
 
-echoStatus "Setup SystemD service"
+init status "Setup SystemD service"
 
 cat <<EOF | sudo tee /etc/systemd/system/crashplan.service >/dev/null
 [Unit]

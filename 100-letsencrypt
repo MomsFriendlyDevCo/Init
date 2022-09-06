@@ -6,9 +6,9 @@ source common
 # Check if letsencrypt is already installed
 cd
 if [ -e "certbot-auto" ]; then
-	echoSkip "LetsEncrypt is already installed"
+	init skip "LetsEncrypt is already installed"
 else
-	echoStatus "Install LetsEncrypt"
+	init status "Install LetsEncrypt"
 	init apt-install snapd
 	sudo snap install --classic certbot
 	sudo snap set certbot trust-plugin-with-root=ok

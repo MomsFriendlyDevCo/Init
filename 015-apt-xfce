@@ -4,7 +4,7 @@
 
 source common
 
-echoStatus "Install common XFCE modules"
+init status "Install common XFCE modules"
 
 init apt-install \
 	ffmpegthumbnailer \

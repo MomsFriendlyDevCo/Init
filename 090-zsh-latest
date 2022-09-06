@@ -6,17 +6,17 @@
 
 source common
 
-echoStatus "Install ZSH prerequisites"
+init status "Install ZSH prerequisites"
 init apt-install python2
 
 init source-clone zsh https://github.com/zsh-users/zsh.git
 
 
-echoStatus "Clearing state"
+init status "Clearing state"
 make distclean
 
 
-echoStatus "Build ZSH"
+init status "Build ZSH"
 ./Util/preconfig
 ./configure --prefix=/usr/local --bindir=/bin --sbindir=/sbin
 make

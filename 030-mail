@@ -7,17 +7,17 @@ source common
 
 HOSTNAME=`hostname`
 
-echoStatus "Install Postfix from APT"
+init status "Install Postfix from APT"
 init apt-install postfix
 
 if [ -e '/etc/postfix/virtual' ]; then
-	echoSkip "Postfix virtual file already exists"
+	init skip "Postfix virtual file already exists"
 else
-	echoStatus "Set up Postfix virtuals config"
+	init status "Set up Postfix virtuals config"
 	echo "virtual_alias_domains = $HOSTNAME" | sudo tee -a /etc/postfix/main.cf >/dev/null
 	echo "virtual_alias_maps = hash:/etc/postfix/virtual" | sudo tee -a /etc/postfix/main.cf >/dev/null
 
-	echoStatus "Set up mail redirects"
+	init status "Set up mail redirects"
 	echo "info@$HOSTNAME		matt@mfdc.biz" | sudo tee -a /etc/postfix/virtual >/dev/null
 	echo "root@$HOSTNAME		matt@mfdc.biz" | sudo tee -a /etc/postfix/virtual >/dev/null
 	echo "admin@$HOSTNAME		matt@mfdc.biz" | sudo tee -a /etc/postfix/virtual >/dev/null
@@ -28,9 +28,9 @@ else
 	echo "matt@$HOSTNAME		matt@mfdc.biz" | sudo tee -a /etc/postfix/virtual >/dev/null
 
 
-	echoStatus "Compile redirects database"
+	init status "Compile redirects database"
 	sudo postmap /etc/postfix/virtual
 
-	echoStatus "Restart postfix"
+	init status "Restart postfix"
 	sudo /etc/init.d/postfix restart
 fi

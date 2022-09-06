@@ -4,12 +4,12 @@
 
 source common
 
-echoStatus "Install Ansible PPA"
+init status "Install Ansible PPA"
 sudo add-apt-repository -y ppa:ansible/ansible
 
 
-echoStatus "Update APT"
+init status "Update APT"
 sudo apt-get update
 
-echoStatus "Install Ansible"
+init status "Install Ansible"
 init apt-install ansible

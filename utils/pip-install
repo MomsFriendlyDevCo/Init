@@ -1,0 +1,12 @@
+#!/bin/bash
+# Install a series of packages via PIP (w/Python3)
+# Usage: ./utils/pip-install <packages...>
+
+source common
+
+if [ `init bin-available pip3` == 0 ]; then
+	init status "Installing Python3 + Pip"
+	init apt-install pip3
+fi
+
+sudo pip3 install "$@"

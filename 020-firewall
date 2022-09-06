@@ -4,19 +4,19 @@
 
 source common
 
-echoStatus "Install Firewall scripts"
+init status "Install Firewall scripts"
 init apt-install ufw -y
 
-echoStatus "Disable FirewallD"
+init status "Disable FirewallD"
 sudo systemctl disable firewalld
 
-echoStatus "Configure Firewall"
+init status "Configure Firewall"
 sudo ufw default deny incoming
 sudo ufw default allow outgoing
 sudo ufw allow ssh
 sudo ufw allow http
 sudo ufw allow https
 
-echoStatus "Enable Firewall"
+init status "Enable Firewall"
 sudo perl -pi -e 's/ENABLED=no/ENABLED=yes/g' /etc/ufw/ufw.conf
 sudo ufw --force enable

@@ -4,7 +4,7 @@
 
 source common
 
-echoStatus "Install OpenVPN"
+init status "Install OpenVPN"
 
 init apt-install \
 	openvpn \
@@ -12,7 +12,7 @@ init apt-install \
 	network-manager-openvpn-gnome \
 
 
-echoStatus "Install PIA open VPN setup"
+init status "Install PIA open VPN setup"
 
 cd /etc/openvpn
 sudo wget https://www.privateinternetaccess.com/openvpn/openvpn.zip

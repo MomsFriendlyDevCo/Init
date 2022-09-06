@@ -5,28 +5,28 @@
 source common
 
 
-echoStatus "Install PSAD prerequisites"
+init status "Install PSAD prerequisites"
 init apt-install iptables
 
-echoStatus "Install PSAD"
+init status "Install PSAD"
 init apt-install psad
 
 
 grep -q 'daemons@mfdc.io' /etc/psad/psad.conf
 if [ "$?" == 1 ]; then
-	echoStatus "Configure PSAD"
+	init status "Configure PSAD"
 	sudo perl -pi -e 's/(EMAIL_ADDRESSES\s+)root@localhost/${1}daemons\@mfdc\.io/g' /etc/psad/psad.conf
 	sudo perl -pi -e "s/(HOSTNAME\s+).+$/\${1}$(hostname);/" /etc/psad/psad.conf
 	sudo perl -pi -e 's/(EMAIL_THROTTLE\s+)0/${1}30/' /etc/psad/psad.conf
 	sudo perl -pi -e 's/(ALERT_ALL\s+)N/${1}Y/' /etc/psad/psad.conf
 	sudo perl -pi -e 's/(EMAIL_ALERT_DANGER_LEVEL\s+)1/${1}3/' /etc/psad/psad.conf
 
-	echoStatus "Configure PSAD whitelist"
+	init status "Configure PSAD whitelist"
 	echo -e '# MFDC office\n103.96.6.111     0;' | sudo tee -a /etc/psad/auto_dl >/dev/null
 else
-	echoSkip "Configure PSAD"
+	init skip "Configure PSAD"
 fi
 
 
-echoStatus "Restarting PSAD"
+init status "Restarting PSAD"
 sudo systemctl restart psad

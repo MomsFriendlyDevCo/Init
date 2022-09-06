@@ -3,11 +3,11 @@
 
 source common
 
-echoStatus "Install Cordova PPA"
+init status "Install Cordova PPA"
 sudo apt-add-repository ppa:cordova-ubuntu/ppa
 sudo apt-get update
 
-echoStatus "Install Cordova from APT"
+init status "Install Cordova from APT"
 init apt-install \
    cmake \
    debhelper \
@@ -26,5 +26,5 @@ init apt-install \
 
 init apt-install cordova-cli
 
-echoStatus "Install Cordova from NPM"
+init status "Install Cordova from NPM"
 init apt-install cordova

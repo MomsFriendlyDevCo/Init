@@ -4,8 +4,8 @@
 
 source common
 
-echoStatus "Install Redis PPA"
+init status "Install Redis PPA"
 sudo add-apt-repository -y ppa:redislabs/redis
 
-echoStatus "Installing Redis Server"
+init status "Installing Redis Server"
 init apt-install redis

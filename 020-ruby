@@ -4,5 +4,5 @@
 
 source common
 
-echoStatus "Install Ruby from APT"
+init status "Install Ruby from APT"
 init apt-install ruby1.9.1 ruby1.9.1-dev

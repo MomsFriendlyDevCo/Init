@@ -4,11 +4,11 @@
 
 source common
 
-echoStatus "Install Kodi PPA"
+init status "Install Kodi PPA"
 sudo add-apt-repository -y ppa:team-xbmc/ppa
 
-echoStatus "Update APT"
+init status "Update APT"
 sudo apt-get update
 
-echoStatus "Update Kodi via APT"
+init status "Update Kodi via APT"
 init apt-install kodi

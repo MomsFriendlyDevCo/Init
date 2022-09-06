@@ -4,13 +4,13 @@
 
 source common
 
-echoStatus "Install / Upgrade Rust"
+init status "Install / Upgrade Rust"
 wget 'https://sh.rustup.rs' -O /tmp/rustup.rs
 chmod +x /tmp/rustup.rs
 /tmp/rustup.rs -y
 rm /tmp/rustup.rs
 
-echoStatus "Install Cargo prerequisites"
+init status "Install Cargo prerequisites"
 sudo apt install \
 	cmake \
 	libasound2-dev \
@@ -22,7 +22,7 @@ sudo apt install \
 	pkg-config \
 
 
-echoStatus "Install common Cargo tools"
+init status "Install common Cargo tools"
 source "$HOME/.cargo/env"
 init rust-install \
 	bat \
@@ -42,9 +42,9 @@ init rust-install \
 	xcp \
 
 
-echoStatus "Install Dog"
+init status "Install Dog"
 rust-install --git https://github.com/ogham/dog dog
 
 
-echoStatus "Install RipGrep + PCRE2 support"
+init status "Install RipGrep + PCRE2 support"
 rust-install ripgrep --features pcre2

@@ -3,5 +3,5 @@
 
 source common
 
-echoStatus "Update APT"
+init status "Update APT"
 sudo apt-get update

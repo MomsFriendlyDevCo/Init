@@ -3,7 +3,7 @@
 
 source common
 
-echoStatus "Installing prerequisites"
+init status "Installing prerequisites"
 init apt-install \
 	autoconf \
 	automake \
@@ -12,11 +12,11 @@ init apt-install \
 	libncurses-dev pkg-config \
 
 
-echoStatus "Downloading Tmux"
+init status "Downloading Tmux"
 init source-clone tmux https://github.com/tmux/tmux.git
 
 
-echoStatus "Building Tmux"
+init status "Building Tmux"
 sh autogen.sh
 ./configure
 make

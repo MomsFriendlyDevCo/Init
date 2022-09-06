@@ -5,11 +5,11 @@
 source common
 
 
-echoStatus "Install Duplicity"
+init status "Install Duplicity"
 init apt-install duplicity
 
 
-echoStatus "Install Duply"
+init status "Install Duply"
 cd
 if [ ! -d src ]; then
 	mkdir src
@@ -24,12 +24,12 @@ cd ..
 rm -r duply*
 
 
-echoStatus "Configure Duply"
+init status "Configure Duply"
 mkdir /etc/duply
 chmod 700 /etc/duply
 
 
-echoStatus "Manual setup"
+init status "Manual setup"
 echo "Recommended settings:"
 echo "* Create basic profile: > duply serverBackup create"
 echo "* Change TARGET: TARGET='sftp://backups@zapp.mfdc.biz/backups/$HOST'"

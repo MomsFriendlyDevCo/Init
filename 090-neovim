@@ -8,22 +8,24 @@
 
 source common
 
-echoStatus "Install Pre-requisites"
+init status "Install Pre-requisites"
 init apt-install python3 python3-pip ninja-build gettext libtool libtool-bin autoconf automake cmake g++ pkg-config unzip
-sudo pip3 install neovim
+
+init status "Install Python module"
+init pip-install neovim
 
 init source-clone neovim https://github.com/neovim/neovim.git
 
-echoStatus "Clearing state"
+init status "Clearing state"
 make distclean
 
-echoStatus "Building Neovim"
+init status "Building Neovim"
 make CMAKE_BUILD_TYPE=RelWithDebInfo
 
-echoStatus "Installing Neovim"
+init status "Installing Neovim"
 sudo make install
 
-echoStatus "Set alternate linking for vi / vim / editor"
+init status "Set alternate linking for vi / vim / editor"
 NVIM=`which nvim`
 sudo update-alternatives --install /usr/bin/vi vi $NVIM 60
 # sudo update-alternatives --config vi
@@ -34,12 +36,12 @@ sudo update-alternatives --install /usr/bin/editor editor $NVIM 60
 
 
 if [ -e "$HOME/.vim/setup" ]; then
-	echoStatus "Update MC Nvim config"
+	init status "Update MC Nvim config"
 	cd ~/.vim
 	git pull
 	$HOME/.vim/setup
 else
-	echoStatus "Setup MC Nvim config"
+	init status "Setup MC Nvim config"
 	cd
 	git clone https://github.com/hash-bang/vimrc.git .vim
 	ln -s "$HOME/.vim" "$HOME/.config/nvim"

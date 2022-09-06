@@ -4,7 +4,7 @@
 
 source common
 
-echoStatus "Install Auto-update APT packages"
+init status "Install Auto-update APT packages"
 init apt-install \
 cron-apt \
 software-properties-common \

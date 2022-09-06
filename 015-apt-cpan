@@ -4,15 +4,15 @@
 
 source common
 
-echoStatus "Install CPAN"
+init status "Install CPAN"
 init apt-install cpan
 
 
-echoStatus "Install CPAN base modules"
+init status "Install CPAN base modules"
 sudo cpan CPAN YAML Term::ReadLine::Perl Test::Exception
 
 
-echoStatus "Install common CPAN modules"
+init status "Install common CPAN modules"
 sudo cpan \
 	Config::IniFiles \
 	Data::Dump \

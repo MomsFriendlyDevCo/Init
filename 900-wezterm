@@ -6,10 +6,10 @@ source common
 
 init source-clone "wezterm" https://github.com/wez/wezterm.git
 
-echoStatus "Installing dependencies"
+init status "Installing dependencies"
 ./get-deps
 
 
-echoStatus "Building Wezterm"
+init status "Building Wezterm"
 cargo clean
 cargo build --release
