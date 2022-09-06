@@ -5,7 +5,7 @@
 source common
 
 echoStatus "Install CPAN"
-./utils/apt-install cpan
+init apt-install cpan
 
 
 echoStatus "Install CPAN base modules"
@@ -14,16 +14,16 @@ sudo cpan CPAN YAML Term::ReadLine::Perl Test::Exception
 
 echoStatus "Install common CPAN modules"
 sudo cpan \
-Config::IniFiles \
-Data::Dump \
-Digest::MD5::File \
-File::Basename \
-File::DirWalk \
-File::Slurp \
-Getopt::Long \
-IMDB::Film \
-Number::Bytes::Human \
-Term::ReadKey \
-Text::Glob \
+	Config::IniFiles \
+	Data::Dump \
+	Digest::MD5::File \
+	File::Basename \
+	File::DirWalk \
+	File::Slurp \
+	Getopt::Long \
+	IMDB::Film \
+	Number::Bytes::Human \
+	Term::ReadKey \
+	Text::Glob \
 
 

@@ -6,12 +6,12 @@ source common
 
 echoStatus "Install Compiz + Compiz utilities"
 
-./utils/apt-install \
-compiz \
-compizconfig-settings-manager \
-compiz-plugins \
-compiz-plugins-default \
-compiz-plugins-extra \
-compiz-plugins-main \
-compiz-plugins-main-default \
+init apt-install \
+	compiz \
+	compizconfig-settings-manager \
+	compiz-plugins \
+	compiz-plugins-default \
+	compiz-plugins-extra \
+	compiz-plugins-main \
+	compiz-plugins-main-default \
 

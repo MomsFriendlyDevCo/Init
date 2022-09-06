@@ -8,4 +8,4 @@ echoStatus "Install Redis PPA"
 sudo add-apt-repository -y ppa:redislabs/redis
 
 echoStatus "Installing Redis Server"
-./utils/apt-install redis
+init apt-install redis

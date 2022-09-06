@@ -11,7 +11,7 @@ samba
 
 
 echoStatus "Install Server APT packages"
-./utils/apt-install \
+init apt-install \
 autossh \
 bmon \
 build-essential \
@@ -62,4 +62,5 @@ vim \
 w3m \
 wget \
 whois \
+yq \
 

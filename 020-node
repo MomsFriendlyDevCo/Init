@@ -69,12 +69,12 @@ echoStatus "Reset permissions on ~/.npm and /tmp/npm"
 sudo chmod 0777 -R ~/.npm /tmp/npm
 
 echoStatus "Permit Node to have port 80 access"
-./utils/apt-install libcap2-bin
+init apt-install libcap2-bin
 sudo setcap cap_net_bind_service=+ep /usr/bin/node
 
 echoStatus "Setup NODE_ENV"
 
-if [ `./utils/file-grep-matches "$HOME/.bashrc" "NODE_ENV"` == 1 ]; then
+if [ `init file-grep-matches "$HOME/.bashrc" "NODE_ENV"` == 1 ]; then
 	echoSkip "NODE_ENV already setup"
 else
 	echo "Installing NODE_ENV into ~/.bashrc, assuming 'production'"

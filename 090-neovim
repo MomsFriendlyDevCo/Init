@@ -9,10 +9,10 @@
 source common
 
 echoStatus "Install Pre-requisites"
-./utils/apt-install python3 python3-pip ninja-build gettext libtool libtool-bin autoconf automake cmake g++ pkg-config unzip
+init apt-install python3 python3-pip ninja-build gettext libtool libtool-bin autoconf automake cmake g++ pkg-config unzip
 sudo pip3 install neovim
 
-./utils/source-clone neovim https://github.com/neovim/neovim.git
+init source-clone neovim https://github.com/neovim/neovim.git
 
 echoStatus "Clearing state"
 make distclean

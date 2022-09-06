@@ -5,7 +5,10 @@
 source common
 
 echoStatus "Install Firewall scripts"
-./utils/apt-install ufw -y
+init apt-install ufw -y
+
+echoStatus "Disable FirewallD"
+sudo systemctl disable firewalld
 
 echoStatus "Configure Firewall"
 sudo ufw default deny incoming

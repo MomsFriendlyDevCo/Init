@@ -8,7 +8,7 @@ sudo apt-add-repository ppa:cordova-ubuntu/ppa
 sudo apt-get update
 
 echoStatus "Install Cordova from APT"
-./utils/apt-install \
+init apt-install \
    cmake \
    debhelper \
    libx11-dev \
@@ -24,7 +24,7 @@ echoStatus "Install Cordova from APT"
    qtsensors5-dev \
    qtsystems5-dev \
 
-./utils/apt-install cordova-cli
+init apt-install cordova-cli
 
 echoStatus "Install Cordova from NPM"
-./utils/apt-install cordova
+init apt-install cordova

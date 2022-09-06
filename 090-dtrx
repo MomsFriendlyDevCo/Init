@@ -5,9 +5,9 @@
 source common
 
 echoStatus "Install DTRX prerequisites"
-./utils/apt-install python2
+init apt-install python2
 
-./utils/source-clone dtrx https://github.com/brettcs/dtrx.git
+init source-clone dtrx https://github.com/brettcs/dtrx.git
 
 echoStatus "Build + install DTRX"
 sudo python2 setup.py install

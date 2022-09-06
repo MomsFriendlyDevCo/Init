@@ -5,6 +5,6 @@
 source common
 
 echoStatus "Install Python + PIP"
-./utils/apt-install python3 python3-pip
+init apt-install python3 python3-pip
 
 sudo pip3 install neovim

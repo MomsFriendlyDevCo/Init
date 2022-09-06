@@ -7,4 +7,4 @@ echoStatus "Install XScreensaver PPA"
 sudo add-apt-repository -y ppa:savoury1/xscreensaver
 
 echoStatus "Install XScreensaver components"
-./utils/apt-install xscreensaver xscreensaver-screensaver-bsod xscreensaver-gl xscreensaver-gl-extra xscreensaver-data xscreensaver-data-extra
+init apt-install xscreensaver xscreensaver-screensaver-bsod xscreensaver-gl xscreensaver-gl-extra xscreensaver-data xscreensaver-data-extra

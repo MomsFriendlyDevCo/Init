@@ -6,7 +6,7 @@ source common
 
 
 echoStatus "Install Fail2Ban"
-./utils/apt-install fail2ban
+init apt-install fail2ban
 
 
 echoStatus "Add MFDC to Fail2Ban IP whitelist"

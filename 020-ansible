@@ -12,4 +12,4 @@ echoStatus "Update APT"
 sudo apt-get update
 
 echoStatus "Install Ansible"
-./utils/apt-install ansible
+init apt-install ansible

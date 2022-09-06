@@ -6,10 +6,10 @@ source common
 
 
 echoStatus "Install PSAD prerequisites"
-./utils/apt-install firewalld iptables
+init apt-install iptables
 
 echoStatus "Install PSAD"
-./utils/apt-install psad
+init apt-install psad
 
 
 grep -q 'daemons@mfdc.io' /etc/psad/psad.conf

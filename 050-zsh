@@ -5,7 +5,7 @@
 source common
 
 echoStatus "Install ZSH"
-./utils/apt-install zsh
+init apt-install zsh
 
 
 echoStatus "Set shell"

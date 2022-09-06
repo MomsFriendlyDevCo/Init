@@ -11,4 +11,4 @@ echoStatus "Update APT"
 sudo apt-get update
 
 echoStatus "Update Kodi via APT"
-./utils/apt-install kodi
+init apt-install kodi

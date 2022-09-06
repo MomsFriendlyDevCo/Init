@@ -6,11 +6,11 @@ source common
 
 echoStatus "Install common XFCE modules"
 
-./utils/apt-install \
-ffmpegthumbnailer \
-tumbler \
-tumbler-plugins-extra \
-xfce4-goodies \
-xfce4-power-manager-plugins \
+init apt-install \
+	ffmpegthumbnailer \
+	tumbler \
+	tumbler-plugins-extra \
+	xfce4-goodies \
+	xfce4-power-manager-plugins \
 
 

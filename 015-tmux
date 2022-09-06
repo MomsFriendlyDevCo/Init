@@ -4,7 +4,7 @@
 source common
 
 echoStatus "Installing prerequisites"
-./utils/apt-install \
+init apt-install \
 	autoconf \
 	automake \
 	byacc \
@@ -13,7 +13,7 @@ echoStatus "Installing prerequisites"
 
 
 echoStatus "Downloading Tmux"
-./utils/source-clone tmux https://github.com/tmux/tmux.git
+init source-clone tmux https://github.com/tmux/tmux.git
 
 
 echoStatus "Building Tmux"

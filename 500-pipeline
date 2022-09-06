@@ -4,13 +4,13 @@
 source common
 
 echoStatus "Install Pipeline prerequisites"
-./utils/apt-install \
+init apt-install \
 	libreadline-dev \
 	libncurses5-dev \
 
 
 echoStatus "Clone Pipeline git repo"
-./utils/source-clone pipeline https://github.com/codekitchen/pipeline.git
+init source-clone pipeline https://github.com/codekitchen/pipeline.git
 
 echoStatus "Setup Pipeline"
 autoreconf -fi

@@ -4,8 +4,7 @@
 
 source common
 
-source-clone "wezterm" https://github.com/wez/wezterm.git
-
+init source-clone "wezterm" https://github.com/wez/wezterm.git
 
 echoStatus "Installing dependencies"
 ./get-deps

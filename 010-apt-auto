@@ -5,7 +5,7 @@
 source common
 
 echoStatus "Install Auto-update APT packages"
-./utils/apt-install \
+init apt-install \
 cron-apt \
 software-properties-common \
 unattended-upgrades \

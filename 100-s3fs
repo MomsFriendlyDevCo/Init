@@ -9,7 +9,7 @@ sudo apt-get remove -y s3fs mlocate
 
 
 echoStatus "Install S3FS build tools"
-./utils/apt-install \
+init apt-install \
 	automake \
 	autotools-dev \
 	fuse \
@@ -24,7 +24,7 @@ echoStatus "Install S3FS build tools"
 
 
 echoStatus "Download S3FS source"
-source-clone s3fs https://github.com/s3fs-fuse/s3fs-fuse.git
+init source-clone s3fs https://github.com/s3fs-fuse/s3fs-fuse.git
 
 
 echoStatus "Compile S3FS"

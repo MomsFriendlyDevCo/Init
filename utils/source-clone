@@ -1,7 +1,11 @@
 #!/bin/bash
 # Clone a Git-accessible repo into ~/src creating logical directories as needed
+#
 # This script will:
 #    - Create ~/src if its missing
+#    - Clone or update the repo (minimal depth)
+#    - CD into the directory
+#    - Clone or update submodules (if any; minimal depth)
 #
 # Usage: ./utils/source-clone <alias> <git-url>
 #
@@ -10,20 +14,23 @@
 
 source common
 
-if [ -d "$HOME/src" ]; then
+if [ ! -d "$HOME/src" ]; then
 	mkdir -p "$HOME/src"
 fi
 
+cd "$HOME/src"
+
 if [ -d "$1" ]; then
-	echoSkip "Updating ${1^}"
+	echoStatus "Updating ${1^} source"
 	cd "$1"
 	git pull
 
-	if [ ! -z `git submodule status` ]; then
-		echoSkip "Updating ${1^} Submodules"
+	if [ -e '.gitmodules' ]; then
+		echoStatus "Updating ${1^} Submodules"
 		git submodule update --recursive
 	fi
 else
-	echoSkip "Cloning ${1^}"
-	git clone --recursive "$2" "$1"
+	echoStatus "Cloning ${1^} source"
+	git clone --recursive --depth=1 --shallow-submodules "$2" "$1"
+	cd "$1"
 fi

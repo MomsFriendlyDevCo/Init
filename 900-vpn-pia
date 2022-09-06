@@ -6,7 +6,7 @@ source common
 
 echoStatus "Install OpenVPN"
 
-./utils/apt-install \
+init apt-install \
 	openvpn \
 	network-manager-openvpn \
 	network-manager-openvpn-gnome \

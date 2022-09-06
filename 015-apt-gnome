@@ -6,11 +6,11 @@ source common
 
 echoStatus "Install common GNOME modules"
 
-./utils/apt-install \
-gnome-art \
-gnome-netstatus-applet \
-gnome-themes-extras \
-nautilus-open-terminal \
-timer-applet \
+init apt-install \
+	gnome-art \
+	gnome-netstatus-applet \
+	gnome-themes-extras \
+	nautilus-open-terminal \
+	timer-applet \
 
 

@@ -5,7 +5,7 @@
 source common
 
 echoStatus "Install desktop APT packages"
-./utils/apt-install \
+init apt-install \
 audacity  \
 audacious \
 bmon \

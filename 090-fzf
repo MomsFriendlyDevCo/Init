@@ -8,7 +8,7 @@
 
 source common
 
-./utils/source-clone fzf https://github.com/junegunn/fzf.git
+init source-clone fzf https://github.com/junegunn/fzf.git
 
 echoStatus "Building FZF"
 ./install --key-bindings --completion --update-rc

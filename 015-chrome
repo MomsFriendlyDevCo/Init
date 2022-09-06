@@ -15,4 +15,4 @@ else
 fi
 
 echoStatus "Install Google Chrome"
-./utils/apt-install google-chrome-stable
+init apt-install google-chrome-stable

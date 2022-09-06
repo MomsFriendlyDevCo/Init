@@ -4,21 +4,20 @@
 
 source common
 
-echoStatus "Install LAMP stack packages"
-
-./utils/apt-install \
-apache2 \
-libapache2-mod-php5 \
-mysql-server \
-php5 \
-php5-cli \
-php5-curl \
-php5-gd \
-php5-imagick \
-php5-imap \
-php5-mysql \
-php-pear \
+echoStatus "Install LAMP stack"
+init apt-install \
+	apache2 \
+	libapache2-mod-php5 \
+	mysql-server \
+	php5 \
+	php5-cli \
+	php5-curl \
+	php5-gd \
+	php5-imagick \
+	php5-imap \
+	php5-mysql \
+	php-pear \
 
 
 echoStatus "Install LAMP stack meta-package"
-./utils/apt-install --force-yes -y lamp-server^
+init apt-install lamp-server^

@@ -18,7 +18,7 @@ else
 fi
 
 echoStatus "Install Nagios scripts via APT"
-./utils/apt-install \
+init apt-install \
 	nagios-plugins \
 	nagios-plugins-basic \
 	nagios-plugins-common \

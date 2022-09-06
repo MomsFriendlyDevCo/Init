@@ -17,6 +17,14 @@ function echoSkip {
 	echo -e "\e[0m"
 }
 
+# Call a utility function as sourced within the current shell
+function init {
+	UTIL=$1
+	shift
+	echo "CALLING [$UTIL]"
+	source "init $UTIL" "$@"
+}
+
 # Force all scripts to use non-interactive DPKG prompts on install
 export DEBIAN_FRONTEND=noninteractive
 
