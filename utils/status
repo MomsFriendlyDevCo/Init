@@ -1,0 +1,8 @@
+#!/bin/bash
+# Simple status reporter to display a status step
+# Usage: ./utils/status <message>
+
+echo
+echo -ne "\e[34m\e[1m ● "
+echo -n "$@"
+echo -e "\e[0m"

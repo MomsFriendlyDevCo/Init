@@ -21,16 +21,16 @@ fi
 cd "$HOME/src"
 
 if [ -d "$1" ]; then
-	echoStatus "Updating ${1^} source"
+	init status "Updating ${1^} source"
 	cd "$1"
 	git pull
 
 	if [ -e '.gitmodules' ]; then
-		echoStatus "Updating ${1^} Submodules"
+		init status "Updating ${1^} Submodules"
 		git submodule update --recursive
 	fi
 else
-	echoStatus "Cloning ${1^} source"
+	init status "Cloning ${1^} source"
 	git clone --recursive --depth=1 --shallow-submodules "$2" "$1"
 	cd "$1"
 fi

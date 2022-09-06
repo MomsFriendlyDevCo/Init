@@ -1,32 +1,15 @@
 #!/bin/bash
 # Common functionality library imported by all other scripts in this directory
 
-# Print a status line in Bold Blue font
-function init status {
-	echo
-	echo -ne "\e[34m\e[1m ● "
-	echo -n "$@"
-	echo -e "\e[0m"
-}
-
-# Print a status line in dimmed grey font
-function init skip {
-	echo
-	echo -ne "\e[30m\e[1m ✘ "
-	echo -n "$@"
-	echo -e "\e[0m"
-}
+# Force all scripts to use non-interactive DPKG prompts on install
+export DEBIAN_FRONTEND=noninteractive
 
 # Call a utility function as sourced within the current shell
 function init {
 	UTIL=$1
 	shift
-	echo "CALLING [$UTIL]"
 	source "./utils/$UTIL" "$@"
 }
-
-# Force all scripts to use non-interactive DPKG prompts on install
-export DEBIAN_FRONTEND=noninteractive
 
 # Quit on any error
 set -e

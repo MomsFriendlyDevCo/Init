@@ -5,7 +5,7 @@
 source common
 
 if [ ! -z `find /var/lib/apt/periodic/update-success-stamp -type f -mtime +1` ]; then
-	echoStatus "Need to update Apt database"
+	init status "Need to update Apt database"
 	sudo apt update
 fi
 
