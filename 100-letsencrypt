@@ -10,5 +10,7 @@ else
 	init status "Install LetsEncrypt"
 	init snap-install --classic certbot
 	sudo snap set certbot trust-plugin-with-root=ok
+
+	init status "Install DME LetsEncrypt plugin"
 	init snap-install --beta certbot-dns-dnsmadeeasy
 fi
