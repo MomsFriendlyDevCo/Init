@@ -29,7 +29,6 @@ init apt-install \
 	iftop \
 	imagemagick \
 	iotop \
-	iwatch \
 	libterm-readkey-perl \
 	lftp \
 	lsof \
