@@ -1,0 +1,10 @@
+#!/bin/bash
+# Ensure the INIT_SRC directory exists + CD to it
+
+source common
+
+if [ -d "$INIT_SRC" ]; then
+	mkdir -p "$INIT_SRC"
+fi
+
+cd "$INIT_SRC"

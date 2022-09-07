@@ -5,16 +5,15 @@
 source common
 
 
+init apt-install --lazy --header "Installing Duplicity + Duply build pre-requisites" wget
+
+
 init status "Install Duplicity"
 init apt-install duplicity
 
 
 init status "Install Duply"
-cd
-if [ ! -d src ]; then
-	mkdir src
-fi
-cd src
+init go-src
 wget 'https://sourceforge.net/projects/ftplicity/files/duply%20%28simple%20duplicity%29/2.3.x/duply_2.3.1.tgz/download' -O duply.tar.gz
 tar xvfz duply.tar.gz
 rm duply.tar.gz

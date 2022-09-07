@@ -1,0 +1,7 @@
+# Config setup for Init
+
+# Where Init lives - defaults to the directory this file exists in
+INIT_HOME=$(cd $(dirname "${BASH_SOURCE[0]}") && pwd)
+
+# Where to hold source files
+INIT_SRC="$HOME/src"

@@ -6,21 +6,21 @@ source common
 
 init apt-install --lazy --header "Installing Aria2c downloader" aria2
 
-cd "$HOME/src"
+init go-src
 if [ ! -d "deb" ]; then
 	mkdir deb
 	cd deb
 else
-	init status "Erasing existing ~/src/deb directory"
+	init status "Erasing existing Source directory"
 	rm -r deb
 	mkdir deb
 	cd deb
 fi
 
-if [ "${#@[0]}" == 1 ]; then
+if [ "${#@}" == 1 ]; then
 	init status "Downloding $1"
 else
-	init status "Downloading ${#@[0]} .DEB URLS"
+	init status "Downloading ${#@} .DEB URLS"
 fi
 
 aria2c --max-concurrent-downloads=4 "$@"
@@ -29,5 +29,5 @@ init status "Installing .DEB files"
 dpkg -i *.deb
 
 init status "Cleaning up .DEB files"
-cd ..
+cd "$INIT_SRC"
 rm -r deb
