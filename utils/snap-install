@@ -2,7 +2,7 @@
 # Install a series of Snap packages, installing Snap if its required
 # Usage: ./utils/snap-install <packages...>
 
-source ../common
+source common
 
 if [ ! `init bin-available snap` ]; then
 	init status "Need to install Snap first"

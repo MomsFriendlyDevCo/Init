@@ -2,7 +2,7 @@
 # Install a series of packages via PIP (w/Python3)
 # Usage: ./utils/pip-install <packages...>
 
-source ../common
+source common
 
 if [ ! `init bin-available pip3` ]; then
 	init status "Installing Python3 + Pip"
