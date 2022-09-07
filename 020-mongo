@@ -8,10 +8,6 @@ init status "Remove existing Mongo installs"
 init apt-remove 'mongodb*'
 
 
-init status "Install Mongo pre-requisites"
-init pip-install yq
-
-
 # Patch LibSSL1.1 not being available on Ubuntu>22.04
 if [ `dpkg -l 'libssl1.1*' >/dev/null; echo "$?"` == 0 ]; then
 	init skip "LibSSL1.1 already installed or known"
@@ -52,7 +48,7 @@ fi
 if [ -f "/etc/logrotate.d/mongodb" ]; then
 	init skip "Setup Logrotate (already exists)"
 else
-	init skip "Setup Logrotate"
+	init status "Setup Logrotate"
 	# Add logRotate option to reopen on rotate
 	sudo snap install yq
 	yq '.systemLog.logRotate="reopen"' </etc/mongod.conf | sudo sponge /etc/mongod.conf
