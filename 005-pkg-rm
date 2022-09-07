@@ -3,17 +3,31 @@
 
 source common
 
-init status "Remove silly media players"
-sudo apt purge -y rhythmbox banshee abiword parole gmusicbrowser
+apt-remove --lazy --header --mode purge "Remove silly media players" \
+	banshee \
+	gmusicbrowser \
+	parole \
+	rhythmbox \
 
-init status "Remove usless crash loggers"
-sudo apt purge -y zeitgeist zeitgeist-* whoopsie apport-symptoms
 
-init status "Remove stupid APT indexer for Unity / Ubuntu package manager"
-sudo apt purge -y apt-xapian-index
+apt-remove --lazy --header --mode purge "Remove usless crash loggers" \
+	apport-symptoms \
+	whoopsie \
+	zeitgeist \
+	zeitgeist-* \
 
-init status "Remove Ubuntu telemetry"
-sudo apt purge -y popularity-contest
+
+apt-remove --lazy --header --mode purge "Remove stupid APT indexer for Unity / Ubuntu package manager" \
+	apt-xapian-index \
+
+
+apt-remove --lazy --header --mode purge "Remove Ubuntu telemetry" \
+	popularity-contest \
+
+
+apt-remove --lazy --header --mode purge "Remove heavy non-server packages" \
+	abiword \
+
 
 init status "Cleanup orphaned APT packages"
 sudo apt autoremove -y --purge

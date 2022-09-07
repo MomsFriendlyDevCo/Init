@@ -1,5 +1,77 @@
 #!/bin/bash
 # Remove a series of APT packages
-# Usage: ./utils/apt-remove <packages...>
+#
+# Usage: ./utils/apt-remove [--lazy] [--header text] <packages...>
+#
+# -l, --lazy                Exit politely if all packages are already installed
+#
+# -h, --header <text>       Print the given header only if an action is taken
+#
+# -m, --mode <remove|purge> Change the mode to use when removing
 
-sudo apt remove -y "$@"
+# Argument processing {{{
+MODE="remove"
+IS_LAZY=0
+HEADER=""
+
+PARAMS=""
+while (( "$#" )); do
+	case "$1" in
+		-l|--lazy)
+			IS_LAZY=1
+			shift
+			;;
+		-h|--header)
+			HEADER="$2"
+			shift
+			shift
+			;;
+		-m|--mode)
+			MODE="$2"
+			shift
+			shift
+			;;
+		--) # end argument parsing
+			shift
+			break
+			;;
+		-*|--*=) # unsupported flags
+			if [ "$ACTION" == "auto" ]; then
+				PARAMS="$PARAMS $1"
+				shift
+			else
+				echo "Error: Unsupported flag $1" >&2
+				exit 1
+			fi
+			;;
+		*) # preserve positional arguments
+			PARAMS="$PARAMS $1"
+			shift
+			;;
+	esac
+done
+PARAMS=${PARAMS## } # remove leading spaces
+# }}}
+
+if [ "$IS_LAZY" ]; then
+	# Lazy mode - exit if all are removed anyway {{{
+	NEED_REMOVE=0
+	for PKG in "$@"; do
+		if dpkg -l "$PKG" >/dev/null 2>&1; then
+			NEED_REMOVE=1
+			break
+		fi
+	done
+
+	if [ ! "$NEED_REMOVE" == 1 ]; then
+		exit 0
+	fi
+	# }}}
+fi
+
+# Output header if we got this far (with --lazy) or if the user asked for one
+if [ ! -z "$HEADER" ]; then
+	init status "$HEADER"
+fi
+
+sudo apt "$MODE" -y "$@"

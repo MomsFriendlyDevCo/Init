@@ -1,5 +1,6 @@
 #!/bin/bash
 # Install a series of APT packages, updating the Apt repo if its older than a day
+#
 # Usage: ./utils/apt-install [--lazy] [--header text] <packages...>
 #
 # -l, --lazy          Exit politely if all packages are already installed
