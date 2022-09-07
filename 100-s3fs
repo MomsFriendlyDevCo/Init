@@ -4,12 +4,14 @@
 source common
 
 init status "Remove conflicting S3FS packages"
-# mlocate (the updated deamon) tends to crash S3FS when it tries to cache the FS structure of infinite filesystems like S3
-sudo apt-get remove -y s3fs mlocate
+# mlocate (the UpdateD deamon) tends to crash S3FS when it tries to cache the FS structure of infinite filesystems like S3
+init apt-remove \
+	mlocate \
+	s3fs  \
 
 
-init status "Install S3FS build tools"
-init apt-install \
+init status
+init apt-install --lazy --header "Install S3FS build tools" \
 	automake \
 	autotools-dev \
 	fuse \

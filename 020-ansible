@@ -8,8 +8,5 @@ init status "Install Ansible PPA"
 sudo add-apt-repository -y ppa:ansible/ansible
 
 
-init status "Update APT"
-sudo apt-get update
-
 init status "Install Ansible"
 init apt-install ansible

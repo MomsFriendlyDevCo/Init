@@ -5,8 +5,8 @@
 source common
 
 
-init status "Install PSAD prerequisites"
-init apt-install iptables
+init apt-install --lazy --header "Install PSAD prerequisites" iptables
+
 
 init status "Install PSAD"
 init apt-install psad

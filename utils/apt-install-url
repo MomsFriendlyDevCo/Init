@@ -4,7 +4,7 @@
 
 source common
 
-init apt-install --lazy aria2
+init apt-install --lazy --header "Installing Aria2c downloader" aria2
 
 cd "$HOME/src"
 if [ ! -d "deb" ]; then
@@ -23,7 +23,7 @@ else
 	init status "Downloading ${#@[0]} .DEB URLS"
 fi
 
-aria2 --max-concurrent-downloads=4 "$@"
+aria2c --max-concurrent-downloads=4 "$@"
 
 init status "Installing .DEB files"
 dpkg -i *.deb

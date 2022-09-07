@@ -2,8 +2,7 @@
 # Fix the stupid issue on Ubuntu where locales don't get set right because Australia is on another world or something
 source common
 
-init status "Install locales pre-requisites"
-init apt-install dialog locales
+init apt-install --lazy --header "Install locales prerequisites" dialog locales
 
 init status "Setting Australian locale correctly"
 sudo locale-gen en_US en_US.UTF-8

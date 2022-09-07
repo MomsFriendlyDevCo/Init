@@ -15,10 +15,10 @@ init status "Install NodeSource Apt PPA + Update Apt"
 curl -sL https://deb.nodesource.com/setup_16.x | sudo -E bash -
 
 init status "Install Node from Apt"
-sudo apt install -y nodejs
+init apt-install nodejs
 
 init status "Install common Node system Apt packages"
-sudo apt install -y imagemagick graphicsmagick potrace
+init apt-install imagemagick graphicsmagick potrace
 
 if [ -e "$HOME/.npmrc" ]; then
 	init skip "NPM config already exists"
@@ -33,7 +33,7 @@ else
 fi
 
 init status "Upgrade NPM to latest"
-sudo npm install -g npm@latest
+init npm-install -g npm@latest
 
 init status "Install common global NPMs"
 init npm-install \

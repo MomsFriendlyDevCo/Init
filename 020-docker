@@ -4,8 +4,8 @@
 
 source common
 
-init status "Install main linux image sources"
-init apt-install linux-image-extra-`uname -r`
+init apt-install --lazy --header "Install main linux image sources" linux-image-extra-`uname -r`
+
 
 if [ -e '/etc/apt/sources.list.d/docker.list' ]; then
 	init skip "PPA already installed"

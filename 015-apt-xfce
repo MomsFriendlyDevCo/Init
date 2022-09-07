@@ -5,7 +5,6 @@
 source common
 
 init status "Install common XFCE modules"
-
 init apt-install \
 	ffmpegthumbnailer \
 	tumbler \

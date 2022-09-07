@@ -6,8 +6,7 @@
 
 source common
 
-init status "Install ZSH prerequisites"
-init apt-install python2
+init apt-install --lazy --header "Install ZSH prerequisites" python2
 
 init source-clone zsh https://github.com/zsh-users/zsh.git
 

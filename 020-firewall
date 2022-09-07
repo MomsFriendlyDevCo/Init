@@ -10,7 +10,7 @@ if [ `init service-available firewalld` ]; then
 fi
 
 init status "Install Firewall scripts"
-init apt-install ufw -y
+init apt-install ufw
 
 
 init status "Configure Firewall"

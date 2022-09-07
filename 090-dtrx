@@ -4,8 +4,7 @@
 
 source common
 
-init status "Install DTRX prerequisites"
-init apt-install python2
+init apt-install --lazy --header "Install DTRX prerequisites" python2
 
 init source-clone dtrx https://github.com/brettcs/dtrx.git
 

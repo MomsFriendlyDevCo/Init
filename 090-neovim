@@ -8,15 +8,27 @@
 
 source common
 
-init status "Install Pre-requisites"
-init apt-install python3 python3-pip ninja-build gettext libtool libtool-bin autoconf automake cmake g++ pkg-config unzip
+init apt-install --lazy --header "Install Pre-requisites" \
+	autoconf \
+	automake \
+	cmake \
+	g++ \
+	gettext \
+	libtool \
+	libtool-bin \
+	ninja-build \
+	pkg-config \
+	python3 \
+	python3-pip \
+	unzip \
+
 
 init status "Install Python module"
 init pip-install neovim
 
 init source-clone neovim https://github.com/neovim/neovim.git
 
-init status "Clearing state"
+init status "Clearing build state"
 make distclean
 
 init status "Building Neovim"

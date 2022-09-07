@@ -8,7 +8,7 @@ init status "Install Common Apt repos"
 init apt-install inxi
 
 init status "Install Mindstate NPM"
-sudo npm install -g mindstate
+init npm-install mindstate
 
 init status "Configure Mindstate"
 # NOTE: The mindstate setup process will also install other NPM plugin modules + copy the SSH key to the backup server

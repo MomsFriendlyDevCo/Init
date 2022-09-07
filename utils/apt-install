@@ -1,16 +1,51 @@
 #!/bin/bash
 # Install a series of APT packages, updating the Apt repo if its older than a day
-# Usage: ./utils/apt-install [--lazy] <packages...>
+# Usage: ./utils/apt-install [--lazy] [--header text] <packages...>
 #
-# If `--lazy` is specified packages are only installed (with a heading) if they are missing
+# -l, --lazy          Exit politely if all packages are already installed
+#
+# -h, --header <text> Print the given header only if an action is taken
+#
 
 source common
 
+# Argument processing {{{
 IS_LAZY=0
-if [ "$1" == "--lazy" ]; then
-	IS_LAZY=1
-	shift
-fi
+HEADER=""
+
+PARAMS=""
+while (( "$#" )); do
+	case "$1" in
+		-l|--lazy)
+			IS_LAZY=1
+			shift
+			;;
+		-h|--header)
+			HEADER="$2"
+			shift
+			shift
+			;;
+		--) # end argument parsing
+			shift
+			break
+			;;
+		-*|--*=) # unsupported flags
+			if [ "$ACTION" == "auto" ]; then
+				PARAMS="$PARAMS $1"
+				shift
+			else
+				echo "Error: Unsupported flag $1" >&2
+				exit 1
+			fi
+			;;
+		*) # preserve positional arguments
+			PARAMS="$PARAMS $1"
+			shift
+			;;
+	esac
+done
+PARAMS=${PARAMS## } # remove leading spaces
+# }}}
 
 if [ "$IS_LAZY" ]; then
 	# Lazy mode - exit if all are installed anyway {{{
@@ -23,7 +58,6 @@ if [ "$IS_LAZY" ]; then
 	done
 
 	if [ ! "$NEED_INSTALL" == 1 ]; then
-		echo "EXIT LAZY!"
 		exit 0
 	fi
 	# }}}
@@ -32,6 +66,11 @@ fi
 if [ ! -z `find /var/lib/apt/periodic/update-success-stamp -type f -mtime +1` ]; then
 	init status "Need to update Apt database"
 	sudo apt update
+fi
+
+# Output header if we got this far (with --lazy) or if the user asked for one
+if [ ! -z "$HEADER" ]; then
+	init status "$HEADER"
 fi
 
 sudo apt install --assume-yes "$@"

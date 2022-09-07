@@ -6,7 +6,7 @@ source common
 
 init status "Install Auto-update APT packages"
 init apt-install \
-cron-apt \
-software-properties-common \
-unattended-upgrades \
+	cron-apt \
+	software-properties-common \
+	unattended-upgrades \
 

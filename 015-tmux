@@ -3,8 +3,7 @@
 
 source common
 
-init status "Installing prerequisites"
-init apt-install \
+init apt-install --lazy --header "Installing Tmux prerequisites" \
 	autoconf \
 	automake \
 	byacc \

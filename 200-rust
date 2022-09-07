@@ -8,14 +8,13 @@ init status "Install / Upgrade Rust"
 init bin-download-run 'https://sh.rustup.rs' -y
 
 
-init status "Install Cargo prerequisites"
-init apt-install \
+init apt-install --lazy --header "Install Cargo prerequisites" \
 	cmake \
 	libasound2-dev \
 	libclang1 \
-	libssl-dev \
-	libfreetype6-dev \
 	libexpat1-dev \
+	libfreetype6-dev \
+	libssl-dev \
 	libxcb-composite0-dev \
 	pkg-config \
 

@@ -4,7 +4,10 @@
 
 source common
 
-init apt-install --lazy python3-pip
+init apt-install --lazy --header "Installing Python3 + PIP" \
+	python3 \
+	python3-pip \
+
 
 if [[ ! -O "$HOME/.cache" || ! -O "$HOME/.cache/pip" ]]; then
 	init status "Correcting .cache permissions"

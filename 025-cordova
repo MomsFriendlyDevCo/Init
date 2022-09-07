@@ -10,6 +10,8 @@ sudo apt-get update
 init status "Install Cordova from APT"
 init apt-install \
    cmake \
+   cordova \
+   cordova-cli \
    debhelper \
    libx11-dev \
    libicu-dev \
@@ -24,7 +26,3 @@ init apt-install \
    qtsensors5-dev \
    qtsystems5-dev \
 
-init apt-install cordova-cli
-
-init status "Install Cordova from NPM"
-init apt-install cordova
