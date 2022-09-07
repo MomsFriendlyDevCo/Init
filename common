@@ -11,7 +11,7 @@ INIT_HOME=$(cd $(dirname "${BASH_SOURCE[0]}") && pwd)
 function init {
 	UTIL=$1
 	shift
-	source "./utils/$UTIL" "$@"
+	source "$INIT_HOME/utils/$UTIL" "$@"
 }
 
 # Quit on any error
