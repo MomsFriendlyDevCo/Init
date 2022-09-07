@@ -1,5 +1,5 @@
 #!/bin/bash
-# Install a series of packages, updating the Apt repo if its older than a day
+# Install a series of APT packages, updating the Apt repo if its older than a day
 # Usage: ./utils/apt-install <packages...>
 
 source common

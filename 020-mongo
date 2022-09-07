@@ -5,7 +5,11 @@
 source common
 
 init status "Remove existing Mongo installs"
-sudo apt remove 'mongodb*'
+init apt-remove 'mongodb*'
+
+
+init status "Install Mongo pre-requisites"
+init pip-install yq
 
 
 # Patch LibSSL1.1 not being available on Ubuntu>22.04
