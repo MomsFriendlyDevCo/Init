@@ -59,7 +59,7 @@ if [ "$IS_LAZY" == 1 ]; then
 	done
 
 	if [ ! "$NEED_INSTALL" == 1 ]; then
-		exit 0
+		break
 	fi
 	# }}}
 fi

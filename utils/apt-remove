@@ -64,7 +64,7 @@ if [ "$IS_LAZY" == 1 ]; then
 	done
 
 	if [ ! "$NEED_REMOVE" == 1 ]; then
-		exit 0
+		break
 	fi
 	# }}}
 fi

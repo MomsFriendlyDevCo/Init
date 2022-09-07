@@ -13,17 +13,11 @@ if [ `dpkg -l 'libssl1.1*' >/dev/null; echo "$?"` == 0 ]; then
 	init skip "LibSSL1.1 already installed or known"
 else
 	init status "Installing LibSSL1.1 for Ubuntu>=22.04"
-	cd ~/src
 	init apt-install-url 'http://archive.ubuntu.com/ubuntu/pool/main/o/openssl/libssl1.1_1.1.1f-1ubuntu2_amd64.deb'
 fi
 
 
 init status "Download MongoDB DPKG"
-cd
-if [ ! -d 'src' ]; then
-	mkdir src 2>/dev/null
-fi
-cd "$HOME/src"
 init apt-install-url \
 	'https://repo.mongodb.org/apt/ubuntu/dists/focal/mongodb-org/5.0/multiverse/binary-amd64/mongodb-org-server_5.0.8_amd64.deb' \
 	'https://repo.mongodb.org/apt/ubuntu/dists/focal/mongodb-org/5.0/multiverse/binary-amd64/mongodb-org-shell_5.0.8_amd64.deb' \
