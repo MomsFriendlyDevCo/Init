@@ -1,0 +1,19 @@
+#!/bin/bash
+# Query whether all given packages exist and are installed returning `exit 0` if successful
+# Package names can also be a glob expression
+# Usage: ./utils/apt-has <pkg...>
+
+HAS_ALL=1
+
+for PKG in "$@"; do
+	if dpkg -l "$@" >/dev/null 2>&1; then
+		HAS_ALL=0
+		break
+	fi
+done
+
+if [ "$HAS_ALL" == 1 ]; then
+	exit 0
+else
+	exit 1
+fi

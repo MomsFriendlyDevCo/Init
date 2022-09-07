@@ -4,20 +4,18 @@
 
 source common
 
-init status "Remove existing Mongo installs"
-init apt-remove 'mongodb*'
+init apt-remove --lazy --header "Remove existing Mongo installs" 'mongodb*'
 
 
 # Patch LibSSL1.1 not being available on Ubuntu>22.04
-if [ `dpkg -l 'libssl1.1*' >/dev/null; echo "$?"` == 0 ]; then
-	init skip "LibSSL1.1 already installed or known"
+if init apt-has 'libssl1.1*'; then
+	init skip "LibSSL1.1 already installed"
 else
 	init status "Installing LibSSL1.1 for Ubuntu>=22.04"
 	init apt-install-url 'http://archive.ubuntu.com/ubuntu/pool/main/o/openssl/libssl1.1_1.1.1f-1ubuntu2_amd64.deb'
 fi
 
 
-init status "Download MongoDB DPKG"
 init apt-install-url \
 	'https://repo.mongodb.org/apt/ubuntu/dists/focal/mongodb-org/5.0/multiverse/binary-amd64/mongodb-org-server_5.0.8_amd64.deb' \
 	'https://repo.mongodb.org/apt/ubuntu/dists/focal/mongodb-org/5.0/multiverse/binary-amd64/mongodb-org-shell_5.0.8_amd64.deb' \
