@@ -1,0 +1,7 @@
+#!/bin/bash
+# Install Snap
+
+source common
+
+init status "Install Snap"
+init apt-install snapd

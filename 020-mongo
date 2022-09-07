@@ -50,7 +50,7 @@ if [ -f "/etc/logrotate.d/mongodb" ]; then
 else
 	init status "Setup Logrotate"
 	# Add logRotate option to reopen on rotate
-	sudo snap install yq
+	init snap-install yq
 	yq '.systemLog.logRotate="reopen"' </etc/mongod.conf | sudo sponge /etc/mongod.conf
 
 cat <<'EOF' | sudo tee -a /etc/logrotate.d/mongodb >/dev/null
