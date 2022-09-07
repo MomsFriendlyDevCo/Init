@@ -56,7 +56,7 @@ PARAMS=${PARAMS## } # remove leading spaces
 if [ "$IS_LAZY" == 1 ]; then
 	# Lazy mode - exit if all are removed anyway {{{
 	NEED_REMOVE=0
-	for PKG in "$@"; do
+	for PKG in $@; do
 		if dpkg -l "$PKG" >/dev/null 2>&1; then
 			NEED_REMOVE=1
 			break
