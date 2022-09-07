@@ -1,0 +1,12 @@
+#!/bin/bash
+# Install a series of NPM packages
+# Usage: ./utils/npm-install <packages...>
+
+source common
+
+if [ ! `init bin-available npm` ]; then
+	init status "Need to install Node + NPM"
+	init run 020-node
+fi
+
+sudo npm install -g "$@"

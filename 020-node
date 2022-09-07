@@ -36,26 +36,26 @@ init status "Upgrade NPM to latest"
 sudo npm install -g npm@latest
 
 init status "Install common global NPMs"
-sudo npm install -g \
-@hash-bang/pss \
-depcheck \
-fkill-cli \
-fx \
-gronk \
-gulp \
-hanson \
-jay-repl \
-jaywalker \
-jshint \
-json-prettify \
-mongoosh \
-mocha \
-@momsfriendlydevco/cli-snip \
-@momsfriendlydevco/extract \
-@momsfriendlydevco/o \
-@momsfriendlydevco/repl \
-npm-check-updates \
-pm2 \
+init npm-install \
+	@hash-bang/pss \
+	depcheck \
+	fkill-cli \
+	fx \
+	gronk \
+	gulp \
+	hanson \
+	jay-repl \
+	jaywalker \
+	jshint \
+	json-prettify \
+	mongoosh \
+	mocha \
+	@momsfriendlydevco/cli-snip \
+	@momsfriendlydevco/extract \
+	@momsfriendlydevco/o \
+	@momsfriendlydevco/repl \
+	npm-check-updates \
+	pm2 \
 
 
 if [ -e /usr/bin/json-prettify ]; then
@@ -65,19 +65,26 @@ else
 	sudo ln -s /usr/bin/json-prettify /usr/bin/json
 fi
 
-init status "Reset permissions on ~/.npm and /tmp/npm"
-sudo chmod 0777 -R ~/.npm /tmp/npm
-
 init status "Permit Node to have port 80 access"
 init apt-install libcap2-bin
 sudo setcap cap_net_bind_service=+ep /usr/bin/node
 
 init status "Setup NODE_ENV"
 
-if [ `init file-grep-matches "$HOME/.bashrc" "NODE_ENV"` == 1 ]; then
+if [ `init file-grep-matches "$HOME/.bashrc" "NODE_ENV"` ]; then
 	init skip "NODE_ENV already setup"
 else
 	echo "Installing NODE_ENV into ~/.bashrc, assuming 'production'"
 	echo "export NODE_ENV=production" >>~/.bashrc
 	export NODE_ENV=production
+fi
+
+if [ -d "/tmp/npm" ]; then
+	init status "Reset permissions on /tmp/npm"
+	sudo chmod 0777 -R /tmp/npm
+fi
+
+if [ -d "$HOME/.npm" ]; then
+	init status "Reset permissions on /tmp/npm"
+	sudo chmod 0777 -R "$HOME/.npm"
 fi
