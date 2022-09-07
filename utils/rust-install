@@ -4,7 +4,7 @@
 
 source common
 
-if [ `init bin-available cargo` == 0 ]; then
+if [ ! `init bin-available cargo` ]; then
 	echo "Need to install Rust first"
 	./200-rust
 fi

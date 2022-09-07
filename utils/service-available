@@ -1,0 +1,14 @@
+#!/bin/bash
+# Return a '1' if a service exists, even if it is disabled
+# Usage: ./utils/service-available <name>
+#
+# @example test if the "foo" service is available or known
+# if [ `./utils/service-available foo` ]; then
+#   echo "Is available"
+# fi
+
+if systemctl status "$1" >/dev/null 2>&1; then
+	exit 0
+else
+	exit 1
+fi
