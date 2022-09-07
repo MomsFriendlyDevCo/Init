@@ -2,7 +2,7 @@
 # Install a Rust packages, including init of Rust + Cargo if necessary
 # Usage: ./utils/rust-install <packages...>
 
-source common
+source ../common
 
 if [ ! `init bin-available cargo` ]; then
 	echo "Need to install Rust first"

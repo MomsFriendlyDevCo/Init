@@ -2,6 +2,4 @@
 # Remove a series of APT packages
 # Usage: ./utils/apt-remove <packages...>
 
-source common
-
 sudo apt remove -y "$@"

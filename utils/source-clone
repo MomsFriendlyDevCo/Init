@@ -12,7 +12,7 @@
 # @example Clone the DTRX repo
 # ./utils/source-clone dtrx https://github.com/brettcs/dtrx.git
 
-source common
+source ../common
 
 if [ ! -d "$HOME/src" ]; then
 	mkdir -p "$HOME/src"

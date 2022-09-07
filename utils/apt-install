@@ -2,7 +2,7 @@
 # Install a series of APT packages, updating the Apt repo if its older than a day
 # Usage: ./utils/apt-install <packages...>
 
-source common
+source ../common
 
 if [ ! -z `find /var/lib/apt/periodic/update-success-stamp -type f -mtime +1` ]; then
 	init status "Need to update Apt database"
