@@ -16,7 +16,6 @@ if [ "$IS_LAZY" ]; then
 	# Lazy mode - exit if all are installed anyway {{{
 	NEED_INSTALL=0
 	for PKG in "$@"; do
-		echo "CHK '$PKG'"
 		if ! dpkg -l "$PKG" >/dev/null 2>&1; then
 			NEED_INSTALL=1
 			break
