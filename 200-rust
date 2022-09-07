@@ -11,7 +11,7 @@ chmod +x /tmp/rustup.rs
 rm /tmp/rustup.rs
 
 init status "Install Cargo prerequisites"
-sudo apt install \
+init apt-install \
 	cmake \
 	libasound2-dev \
 	libclang1 \
@@ -43,8 +43,8 @@ init cargo-install \
 
 
 init status "Install Dog"
-cargo-install --git https://github.com/ogham/dog dog
+init cargo-install --git https://github.com/ogham/dog dog
 
 
 init status "Install RipGrep + PCRE2 support"
-cargo-install ripgrep --features pcre2
+init cargo-install ripgrep --features pcre2

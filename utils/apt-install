@@ -9,4 +9,4 @@ if [ ! -z `find /var/lib/apt/periodic/update-success-stamp -type f -mtime +1` ];
 	sudo apt update
 fi
 
-sudo apt install -y "$@"
+sudo apt install --assume-yes "$@"
