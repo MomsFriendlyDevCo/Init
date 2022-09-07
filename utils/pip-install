@@ -14,4 +14,4 @@ if [[ ! -O "$HOME/.cache" || ! -O "$HOME/.cache/pip" ]]; then
 	sudo chown -R "$USER" "$HOME/.cache"
 fi
 
-pip3 install "$@"
+pip3 install --progress-bar=pretty --no-cache-dir "$@"
