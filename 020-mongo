@@ -14,7 +14,7 @@ if [ `dpkg -l 'libssl1.1*' >/dev/null; echo "$?"` == 0 ]; then
 else
 	init status "Installing LibSSL1.1 for Ubuntu>=22.04"
 	cd ~/src
-	apt-install-url 'http://archive.ubuntu.com/ubuntu/pool/main/o/openssl/libssl1.1_1.1.1f-1ubuntu2_amd64.deb'
+	init apt-install-url 'http://archive.ubuntu.com/ubuntu/pool/main/o/openssl/libssl1.1_1.1.1f-1ubuntu2_amd64.deb'
 fi
 
 
@@ -24,7 +24,7 @@ if [ ! -d 'src' ]; then
 	mkdir src 2>/dev/null
 fi
 cd "$HOME/src"
-apt-install-url \
+init apt-install-url \
 	'https://repo.mongodb.org/apt/ubuntu/dists/focal/mongodb-org/5.0/multiverse/binary-amd64/mongodb-org-server_5.0.8_amd64.deb' \
 	'https://repo.mongodb.org/apt/ubuntu/dists/focal/mongodb-org/5.0/multiverse/binary-amd64/mongodb-org-shell_5.0.8_amd64.deb' \
 	'https://downloads.mongodb.com/compass/mongodb-mongosh_1.1.2_amd64.deb' \

@@ -3,29 +3,29 @@
 
 source common
 
-apt-remove --lazy --header --mode purge "Remove silly media players" \
+init apt-remove --lazy --header --mode purge "Remove silly media players" \
 	banshee \
 	gmusicbrowser \
 	parole \
 	rhythmbox \
 
 
-apt-remove --lazy --header --mode purge "Remove usless crash loggers" \
+init apt-remove --lazy --header --mode purge "Remove usless crash loggers" \
 	apport-symptoms \
 	whoopsie \
 	zeitgeist \
 	zeitgeist-* \
 
 
-apt-remove --lazy --header --mode purge "Remove stupid APT indexer for Unity / Ubuntu package manager" \
+init apt-remove --lazy --header --mode purge "Remove stupid APT indexer for Unity / Ubuntu package manager" \
 	apt-xapian-index \
 
 
-apt-remove --lazy --header --mode purge "Remove Ubuntu telemetry" \
+init apt-remove --lazy --header --mode purge "Remove Ubuntu telemetry" \
 	popularity-contest \
 
 
-apt-remove --lazy --header --mode purge "Remove heavy non-server packages" \
+init apt-remove --lazy --header --mode purge "Remove heavy non-server packages" \
 	abiword \
 
 
