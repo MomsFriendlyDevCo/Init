@@ -3,17 +3,18 @@
 
 source common
 
-./000-hostname
-./001-keygen
-./001-locales
-./001-needsrestart
-./001-timezone
-./007-apt-update
-./010-apt-auto
-./010-apt-server
-./020-lamp-stack
-./030-mail
-./040-apache-config
-./040-apache-symlink
-./090-dtrx
-./090-monit
+init run \
+	000-hostname \
+	001-keygen \
+	001-locales \
+	001-needsrestart \
+	001-timezone \
+	007-apt-update \
+	010-apt-auto \
+	010-apt-server \
+	020-lamp-stack \
+	030-mail \
+	040-apache-config \
+	040-apache-symlink \
+	090-dtrx \
+	090-monit \

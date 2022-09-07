@@ -3,21 +3,22 @@
 
 source common
 
-./000-hostname
-./001-keygen
-./001-locales
-./001-needsrestart
-./001-timezone
-./005-pkg-rm
-./007-apt-update
-./010-apt-auto
-./010-apt-server
-./015-secure-portscan
-./015-secure-ssh
-./015-tmux
-./020-node
-./020-firewall
-./030-fix-motd
-./050-zsh
-./090-dtrx
-./090-fzf
+init run \
+	000-hostname \
+	001-keygen \
+	001-locales \
+	001-needsrestart \
+	001-timezone \
+	005-pkg-rm \
+	007-apt-update \
+	010-apt-auto \
+	010-apt-server \
+	015-secure-portscan \
+	015-secure-ssh \
+	015-tmux \
+	020-node \
+	020-firewall \
+	030-fix-motd \
+	050-zsh \
+	090-dtrx \
+	090-fzf \

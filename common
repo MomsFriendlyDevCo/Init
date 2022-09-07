@@ -4,6 +4,9 @@
 # Force all scripts to use non-interactive DPKG prompts on install
 export DEBIAN_FRONTEND=noninteractive
 
+# Store the INIT_HOME path
+INIT_HOME=$(cd $(dirname "${BASH_SOURCE[0]}") && pwd)
+
 # Call a utility function as sourced within the current shell
 function init {
 	UTIL=$1

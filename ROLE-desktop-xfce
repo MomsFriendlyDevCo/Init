@@ -3,28 +3,29 @@
 
 source common
 
-./000-hostname
-./001-keygen
-./001-locales
-./001-needsrestart
-./001-timezone
-./005-pkg-rm
-./007-apt-update
-./010-apt-auto
-./010-apt-desktop
-./010-apt-desktop-themes
-./010-apt-server
-./015-apt-xfce
-./015-chrome
-./020-node
-./030-fix-motd
-./030-xscreensaver
-./040-screen-config
-./050-snap-desktop
-./050-zsh
-./090-dtrx
-./090-fzf
-./090-neovim
-./090-root-bashrc
-./100-ubuntu-desktop
-./200-rust
+init run \
+	000-hostname \
+	001-keygen \
+	001-locales \
+	001-needsrestart \
+	001-timezone \
+	005-pkg-rm \
+	007-apt-update \
+	010-apt-auto \
+	010-apt-desktop \
+	010-apt-desktop-themes \
+	010-apt-server \
+	015-apt-xfce \
+	015-chrome \
+	020-node \
+	030-fix-motd \
+	030-xscreensaver \
+	040-screen-config \
+	050-snap-desktop \
+	050-zsh \
+	090-dtrx \
+	090-fzf \
+	090-neovim \
+	090-root-bashrc \
+	100-ubuntu-desktop \
+	200-rust \
