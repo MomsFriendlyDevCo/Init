@@ -1,0 +1,17 @@
+#!/bin/bash
+# Download a URLs binary and run with with optional parameters
+# Usage: ./utils/bin-download-run <url> [options]
+
+source common
+
+INIT_BIN_PATH="/tmp/bin-download-run"
+
+init apt-install --lazy wget
+
+URL="$1"
+shift
+
+wget "$URL" -O "$INIT_BIN_PATH"
+chmod +x "$INIT_BIN_PATH"
+"$INIT_BIN_PATH" "$@"
+rm "$INIT_BIN_PATH"

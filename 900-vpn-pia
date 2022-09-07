@@ -5,7 +5,6 @@
 source common
 
 init status "Install OpenVPN"
-
 init apt-install \
 	openvpn \
 	network-manager-openvpn \
@@ -13,7 +12,6 @@ init apt-install \
 
 
 init status "Install PIA open VPN setup"
-
 cd /etc/openvpn
 sudo wget https://www.privateinternetaccess.com/openvpn/openvpn.zip
 sudo unzip openvpn.zip

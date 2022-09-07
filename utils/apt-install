@@ -1,8 +1,34 @@
 #!/bin/bash
 # Install a series of APT packages, updating the Apt repo if its older than a day
-# Usage: ./utils/apt-install <packages...>
+# Usage: ./utils/apt-install [--lazy] <packages...>
+#
+# If `--lazy` is specified packages are only installed (with a heading) if they are missing
 
 source common
+
+IS_LAZY=0
+if [ "$1" == "--lazy" ]; then
+	IS_LAZY=1
+	shift
+fi
+
+if [ "$IS_LAZY" ]; then
+	# Lazy mode - exit if all are installed anyway {{{
+	NEED_INSTALL=0
+	for PKG in "$@"; do
+		echo "CHK '$PKG'"
+		if ! dpkg -l "$PKG" >/dev/null 2>&1; then
+			NEED_INSTALL=1
+			break
+		fi
+	done
+
+	if [ ! "$NEED_INSTALL" == 1 ]; then
+		echo "EXIT LAZY!"
+		exit 0
+	fi
+	# }}}
+fi
 
 if [ ! -z `find /var/lib/apt/periodic/update-success-stamp -type f -mtime +1` ]; then
 	init status "Need to update Apt database"

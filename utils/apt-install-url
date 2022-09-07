@@ -1,0 +1,33 @@
+#!/bin/bash
+# Install one or more URL deb packages
+# Usage: ./utils/apt-install-url <urls...>
+
+source common
+
+init apt-install --lazy aria2
+
+cd "$HOME/src"
+if [ ! -d "deb" ]; then
+	mkdir deb
+	cd deb
+else
+	init status "Erasing existing ~/src/deb directory"
+	rm -r deb
+	mkdir deb
+	cd deb
+fi
+
+if [ "${#@[0]}" == 1 ]; then
+	init status "Downloding $1"
+else
+	init status "Downloading ${#@[0]} .DEB URLS"
+fi
+
+aria2 --max-concurrent-downloads=4 "$@"
+
+init status "Installing .DEB files"
+dpkg -i *.deb
+
+init status "Cleaning up .DEB files"
+cd ..
+rm -r deb

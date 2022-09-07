@@ -5,10 +5,8 @@
 source common
 
 init status "Install / Upgrade Rust"
-wget 'https://sh.rustup.rs' -O /tmp/rustup.rs
-chmod +x /tmp/rustup.rs
-/tmp/rustup.rs -y
-rm /tmp/rustup.rs
+init bin-download-run 'https://sh.rustup.rs' -y
+
 
 init status "Install Cargo prerequisites"
 init apt-install \

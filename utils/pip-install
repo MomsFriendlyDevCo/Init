@@ -4,10 +4,7 @@
 
 source common
 
-if [ ! `init bin-available pip3` ]; then
-	init status "Installing Python3 + Pip"
-	init apt-install python3-pip
-fi
+init apt-install --lazy python3-pip
 
 if [[ ! -O "$HOME/.cache" || ! -O "$HOME/.cache/pip" ]]; then
 	init status "Correcting .cache permissions"
