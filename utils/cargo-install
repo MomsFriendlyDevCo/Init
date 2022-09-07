@@ -1,6 +1,6 @@
 #!/bin/bash
 # Install a Rust packages, including init of Rust + Cargo if necessary
-# Usage: ./utils/rust-install <packages...>
+# Usage: ./utils/cargo-install <packages...>
 
 source common
 

@@ -24,7 +24,7 @@ sudo apt install \
 
 init status "Install common Cargo tools"
 source "$HOME/.cargo/env"
-init rust-install \
+init cargo-install \
 	bat \
 	bandwhich \
 	bottom \
@@ -43,8 +43,8 @@ init rust-install \
 
 
 init status "Install Dog"
-rust-install --git https://github.com/ogham/dog dog
+cargo-install --git https://github.com/ogham/dog dog
 
 
 init status "Install RipGrep + PCRE2 support"
-rust-install ripgrep --features pcre2
+cargo-install ripgrep --features pcre2
