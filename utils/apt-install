@@ -74,4 +74,4 @@ if [ ! -z "$HEADER" ]; then
 	init status "$HEADER"
 fi
 
-echo sudo apt install --assume-yes $PARAMS
+sudo apt install --assume-yes $PARAMS
