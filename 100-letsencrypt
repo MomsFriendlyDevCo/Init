@@ -4,8 +4,7 @@
 source common
 
 # Check if letsencrypt is already installed
-cd
-if [ -e "certbot-auto" ]; then
+if [ `init bin-available certbot` ]; then
 	init skip "LetsEncrypt is already installed"
 else
 	init status "Install LetsEncrypt"

@@ -26,7 +26,7 @@ cd
 if [ ! -d 'src' ]; then
 	mkdir src 2>/dev/null
 fi
-cd src
+cd "$HOME/src"
 wget \
 	https://repo.mongodb.org/apt/ubuntu/dists/focal/mongodb-org/5.0/multiverse/binary-amd64/mongodb-org-server_5.0.8_amd64.deb \
 	https://repo.mongodb.org/apt/ubuntu/dists/focal/mongodb-org/5.0/multiverse/binary-amd64/mongodb-org-shell_5.0.8_amd64.deb \
