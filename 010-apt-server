@@ -12,55 +12,54 @@ samba
 
 init status "Install Server APT packages"
 init apt-install \
-autossh \
-bmon \
-build-essential \
-bzip2 \
-curl \
-dos2unix \
-duc \
-expect \
-ftp \
-htop \
-git \
-git-lfs \
-glances \
-html2ps \
-iftop \
-imagemagick \
-iotop \
-iwatch \
-libterm-readkey-perl \
-lftp \
-lsof \
-make \
-mc \
-molly-guard \
-moreutils \
-mountpy \
-mutt \
-ncftp \
-netcat \
-net-tools \
-nmap \
-ntp \
-openssl \
-perl \
-pv \
-pwgen \
-screen \
-slurm \
-sshfs \
-sshpass \
-tar \
-tcpdump \
-tmux \
-telnet \
-tofrodos \
-traceroute \
-vim \
-w3m \
-wget \
-whois \
-yq \
+	autossh \
+	bmon \
+	build-essential \
+	bzip2 \
+	curl \
+	dos2unix \
+	duc \
+	expect \
+	ftp \
+	htop \
+	git \
+	git-lfs \
+	glances \
+	html2ps \
+	iftop \
+	imagemagick \
+	iotop \
+	iwatch \
+	libterm-readkey-perl \
+	lftp \
+	lsof \
+	make \
+	mc \
+	molly-guard \
+	moreutils \
+	mountpy \
+	mutt \
+	ncftp \
+	netcat \
+	net-tools \
+	nmap \
+	ntp \
+	openssl \
+	perl \
+	pv \
+	pwgen \
+	screen \
+	slurm \
+	sshfs \
+	sshpass \
+	tar \
+	tcpdump \
+	tmux \
+	telnet \
+	tofrodos \
+	traceroute \
+	vim \
+	w3m \
+	wget \
+	whois \
 
