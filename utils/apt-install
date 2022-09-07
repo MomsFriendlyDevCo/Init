@@ -13,7 +13,6 @@ source common
 # Argument processing {{{
 IS_LAZY=0
 HEADER=""
-
 PARAMS=""
 while (( "$#" )); do
 	case "$1" in
@@ -57,10 +56,6 @@ if [ "$IS_LAZY" == 1 ]; then
 			break
 		fi
 	done
-
-	if [ ! "$NEED_INSTALL" == 1 ]; then
-		break
-	fi
 	# }}}
 fi
 
@@ -69,9 +64,13 @@ if [ ! -z `find /var/lib/apt/periodic/update-success-stamp -type f -mtime +1` ];
 	sudo apt update
 fi
 
-# Output header if we got this far (with --lazy) or if the user asked for one
-if [ ! -z "$HEADER" ]; then
-	init status "$HEADER"
-fi
+# Actually do something?
+if [[ "$IS_LAZY" == 0 || "$NEED_INSTALL" == 1 ]]; then
 
-sudo apt install --assume-yes $PARAMS
+	# Output header if we got this far (with --lazy) or if the user asked for one
+	if [ ! -z "$HEADER" ]; then
+		init status "$HEADER"
+	fi
+
+	sudo apt install --assume-yes $PARAMS
+fi

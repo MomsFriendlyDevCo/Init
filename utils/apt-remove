@@ -62,16 +62,15 @@ if [ "$IS_LAZY" == 1 ]; then
 			break
 		fi
 	done
+fi
 
-	if [ ! "$NEED_REMOVE" == 1 ]; then
-		break
+# Actually do something?
+if [[ "$IS_LAZY" == 2 || "$NEED_REMOVE" == 1 ]]; then
+
+	# Output header if we got this far (with --lazy) or if the user asked for one
+	if [ ! -z "$HEADER" ]; then
+		init status "$HEADER"
 	fi
-	# }}}
-fi
 
-# Output header if we got this far (with --lazy) or if the user asked for one
-if [ ! -z "$HEADER" ]; then
-	init status "$HEADER"
+	sudo apt "$MODE" -y $PARAMS
 fi
-
-sudo apt "$MODE" -y $PARAMS
