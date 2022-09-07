@@ -48,7 +48,7 @@ done
 PARAMS=${PARAMS## } # remove leading spaces
 # }}}
 
-if [ "$IS_LAZY" ]; then
+if [ "$IS_LAZY" == 1 ]; then
 	# Lazy mode - exit if all are installed anyway {{{
 	NEED_INSTALL=0
 	for PKG in "$@"; do
