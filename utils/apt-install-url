@@ -19,11 +19,11 @@ fi
 
 if [ "${#@}" == 1 ]; then
 	init status "Downloding $1"
+	wget "$@"
 else
 	init status "Downloading ${#@} .DEB URLS"
+	aria2c --max-concurrent-downloads=4 "$@"
 fi
-
-aria2c --max-concurrent-downloads=4 "$@"
 
 init status "Installing .DEB files"
 dpkg -i *.deb
