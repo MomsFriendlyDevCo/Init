@@ -9,7 +9,7 @@ source config
 
 # Call a utility function as sourced within the current shell
 function init {
-	UTIL=$1
+	UTIL="$1"
 	shift
 	source "$INIT_HOME/utils/$UTIL" "$@"
 }

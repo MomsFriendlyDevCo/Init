@@ -16,4 +16,4 @@ chmod +x "$INIT_BIN_PATH"
 "$INIT_BIN_PATH" "$@"
 rm "$INIT_BIN_PATH"
 
-init go-init
+cd "$INIT_HOME"

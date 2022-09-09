@@ -30,7 +30,8 @@ init status "Installing .DEB files"
 dpkg -i *.deb
 
 init status "Cleaning up .DEB files"
-cd ..
+cd "$INIT_SRC"
 rm -r deb
 
-init go-init
+# Go back to base
+cd "$INIT_HOME"
