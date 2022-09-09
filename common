@@ -1,6 +1,9 @@
 #!/bin/bash
 # Common functionality library imported by all other scripts in this directory
 
+# Declare we have included this file at least once (used by the source includes in `./utils/*`
+export INIT=1
+
 # Force all scripts to use non-interactive DPKG prompts on install
 export DEBIAN_FRONTEND=noninteractive
 

@@ -2,9 +2,7 @@
 # Install one or more URL deb packages
 # Usage: ./utils/apt-install-url <urls...>
 
-source common
-
-init apt-install --lazy --header "Installing Aria2c downloader" aria2
+[ -z "$INIT" ] && source common
 
 init go-src
 

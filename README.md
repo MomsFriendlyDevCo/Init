@@ -41,7 +41,7 @@ Each script _must_:
 
 * Include a Bash hashbang (i.e. `#!/bin/bash`) as the first line and be executable
 * Include documentation in the header
-* Import the common library via `source common` somewhere in its header
+* Import the common library via `source common` somewhere in its header (NOTE: any script in `./utils/` needs to use `[ -z "$INIT" ] && source common` as the current directory may not be the same as `$INIT_HOME`
 * Fail gracefully and not stop application flow unless a critical failure has occured
 * Be runnable multiple times - this is to support future upgrades. A script must be capable of being run again at some future date with no side effects
 
