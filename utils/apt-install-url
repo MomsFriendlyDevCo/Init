@@ -16,13 +16,7 @@ else
 	cd deb
 fi
 
-if [ "$#" == 1 ]; then
-	init status "Downloading $1"
-	wget "$@"
-else
-	init status "Downloading $# .DEB URLS"
-	aria2c --max-concurrent-downloads=4 "$@"
-fi
+init file-download-url "$@"
 
 init status "Installing .DEB files"
 dpkg -i *.deb

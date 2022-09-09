@@ -1,0 +1,82 @@
+#!/bin/bash
+# Download one or more URLs into the current directory
+#
+# Usage: ./utils/file-install-url [--header text] [--tool tool="auto"] <urls...>
+#
+# -h, --header <text> Print the given header only if an action is taken
+#
+# -t, --tool <tool>   Use the specified downloader tool to download files
+#
+
+[ -z "$INIT" ] && source common
+
+# Argument processing {{{
+TOOL="auto"
+HEADER=""
+PARAMS=""
+while (( "$#" )); do
+	case "$1" in
+		-t|--tool)
+			TOOL="$2"
+			shift
+			;;
+		-h|--header)
+			HEADER="$2"
+			shift
+			shift
+			;;
+		--) # end argument parsing
+			shift
+			break
+			;;
+		-*|--*=) # unsupported flags
+			if [ "$ACTION" == "auto" ]; then
+				PARAMS="$PARAMS $1"
+				shift
+			else
+				echo "Error: Unsupported flag $1" >&2
+				exit 1
+			fi
+			;;
+		*) # preserve positional arguments
+			PARAMS="$PARAMS $1"
+			shift
+			;;
+	esac
+done
+PARAMS=${PARAMS## } # remove leading spaces
+# }}}
+
+# Calculate what header to use {{{
+if [ -z "$HEADER" ]; then
+	if [ "$#" == 1 ]; then
+		init status "Downloading URL ${PARAMS[0]}"
+	else
+		init status "Downloading $# URLS"
+	fi
+fi
+# }}}
+
+# Calculate what tool to use (if in 'auto' mode) {{{
+if [ "${#PARAMS}" == 1 ]; then
+	TOOL="aria2"
+else
+	TOOL="wget"
+fi
+# }}}
+
+# Download URLs with specified tool {{{
+case "$TOOL"; do
+	aria2)
+		init apt-install --lazy --header "Installing Aria2c downloader" aria2
+		aria2c --force-sequential --max-concurrent-downloads=4 "$PARAMS"
+		;;
+	wget)
+		init apt-install --lazy --header "Installing Wget downloader" wget
+		wget "$PARAMS"
+		;;
+	*)
+		echo "Unknown tool to download URLs with '${TOOL}'"
+		exit 1
+esac
+# }}}
