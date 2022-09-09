@@ -56,13 +56,35 @@ General Syntax
 ==============
 This package comes complete with various helper functions which are all called with the `init` syntax.
 
-| Category            | Command                                | Description                                                               |
-|---------------------|----------------------------------------|---------------------------------------------------------------------------|
-| Status              | `init status <message>`                | Display a status message                                                  |
-|                     | `init skip <message>`                  | Same as `init status` but display that the operation was skipped          |
-| Installs + Packages | `init apt-install <pkgs...>`           | Install Apt packages                                                      |
-|                     | `init pip-install <pkgs...>`           | Install various Python3 + Pip packages                                    |
-|                     | `init cargo-install <pkgs...>`          | Install various Rust / Cargo packages                                     |
-|                     | `init source-clone <alias> <git-url>`  | Clone / update a Git-Url into `~/src/$ALIAS` and change to that directory |
-| System querying     | `init bin-available <bin>`             | Return `1` if a Binary is available and within the PATH                   |
-|                     | `init file-grep-matches <file> <grep>` | Return `1` if the given file path contains the given Grep expression      |
+All commans in this set `exit 0` (i.e. no failures). Any that returns a boolean will either return the string `0` or `1` and should be queried in Bash with equality:
+
+```bash
+if [ `init apt-has foo bar baz` == 1 ]; then
+	echo "Foo, Bar + Baz are all installed"
+else
+	echo "Foo, Bar + Baz are all missing!"
+fi
+```
+
+
+|-------------------|----------------------------------------|---------------------------------------------------------------------------|
+| Category          | Command                                | Description                                                               |
+|-------------------|----------------------------------------|---------------------------------------------------------------------------|
+| Status Output     | `init skip <message>`                  | Same as `init status` but display that the operation was skipped          |
+|                   | `init status <message>`                | Display a status message                                                  |
+| Change directory  | `init go-src`                          | Change to the $INIT_SRC directory, creating it if it doesn't exist        |
+| Packages / Apt    | `init apt-has <pkgs...>`               | Query if all packages are installed                                       |
+|                   | `init apt-install <pkgs...>`           | Install Apt packages                                                      |
+|                   | `init apt-install-url <URLs...>`       | Download .DEB packages from the given URLs and install them               |
+|                   | `init apt-remove <pkgs...>`            | Remove all specified packages                                             |
+| Packages / Cargo  | `init cargo-install <pkgs...>`         | Install various Rust / Cargo packages                                     |
+| Packages / NPM    | `init npm-install <pkgs...>`           | Install various Node / NPM packages                                       |
+| Packages / Pip    | `init pip-install <pkgs...>`           | Install various Python3 + Pip packages                                    |
+| Packages / Pip    | `init snap-install <pkgs...>`          | Install various Snap packages                                             |
+| Packages / Source | `init bin-download-run <url>`          | Download a binary URL and run the results                                 |
+|                   | `init source-clone <alias> <git-url>`  | Clone / update a Git-Url into `~/src/$ALIAS` and change to that directory |
+| System querying   | `init bin-available <bin>`             | Return `1` if a Binary is available and within the PATH                   |
+|                   | `init file-grep-matches <file> <grep>` | Return `1` if the given file path contains the given Grep expression      |
+|                   | `init service-available <service>`     | Return `1` if the given service is available (even if disabled)           |
+| Init core         | `init run <unit>`                      | Run one internal Init setup script                                        |
+|-------------------|----------------------------------------|---------------------------------------------------------------------------|
