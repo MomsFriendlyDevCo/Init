@@ -19,7 +19,7 @@ else
 fi
 
 if [ "${#@}" == 1 ]; then
-	init status "Downloading $1"
+	init status "Downloding $1"
 	wget "$@"
 else
 	init status "Downloading ${#@} .DEB URLS"
@@ -30,7 +30,7 @@ init status "Installing .DEB files"
 dpkg -i *.deb
 
 init status "Cleaning up .DEB files"
-init go-src
+cd ..
 rm -r deb
 
 init go-init

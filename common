@@ -8,10 +8,8 @@ export DEBIAN_FRONTEND=noninteractive
 source config
 
 # Call a utility function as sourced within the current shell
-# NOTE: This function always changes back to this root directory for any action to prevent side-effects
 function init {
-	cd "$INIT_HOME"
-	UTIL="$1"
+	UTIL=$1
 	shift
 	source "$INIT_HOME/utils/$UTIL" "$@"
 }
