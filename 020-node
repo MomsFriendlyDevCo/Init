@@ -71,7 +71,7 @@ sudo setcap cap_net_bind_service=+ep /usr/bin/node
 
 init status "Setup NODE_ENV"
 
-if [ `init file-grep-matches "$HOME/.bashrc" "NODE_ENV"` ]; then
+if [ `init file-grep-matches "$HOME/.bashrc" "NODE_ENV"` == 1 ]; then
 	init skip "NODE_ENV already setup"
 else
 	echo "Installing NODE_ENV into ~/.bashrc, assuming 'production'"

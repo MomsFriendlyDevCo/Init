@@ -4,7 +4,7 @@
 
 source common
 
-if [ ! `init bin-available npm` ]; then
+if [ `init bin-available npm` == 0 ]; then
 	init status "Need to install Node + NPM"
 	init run 020-node
 fi

@@ -2,18 +2,21 @@
 # Query whether all given packages exist and are installed returning `exit 0` if successful
 # Package names can also be a glob expression
 # Usage: ./utils/apt-has <pkg...>
+#
+# @example Query if Foo, Bar and Baz are all installed
+# if [ `init apt-has foo bar baz` == 1 ]; then echo "Present!"; fi
 
 HAS_ALL=1
 
 for PKG in $@; do
-	if dpkg -l "$@" >/dev/null 2>&1; then
+	if ! dpkg -l "$@" >/dev/null 2>&1; then
 		HAS_ALL=0
 		break
 	fi
 done
 
 if [ "$HAS_ALL" == 1 ]; then
-	exit 0
+	echo "0"
 else
-	exit 1
+	echo "1"
 fi

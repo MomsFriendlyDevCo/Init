@@ -54,7 +54,7 @@ PARAMS=${PARAMS## } # remove leading spaces
 # }}}
 
 if [ "$IS_LAZY" == 1 ]; then
-	# Lazy mode - exit if all are removed anyway {{{
+	# Lazy mode {{{
 	NEED_REMOVE=0
 	for PKG in $@; do
 		if dpkg -l "$PKG" >/dev/null 2>&1; then
@@ -62,6 +62,7 @@ if [ "$IS_LAZY" == 1 ]; then
 			break
 		fi
 	done
+	# }}}
 fi
 
 # Actually do something?

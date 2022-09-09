@@ -3,12 +3,12 @@
 # Usage: ./utils/service-available <name>
 #
 # @example test if the "foo" service is available or known
-# if [ `./utils/service-available foo` ]; then
+# if [ `./utils/service-available foo` == 1 ]; then
 #   echo "Is available"
 # fi
 
 if systemctl status "$1" >/dev/null 2>&1; then
-	exit 0
+	echo '1'
 else
-	exit 1
+	echo '0'
 fi

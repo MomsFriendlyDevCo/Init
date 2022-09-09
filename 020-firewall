@@ -4,7 +4,7 @@
 
 source common
 
-if [ `init service-available firewalld` ]; then
+if [ `init service-available firewalld` == 1 ]; then
 	init status "Disable FirewallD (conflicts with UFW)"
 	sudo systemctl disable firewalld
 fi

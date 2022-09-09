@@ -3,14 +3,14 @@
 # Usage: ./utils/bin-available <bin>
 #
 # @example test if the "foobar" binary is available within a Bash If
-# if [ `./utils/bin-available dtrx` ]; then
+# if [ `./utils/bin-available dtrx` == 1 ]; then
 #   echo "Is available"
 # fi
 
 
 if which "$1" >/dev/null 2>/dev/null; then
-	exit 0
+	echo '1'
 else
-	exit 1
+	echo '0'
 fi
 

@@ -2,14 +2,14 @@
 # Return a '1' if a given file path exists and matches a grep expression, otherwise '0'
 # Usage: ./utils/file-grep-matches <file> <grep>
 #
-# @example test if the "foo" exits within /tmp/file.txt
+# @example test if the "foo" exists within /tmp/file.txt
 # if [ `./utils/file-grep-matches /tmp/file.txt "foo"` == 1 ]; then
 #   echo "Is a match"
 # fi
 
 
 if grep -q "$2" "$1"; then
-	exit 1
+	echo "1"
 else
-	exit 0
+	echo "0"
 fi

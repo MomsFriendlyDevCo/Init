@@ -4,7 +4,7 @@
 
 source common
 
-if [ ! `init bin-available snap` ]; then
+if [ `init bin-available snap` == 0 ]; then
 	init status "Need to install Snap first"
 	init run 015-snap
 fi
