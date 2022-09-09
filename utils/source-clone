@@ -4,7 +4,7 @@
 # This script will:
 #    - Create ~/src if its missing
 #    - Clone or update the repo (minimal depth)
-#    - CD into the directory
+#    - CD into the directory (`init go-init` is not called)
 #    - Clone or update submodules (if any; minimal depth)
 #
 # Usage: ./utils/source-clone <alias> <git-url>

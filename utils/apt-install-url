@@ -7,6 +7,7 @@ source common
 init apt-install --lazy --header "Installing Aria2c downloader" aria2
 
 init go-src
+
 if [ ! -d "deb" ]; then
 	mkdir deb
 	cd deb
@@ -31,3 +32,5 @@ dpkg -i *.deb
 init status "Cleaning up .DEB files"
 cd "$INIT_SRC"
 rm -r deb
+
+init go-init

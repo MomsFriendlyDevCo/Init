@@ -1,0 +1,3 @@
+#!/bin/bash
+# Change directory back to the base Init directory
+# This gets run after each `init run` or other commands that change directory temporarily
