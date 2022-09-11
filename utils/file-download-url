@@ -66,7 +66,7 @@ fi
 # }}}
 
 # Download URLs with specified tool {{{
-case "$TOOL"; do
+case "$TOOL" in
 	aria2)
 		init apt-install --lazy --header "Installing Aria2c downloader" aria2
 		aria2c --force-sequential --max-concurrent-downloads=4 "$PARAMS"
@@ -78,5 +78,6 @@ case "$TOOL"; do
 	*)
 		echo "Unknown tool to download URLs with '${TOOL}'"
 		exit 1
+		;;
 esac
 # }}}
