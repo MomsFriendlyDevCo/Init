@@ -19,6 +19,7 @@ while (( "$#" )); do
 		-t|--tool)
 			TOOL="$2"
 			shift
+			shift
 			;;
 		-h|--header)
 			HEADER="$2"
