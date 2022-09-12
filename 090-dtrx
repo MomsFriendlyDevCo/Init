@@ -4,9 +4,4 @@
 
 source common
 
-init apt-install --lazy --header "Install DTRX prerequisites" python2
-
-init source-clone dtrx https://github.com/brettcs/dtrx.git
-
-init status "Build + install DTRX"
-sudo python2 setup.py install
+init pip-install dtrx

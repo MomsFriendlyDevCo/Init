@@ -1,5 +1,5 @@
 #!/bin/bash
-# Query whether all given packages exist and are installed returning `exit 0` if successful
+# Query whether all given packages exist and are installed returning `1` if successful
 # Package names can also be a glob expression
 # Usage: ./utils/apt-has <pkg...>
 #
@@ -16,7 +16,7 @@ for PKG in $@; do
 done
 
 if [ "$HAS_ALL" == 1 ]; then
-	echo "0"
-else
 	echo "1"
+else
+	echo "0"
 fi

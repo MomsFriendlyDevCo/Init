@@ -50,12 +50,9 @@ PARAMS=${PARAMS## } # remove leading spaces
 if [ "$IS_LAZY" == 1 ]; then
 	# Lazy mode {{{
 	NEED_INSTALL=0
-	for PKG in $@; do
-		if ! dpkg -l "$PKG" >/dev/null 2>&1; then
+	if [ `init apt-has "$@"` != 1 ]; then
 			NEED_INSTALL=1
-			break
-		fi
-	done
+	fi
 	# }}}
 fi
 
