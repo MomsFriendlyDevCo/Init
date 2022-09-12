@@ -11,9 +11,9 @@
 [ -z "$INIT" ] && source common
 
 # Argument processing {{{
-IS_LAZY=0
-HEADER=""
-PARAMS=""
+local IS_LAZY=0
+local HEADER=""
+local PARAMS=""
 while (( "$#" )); do
 	case "$1" in
 		-l|--lazy)
