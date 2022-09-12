@@ -9,6 +9,8 @@
 #
 # -m, --mode <remove|purge> Change the mode to use when removing
 
+[ -z "$INIT" ] && source common
+
 # Argument processing {{{
 MODE="remove"
 IS_LAZY=0

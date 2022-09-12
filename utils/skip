@@ -2,6 +2,8 @@
 # Simple status reporter to display a status step being skipped
 # Usage: ./utils/skip <message>
 
+[ -z "$INIT" ] && source common
+
 echo
 echo -ne "\e[30m\e[1m ✘ "
 echo -n "$@"

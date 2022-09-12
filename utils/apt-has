@@ -6,6 +6,8 @@
 # @example Query if Foo, Bar and Baz are all installed
 # if [ `init apt-has foo bar baz` == 1 ]; then echo "Present!"; fi
 
+[ -z "$INIT" ] && source common
+
 HAS_ALL=1
 
 for PKG in $@; do
