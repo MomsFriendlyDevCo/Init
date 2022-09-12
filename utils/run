@@ -6,5 +6,5 @@
 
 for TASK in "$@"; do
 	cd "$INIT_HOME"
-	source "./$TASK"
+	"$INIT_HOME/$TASK"
 done

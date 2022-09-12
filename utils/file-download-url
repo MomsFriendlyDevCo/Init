@@ -11,9 +11,9 @@
 [ -z "$INIT" ] && source common
 
 # Argument processing {{{
-local TOOL="auto"
-local HEADER=""
-local PARAMS=()
+TOOL="auto"
+HEADER=""
+PARAMS=()
 while (( "$#" )); do
 	case "$1" in
 		-t|--tool)

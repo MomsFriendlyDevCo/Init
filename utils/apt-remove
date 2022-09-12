@@ -10,10 +10,10 @@
 # -m, --mode <remove|purge> Change the mode to use when removing
 
 # Argument processing {{{
-local MODE="remove"
-local IS_LAZY=0
-local HEADER=""
-local PARAMS=""
+MODE="remove"
+IS_LAZY=0
+HEADER=""
+PARAMS=""
 while (( "$#" )); do
 	case "$1" in
 		-l|--lazy)
@@ -55,12 +55,9 @@ PARAMS=${PARAMS## } # remove leading spaces
 if [ "$IS_LAZY" == 1 ]; then
 	# Lazy mode {{{
 	NEED_REMOVE=0
-	for PKG in $@; do
-		if dpkg -l "$PKG" >/dev/null 2>&1; then
-			NEED_REMOVE=1
-			break
-		fi
-	done
+	if [ `init apt-has "$@"` == 1 ]; then
+		NEED_REMOVE=1
+	fi
 	# }}}
 fi
 

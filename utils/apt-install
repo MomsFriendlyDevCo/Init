@@ -11,9 +11,9 @@
 [ -z "$INIT" ] && source common
 
 # Argument processing {{{
-local IS_LAZY=0
-local HEADER=""
-local PARAMS=""
+IS_LAZY=0
+HEADER=""
+PARAMS=""
 while (( "$#" )); do
 	case "$1" in
 		-l|--lazy)
@@ -51,7 +51,7 @@ if [ "$IS_LAZY" == 1 ]; then
 	# Lazy mode {{{
 	NEED_INSTALL=0
 	if [ `init apt-has "$@"` != 1 ]; then
-			NEED_INSTALL=1
+		NEED_INSTALL=1
 	fi
 	# }}}
 fi

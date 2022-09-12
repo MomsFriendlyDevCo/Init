@@ -14,7 +14,7 @@ source config
 function init {
 	UTIL="$1"
 	shift
-	source "$INIT_HOME/utils/$UTIL" "$@"
+	"$INIT_HOME/utils/$UTIL" "$@"
 }
 
 # Quit on any error

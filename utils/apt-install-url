@@ -6,15 +6,14 @@
 
 init go-src
 
-if [ ! -d "deb" ]; then
-	mkdir deb
-	cd deb
+if [ ! -d "$INIT_SRC/deb" ]; then
+	mkdir "$INIT_SRC/deb"
 else
 	init status "Erasing existing Source directory"
-	rm -r deb
-	mkdir deb
-	cd deb
+	rm -r "$INIT_SRC/deb"
+	mkdir "$INIT_SRC/deb"
 fi
+cd "$INIT_SRC/deb"
 
 init file-download-url "$@"
 
