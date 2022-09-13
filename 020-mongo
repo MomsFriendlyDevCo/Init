@@ -37,7 +37,7 @@ else
 	init snap-install yq
 	yq '.systemLog.logRotate="reopen"' </etc/mongod.conf | sudo sponge /etc/mongod.conf
 
-cat <<'EOF' | sudo tee -a /etc/logrotate.d/mongodb >/dev/null
+init file-set /etc/logrotate.d/mongodb <<EOF
 /var/log/mongodb/mongod.log {
   daily
   size 128M
@@ -62,10 +62,13 @@ echo never | sudo tee /sys/kernel/mm/transparent_hugepage/defrag >/dev/null
 
 
 init status "Disable Kernel hugepages (install into rc.local)"
-echo "#!/bin/sh -e" | sudo tee /etc/rc.local
-echo "echo never > /sys/kernel/mm/transparent_hugepage/enabled" | sudo tee -a /etc/rc.local
-echo "echo never > /sys/kernel/mm/transparent_hugepage/defrag" | sudo tee -a /etc/rc.local
-echo "exit 0" | sudo tee -a /etc/rc.local
+intit file-set /etc/rc.local <<EOF
+#!/bin/sh -e
+echo never > /sys/kernel/mm/transparent_hugepage/enabled
+echo never > /sys/kernel/mm/transparent_hugepage/defrag
+exit 0
+EOF
+
 sudo chmod +x /etc/rc.local
 
 

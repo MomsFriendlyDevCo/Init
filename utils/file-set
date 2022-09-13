@@ -1,0 +1,12 @@
+#!/bin/bash
+# Set the contents of a file (clobbering it if specified) as the root user
+#
+# Usage: ./utils/file-set <path> <<EOF CONTENTS\n EOF
+#
+# @example set a file as root
+# init file-set /etc/somefile.txt <<EOF
+# This is line 1
+# This is line 2
+# EOF
+
+cat <&0 | sudo tee -a "$1" >/dev/null
