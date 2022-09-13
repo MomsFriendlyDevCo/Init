@@ -86,7 +86,7 @@ fi
 |                   | `init file-download-url <urls..>`      | Yes    | Download one or more URLs into the current directory                                               |
 |                   | `init source-clone <alias> <git-url>`  |        | Clone / update a Git-Url into `~/src/$ALIAS` and change to that directory                          |
 | Files             | `init file-grep-matches <file> <grep>` |        | Return `1` if the given file path contains the given Grep expression                               |
-|                   | `init file-set <file> <<HEREDOC`       |        | Output contents of HEREDOC into a file                                                             |
+|                   | `init file-set <file> <<HEREDOC`       | Yes    | Output contents of HEREDOC into a file                                                             |
 | System querying   | `init bin-available <bin>`             |        | Return `1` if a Binary is available and within the PATH                                            |
 |                   | `init service-available <service>`     |        | Return `1` if the given service is available (even if disabled)                                    |
 | Init core         | `init run <unit>`                      |        | Run one internal Init setup script                                                                 |

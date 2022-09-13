@@ -15,7 +15,7 @@ else
 	sudo perl -pi -e 's/set daemon 120/set daemon 30/' /etc/monit/monitrc
 
 	# Enable HTTP UI (needed for CLI command to work) {{{
-cat <<EOF | sudo tee -a /etc/monit/monitrc >/dev/null
+init file-set /etc/monit/monitrc <<EOF
 # Send alerts to daemons@mfdc.io
 set alert daemons@mfdc.io
 set mailserver localhost
@@ -29,7 +29,7 @@ EOF
 
 	init status "Setup MongoDB Monit profile"
 	# Add MongoDB profile {{{
-cat <<EOF | sudo tee /etc/monit/conf-available/mongodb >/dev/null
+init file-set /etc/monit/conf-available/mongodb <<EOF
 check process mongodb with pidfile /var/lib/mongodb.wt/mongod.lock
 
 group database

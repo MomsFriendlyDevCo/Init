@@ -3,10 +3,44 @@
 #
 # Usage: ./utils/file-set <path> <<EOF CONTENTS\n EOF
 #
+# -a, --append          Append to existing file if found
+#
 # @example set a file as root
 # init file-set /etc/somefile.txt <<EOF
 # This is line 1
 # This is line 2
 # EOF
 
-cat <&0 | sudo tee -a "$1" >/dev/null
+
+# Argument processing {{{
+TEECMD="tee"
+PARAMS=()
+while (( "$#" )); do
+	case "$1" in
+		-a|--append)
+			TEECMD="tee -a"
+			shift
+			;;
+		-h|--header)
+			HEADER="$2"
+			shift
+			shift
+			;;
+		--) # end argument parsing
+			shift
+			break
+			;;
+		-*|--*=) # unsupported flags
+			echo "Error: Unsupported flag $1" >&2
+			exit 1
+			;;
+		*) # preserve positional arguments
+			PARAMS+=("$1")
+			shift
+			;;
+	esac
+done
+PARAMS=${PARAMS## } # remove leading spaces
+# }}}
+
+cat <&0 | sudo $TEECMD "${PARAMS[0]}" >/dev/null

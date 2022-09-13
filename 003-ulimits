@@ -5,7 +5,7 @@ source common
 
 init status "Adjust system limits..."
 
-cat <<'EOF' | sudo tee -a /etc/security/limits.conf >/dev/null
+init file-set --append /etc/security/limits.conf <<EOF
 root            soft    nproc           62188
 root            hard    nproc           62188
 root            hard    memlock         64
