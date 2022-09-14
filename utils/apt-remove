@@ -51,14 +51,14 @@ done
 if [ "$IS_LAZY" == 1 ]; then
 	# Lazy mode {{{
 	NEED_REMOVE=0
-	if [ `INIT apt-has "$@"` == 1 ]; then
+	if [ `INIT apt-has "${PARAMS[@]}"` == 1 ]; then
 		NEED_REMOVE=1
 	fi
 	# }}}
 fi
 
 # Actually do something?
-if [[ "$IS_LAZY" == 2 || "$NEED_REMOVE" == 1 ]]; then
+if [[ "$IS_LAZY" == 0 || "$NEED_REMOVE" == 1 ]]; then
 
 	# Output header if we got this far (with --lazy) or if the user asked for one
 	if [ ! -z "$HEADER" ]; then
