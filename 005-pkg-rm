@@ -3,31 +3,31 @@
 
 source common
 
-INIT apt-remove --lazy --header --mode purge "Remove Postfix" postfix
+INIT apt-remove --lazy --mode purge --header "Remove Postfix" postfix
 
-INIT apt-remove --lazy --header --mode purge "Remove silly media players" \
+INIT apt-remove --lazy --mode purge --header "Remove silly media players" \
 	banshee \
 	gmusicbrowser \
 	parole \
 	rhythmbox \
 
 
-INIT apt-remove --lazy --header --mode purge "Remove usless crash loggers" \
+INIT apt-remove --lazy --mode purge --header "Remove usless crash loggers" \
 	apport-symptoms \
 	whoopsie \
 	zeitgeist \
 	zeitgeist-* \
 
 
-INIT apt-remove --lazy --header --mode purge "Remove stupid APT indexer for Unity / Ubuntu package manager" \
+INIT apt-remove --lazy --mode purge --header "Remove stupid APT indexer for Unity / Ubuntu package manager" \
 	apt-xapian-index \
 
 
-INIT apt-remove --lazy --header --mode purge "Remove Ubuntu telemetry" \
+INIT apt-remove --lazy --mode purge --header "Remove Ubuntu telemetry" \
 	popularity-contest \
 
 
-INIT apt-remove --lazy --header --mode purge "Remove heavy non-server packages" \
+INIT apt-remove --lazy --mode purge --header "Remove heavy non-server packages" \
 	abiword \
 
 

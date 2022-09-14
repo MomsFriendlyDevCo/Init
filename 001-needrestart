@@ -3,4 +3,4 @@
 
 source common
 
-INIT apt-remove --lazy --header --mode purge "Remove loud reboot notifier" needrestart
+INIT apt-remove --lazy --header "Remove loud reboot notifier" --mode purge needrestart
