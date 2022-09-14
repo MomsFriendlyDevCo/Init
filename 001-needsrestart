@@ -3,8 +3,4 @@
 
 source common
 
-if [ -e '/etc/needrestart/needrestart.conf' ]; then
-	INIT status "Fixing NeedsRestart config"
-	# Taken from https://askubuntu.com/a/1421221/53688
-	sudo sed -i 's/#$nrconf{restart} = '"'"'i'"'"';/$nrconf{restart} = '"'"'a'"'"';/g' /etc/needrestart/needrestart.conf
-fi
+INIT apt-remove --lazy --header --mode purge "Remove loud reboot notifier" needsrestart
