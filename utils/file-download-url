@@ -8,7 +8,7 @@
 # -t, --tool <tool>   Use the specified downloader tool to download files
 #
 
-[ -z "$INIT" ] && source common
+[ -z "$INIT_READY" ] && source common
 
 # Argument processing {{{
 TOOL="auto"

@@ -1,6 +1,9 @@
 #!/bin/bash
 # Common functionality library imported by all other scripts in this directory
 
+# Set a flag to indicate that this script has already loaded
+export INIT_READY=1
+
 # Force all scripts to use non-interactive DPKG prompts on install
 export DEBIAN_FRONTEND=noninteractive
 

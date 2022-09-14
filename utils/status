@@ -2,7 +2,7 @@
 # Simple status reporter to display a status step
 # Usage: ./utils/status <message>
 
-[ -z "$INIT" ] && source common
+[ -z "$INIT_READY" ] && source common
 
 echo
 echo -ne "\e[34m\e[1m ● "

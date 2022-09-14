@@ -7,7 +7,7 @@
 #   echo "Is a match"
 # fi
 
-[ -z "$INIT" ] && source common
+[ -z "$INIT_READY" ] && source common
 
 if grep -q "$2" "$1"; then
 	echo "1"

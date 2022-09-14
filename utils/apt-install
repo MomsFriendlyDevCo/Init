@@ -8,7 +8,7 @@
 # -h, --header <text> Print the given header only if an action is taken
 #
 
-[ -z "$INIT" ] && source common
+[ -z "$INIT_READY" ] && source common
 
 # Argument processing {{{
 IS_LAZY=0

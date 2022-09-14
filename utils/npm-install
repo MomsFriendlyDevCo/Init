@@ -2,7 +2,7 @@
 # Install a series of NPM packages
 # Usage: ./utils/npm-install <packages...>
 
-[ -z "$INIT" ] && source common
+[ -z "$INIT_READY" ] && source common
 
 if [ `INIT bin-available npm` == 0 ]; then
 	INIT status "Need to install Node + NPM"

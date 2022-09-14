@@ -7,7 +7,7 @@
 #   echo "Is available"
 # fi
 
-[ -z "$INIT" ] && source common
+[ -z "$INIT_READY" ] && source common
 
 if systemctl status "$1" >/dev/null 2>&1; then
 	echo '1'

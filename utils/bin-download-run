@@ -2,7 +2,7 @@
 # Download a URLs binary and run with with optional parameters
 # Usage: ./utils/bin-download-run <url> [options]
 
-[ -z "$INIT" ] && source common
+[ -z "$INIT_READY" ] && source common
 
 INIT_BIN_PATH="/tmp/bin-download-run"
 

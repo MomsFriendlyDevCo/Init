@@ -2,7 +2,7 @@
 # Install a series of Snap packages, installing Snap if its required
 # Usage: ./utils/snap-install <packages...>
 
-[ -z "$INIT" ] && source common
+[ -z "$INIT_READY" ] && source common
 
 if [ `INIT bin-available snap` == 0 ]; then
 	INIT status "Need to install Snap first"

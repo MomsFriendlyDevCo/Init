@@ -2,7 +2,7 @@
 # Install a Rust packages, including INIT of Rust + Cargo if necessary
 # Usage: ./utils/cargo-install <packages...>
 
-[ -z "$INIT" ] && source common
+[ -z "$INIT_READY" ] && source common
 
 if [ `INIT bin-available cargo` == 0 ]; then
 	echo "Need to install Rust first"

@@ -2,6 +2,6 @@
 # Change directory back to the base Init directory
 # This gets run after each `INIT run` or other commands that change directory temporarily
 
-[ -z "$INIT" ] && source common
+[ -z "$INIT_READY" ] && source common
 
 cd "$INIT_HOME"

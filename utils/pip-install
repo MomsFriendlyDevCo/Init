@@ -2,7 +2,7 @@
 # Install a series of packages via PIP (w/Python3)
 # Usage: ./utils/pip-install <packages...>
 
-[ -z "$INIT" ] && source common
+[ -z "$INIT_READY" ] && source common
 
 INIT apt-install --lazy --header "Installing Python3 + PIP" \
 	python3 \
