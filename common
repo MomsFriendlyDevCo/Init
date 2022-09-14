@@ -4,14 +4,12 @@
 # Set a flag to indicate that this script has already loaded
 export INIT_READY=1
 
-# Store the INIT base directory
-export INIT_HOME=$(cd $(dirname "${BASH_SOURCE[0]}") && pwd)
-
 # Force all scripts to use non-interactive DPKG prompts on install
 export DEBIAN_FRONTEND=noninteractive
 
 # Import the config
 source config
+export INIT_HOME INIT_SRC
 
 # Call a utility function as sourced within the current shell
 function INIT {
