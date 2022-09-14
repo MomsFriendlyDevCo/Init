@@ -3,9 +3,9 @@
 
 source common
 
-init status "Adjust system limits..."
+INIT status "Adjust system limits..."
 
-init file-set --append /etc/security/limits.conf <<EOF
+INIT file-set --append /etc/security/limits.conf <<EOF
 root            soft    nproc           62188
 root            hard    nproc           62188
 root            hard    memlock         64

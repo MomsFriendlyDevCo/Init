@@ -3,12 +3,12 @@
 
 source common
 
-init status "Install Cordova PPA"
+INIT status "Install Cordova PPA"
 sudo apt-add-repository ppa:cordova-ubuntu/ppa
 sudo apt-get update
 
-init status "Install Cordova from APT"
-init apt-install \
+INIT status "Install Cordova from APT"
+INIT apt-install \
    cmake \
    cordova \
    cordova-cli \

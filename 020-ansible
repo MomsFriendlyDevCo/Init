@@ -4,9 +4,9 @@
 
 source common
 
-init status "Install Ansible PPA"
+INIT status "Install Ansible PPA"
 sudo add-apt-repository -y ppa:ansible/ansible
 
 
-init status "Install Ansible"
-init apt-install ansible
+INIT status "Install Ansible"
+INIT apt-install ansible

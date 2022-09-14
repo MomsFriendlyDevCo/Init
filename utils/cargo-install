@@ -1,12 +1,12 @@
 #!/bin/bash
-# Install a Rust packages, including init of Rust + Cargo if necessary
+# Install a Rust packages, including INIT of Rust + Cargo if necessary
 # Usage: ./utils/cargo-install <packages...>
 
 [ -z "$INIT" ] && source common
 
-if [ `init bin-available cargo` == 0 ]; then
+if [ `INIT bin-available cargo` == 0 ]; then
 	echo "Need to install Rust first"
-	init run 200-rust
+	INIT run 200-rust
 fi
 
 cargo install "$@"

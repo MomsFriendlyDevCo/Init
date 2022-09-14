@@ -44,9 +44,9 @@ done
 # Calculate what header to use {{{
 if [ -z "$HEADER" ]; then
 	if [ "${#PARAMS[@]}" == 1 ]; then
-		init status "Downloading URL ${PARAMS[0]}"
+		INIT status "Downloading URL ${PARAMS[0]}"
 	else
-		init status "Downloading ${#PARAMS[@]} URLS"
+		INIT status "Downloading ${#PARAMS[@]} URLS"
 	fi
 fi
 # }}}
@@ -62,11 +62,11 @@ fi
 # Download URLs with specified tool {{{
 case "${TOOL}" in
 	aria2)
-		init apt-install --lazy --header "Installing Aria2c downloader" aria2
+		INIT apt-install --lazy --header "Installing Aria2c downloader" aria2
 		aria2c --force-sequential --max-concurrent-downloads=4 "${PARAMS[@]}"
 		;;
 	wget)
-		init apt-install --lazy --header "Installing Wget downloader" wget
+		INIT apt-install --lazy --header "Installing Wget downloader" wget
 		wget "${PARAMS[@]}"
 		;;
 	*)

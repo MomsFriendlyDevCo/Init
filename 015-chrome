@@ -3,18 +3,18 @@
 
 source common
 
-init status "Install Google Chrome PPA"
+INIT status "Install Google Chrome PPA"
 if [ -e '/etc/apt/sources.list.d/google.list' ]; then
-	init skip "PPA already exists"
+	INIT skip "PPA already exists"
 else
-	init apt-install --lazy wget
+	INIT apt-install --lazy wget
 
 	wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | sudo apt-key add -
 	echo "deb http://dl.google.com/linux/chrome/deb/ stable main" | sudo tee -a /etc/apt/sources.list.d/google.list >/dev/null
 
-	init status "Update APT"
+	INIT status "Update APT"
 	sudo apt-get update
 fi
 
-init status "Install Google Chrome"
-init apt-install google-chrome-stable
+INIT status "Install Google Chrome"
+INIT apt-install google-chrome-stable

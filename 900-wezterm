@@ -4,12 +4,12 @@
 
 source common
 
-init source-clone "wezterm" https://github.com/wez/wezterm.git
+INIT source-clone "wezterm" https://github.com/wez/wezterm.git
 
-init status "Installing dependencies"
+INIT status "Installing dependencies"
 ./get-deps
 
 
-init status "Building Wezterm"
+INIT status "Building Wezterm"
 cargo clean
 cargo build --release

@@ -5,8 +5,8 @@ source common
 
 sudo grep -q '/inc/scripts/hosts' /root/.bashrc
 if [ "$?" == 0 ]; then
-	init skip "Root .bashrc file already configured"
+	INIT skip "Root .bashrc file already configured"
 else
-	init status "Install PATH into root users .bashrc"
+	INIT status "Install PATH into root users .bashrc"
 	echo "PATH=$PATH:/inc/scripts/hosts/`hostname`:/inc/scripts/users/`whoami`:/inc/scripts" | sudo tee -a /root/.bashrc >/dev/null
 fi

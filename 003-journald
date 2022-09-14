@@ -3,10 +3,10 @@
 
 source common
 
-init status "Minimizing existing JournalD storage size"
+INIT status "Minimizing existing JournalD storage size"
 sudo journalctl --vacuum-size=250M
 
 
-init status "Saving JournalD config"
+INIT status "Saving JournalD config"
 sudo perl -pi -e 's/#SystemMaxUse=.*$/SystemMaxUse=250M/' /etc/systemd/journald.conf
 sudo systemctl restart systemd-journald

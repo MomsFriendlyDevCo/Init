@@ -4,16 +4,16 @@
 
 source common
 
-if [ `init service-available firewalld` == 1 ]; then
-	init status "Disable FirewallD (conflicts with UFW)"
+if [ `INIT service-available firewalld` == 1 ]; then
+	INIT status "Disable FirewallD (conflicts with UFW)"
 	sudo systemctl disable firewalld
 fi
 
-init status "Install Firewall scripts"
-init apt-install ufw
+INIT status "Install Firewall scripts"
+INIT apt-install ufw
 
 
-init status "Configure Firewall"
+INIT status "Configure Firewall"
 sudo ufw default deny incoming
 sudo ufw default allow outgoing
 sudo ufw allow ssh
@@ -21,6 +21,6 @@ sudo ufw allow http
 sudo ufw allow https
 
 
-init status "Enable Firewall"
+INIT status "Enable Firewall"
 sudo perl -pi -e 's/ENABLED=no/ENABLED=yes/g' /etc/ufw/ufw.conf
 sudo ufw --force enable

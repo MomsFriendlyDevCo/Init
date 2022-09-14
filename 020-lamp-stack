@@ -4,8 +4,8 @@
 
 source common
 
-init status "Install LAMP stack"
-init apt-install \
+INIT status "Install LAMP stack"
+INIT apt-install \
 	apache2 \
 	libapache2-mod-php5 \
 	mysql-server \
@@ -19,5 +19,5 @@ init apt-install \
 	php-pear \
 
 
-init status "Install LAMP stack meta-package"
-init apt-install lamp-server^
+INIT status "Install LAMP stack meta-package"
+INIT apt-install lamp-server^

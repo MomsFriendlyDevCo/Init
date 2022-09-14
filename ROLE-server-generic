@@ -3,7 +3,7 @@
 
 source common
 
-init run \
+INIT run \
 	000-hostname \
 	001-keygen \
 	001-locales \

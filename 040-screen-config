@@ -3,6 +3,6 @@
 
 source common
 
-init status "Patch Screen config"
+INIT status "Patch Screen config"
 sudo perl -pi -e 's/^startup_message = on$/startup_message = off/g' /etc/screenrc
 sudo perl -pi -e 's/^vbell = on$/vbell = off/g' /etc/screenrc

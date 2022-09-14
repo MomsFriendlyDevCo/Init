@@ -4,4 +4,4 @@
 
 source common
 
-init pip-install dtrx
+INIT pip-install dtrx

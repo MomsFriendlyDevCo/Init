@@ -6,16 +6,16 @@
 
 source common
 
-init apt-install --lazy --header "Install ZSH prerequisites" python2
+INIT apt-install --lazy --header "Install ZSH prerequisites" python2
 
-init source-clone zsh https://github.com/zsh-users/zsh.git
+INIT source-clone zsh https://github.com/zsh-users/zsh.git
 
 
-init status "Clearing state"
+INIT status "Clearing state"
 make distclean
 
 
-init status "Build ZSH"
+INIT status "Build ZSH"
 ./Util/preconfig
 ./configure --prefix=/usr/local --bindir=/bin --sbindir=/sbin
 make

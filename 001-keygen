@@ -6,9 +6,9 @@ source common
 KEYFILE=$HOME/.ssh/id_ed25519
 
 if [ -e "$KEYFILE" ]; then
-	init skip "RSA key already present"
+	INIT skip "RSA key already present"
 	exit 0
 fi
 
-init status "Generate SSH key"
+INIT status "Generate SSH key"
 ssh-keygen -o -f "$KEYFILE" -t ed25519 -a 100 -N ''

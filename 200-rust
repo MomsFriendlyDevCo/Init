@@ -4,11 +4,11 @@
 
 source common
 
-init status "Install / Upgrade Rust"
-init bin-download-run 'https://sh.rustup.rs' -y
+INIT status "Install / Upgrade Rust"
+INIT bin-download-run 'https://sh.rustup.rs' -y
 
 
-init apt-install --lazy --header "Install Cargo prerequisites" \
+INIT apt-install --lazy --header "Install Cargo prerequisites" \
 	cmake \
 	libasound2-dev \
 	libclang1 \
@@ -19,9 +19,9 @@ init apt-install --lazy --header "Install Cargo prerequisites" \
 	pkg-config \
 
 
-init status "Install common Cargo tools"
+INIT status "Install common Cargo tools"
 source "$HOME/.cargo/env"
-init cargo-install \
+INIT cargo-install \
 	bat \
 	bandwhich \
 	bottom \
@@ -39,9 +39,9 @@ init cargo-install \
 	xcp \
 
 
-init status "Install Dog"
-init cargo-install --git https://github.com/ogham/dog dog
+INIT status "Install Dog"
+INIT cargo-install --git https://github.com/ogham/dog dog
 
 
-init status "Install RipGrep + PCRE2 support"
-init cargo-install ripgrep --features pcre2
+INIT status "Install RipGrep + PCRE2 support"
+INIT cargo-install ripgrep --features pcre2

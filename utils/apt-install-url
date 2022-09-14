@@ -4,23 +4,23 @@
 
 [ -z "$INIT" ] && source common
 
-init go-src
+INIT go-src
 
 if [ ! -d "$INIT_SRC/deb" ]; then
 	mkdir "$INIT_SRC/deb"
 else
-	init status "Erasing existing Source directory"
+	INIT status "Erasing existing Source directory"
 	rm -r "$INIT_SRC/deb"
 	mkdir "$INIT_SRC/deb"
 fi
 cd "$INIT_SRC/deb"
 
-init file-download-url "$@"
+INIT file-download-url "$@"
 
-init status "Installing .DEB files"
+INIT status "Installing .DEB files"
 dpkg -i *.deb
 
-init status "Cleaning up .DEB files"
+INIT status "Cleaning up .DEB files"
 cd "$INIT_SRC"
 rm -r deb
 

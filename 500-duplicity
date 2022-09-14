@@ -5,15 +5,15 @@
 source common
 
 
-init apt-install --lazy --header "Installing Duplicity + Duply build pre-requisites" wget
+INIT apt-install --lazy --header "Installing Duplicity + Duply build pre-requisites" wget
 
 
-init status "Install Duplicity"
-init apt-install duplicity
+INIT status "Install Duplicity"
+INIT apt-install duplicity
 
 
-init status "Install Duply"
-init go-src
+INIT status "Install Duply"
+INIT go-src
 wget 'https://sourceforge.net/projects/ftplicity/files/duply%20%28simple%20duplicity%29/2.3.x/duply_2.3.1.tgz/download' -O duply.tar.gz
 tar xvfz duply.tar.gz
 rm duply.tar.gz
@@ -23,12 +23,12 @@ cd ..
 rm -r duply*
 
 
-init status "Configure Duply"
+INIT status "Configure Duply"
 mkdir /etc/duply
 chmod 700 /etc/duply
 
 
-init status "Manual setup"
+INIT status "Manual setup"
 echo "Recommended settings:"
 echo "* Create basic profile: > duply serverBackup create"
 echo "* Change TARGET: TARGET='sftp://backups@zapp.mfdc.biz/backups/$HOST'"

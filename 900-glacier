@@ -4,7 +4,7 @@
 
 source common
 
-init status "Install Glacier PPA"
+INIT status "Install Glacier PPA"
 sudo add-apt-repository -y ppa:vsespb/mt-aws-glacier
 
 # Have to replace the PPA version with Precise as this was the last one supported
@@ -12,5 +12,5 @@ echo 'deb http://ppa.launchpad.net/vsespb/mt-aws-glacier/ubuntu precise main' | 
 
 sudo apt-get update
 
-init status "Install Glacier Perl Library"
-init apt-install libapp-mtaws-perl
+INIT status "Install Glacier Perl Library"
+INIT apt-install libapp-mtaws-perl

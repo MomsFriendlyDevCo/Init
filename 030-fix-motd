@@ -3,11 +3,11 @@
 
 source common
 
-init status "Blank the MOTD"
+INIT status "Blank the MOTD"
 echo "" | sudo tee /etc/motd.tail >/dev/null
 echo "" | sudo tee /etc/motd >/dev/null
 
-init status "Disable all UpdateMotd scripts"
+INIT status "Disable all UpdateMotd scripts"
 if [ -f /etc/ssh/sshd_banner ]; then
 	sudo rm /etc/ssh/sshd_banner
 fi

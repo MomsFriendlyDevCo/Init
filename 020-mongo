@@ -4,40 +4,40 @@
 
 source common
 
-init apt-remove --lazy --header "Remove existing Mongo installs" 'mongodb*'
+INIT apt-remove --lazy --header "Remove existing Mongo installs" 'mongodb*'
 
 
 # Patch LibSSL1.1 not being available on Ubuntu>22.04
-if [ `init apt-has 'libssl1.1*'` == 1 ]; then
-	init skip "LibSSL1.1 already installed"
+if [ `INIT apt-has 'libssl1.1*'` == 1 ]; then
+	INIT skip "LibSSL1.1 already installed"
 else
-	init status "Installing LibSSL1.1 for Ubuntu>=22.04"
-	init apt-install-url 'http://archive.ubuntu.com/ubuntu/pool/main/o/openssl/libssl1.1_1.1.1f-1ubuntu2_amd64.deb'
+	INIT status "Installing LibSSL1.1 for Ubuntu>=22.04"
+	INIT apt-install-url 'http://archive.ubuntu.com/ubuntu/pool/main/o/openssl/libssl1.1_1.1.1f-1ubuntu2_amd64.deb'
 fi
 
 
-init apt-install-url \
+INIT apt-install-url \
 	'https://repo.mongodb.org/apt/ubuntu/dists/focal/mongodb-org/5.0/multiverse/binary-amd64/mongodb-org-server_5.0.8_amd64.deb' \
 	'https://repo.mongodb.org/apt/ubuntu/dists/focal/mongodb-org/5.0/multiverse/binary-amd64/mongodb-org-shell_5.0.8_amd64.deb' \
 	'https://downloads.mongodb.com/compass/mongodb-mongosh_1.1.2_amd64.deb' \
 	'https://fastdl.mongodb.org/tools/db/mongodb-database-tools-ubuntu2004-x86_64-100.5.1.deb' \
 
 
-if [ `init file-grep-matches /etc/mongod.conf 'engine: "wiredTiger"'` == 0 ]; then
-	init status "Patch Mongo to use WiredTiger storage engine"
+if [ `INIT file-grep-matches /etc/mongod.conf 'engine: "wiredTiger"'` == 0 ]; then
+	INIT status "Patch Mongo to use WiredTiger storage engine"
 	# BUGFIX: For some reason Mongo doesn't default to WiredTiger as the storage engine. Despite what the install docs say
 	sudo perl -pi -e 's/^#  engine:.*$/  engine: "wiredTiger"/' /etc/mongod.conf
 fi
 
 if [ -f "/etc/logrotate.d/mongodb" ]; then
-	init skip "Setup Logrotate (already exists)"
+	INIT skip "Setup Logrotate (already exists)"
 else
-	init status "Setup Logrotate for Mongo"
+	INIT status "Setup Logrotate for Mongo"
 	# Add logRotate option to reopen on rotate
-	init snap-install yq
+	INIT snap-install yq
 	yq '.systemLog.logRotate="reopen"' </etc/mongod.conf | sudo sponge /etc/mongod.conf
 
-init file-set /etc/logrotate.d/mongodb <<EOF
+INIT file-set /etc/logrotate.d/mongodb <<EOF
 /var/log/mongodb/mongod.log {
   daily
   size 128M
@@ -56,13 +56,13 @@ EOF
 fi
 
 
-init status "Disable Kernel hugepages"
+INIT status "Disable Kernel hugepages"
 echo never | sudo tee /sys/kernel/mm/transparent_hugepage/enabled >/dev/null
 echo never | sudo tee /sys/kernel/mm/transparent_hugepage/defrag >/dev/null
 
 
-init status "Disable Kernel hugepages (install into rc.local)"
-intit file-set /etc/rc.local <<EOF
+INIT status "Disable Kernel hugepages (install into rc.local)"
+INIT file-set /etc/rc.local <<EOF
 #!/bin/sh -e
 echo never > /sys/kernel/mm/transparent_hugepage/enabled
 echo never > /sys/kernel/mm/transparent_hugepage/defrag
@@ -72,17 +72,17 @@ EOF
 sudo chmod +x /etc/rc.local
 
 
-init status "Enable Mongo at startup"
+INIT status "Enable Mongo at startup"
 sudo systemctl enable mongod
 
 
-init status "Start Mongo service"
+INIT status "Start Mongo service"
 sudo systemctl start mongod
 
 
-init status "Wait for Mongo service to come up"
+INIT status "Wait for Mongo service to come up"
 sleep 3
 
 
-init status "Disable Mongo monitoring"
+INIT status "Disable Mongo monitoring"
 /usr/bin/mongo --eval 'db.disableFreeMonitoring()'

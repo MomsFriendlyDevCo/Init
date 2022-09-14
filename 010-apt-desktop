@@ -4,8 +4,8 @@
 
 source common
 
-init status "Install desktop APT packages"
-init apt-install \
+INIT status "Install desktop APT packages"
+INIT apt-install \
 	audacity  \
 	audacious \
 	bmon \

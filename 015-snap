@@ -3,5 +3,5 @@
 
 source common
 
-init status "Install Snap"
-init apt-install snapd
+INIT status "Install Snap"
+INIT apt-install snapd

@@ -4,9 +4,9 @@
 
 source common
 
-init status "Install common GNOME modules"
+INIT status "Install common GNOME modules"
 
-init apt-install \
+INIT apt-install \
 	gnome-art \
 	gnome-netstatus-applet \
 	gnome-themes-extras \

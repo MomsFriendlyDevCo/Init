@@ -4,14 +4,14 @@
 
 source common
 
-init status "Remove Server unsuitable APT packages"
+INIT status "Remove Server unsuitable APT packages"
 
 sudo apt-get remove -y \
 samba
 
 
-init status "Install Server APT packages"
-init apt-install \
+INIT status "Install Server APT packages"
+INIT apt-install \
 	autossh \
 	bmon \
 	build-essential \

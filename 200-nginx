@@ -4,12 +4,12 @@
 
 source common
 
-init status "Install Nginx via Apt"
+INIT status "Install Nginx via Apt"
 curl -fsSL https://nginx.org/keys/nginx_signing.key | sudo apt-key add -
 echo "deb http://nginx.org/packages/ubuntu `lsb_release -cs` nginx" | sudo tee /etc/apt/sources.list.d/nginx.list
-init apt-install nginx
+INIT apt-install nginx
 
-init file-set /etc/nginx/nginx.conf <<EOF
+INIT file-set /etc/nginx/nginx.conf <<EOF
 pid /var/run/nginx.pid;
 worker_processes auto; # 'auto' = Use CPU count as worker count
 

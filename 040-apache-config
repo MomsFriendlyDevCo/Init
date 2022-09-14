@@ -4,17 +4,17 @@
 
 source common
 
-init status "Patch PHP config"
+INIT status "Patch PHP config"
 sudo perl -pi -e 's/^display_errors = .*$/display_errors = On/g' /etc/php5/apache2/php.ini
 sudo perl -pi -e 's/^short_open_tag = .*$/short_open_tag = On/g' /etc/php5/apache2/php.ini
 
-init status "Patch Apache config"
+INIT status "Patch Apache config"
 sudo perl -pi -e 's/DocumentRoot \/var\/www\/html/DocumentRoot \/var\/www/g' /etc/apache2/sites-available/*default*
 sudo perl -pi -e 's/<\/VirtualHost>/\t<Directory "\/var\/www">\n\t\tAllowOverride all\n\t<\/Directory>\n<\/VirtualHost>/' /etc/apache2/sites-available/*default*
 
-init status "Enable common apache modules"
+INIT status "Enable common apache modules"
 sudo ln -s /etc/apache2/mods-available/rewrite.load /etc/apache2/mods-enabled/rewrite.load
 sudo ln -s /etc/apache2/mods-available/headers.load /etc/apache2/mods-enabled/headers.load
 
-init status "Restart Apache"
+INIT status "Restart Apache"
 sudo service apache2 restart

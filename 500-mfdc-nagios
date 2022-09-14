@@ -5,20 +5,20 @@
 source common
 
 if [ -d '/home/nagios' ]; then
-	init skip "Nagios already configured"
+	INIT skip "Nagios already configured"
 else
-	init status "Create 'nagios' user"
+	INIT status "Create 'nagios' user"
 	sudo useradd -m nagios
 	sudo mkdir /home/nagios/.ssh
 
-	init status "Install Nagios public key"
+	INIT status "Install Nagios public key"
 	echo 'ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDEH1RTpaAJT2V8ej408ubNR7/CDvCfhvCq5o7iHq+8PyXgoPhyU3Ke0tcWgkJh4LlzX9fK4dVPL3fT3WzzWwnR+P0qr+sGGPmjxIT+eBqOfUemSALSXjijw0CCskEUcZMIwrYJX7OKCIVsXTqadVUkIh6zEZ0eN7yNXLgNT3+PoYmi3Y4DbpHZfcMH534+qj4sc8LtRstHTHYqynrl270k6IgNQ85KgXcOXHNJ9YFxLwsvzEMNd3Nb9X1D+YCN0bRQADeBrLLbupLODRMLHBLFwITYvLFajoB8keOdXhEU4yIjl2vf3lP/2AL9jFs2CVEZxy9yKyWpCRzZtlFkVyW3 nagios@Zapp' | sudo tee /home/nagios/.ssh/authorized_keys >/dev/null
 	sudo chmod 0600 /home/nagios/.ssh/authorized_keys
 	sudo chown nagios -R /home/nagios/.ssh
 fi
 
-init status "Install Nagios scripts via APT"
-init apt-install \
+INIT status "Install Nagios scripts via APT"
+INIT apt-install \
 	nagios-plugins \
 	nagios-plugins-basic \
 	nagios-plugins-common \

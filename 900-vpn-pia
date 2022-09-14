@@ -4,14 +4,14 @@
 
 source common
 
-init status "Install OpenVPN"
-init apt-install \
+INIT status "Install OpenVPN"
+INIT apt-install \
 	openvpn \
 	network-manager-openvpn \
 	network-manager-openvpn-gnome \
 
 
-init status "Install PIA open VPN setup"
+INIT status "Install PIA open VPN setup"
 cd /etc/openvpn
 sudo wget https://www.privateinternetaccess.com/openvpn/openvpn.zip
 sudo unzip openvpn.zip

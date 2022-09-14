@@ -4,5 +4,5 @@
 
 source common
 
-init status "Install Python + PIP"
-init apt-install python3 python3-pip
+INIT status "Install Python + PIP"
+INIT apt-install python3 python3-pip

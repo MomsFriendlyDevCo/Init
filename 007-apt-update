@@ -3,5 +3,5 @@
 
 source common
 
-init status "Update APT"
+INIT status "Update APT"
 sudo apt-get update

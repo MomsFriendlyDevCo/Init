@@ -20,7 +20,7 @@ if [ -z "$NEWHOSTNAME" ]; then
 fi
 
 if [ "$HOSTNAME" != "$NEWHOSTNAME" ]; then
-	init status "Change server hostname"
+	INIT status "Change server hostname"
 	sudo hostname "$NEWHOSTNAME"
 	echo "$NEWHOSTNAME" | sudo tee /etc/hostname >/dev/null
 fi

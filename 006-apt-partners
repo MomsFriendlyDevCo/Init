@@ -3,9 +3,9 @@
 
 source common
 
-init status "Enable partner APT sources"
+INIT status "Enable partner APT sources"
 if [ ! -e '/etc/apt/sources.list' ]; then
-	init skip "Not a Debian based distro"
+	INIT skip "Not a Debian based distro"
 else
 	sudo perl -pi -e 's/^# (.* partner)$/\1/g' /etc/apt/sources.list
 fi

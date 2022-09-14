@@ -4,10 +4,10 @@
 
 source common
 
-init status "Install ZSH"
-init apt-install zsh
+INIT status "Install ZSH"
+INIT apt-install zsh
 
 
-init status "Set shell"
+INIT status "Set shell"
 sudo chsh "$USER" -s /bin/zsh
 sudo chown -R "$USER:$USER" "$HOME/.zsh"

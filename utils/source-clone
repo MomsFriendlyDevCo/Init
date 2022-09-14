@@ -4,7 +4,7 @@
 # This script will:
 #    - Create ~/src if its missing
 #    - Clone or update the repo (minimal depth)
-#    - CD into the directory (`init go-init` is not called)
+#    - CD into the directory (`INIT go-init` is not called)
 #    - Clone or update submodules (if any; minimal depth)
 #
 # Usage: ./utils/source-clone <alias> <git-url>
@@ -14,19 +14,19 @@
 
 [ -z "$INIT" ] && source common
 
-init go-src
+INIT go-src
 
 if [ -d "$1" ]; then
-	init status "Updating ${1^} source"
+	INIT status "Updating ${1^} source"
 	cd "$1"
 	git pull
 
 	if [ -e '.gitmodules' ]; then
-		init status "Updating ${1^} Submodules"
+		INIT status "Updating ${1^} Submodules"
 		git submodule update --recursive
 	fi
 else
-	init status "Cloning ${1^} source"
+	INIT status "Cloning ${1^} source"
 	git clone --recursive --depth=1 --shallow-submodules "$2" "$1"
 	cd "$1"
 fi

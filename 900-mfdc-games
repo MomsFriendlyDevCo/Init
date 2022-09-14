@@ -4,14 +4,14 @@
 
 source common
 
-init status "Install GetDeb key for APT"
+INIT status "Install GetDeb key for APT"
 wget -q -O- http://archive.getdeb.net/getdeb-archive.key | sudo apt-key add -
 
-init status "Install GetDeb repo for APT"
+INIT status "Install GetDeb repo for APT"
 echo 'deb http://archive.getdeb.net/ubuntu/ xenial-getdeb games' | sudo tee /etc/apt/sources.list.d/getdeb.list
 
-init status "Update APT"
+INIT status "Update APT"
 sudo apt-get update
 
-init status "Install common games"
-init apt-install warsow
+INIT status "Install common games"
+INIT apt-install warsow

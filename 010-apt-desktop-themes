@@ -3,12 +3,12 @@
 
 source common
 
-init status "Install desktop theme PPA - Plata"
+INIT status "Install desktop theme PPA - Plata"
 sudo add-apt-repository -y ppa:tista/plata-theme
 
 
-init status "Install all theme packages"
-init apt-install \
+INIT status "Install all theme packages"
+INIT apt-install \
 	arc-theme \
 	oxygen-cursor-theme \
 	plata-theme \

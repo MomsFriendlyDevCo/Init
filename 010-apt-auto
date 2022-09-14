@@ -4,8 +4,8 @@
 
 source common
 
-init status "Install Auto-update APT packages"
-init apt-install \
+INIT status "Install Auto-update APT packages"
+INIT apt-install \
 	cron-apt \
 	software-properties-common \
 	unattended-upgrades \

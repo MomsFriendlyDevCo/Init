@@ -4,13 +4,13 @@
 source common
 
 # Check if letsencrypt is already installed
-if [ `init bin-available certbot` == 1 ]; then
-	init skip "LetsEncrypt is already installed"
+if [ `INIT bin-available certbot` == 1 ]; then
+	INIT skip "LetsEncrypt is already installed"
 else
-	init status "Install LetsEncrypt"
-	init snap-install --classic certbot
+	INIT status "Install LetsEncrypt"
+	INIT snap-install --classic certbot
 	sudo snap set certbot trust-plugin-with-root=ok
 
-	init status "Install DME LetsEncrypt plugin"
-	init snap-install --beta certbot-dns-dnsmadeeasy
+	INIT status "Install DME LetsEncrypt plugin"
+	INIT snap-install --beta certbot-dns-dnsmadeeasy
 fi

@@ -4,9 +4,9 @@
 
 source common
 
-init status "Install Compiz + Compiz utilities"
+INIT status "Install Compiz + Compiz utilities"
 
-init apt-install \
+INIT apt-install \
 	compiz \
 	compizconfig-settings-manager \
 	compiz-plugins \

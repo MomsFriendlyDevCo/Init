@@ -3,7 +3,7 @@
 
 source common
 
-init apt-install --lazy --header "Installing Tmux prerequisites" \
+INIT apt-install --lazy --header "Installing Tmux prerequisites" \
 	autoconf \
 	automake \
 	byacc \
@@ -11,11 +11,11 @@ init apt-install --lazy --header "Installing Tmux prerequisites" \
 	libncurses-dev pkg-config \
 
 
-init status "Downloading Tmux"
-init source-clone tmux https://github.com/tmux/tmux.git
+INIT status "Downloading Tmux"
+INIT source-clone tmux https://github.com/tmux/tmux.git
 
 
-init status "Building Tmux"
+INIT status "Building Tmux"
 sh autogen.sh
 ./configure
 make

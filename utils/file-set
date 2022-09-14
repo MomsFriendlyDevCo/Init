@@ -6,7 +6,7 @@
 # -a, --append          Append to existing file if found
 #
 # @example set a file as root
-# init file-set /etc/somefile.txt <<EOF
+# INIT file-set /etc/somefile.txt <<EOF
 # This is line 1
 # This is line 2
 # EOF

@@ -8,7 +8,7 @@
 
 source common
 
-init apt-install --lazy --header "Install Pre-requisites" \
+INIT apt-install --lazy --header "Install Pre-requisites" \
 	autoconf \
 	automake \
 	cmake \
@@ -23,21 +23,21 @@ init apt-install --lazy --header "Install Pre-requisites" \
 	unzip \
 
 
-init status "Install Python module"
-init pip-install neovim
+INIT status "Install Python module"
+INIT pip-install neovim
 
-init source-clone neovim https://github.com/neovim/neovim.git
+INIT source-clone neovim https://github.com/neovim/neovim.git
 
-init status "Clearing build state"
+INIT status "Clearing build state"
 make distclean
 
-init status "Building Neovim"
+INIT status "Building Neovim"
 make CMAKE_BUILD_TYPE=RelWithDebInfo
 
-init status "Installing Neovim"
+INIT status "Installing Neovim"
 sudo make install
 
-init status "Set alternate linking for vi / vim / editor"
+INIT status "Set alternate linking for vi / vim / editor"
 NVIM=`which nvim`
 sudo update-alternatives --install /usr/bin/vi vi $NVIM 60
 # sudo update-alternatives --config vi
@@ -48,12 +48,12 @@ sudo update-alternatives --install /usr/bin/editor editor $NVIM 60
 
 
 if [ -e "$HOME/.vim/setup" ]; then
-	init status "Update MC Nvim config"
+	INIT status "Update MC Nvim config"
 	cd ~/.vim
 	git pull
 	$HOME/.vim/setup
 else
-	init status "Setup MC Nvim config"
+	INIT status "Setup MC Nvim config"
 	cd
 	git clone https://github.com/hash-bang/vimrc.git .vim
 	ln -s "$HOME/.vim" "$HOME/.config/nvim"

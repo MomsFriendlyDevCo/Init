@@ -4,9 +4,9 @@
 
 [ -z "$INIT" ] && source common
 
-if [ `init bin-available npm` == 0 ]; then
-	init status "Need to install Node + NPM"
-	init run 020-node
+if [ `INIT bin-available npm` == 0 ]; then
+	INIT status "Need to install Node + NPM"
+	INIT run 020-node
 fi
 
 sudo npm install -g "$@"

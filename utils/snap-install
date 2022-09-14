@@ -4,9 +4,9 @@
 
 [ -z "$INIT" ] && source common
 
-if [ `init bin-available snap` == 0 ]; then
-	init status "Need to install Snap first"
-	init run 015-snap
+if [ `INIT bin-available snap` == 0 ]; then
+	INIT status "Need to install Snap first"
+	INIT run 015-snap
 fi
 
 snap install "$@"

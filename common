@@ -11,7 +11,7 @@ export DEBIAN_FRONTEND=noninteractive
 source config
 
 # Call a utility function as sourced within the current shell
-function init {
+function INIT {
 	UTIL="$1"
 	shift
 	"$INIT_HOME/utils/$UTIL" "$@"

@@ -50,14 +50,14 @@ PARAMS=${PARAMS## } # remove leading spaces
 if [ "$IS_LAZY" == 1 ]; then
 	# Lazy mode {{{
 	NEED_INSTALL=0
-	if [ `init apt-has "$@"` != 1 ]; then
+	if [ `INIT apt-has "$@"` != 1 ]; then
 		NEED_INSTALL=1
 	fi
 	# }}}
 fi
 
 if [ ! -z `find /var/lib/apt/periodic/update-success-stamp -type f -mtime +1` ]; then
-	init status "Need to update Apt database"
+	INIT status "Need to update Apt database"
 	sudo apt update
 fi
 
@@ -66,7 +66,7 @@ if [[ "$IS_LAZY" == 0 || "$NEED_INSTALL" == 1 ]]; then
 
 	# Output header if we got this far (with --lazy) or if the user asked for one
 	if [ ! -z "$HEADER" ]; then
-		init status "$HEADER"
+		INIT status "$HEADER"
 	fi
 
 	sudo apt install --assume-yes $PARAMS

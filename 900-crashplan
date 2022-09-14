@@ -4,16 +4,16 @@
 
 source common
 
-init status "Install Crashplan"
+INIT status "Install Crashplan"
 
 echo "FIXME: Need installation process - this file currently only supports SystemD setup component"
 
 exit 1
 
 
-init status "Setup SystemD service"
+INIT status "Setup SystemD service"
 
-init file-set /etc/systemd/system/crashplan.service <<EOF
+INIT file-set /etc/systemd/system/crashplan.service <<EOF
 [Unit]
 Description=CrashPlan service
 After=network.target

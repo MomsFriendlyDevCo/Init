@@ -4,8 +4,8 @@
 
 source common
 
-init status "Install common XFCE modules"
-init apt-install \
+INIT status "Install common XFCE modules"
+INIT apt-install \
 	ffmpegthumbnailer \
 	tumbler \
 	tumbler-plugins-extra \

@@ -3,16 +3,16 @@
 
 source common
 
-init status "Install Pipeline prerequisites"
-init apt-install \
+INIT status "Install Pipeline prerequisites"
+INIT apt-install \
 	libreadline-dev \
 	libncurses5-dev \
 
 
-init status "Clone Pipeline git repo"
-init source-clone pipeline https://github.com/codekitchen/pipeline.git
+INIT status "Clone Pipeline git repo"
+INIT source-clone pipeline https://github.com/codekitchen/pipeline.git
 
-init status "Setup Pipeline"
+INIT status "Setup Pipeline"
 autoreconf -fi
 ./configure
 make

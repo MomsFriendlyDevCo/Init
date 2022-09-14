@@ -5,11 +5,11 @@
 
 source common
 
-init status "Clear /var/www"
+INIT status "Clear /var/www"
 sudo rm -r /var/www
 sudo mkdir /var/www
 chmod 0777 -R /var/www
 
-init status "Create symlink to /var/www"
+INIT status "Create symlink to /var/www"
 cd
 ln -s /var/www www
