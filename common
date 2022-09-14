@@ -1,9 +1,6 @@
 #!/bin/bash
 # Common functionality library imported by all other scripts in this directory
 
-# Declare we have included this file at least once (used by the source includes in `./utils/*`
-export INIT=1
-
 # Force all scripts to use non-interactive DPKG prompts on install
 export DEBIAN_FRONTEND=noninteractive
 
@@ -16,6 +13,9 @@ function INIT {
 	shift
 	"$INIT_HOME/utils/$UTIL" "$@"
 }
+
+# Expose INIT to all sub-shells
+export -f -- INIT
 
 # Quit on any error
 set -e
