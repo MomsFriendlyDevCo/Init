@@ -73,7 +73,7 @@ fi
 | Status Output     | `INIT skip <message>`                  |        | Same as `INIT status` but display that the operation was skipped                                   |
 |                   | `INIT status <message>`                |        | Display a status message                                                                           |
 | Change directory  | `INIT go-init`                         |        | Change back to the base Init directory, should be called last on any script which changes anything |
-|                   | `INIT go-src`                          |        | Change to the $INIT_SRC directory, creating it if it doesn't exist                                 |
+|                   | `INIT go-src [sub-dir]`                |        | Change to the $INIT_SRC directory (+ optional sub-dir), creating it/them if they dont exist        |
 | Packages / Apt    | `INIT apt-has <pkgs...>`               |        | Query if all packages are installed                                                                |
 |                   | `INIT apt-install <pkgs...>`           | Yes    | Install Apt packages                                                                               |
 |                   | `INIT apt-install-url <URLs...>`       |        | Download .DEB packages from the given URLs and install them                                        |

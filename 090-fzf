@@ -9,6 +9,7 @@
 source common
 
 INIT source-clone fzf https://github.com/junegunn/fzf.git
+INIT go-src fzf
 
 INIT status "Building FZF"
 ./install --key-bindings --completion --update-rc

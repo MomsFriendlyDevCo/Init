@@ -5,6 +5,7 @@
 source common
 
 INIT source-clone "wezterm" https://github.com/wez/wezterm.git
+INIT go-src wezterm
 
 INIT status "Installing dependencies"
 ./get-deps

@@ -27,6 +27,7 @@ INIT status "Install Python module"
 INIT pip-install neovim
 
 INIT source-clone neovim https://github.com/neovim/neovim.git
+INIT go-src neovim
 
 INIT status "Clearing build state"
 make distclean

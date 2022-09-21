@@ -27,6 +27,7 @@ INIT apt-install --lazy --header "Install S3FS build tools" \
 
 INIT status "Download S3FS source"
 INIT source-clone s3fs https://github.com/s3fs-fuse/s3fs-fuse.git
+INIT go-src s3fs
 
 
 INIT status "Compile S3FS"

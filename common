@@ -9,13 +9,20 @@ export DEBIAN_FRONTEND=noninteractive
 
 # Import the config
 source config
-export INIT_HOME INIT_SRC
+export INIT_HOME INIT_SRC INIT_CMD_PATH
 
 # Call a utility function as sourced within the current shell
 function INIT {
 	UTIL="$1"
 	shift
-	"$INIT_HOME/utils/$UTIL" "$@"
+
+	# Special case for go-* where these scripts need including as source so we can change dir (rather than isolating them to their own Bash process)
+	if [[ "$UTIL" == go-* ]]; then
+		echo "INC AS SOURCE [$UTIL]"
+		source "$INIT_HOME/utils/$UTIL" "$@"
+	else
+		"$INIT_HOME/utils/$UTIL" "$@"
+	fi
 }
 
 # Expose INIT to all sub-shells

@@ -1,5 +1,6 @@
 #!/bin/bash
 # Ensure the INIT_SRC directory exists + CD to it
+# Usage: INIT go-src [subdir]
 
 [ -z "$INIT_READY" ] && source common
 
@@ -8,3 +9,10 @@ if [ -d "$INIT_SRC" ]; then
 fi
 
 cd "$INIT_SRC"
+
+if [ ! -z "$1" ]; then
+	if [ ! -d "$1" ]; then
+		mkdir "$1"
+	fi
+	cd "$1"
+fi

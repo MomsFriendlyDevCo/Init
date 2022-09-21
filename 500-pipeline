@@ -11,6 +11,7 @@ INIT apt-install \
 
 INIT status "Clone Pipeline git repo"
 INIT source-clone pipeline https://github.com/codekitchen/pipeline.git
+INIT go-src pipeline
 
 INIT status "Setup Pipeline"
 autoreconf -fi
