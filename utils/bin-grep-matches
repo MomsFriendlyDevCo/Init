@@ -1,0 +1,16 @@
+#!/bin/bash
+# Run a binary command and return '1' if the result matches a grep expression, otherwise '0'
+# Usage: ./utils/bin-grep-matches <command> <grep>
+#
+# @example test if the "foo" command returns 'bar'
+# if [ `INIT bin-grep-matches 'foo' 'bar'` == 1 ]; then
+#   echo "Is a match"
+# fi
+
+[ -z "$INIT_READY" ] && source common
+
+if grep -q "$2" `$1`; then
+	echo "1"
+else
+	echo "0"
+fi
