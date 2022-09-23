@@ -9,7 +9,7 @@
 
 [ -z "$INIT_READY" ] && source common
 
-if grep -q "$2" `$1`; then
+if `$1 2>&1 | grep -q "$2"`; then
 	echo "1"
 else
 	echo "0"
