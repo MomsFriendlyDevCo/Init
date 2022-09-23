@@ -1,17 +1,21 @@
 #!/bin/bash
-# Faults if isnt installed within the current path, otherwise exits normally
-# Usage: ./utils/bin-available <bin>
+# Returns '1' if ALL of the listed binary commands are executable within PATH, otherwise '0'
+# Usage: ./utils/bin-available <bins...>
 #
 # @example test if the "foobar" binary is available within a Bash If
-# if [ `./utils/bin-available dtrx` == 1 ]; then
+# if [ `INIT bin-available dtrx` == 1 ]; then
 #   echo "Is available"
 # fi
 
 [ -z "$INIT_READY" ] && source common
 
-if which "$1" >/dev/null 2>/dev/null; then
-	echo '1'
-else
-	echo '0'
-fi
 
+HAS_ALL=1
+for CMD in $@; do
+	if ! which "$CMD" >/dev/null 2>/dev/null; then
+		HAS_ALL=0
+		break
+	fi
+done
+
+echo "$HAS_ALL"
