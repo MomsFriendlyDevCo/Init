@@ -1,0 +1,19 @@
+#!/bin/bash
+# Connect or restore a session by name
+# If the session already exists - connect to it, else make the connection and optionally run a comamnd
+# Usage: ./utils/tmux-connect <session-name> [command]
+
+[ -z "$INIT_READY" ] && source common
+
+INIT apt-install --lazy-bin --header "Installing TMUX session multiplexor..." tmux
+
+TSESSION=$1
+shift
+
+if [ `INIT bin-grep-matches "tmux list-sessions" "^$TSESSION:"` == 1 ]; then
+	INIT status "Connecting to TMUX session '$TSESSION'"
+	tmux attach-session -t "$TSESSION"
+else
+	INIT status "Creating new TMUX session '$TSESSION'"
+	tmux new-session -s "$TSESSION"
+fi

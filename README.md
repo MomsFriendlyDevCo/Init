@@ -74,6 +74,7 @@ fi
 |                   | `INIT status <message>`                |        | Display a status message                                                                           |
 | Change directory  | `INIT go-init`                         |        | Change back to the base Init directory, should be called last on any script which changes anything |
 |                   | `INIT go-src [sub-dir]`                |        | Change to the $INIT_SRC directory (+ optional sub-dir), creating it/them if they dont exist        |
+| Misc              | `INIT noop`                            |        | Do nothing, intends to make if-then-else blocks more readable - like Pythons 'pass'                |
 | Packages / Apt    | `INIT apt-has <pkgs...>`               |        | Query if all packages are installed                                                                |
 |                   | `INIT apt-install <pkgs...>`           | Yes    | Install Apt packages                                                                               |
 |                   | `INIT apt-install-url <URLs...>`       |        | Download .DEB packages from the given URLs and install them                                        |
@@ -87,7 +88,9 @@ fi
 |                   | `INIT source-clone <alias> <git-url>`  |        | Clone / update a Git-Url into `~/src/$ALIAS` and change to that directory                          |
 | Files             | `INIT file-grep-matches <file> <grep>` |        | Return `1` if the given file path contains the given Grep expression                               |
 |                   | `INIT file-set <file> <<HEREDOC`       | Yes    | Output contents of HEREDOC into a file                                                             |
-| System querying   | `INIT bin-available <bin>`             |        | Return `1` if a Binary is available and within the PATH                                            |
+| System querying   | `INIT bin-available <bins...>`         |        | Return `1` if a all listed Binaries are available and within the PATH                              |
+|                   | `INIT bin-grep-matches <cmd> <grep>`   |        | Run a program and return `1` if it matches the specified grep expresison                           |
 |                   | `INIT service-available <service>`     |        | Return `1` if the given service is available (even if disabled)                                    |
+|                   | `INIT tmux-connect <session>`          |        | Connect to an existing TMUX session by name - or create it if missing                              |
 | Init core         | `INIT run <unit>`                      |        | Run one internal Init setup script                                                                 |
 |-------------------|----------------------------------------|--------|----------------------------------------------------------------------------------------------------|
