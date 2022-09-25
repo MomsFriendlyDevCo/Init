@@ -1,0 +1,14 @@
+#!/bin/bash
+# Reduce the log size of JournalCtl down to something usable (Defaults to 4gb if not-run)
+
+source common
+
+INIT status "Limiting JournalCtl log size to 64mb"
+INIT file-set /etc/systemd/journald.conf.d/INIT-limit-size.conf <<EOF
+[Journal]
+SystemMaxUse=64M
+EOF
+
+
+INIT status "Vacuum existing JournalCtl logs"
+sudo journalctl --vacuum-size=100M
