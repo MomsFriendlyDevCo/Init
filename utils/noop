@@ -2,3 +2,5 @@
 # Do nothing
 # This function is really just intended for documentation purposes and making
 # complex if-then-else blocks more readable
+
+[ -z "$INIT_READY" ] && source common
