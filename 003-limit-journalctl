@@ -4,11 +4,8 @@
 source common
 
 INIT status "Limiting JournalCtl log size to 64mb"
-INIT file-set /etc/systemd/journald.conf.d/INIT-limit-size.conf <<EOF
-[Journal]
-SystemMaxUse=64M
-EOF
+INIT config-set /etc/systemd/journald.conf 'SystemMaxUse' '64M'
 
 
 INIT status "Vacuum existing JournalCtl logs"
-sudo journalctl --vacuum-size=100M
+sudo journalctl --vacuum-size=64M

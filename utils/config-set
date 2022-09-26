@@ -1,0 +1,26 @@
+#!/bin/bash
+# Set a simple INI setting within a file
+# Usage: INIT config-set-ini <file> <key> <value>
+
+[ -z "$INIT_READY" ] && source common
+
+INIT apt-install --lazy --header "Installing Perl Pre-requisite" perl
+
+FILE=$1
+KEY=$2
+VALUE=$3
+DATE=`date '+%Y-%m-%dT%H:%M:%SZ%z'`
+
+if grep -q "$KEY\s*=" "$FILE"; then
+	# Update existing setting
+	perl -pi -e "s/^\#?\s*$KEY\s*=.*$/$KEY=$VALUE/" "$FILE"
+else
+	# Append setting
+
+INIT file-set --append <<EOF
+
+# Added by INIT process on $DATE
+$KEY=$VAL
+
+EOF
+fi

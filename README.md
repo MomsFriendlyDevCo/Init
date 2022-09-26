@@ -74,6 +74,7 @@ fi
 |                   | `INIT status <message>`                |        | Display a status message                                                                           |
 | Change directory  | `INIT go-init`                         |        | Change back to the base Init directory, should be called last on any script which changes anything |
 |                   | `INIT go-src [sub-dir]`                |        | Change to the $INIT_SRC directory (+ optional sub-dir), creating it/them if they dont exist        |
+| Config            | `INIT config-set <file> <key> <val>`   |        | Set an INI file setting, creating it if not already present                                        |
 | Misc              | `INIT noop`                            |        | Do nothing, intends to make if-then-else blocks more readable - like Pythons 'pass'                |
 | Packages / Apt    | `INIT apt-has <pkgs...>`               |        | Query if all packages are installed                                                                |
 |                   | `INIT apt-install <pkgs...>`           | Yes    | Install Apt packages                                                                               |
@@ -82,7 +83,7 @@ fi
 | Packages / Cargo  | `INIT cargo-install <pkgs...>`         |        | Install various Rust / Cargo packages                                                              |
 | Packages / NPM    | `INIT npm-install <pkgs...>`           |        | Install various Node / NPM packages                                                                |
 | Packages / Pip    | `INIT pip-install <pkgs...>`           |        | Install various Python3 + Pip packages                                                             |
-| Packages / Pip    | `INIT snap-install <pkgs...>`          |        | Install various Snap packages                                                                      |
+| Packages / Snap   | `INIT snap-install <pkgs...>`          |        | Install various Snap packages                                                                      |
 | Packages / Source | `INIT bin-download-run <url>`          |        | Download a binary URL and run the results                                                          |
 |                   | `INIT file-download-url <urls..>`      | Yes    | Download one or more URLs into the current directory                                               |
 |                   | `INIT source-clone <alias> <git-url>`  |        | Clone / update a Git-Url into `~/src/$ALIAS` and change to that directory                          |
