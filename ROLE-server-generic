@@ -9,7 +9,7 @@ INIT run \
 	001-locales \
 	001-needsrestart \
 	001-timezone \
-	003-limit-journalctl \
+	003-journald \
 	005-pkg-rm \
 	007-apt-update \
 	010-apt-auto \

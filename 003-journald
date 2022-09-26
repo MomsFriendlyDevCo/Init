@@ -3,10 +3,12 @@
 
 source common
 
-INIT status "Minimizing existing JournalD storage size"
-sudo journalctl --vacuum-size=250M
+INIT status "Limiting JournalCtl log size to 64mb"
+INIT config-set /etc/systemd/journald.conf 'SystemMaxUse' '64M'
 
 
-INIT status "Saving JournalD config"
-sudo perl -pi -e 's/#SystemMaxUse=.*$/SystemMaxUse=250M/' /etc/systemd/journald.conf
+INIT status "Vacuum existing JournalCtl logs"
+sudo journalctl --vacuum-size=64M
+
+INIT status "Restart JournalD"
 sudo systemctl restart systemd-journald
