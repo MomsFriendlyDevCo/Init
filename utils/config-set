@@ -13,7 +13,7 @@ DATE=`date '+%Y-%m-%dT%H:%M:%SZ%z'`
 
 if grep -q "$KEY\s*=" "$FILE"; then
 	# Update existing setting
-	perl -pi -e "s/^\#?\s*$KEY\s*=.*$/$KEY=$VALUE/" "$FILE"
+	sudo perl -pi -e "s/^\#?\s*$KEY\s*=.*$/$KEY=$VALUE/" "$FILE"
 else
 	# Append setting
 

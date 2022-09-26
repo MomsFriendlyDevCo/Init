@@ -22,5 +22,7 @@ sudo ufw allow https
 
 
 INIT status "Enable Firewall"
-sudo perl -pi -e 's/ENABLED=no/ENABLED=yes/g' /etc/ufw/ufw.conf
+INIT config-set /etc/ufw/ufw.conf 'ENABLED' 'yes'
+
+INIT status "Start Firewall"
 sudo ufw --force enable

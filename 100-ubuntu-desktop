@@ -4,4 +4,4 @@
 source common
 
 INIT status "Disable Apport error reporting"
-sudo sed -i s/enabled=1/enabled=0/ /etc/default/apport
+INIT config-set /etc/default/apport 'enabled' '1'
