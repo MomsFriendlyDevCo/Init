@@ -1,0 +1,11 @@
+#!/bin/bash
+# Request that the current script be wrapped inside a TMUX session
+# This conditionally wraps if `INIT_AUTO_TMUX` is non-zero
+
+[ -z "$INIT_READY" ] && source common
+
+if [ "$INIT_AUTO_TMUX" != 0 ]; then
+	INIT status "Wrapping program in TMUX"
+	INIT tmux-connect "$0 $@"
+	exit
+fi

@@ -5,3 +5,7 @@ INIT_HOME=$(cd $(dirname "${BASH_SOURCE[0]}") && pwd)
 
 # Where to hold source files
 INIT_SRC="$HOME/src"
+
+# Automatically instanciate a TMUX wrapper when any command is run
+# Set to '0' to disable
+INIT_AUTO_TMUX='INIT'

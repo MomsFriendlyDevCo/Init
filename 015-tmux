@@ -16,7 +16,12 @@ INIT source-clone tmux https://github.com/tmux/tmux.git
 
 
 INIT status "Building Tmux"
+make clean
 sh autogen.sh
 ./configure
+
+# Build the base Tmux binary
 make
-sudo cp tmux /usr/bin/tmux
+
+# Note: install-exec-hook installs the manpage
+sudo make install install-exec-hook

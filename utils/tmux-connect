@@ -7,13 +7,26 @@
 
 INIT apt-install --lazy-bin --header "Installing TMUX session multiplexor..." tmux
 
-TSESSION=$1
+echo "CALLED [$@]"
+TSESSION="$1"
 shift
+echo "REMAINING [$TSESSION] [$@]"
 
 if [ `INIT bin-grep-matches "tmux list-sessions" "^$TSESSION:"` == 1 ]; then
 	INIT status "Connecting to TMUX session '$TSESSION'"
 	tmux attach-session -t "$TSESSION"
+
+	# Experimental - try to send a command to ean existing session
+	if [ ! -z "$1" ]; then
+		tmux send-keys -t "$TSESSION" "$@ enter"
+	fi
+elif [ "$#" > 0 ]; then
+	INIT status "Creating new TMUX session '$TSESSION' (With command '$@')"
+	tmux new-session -c "$INIT_HOME" -s "$TSESSION"
+	if [ ! -z "$1" ]; then
+		tmux send-keys -t "$TSESSION" "$@" "enter"
+	fi
 else
 	INIT status "Creating new TMUX session '$TSESSION'"
-	tmux new-session -s "$TSESSION"
+	tmux new-session -c "$INIT_HOME" -s "$TSESSION"
 fi

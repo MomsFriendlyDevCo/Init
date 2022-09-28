@@ -9,7 +9,7 @@ export DEBIAN_FRONTEND=noninteractive
 
 # Import the config
 source config
-export INIT_HOME INIT_SRC INIT_CMD_PATH
+export INIT_HOME INIT_SRC INIT_CMD_PATH INIT_AUTO_TMUX
 
 # Call a utility function as sourced within the current shell
 function INIT {
