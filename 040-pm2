@@ -17,7 +17,7 @@ else
 INIT file-set /etc/logrotate.d/pm2 <<EOF
 /root/.pm2/logs/*.log {
   weekly
-  size 128M
+  maxsize 128M
   rotate 8
   missingok
   compress
