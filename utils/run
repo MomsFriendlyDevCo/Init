@@ -6,5 +6,10 @@
 
 for TASK in "$@"; do
 	cd "$INIT_HOME"
-	"$INIT_HOME/$TASK"
+	if [ -x "$INIT_HOME/$TASK" ]; then
+		"$INIT_HOME/$TASK"
+	else
+		echo "Invalid run unit '${TASK}'"
+		exit 1
+	fi
 done

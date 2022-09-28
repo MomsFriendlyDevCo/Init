@@ -7,7 +7,7 @@ INIT run \
 	000-hostname \
 	001-keygen \
 	001-locales \
-	001-needsrestart \
+	001-needrestart \
 	001-timezone \
 	005-pkg-rm \
 	007-apt-update \
