@@ -56,7 +56,7 @@ INIT file-set /etc/logrotate.d/mongodb <<EOF
   endscript
 }
 EOF
-	sudo systemctl try-reload-or-restart logrotate
+	sudo systemctl restart logrotate
 fi
 
 

@@ -24,9 +24,9 @@ INIT file-set /etc/logrotate.d/pm2 <<EOF
   notifempty
   sharedscripts
   postrotate
-	/usr/bin/node /usr/bin/pm2 flush
+	sudo -u root /usr/bin/node /usr/bin/pm2 flush
   endscript
 }
 EOF
-	sudo systemctl try-reload-or-restart logrotate
+	sudo systemctl restart logrotate
 fi
