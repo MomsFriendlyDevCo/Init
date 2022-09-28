@@ -4,7 +4,7 @@
 
 [ -z "$INIT_READY" ] && source common
 
-if [ -d "$INIT_SRC" ]; then
+if [ ! -d "$INIT_SRC" ]; then
 	mkdir -p "$INIT_SRC"
 fi
 
