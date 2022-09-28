@@ -27,5 +27,6 @@ INIT run \
 	090-fzf \
 	090-neovim \
 	090-root-bashrc \
+	100-mosh \
 	100-ubuntu-desktop \
 	200-rust \

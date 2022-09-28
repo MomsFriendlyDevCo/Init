@@ -1,0 +1,25 @@
+#!/bin/bash
+# Install the Mosh Nightly from source
+
+source common
+
+INIT apt-install --lazy --header "Install Pre-requisites" \
+	libncurses5-dev \
+	libprotobuf-dev \
+	libssl-dev \
+	libutempter-dev \
+	perl \
+	protobuf-compiler \
+	zlib1g-dev \
+
+
+INIT source-clone mosh https://github.com/mobile-shell/mosh
+INIT go-src mosh
+
+INIT status "Building Mosh"
+./autogen.sh
+./configure
+make
+
+INIT status "Installing Mosh"
+sudo make install
