@@ -4,7 +4,7 @@
 
 [ -z "$INIT_READY" ] && source common
 
-echo
-echo -ne "\e[34m\e[1m ● "
-echo -n "$@"
-echo -e "\e[0m"
+echo -ne "\n\e[34m\e[1m"
+echo -e "$@"
+printf '%*s\n' "${COLUMNS:-$(tput cols)}" '' | tr ' ' '~'
+echo -ne "\e[0m"
