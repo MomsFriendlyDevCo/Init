@@ -55,7 +55,6 @@ INIT npm-install \
 	@momsfriendlydevco/o \
 	@momsfriendlydevco/repl \
 	npm-check-updates \
-	pm2 \
 
 
 if [ -e /usr/bin/json-prettify ]; then

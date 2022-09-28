@@ -1,0 +1,32 @@
+#!/bin/bash
+# Install + configure NodeJS `pm2` process runner
+
+source common
+
+INIT status "Install PM2 globally"
+INIT npm-install pm2
+
+
+if [ -f "/etc/logrotate.d/pm2" ]; then
+	INIT skip "Setup Logrotate for PM2 (already exists)"
+else
+	INIT status "Setup Logrotate for PM2"
+	INIT apt-install --lazy logrotate
+	# Add logRotate option to reopen on rotate
+
+INIT file-set /etc/logrotate.d/pm2 <<EOF
+/root/.pm2/logs/*.log {
+  weekly
+  size 128M
+  rotate 8
+  missingok
+  compress
+  notifempty
+  sharedscripts
+  postrotate
+	/usr/bin/node /usr/bin/pm2 flush
+  endscript
+}
+EOF
+	sudo systemctl try-reload-or-restart logrotate
+fi

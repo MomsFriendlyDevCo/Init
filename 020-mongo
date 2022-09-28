@@ -29,10 +29,14 @@ if [ `INIT file-grep-matches /etc/mongod.conf 'engine: "wiredTiger"'` == 0 ]; th
 	sudo perl -pi -e 's/^#  engine:.*$/  engine: "wiredTiger"/' /etc/mongod.conf
 fi
 
+
 if [ -f "/etc/logrotate.d/mongodb" ]; then
 	INIT skip "Setup Logrotate (already exists)"
 else
 	INIT status "Setup Logrotate for Mongo"
+
+	INIT apt-install --lazy logrotate
+
 	# Add logRotate option to reopen on rotate
 	INIT snap-install yq
 	yq '.systemLog.logRotate="reopen"' </etc/mongod.conf | sudo sponge /etc/mongod.conf
@@ -52,7 +56,7 @@ INIT file-set /etc/logrotate.d/mongodb <<EOF
   endscript
 }
 EOF
-	sudo systemctl restart logrotate
+	sudo systemctl try-reload-or-restart logrotate
 fi
 
 

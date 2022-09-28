@@ -21,6 +21,7 @@ INIT run \
 	020-mongo \
 	020-node \
 	030-fix-motd \
+	040-pm2 \
 	050-zsh \
 	090-dtrx \
 	090-fzf \
