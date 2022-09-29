@@ -6,9 +6,12 @@ source common
 INIT apt-install --lazy --header "Installing Tmux prerequisites" \
 	autoconf \
 	automake \
+	bison \
+	build-essential \
 	byacc \
 	libevent-dev \
 	libncurses-dev pkg-config \
+	pkg-config \
 
 
 INIT status "Downloading Tmux"
@@ -16,7 +19,6 @@ INIT source-clone tmux https://github.com/tmux/tmux.git
 
 
 INIT status "Building Tmux"
-make clean
 sh autogen.sh
 ./configure
 
