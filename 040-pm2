@@ -28,5 +28,7 @@ INIT file-set /etc/logrotate.d/pm2 <<EOF
   endscript
 }
 EOF
+
+	INIT status "Restarting + Flushing Logrotate"
 	sudo systemctl restart logrotate
 fi
