@@ -14,7 +14,3 @@ sudo dd if=/dev/zero of=/var/swap.img bs=4096 count=1048576
 sudo mkswap /var/swap.img
 sudo swapon /var/swap.img
 echo "/var/swap.img    none    swap    sw    0    0" | sudo tee -a /etc/fstab >/dev/null
-
-
-INIT status "Setting up system Swappiness"
-sudo sysctl -w vm.swappiness=30

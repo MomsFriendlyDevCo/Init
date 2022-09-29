@@ -17,7 +17,7 @@ if grep -q "$KEY\s*=" "$FILE"; then
 else
 	# Append setting
 
-INIT file-set --append <<EOF
+INIT file-set "$FILE" --append <<EOF
 
 # Added by INIT process on $DATE
 $KEY=$VAL
