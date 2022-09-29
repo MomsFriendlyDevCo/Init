@@ -10,7 +10,7 @@ INIT apt-install fail2ban
 
 
 INIT status "Add MFDC to Fail2Ban IP whitelist"
-INIT config-set /etc/fail2ban/jail.conf 'ignoreip' '127.0.0.1\/8 10.0.0.1\/24 59.100.88.0\/24 103.96.6.111/'
+INIT config-set /etc/fail2ban/jail.conf 'ignoreip' '127.0.0.1/8 10.0.0.1/24 59.100.88.0/24 103.96.6.111/'
 
 
 INIT status "Restarting Fail2Ban"
