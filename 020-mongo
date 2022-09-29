@@ -89,4 +89,4 @@ sleep 3
 
 
 INIT status "Disable Mongo monitoring"
-/usr/bin/mongo --eval 'db.disableFreeMonitoring()'
+/usr/bin/mongosh --eval 'db.disableFreeMonitoring()'
