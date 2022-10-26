@@ -38,6 +38,10 @@ INIT npm-install -g npm@latest
 INIT status "Install common global NPMs"
 INIT npm-install \
 	@hash-bang/pss \
+	@momsfriendlydevco/cli-snip \
+	@momsfriendlydevco/extract \
+	@momsfriendlydevco/o \
+	@momsfriendlydevco/repl \
 	depcheck \
 	fkill-cli \
 	fx \
@@ -50,10 +54,6 @@ INIT npm-install \
 	json-prettify \
 	mongoosh \
 	mocha \
-	@momsfriendlydevco/cli-snip \
-	@momsfriendlydevco/extract \
-	@momsfriendlydevco/o \
-	@momsfriendlydevco/repl \
 	npm-check-updates \
 
 
