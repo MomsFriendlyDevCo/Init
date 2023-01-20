@@ -9,6 +9,10 @@ sudo add-apt-repository -y ppa:tista/plata-theme
 
 INIT status "Install all theme packages"
 INIT apt-install \
+	adapta-gtk-theme \
 	arc-theme \
+	materia-gtk-theme \
 	oxygen-cursor-theme \
 	plata-theme \
+	shiki-brave-theme \
+	shiki-colors-xfwm-theme \
