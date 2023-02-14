@@ -37,6 +37,7 @@ INIT cargo-install \
 	lsd \
 	mcfly \
 	tokei \
+	woodchipper \
 	ytop \
 	xcp \
 
