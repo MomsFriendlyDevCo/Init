@@ -16,6 +16,7 @@ INIT apt-install --lazy --header "Installing Tmux prerequisites" \
 
 INIT status "Downloading Tmux"
 INIT source-clone tmux https://github.com/tmux/tmux.git
+cd "$INIT_SRC/tmux"
 
 
 INIT status "Building Tmux"
