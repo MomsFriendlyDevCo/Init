@@ -25,6 +25,7 @@ INIT cargo-install \
 	bat \
 	bandwhich \
 	bottom \
+	broot \
 	diffr \
 	du-dust \
 	exa \
@@ -36,6 +37,7 @@ INIT cargo-install \
 	lsd \
 	mcfly \
 	tokei \
+	ytop \
 	xcp \
 
 
