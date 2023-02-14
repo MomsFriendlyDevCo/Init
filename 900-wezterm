@@ -9,8 +9,26 @@ INIT go-src wezterm
 
 INIT status "Installing dependencies"
 ./get-deps
+cargo install cargo-deb
 
 
 INIT status "Building Wezterm"
 cargo clean
 cargo build --release
+
+INIT status "Installing Wezterm DEB"
+NOW=`date '+%Y%m%d%H%M%S'`
+
+cargo deb \
+	--verbose \
+	--fast \
+	--install \
+	--package wezterm \
+	--deb-revision "$NOW"
+
+cargo deb \
+	--verbose \
+	--fast \
+	--install \
+	--package wezterm-gui \
+	--deb-revision "$NOW"
