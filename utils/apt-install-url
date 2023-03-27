@@ -18,7 +18,7 @@ cd "$INIT_SRC/deb"
 INIT file-download-url "$@"
 
 INIT status "Installing .DEB files"
-dpkg -i *.deb
+sudo dpkg -i *.deb
 
 INIT status "Cleaning up .DEB files"
 cd "$INIT_SRC"
