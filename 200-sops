@@ -1,0 +1,7 @@
+#!/bin/bash
+# Install Mozilla SOPS (Secret Ops)
+
+source common
+
+INIT status "Install Mozilla SOPS"
+INIT apt-install-github-release mozilla/sops
