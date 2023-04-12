@@ -34,7 +34,7 @@ INIT status "Configure Zabbix-agent"
 THIS_HOST=`hostname`
 INIT file-set "/etc/zabbix/zabbix_agentd.conf" <<EOF
 PidFile=/var/run/zabbix/zabbix_agentd.pid
-LogFile=/var/log/zabbix-agent/zabbix_agentd.log
+LogFile=/var/log/zabbix/zabbix_agentd.log
 LogFileSize=128
 
 
