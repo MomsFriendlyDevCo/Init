@@ -1,6 +1,6 @@
 #!/bin/bash
 # Set a simple INI setting within a file
-# Usage: INIT config-set-ini <file> <key> <value>
+# Usage: INIT config-set <file> <key> <value>
 
 [ -z "$INIT_READY" ] && source common
 
