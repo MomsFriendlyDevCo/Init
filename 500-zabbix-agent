@@ -22,13 +22,19 @@ echo
 read
 
 
+echo
+echo "Enter upstream Zabbix server address"
+read -p "[calculon.mfdc.io] >" ZABBIX_SERVER
+echo
+
+
 INIT status "Configure Zabbix-agent"
-INIT config-set-ini "/etc/zabbix/zabbix_agentd.conf" "Server" `hostname`
-INIT config-set-ini "/etc/zabbix/zabbix_agentd.conf" "ServerActive" `hostname`
-INIT config-set-ini "/etc/zabbix/zabbix_agentd.conf" "TLSConnect" "psk"
-INIT config-set-ini "/etc/zabbix/zabbix_agentd.conf" "TLSAccept" "psk"
-INIT config-set-ini "/etc/zabbix/zabbix_agentd.conf" "TLSPSKIdentity" `hostname`
-INIT config-set-ini "/etc/zabbix/zabbix_agentd.conf" "TLSPSKFile" "/etc/zabbix/zabbix_agentd.psk"
+INIT config-set "/etc/zabbix/zabbix_agentd.conf" "Server" $ZABBIX_SERVER
+INIT config-set "/etc/zabbix/zabbix_agentd.conf" "ServerActive" $ZABBIX_SERVER
+INIT config-set "/etc/zabbix/zabbix_agentd.conf" "TLSConnect" "psk"
+INIT config-set "/etc/zabbix/zabbix_agentd.conf" "TLSAccept" "psk"
+INIT config-set "/etc/zabbix/zabbix_agentd.conf" "TLSPSKIdentity" `hostname`
+INIT config-set "/etc/zabbix/zabbix_agentd.conf" "TLSPSKFile" "/etc/zabbix/zabbix_agentd.psk"
 
 
 INIT status "Installing Zabbit agent"
