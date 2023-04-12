@@ -45,8 +45,6 @@ TLSConnect=psk
 TLSAccept=psk
 TLSPSKIdentity=$THIS_HOST
 TLSPSKFile=/etc/zabbix/zabbix_agentd.psk
-
-Include=/etc/zabbix/zabbix_agentd.conf.d/*.conf
 EOF
 
 sudo systemctl restart zabbix-agent
