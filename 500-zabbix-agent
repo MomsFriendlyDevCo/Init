@@ -30,18 +30,25 @@ if [ -z "$ZABBIX_SERVER" ]; then
 fi
 echo
 
-
 INIT status "Configure Zabbix-agent"
-INIT config-set "/etc/zabbix/zabbix_agentd.conf" "Server" $ZABBIX_SERVER
-INIT config-set "/etc/zabbix/zabbix_agentd.conf" "ServerActive" $ZABBIX_SERVER
-INIT config-set "/etc/zabbix/zabbix_agentd.conf" "Hostname" `hostname`
-INIT config-set "/etc/zabbix/zabbix_agentd.conf" "TLSConnect" "psk"
-INIT config-set "/etc/zabbix/zabbix_agentd.conf" "TLSAccept" "psk"
-INIT config-set "/etc/zabbix/zabbix_agentd.conf" "TLSPSKIdentity" `hostname`
-INIT config-set "/etc/zabbix/zabbix_agentd.conf" "TLSPSKFile" "/etc/zabbix/zabbix_agentd.psk"
+THIS_HOST=`hostname`
+INIT file-set "/etc/zabbix/zabbix_agentd.conf" <<EOF
+PidFile=/var/run/zabbix/zabbix_agentd.pid
+LogFile=/var/log/zabbix-agent/zabbix_agentd.log
+LogFileSize=128
 
 
-INIT status "Installing Zabbit agent"
+Server=$ZABBIX_SERVER
+ServerActive=$ZABBIX_SERVER
+Hostname=$THIS_HOST
+TLSConnect=psk
+TLSAccept=psk
+TLSPSKIdentity=$THIS_HOST
+TLSPSKFile=/etc/zabbix/zabbix_agentd.psk
+
+Include=/etc/zabbix/zabbix_agentd.conf.d/*.conf
+EOF
+
 sudo systemctl restart zabbix-agent
 sudo systemctl enable zabbix-agent
 
