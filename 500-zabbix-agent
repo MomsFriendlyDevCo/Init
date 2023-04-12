@@ -25,6 +25,9 @@ read
 echo
 echo "Enter upstream Zabbix server address"
 read -p "[calculon.mfdc.io] >" ZABBIX_SERVER
+if [ -z "$ZABBIX_SERVER" ]; then
+	ZABBIX_SERVER=calculon.mfdc.io
+fi
 echo
 
 
