@@ -1,0 +1,8 @@
+#!/bin/bash
+# Force update apt, even if its not required
+#
+# Usage: ./utils/apt-update
+
+[ -z "$INIT_READY" ] && source common
+
+sudo apt update
