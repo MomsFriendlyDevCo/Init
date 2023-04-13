@@ -39,6 +39,9 @@ PidFile=/var/run/zabbix/zabbix_agentd.pid
 LogFile=/var/log/zabbix/zabbix_agentd.log
 LogFileSize=128
 
+# Enable for debugging
+DebugLevel=4
+
 
 Server=$ZABBIX_SERVER
 ServerActive=$ZABBIX_SERVER
@@ -47,6 +50,8 @@ TLSConnect=psk
 TLSAccept=psk
 TLSPSKIdentity=$THIS_HOST
 TLSPSKFile=/etc/zabbix/zabbix_agentd.psk
+
+Include=/etc/zabbix/zabbix_agent2.d/plugins.d/*.conf
 EOF
 
 sudo systemctl restart zabbix-agent2
