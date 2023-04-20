@@ -12,16 +12,20 @@ INIT apt-update
 INIT apt-install zabbix-agent2 zabbix-agent2-*
 
 
-INIT status "Generate Zabbix PSK key"
-sudo sh -c "openssl rand -hex 32 > /etc/zabbix/zabbix_agentd.psk"
-PSK=`cat /etc/zabbix/zabbix_agentd.psk`
+if [ -e "/etc/zabbix/zabbix_agentd.psk" ]; then
+	INIT skip "Generate Zabbix PSK Key"
+else
+	INIT status "Generate Zabbix PSK key"
+	sudo sh -c "openssl rand -hex 32 > /etc/zabbix/zabbix_agentd.psk"
+	PSK=`cat /etc/zabbix/zabbix_agentd.psk`
 
-echo
-echo "Zabbix agent setup to continue with PSK [name = `hostname`] [PSK = [ $PSK ]]"
-echo
-echo "Press enter to continue, when this has been noted"
-echo
-read
+	echo
+	echo "Zabbix agent setup to continue with PSK [name = `hostname`] [PSK = [ $PSK ]]"
+	echo
+	echo "Press enter to continue, when this has been noted"
+	echo
+	read
+fi
 
 
 echo
