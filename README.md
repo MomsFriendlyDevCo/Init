@@ -70,6 +70,7 @@ fi
 |-------------------|------------------------------------------------|--------|----------------------------------------------------------------------------------------------------|
 | Category          | Command                                        | Flags? | Description                                                                                        |
 |-------------------|------------------------------------------------|--------|----------------------------------------------------------------------------------------------------|
+| User input        | `INIT ask -p <message> -v <var> -d <default>`  | Yes    | Prompt the user for various inputs using the `profile` file for defaults                           |
 | Status Output     | `INIT skip <message>`                          |        | Same as `INIT status` but display that the operation was skipped                                   |
 |                   | `INIT status <message>`                        |        | Display a status message                                                                           |
 | Change directory  | `INIT go-init`                                 |        | Change back to the base Init directory, should be called last on any script which changes anything |
@@ -81,7 +82,7 @@ fi
 |                   | `INIT apt-install-github-release <owner/repo>` | Yes    | Download + install the latest version of a .DEB packages from a GitHub Repo                        |
 |                   | `INIT apt-install-url <URLs...>`               |        | Download .DEB packages from the given URLs and install them                                        |
 |                   | `INIT apt-remove <pkgs...>`                    | Yes    | Remove all specified packages                                                                      |
-|                   | `INIT apt-update`                            |        | Force update apt, even if its not required                                                           |
+|                   | `INIT apt-update`                              |        | Force update apt, even if its not required                                                         |
 | Packages / Cargo  | `INIT cargo-install <pkgs...>`                 |        | Install various Rust / Cargo packages                                                              |
 | Packages / NPM    | `INIT npm-install <pkgs...>`                   |        | Install various Node / NPM packages                                                                |
 | Packages / Pip    | `INIT pip-install <pkgs...>`                   |        | Install various Python3 + Pip packages                                                             |

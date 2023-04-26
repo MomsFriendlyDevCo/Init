@@ -3,17 +3,17 @@
 
 source common
 
-TIMEZONE=`cat /etc/timezone`
+SYS_TIMEZONE=`cat /etc/timezone`
 
 echo
-echo "Timezone is currently '$TIMEZONE'"
+echo "Timezone is currently '$SYS_TIMEZONE'"
 echo "Please enter the the correct timezone of this system or enter to accept this"
 echo "e.g. Australia/Brisbane"
 echo
 
-read -p "Timezone [$TIMEZONE] >" NEWTIMEZONE
+TIMEZONE=`INIT ask --prompt "Timezone" --var "PROFILE_TIMEZONE" --default "$SYS_TIMEZONE"`
 
-echo
+echo "WOULD SET TIMEZONE [$TIMEZONE]"
 
 if [ -z "$NEWTIMEZONE" ]; then
 	exit 0

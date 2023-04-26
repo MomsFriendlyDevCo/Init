@@ -11,13 +11,7 @@ echo "Please enter the domain name of this system or enter to accept this"
 echo "e.g. mywebsite.com"
 echo
 
-read -p "Hostname [$HOSTNAME] >" NEWHOSTNAME
-
-echo
-
-if [ -z "$NEWHOSTNAME" ]; then
-	NEWHOSTNAME="$HOSTNAME"
-fi
+NEWHOSTNAME=`INIT ask --prompt "Hostname" --var "PROFILE_HOSTNAME"`
 
 if [ "$HOSTNAME" != "$NEWHOSTNAME" ]; then
 	INIT status "Change server hostname"

@@ -3,7 +3,7 @@
 # Usage: ./utils/file-grep-matches <file> <grep>
 #
 # @example test if the "foo" exists within /tmp/file.txt
-# if [ `./utils/file-grep-matches /tmp/file.txt "foo"` == 1 ]; then
+# if [ `INIT file-grep-matches /tmp/file.txt "foo"` == 1 ]; then
 #   echo "Is a match"
 # fi
 

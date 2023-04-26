@@ -5,10 +5,9 @@
 source common
 
 INIT status "Minimal Server Setup"
-read -p "Is this server a tiny VM server with RAM < 512mb? (y|n) " SETUP
-echo
+ISMINIMAL=`INIT ask --prompt "Is this server a tiny VM server with RAM < 512mb? (y|n)" --default "y"`
 
-if [ "$SETUP" != "y" ]; then
+if [ "$ISMINIMAL" != "y" ]; then
 	exit 0
 fi
 

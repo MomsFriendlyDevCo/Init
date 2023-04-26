@@ -22,8 +22,7 @@ echo "n    Normal / standalone       (none)"
 echo "do   Digital Ocean             (none)"
 echo "bl   Binary Lane               deny-passwords + swap + ulimits + journdald + swappiness"
 echo
-read -p "Hosting profilet> " PROFILE
-echo
+PROFILE=`INIT ask --prompt "Hosting profile" --default "n"`
 
 if [ "$PROFILE" == "n" ]; then
 	echo "Selected normal hosting profile - applying no patches"

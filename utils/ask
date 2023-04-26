@@ -1,0 +1,72 @@
+#!/bin/bash
+# Ask a simple text based question, using an answers file if available
+# Usage: ./utils/ask --prompt <prompt> [--var <var-name>] [--default VALUE]
+#
+# -p, --prompt <prompt>   The prompt text to display as a question prefix
+#
+# -d, --default <default> Default value if the use just hits enter
+#
+# -v, --var <var-name>    The internal variable name to use
+#
+#
+# @example Ask for a server name
+# SERVER=`INIT ask --prompt 'Enter the server to use:' --var 'INIT_SERVER'`
+
+[ -z "$INIT_READY" ] && source common
+
+# Argument processing {{{
+ASK_PROMPT=""
+ASK_VARNAME=""
+ASK_DEFAULT=""
+PARAMS=()
+while (( "$#" )); do
+	case "$1" in
+		-p|--prompt)
+			ASK_PROMPT="$2"
+			shift
+			shift
+			;;
+		-v|--var)
+			ASK_VARNAME="$2"
+			shift
+			shift
+			;;
+		-d|--default)
+			ASK_DEFAULT="$2"
+			shift
+			shift
+			;;
+		--) # end argument parsing
+			shift
+			break
+			;;
+		-*|--*=) # unsupported flags
+			PARAMS+=("$1")
+			shift
+			;;
+		*) # preserve positional arguments
+			PARAMS+=("$1")
+			shift
+			;;
+	esac
+done
+# }}}
+
+# Fetch value from PROFILE_ prefixes
+if [ ! -e "$ASK_VARNAME" ]; then
+	source "./profile"
+	if [ ! -e "${!ASK_VARNAME}" ]; then
+		ASK_DEFAULT="${!ASK_VARNAME}"
+	fi
+fi
+
+
+echo >&2
+read -p "${ASK_PROMPT} [${ASK_DEFAULT}] > " ASK_RESPONSE
+echo >&2
+
+if [ -z "$ASK_RESPONSE" ]; then
+	ASK_RESPONSE="$ASK_DEFAULT"
+fi
+
+echo -n "$ASK_RESPONSE"

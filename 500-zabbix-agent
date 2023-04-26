@@ -30,10 +30,7 @@ fi
 
 echo
 echo "Enter upstream Zabbix server address"
-read -p "[calculon.mfdc.io] >" ZABBIX_SERVER
-if [ -z "$ZABBIX_SERVER" ]; then
-	ZABBIX_SERVER=calculon.mfdc.io
-fi
+ZABBIX_SERVER=`INIT ask --prompt "Zabbix Server" --var "PROFILE_ZABBIX_SERVER"`
 echo
 
 INIT status "Configure Zabbix-agent"
