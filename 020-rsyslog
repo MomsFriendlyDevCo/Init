@@ -1,0 +1,39 @@
+#!/bin/bash
+# Install RSyslogD against a remote server
+
+source common
+
+
+INIT apt-install --lazy --header "Install RSyslog" rsyslog
+
+UPSTREAM=`INIT ask --prompt "Upstream RSyslog server" --var "PROFILE_RSYSLOG_UPSTREAM"`
+
+if [ `INIT file-grep-matches /etc/rsyslog.conf "@${UPSTREAM}:514"` == 1 ]; then
+	INIT skip "Adding upstream config to RSyslog config (already present)"
+else
+	INIT status "Adding upstream config to RSyslog config"
+
+	INIT file-set /etc/rsyslog.d/20-remote.conf <<EOF
+# Added by INIT
+ruleset(name="remote") {
+	action(type="omfwd" target="${UPSTREAM}" port="514" protocol="udp" queue.type="linkedList" queue.size="20000")
+}
+
+module(load="imfile" PollingInterval="10" statefile.directory="/var/spool/rsyslog")
+
+# Injest Mongo logs
+input(type="imfile" File="/var/log/mongodb/mongod.log" Tag="db" Severity="info" Facility="local7" ruleset="remote")
+
+# Injest PM2 logs
+input(type="imfile" File="/root/.pm2/logs/*-out.log" Tag="http" Severity="info" Facility="local6" ruleset="remote")
+input(type="imfile" File="/root/.pm2/logs/*-err.log" Tag="http_error" Severity="error" Facility="local6" ruleset="remote")
+input(type="imfile" File="/root/.pm2/logs/*-error.log" Tag="http_error" Severity="error" Facility="local6" ruleset="remote")
+
+# Injest system logs
+input(type="imfile" File="/var/log/syslog" Tag="auth" Severity="info" Facility="auth" ruleset="remote")
+input(type="imfile" File="/var/log/syslog" Tag="syslog" Severity="info" Facility="syslog" ruleset="remote")
+input(type="imfile" File="/var/log/syslog" Tag="kern" Severity="info" Facility="kern" ruleset="remote")
+EOF
+
+	sudo systemctl restart rsyslog
+fi
