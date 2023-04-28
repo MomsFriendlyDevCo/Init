@@ -13,7 +13,7 @@ DATE=`date '+%Y-%m-%dT%H:%M:%SZ%z'`
 
 if grep -q "$KEY\s*=" "$FILE"; then
 	# Update existing setting
-	sudo perl -pi -e "my \$key = quotemeta('$KEY'); my \$val = '$VALUE'; s!^\#?\s*\$key\s*=.*\$!\$key=\$val!" "$FILE"
+	sudo perl -pi -e "my \$key_quoted = quotemeta('$KEY'); my \$val = '$VALUE'; s!^\#?\s*\$key_quoted\s*=.*\$!\$key=\$val!" "$FILE"
 else
 	# Append setting
 
