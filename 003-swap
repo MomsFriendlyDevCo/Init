@@ -6,14 +6,14 @@
 source common
 
 SWAP_SIZE=4G
-SWAP_FILE="/var/swap-${SWAP_SIZE,,}"
+SWAP_FILE="/var/swap-$(echo "$SWAP_SIZE" | tr '[:upper:]' '[:lower:]').img"
 
 
 INIT status "Setting up ${SWAP_SIZE} Swap file"
 sudo touch "${SWAP_FILE}"
 sudo chmod 0600 "${SWAP_FILE}"
 sudo fallocate -l "${SWAP_SIZE}" "${SWAP_FILE}"
-sudo dd if=/dev/zero "of=${SWAP_FILE}" "bs=${SWAP_SIZE}" count=1048576
+sudo truncate "${SWAP_FILE}" --size="${SWAP_SIZE}"
 sudo mkswap "${SWAP_FILE}"
 sudo swapon "${SWAP_FILE}"
 
