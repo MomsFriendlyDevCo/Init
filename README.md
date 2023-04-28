@@ -71,7 +71,8 @@ fi
 | Category          | Command                                        | Flags? | Description                                                                                        |
 |-------------------|------------------------------------------------|--------|----------------------------------------------------------------------------------------------------|
 | User input        | `INIT ask -p <message> -v <var> -d <default>`  | Yes    | Prompt the user for various inputs using the `profile` file for defaults                           |
-| Status Output     | `INIT skip <message>`                          |        | Same as `INIT status` but display that the operation was skipped                                   |
+| Status Output     | `INIT fixme <message>`                         |        | Mark that a script needs attention on the next clean system install                                |
+|                   | `INIT skip <message>`                          |        | Same as `INIT status` but display that the operation was skipped                                   |
 |                   | `INIT status <message>`                        |        | Display a status message                                                                           |
 | Change directory  | `INIT go-init`                                 |        | Change back to the base Init directory, should be called last on any script which changes anything |
 |                   | `INIT go-src [sub-dir]`                        |        | Change to the $INIT_SRC directory (+ optional sub-dir), creating it/them if they dont exist        |

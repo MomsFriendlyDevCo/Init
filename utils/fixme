@@ -1,0 +1,9 @@
+#!/bin/bash
+# Marker for activity which needs testing
+# This displays a message and waits for user input before continuing
+# Usage: ./utils/fixme <message>
+
+[ -z "$INIT_READY" ] && source common
+
+echo -ne "\n\e[1;45m\e[1mFIXME: \e[0m"
+echo -e "$@"
