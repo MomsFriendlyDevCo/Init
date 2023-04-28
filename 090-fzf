@@ -1,6 +1,5 @@
 #!/bin/bash
 # Install the FZF binaries for Shell + Vim usage
-# REQUIRES: 007-apt-update
 #
 # NOTE: This installs the source rather than the PPA (ppa:neovim-ppa/unstable)
 #	as that seems not to actually be a Nightly build

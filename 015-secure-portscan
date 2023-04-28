@@ -1,6 +1,5 @@
 #!/bin/bash
 # Secure the Port Scan protection
-# REQUIRES: 010-apt-server
 
 source common
 

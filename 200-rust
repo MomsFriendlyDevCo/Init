@@ -1,6 +1,5 @@
 #!/bin/bash
 # Install Rust / Cargo + common Cargo packages
-# REQUIRES: 007-apt-update
 
 source common
 

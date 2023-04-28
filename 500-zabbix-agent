@@ -1,6 +1,5 @@
 #!/bin/bash
 # Setup the Zabbix agent
-# REQUIRES: 000-hostname
 
 source common
 

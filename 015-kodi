@@ -1,6 +1,5 @@
 #!/bin/bash
 # Install Kodi modules
-# REQUIRES: 007-apt-update
 
 source common
 

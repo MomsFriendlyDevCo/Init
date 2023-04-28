@@ -1,6 +1,5 @@
 #!/bin/bash
 # Setup the automatic MFDC Mindstate backup process
-# REQUIRES: 000-hostname 001-keygen
 
 source common
 

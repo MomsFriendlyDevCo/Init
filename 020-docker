@@ -1,6 +1,5 @@
 #!/bin/bash
 # Install docker
-# REQUIRES: 007-apt-update
 
 source common
 

@@ -1,6 +1,5 @@
 #!/bin/bash
 # Install Wezterm terminal emulator
-# REQUIRES: 200-rust
 
 source common
 

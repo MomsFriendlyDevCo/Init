@@ -1,6 +1,5 @@
 #!/bin/bash
 # Install `monit` service monitor which keeps Apache, MySQL and Postfix running
-# REQUIRES: 007-apt-update
 
 source common
 

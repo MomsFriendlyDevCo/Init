@@ -1,6 +1,5 @@
 #!/bin/bash
 # Install Duplicity + Duply
-# REQUIRES: 000-hostname
 
 source common
 

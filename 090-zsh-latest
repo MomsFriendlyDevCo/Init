@@ -1,8 +1,6 @@
 #!/bin/bash
 # Install the latest ZSH Nightly from source
 # This script is really only for older Linux versions that really need to build ZSH from source
-# REQUIRES: 007-apt-update
-
 
 source common
 

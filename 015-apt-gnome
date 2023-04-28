@@ -1,6 +1,5 @@
 #!/bin/bash
 # Install packages specific to Gnome
-# REQUIRES: 007-apt-update
 
 source common
 

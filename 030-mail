@@ -1,7 +1,6 @@
 #!/bin/bash
 # Setup a basic mail server, redirecting email to another address
 # Change the default relays at the bottom of this file as needed
-# REQUIRES: 000-hostname
 
 source common
 

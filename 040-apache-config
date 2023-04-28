@@ -1,6 +1,5 @@
 #!/bin/bash
 # Configure apache based on the usual MFDC settings
-# REQUIRES: pkg:apache2
 
 source common
 

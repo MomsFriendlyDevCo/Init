@@ -1,6 +1,5 @@
 #!/bin/bash
 # Install Amazon Galcier Sync (mt-aws-glacier)
-# REQUIRES: 007-apt-update
 
 source common
 

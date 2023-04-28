@@ -1,6 +1,5 @@
 #!/bin/bash
 # Install packages suitable for PHP web hosting
-# REQUIRES: 007-apt-update
 
 source common
 

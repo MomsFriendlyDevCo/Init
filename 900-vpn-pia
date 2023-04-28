@@ -1,6 +1,5 @@
 #!/bin/bash
 # Install privateinternetaccess.com VPN setup for OpenVPN
-# REQUIRES: 007-apt-update
 
 source common
 

@@ -1,6 +1,5 @@
 #!/bin/bash
 # Secure the SSH port against attacks
-# REQUIRES: 010-apt-server
 
 source common
 

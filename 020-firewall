@@ -1,6 +1,5 @@
 #!/bin/bash
 # Sets up the default firewall
-# REQUIRES: 007-apt-update
 
 source common
 

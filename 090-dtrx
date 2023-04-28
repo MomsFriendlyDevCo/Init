@@ -1,6 +1,5 @@
 #!/bin/bash
 # Install the `dtrx` swiss-army-knife extrator
-# REQUIRES: 007-apt-update
 
 source common
 

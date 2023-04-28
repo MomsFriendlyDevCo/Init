@@ -1,7 +1,6 @@
 #!/bin/bash
 # Creates a symlink to the /var/www Apache web directory in the users home dir
 # Also wipes the existing /var/www clean
-# REQUIRES: pkg:apache2
 
 source common
 

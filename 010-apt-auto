@@ -1,6 +1,5 @@
 #!/bin/bash
 # Install all auto-updating APT security packages
-# REQUIRES: 007-apt-update
 
 source common
 

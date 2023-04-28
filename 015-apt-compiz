@@ -1,6 +1,5 @@
 #!/bin/bash
 # Install packages needed for Compiz
-# REQUIRES: 007-apt-update
 
 source common
 

@@ -1,6 +1,5 @@
 #!/bin/bash
 # Install Nginx as a HTTP / HTTPS reverse proxy
-# REQUIRES: 007-apt-update
 
 source common
 
