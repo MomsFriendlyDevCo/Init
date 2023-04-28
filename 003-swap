@@ -1,16 +1,22 @@
 #!/bin/bash
-# Set up a 4gb swap file using disk
-# This is only really useful on Minimal-RAM systems
+# Set up a 4gb swap file using disk storage
 #
 # NOTE: Use `free -h` to see swap file usage
 
 source common
 
+SWAP_SIZE=4G
+SWAP_FILE="/var/swap-${SWAP_SIZE,,}"
+
+
 INIT status "Setting up Swap file"
-sudo touch /var/swap.img
-sudo chmod 0600 /var/swap.img
-sudo fallocate -l 4G /var/swap.img
-sudo dd if=/dev/zero of=/var/swap.img bs=4096 count=1048576
-sudo mkswap /var/swap.img
-sudo swapon /var/swap.img
-echo "/var/swap.img    none    swap    sw    0    0" | sudo tee -a /etc/fstab >/dev/null
+sudo touch "${SWAP_FILE}"
+sudo chmod 0600 "${SWAP_FILE}"
+sudo fallocate -l "${SWAP_SIZE}" "${SWAP_FILE}"
+sudo dd if=/dev/zero "of=${SWAP_FILE}" "bs=${SWAP_SIZE}" count=1048576
+sudo mkswap "${SWAP_FILE}"
+sudo swapon "${SWAP_FILE}"
+
+INIT file-set --append /etc/fstab <<EOF
+${SWAP_FILE}    none    swap    sw    0    0
+EOF
