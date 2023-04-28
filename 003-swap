@@ -9,7 +9,7 @@ SWAP_SIZE=4G
 SWAP_FILE="/var/swap-${SWAP_SIZE,,}"
 
 
-INIT status "Setting up Swap file"
+INIT status "Setting up ${SWAP_SIZE} Swap file"
 sudo touch "${SWAP_FILE}"
 sudo chmod 0600 "${SWAP_FILE}"
 sudo fallocate -l "${SWAP_SIZE}" "${SWAP_FILE}"
