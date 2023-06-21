@@ -62,7 +62,7 @@ INIT npm-install \
 	npm-check-updates \
 
 
-if [ -e /usr/bin/json-prettify ]; then
+if [ ! -e /usr/bin/json ]; then
 	INIT skip "JSON prettifier already exists as /usr/bin/json"
 else
 	INIT status "Set up symlinks"
