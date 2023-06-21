@@ -4,14 +4,20 @@
 source common
 
 
+# Node version to install, ideally a EVEN (LTS) numbered, tested, stable version
+NODE_VERSION=18
+
+
 if [ `which 'node' >/dev/null; echo "$?"` == 0 ]; then
 	INIT status "Remove existing Node installs"
 	sudo apt purge nodejs
-	sudo rm `which node`
+	if [ `which node >/dev/null; echo "$?"` == 0 ]; then
+		sudo rm `which node`
+	fi
 fi
 
 INIT status "Install NodeSource Apt PPA + Update Apt"
-curl -sL https://deb.nodesource.com/setup_16.x | sudo -E bash -
+curl -sL "https://deb.nodesource.com/setup_${NODE_VERSION}.x" | sudo -E bash -
 
 INIT status "Install Node from Apt"
 INIT apt-install nodejs
@@ -80,9 +86,4 @@ fi
 if [ -d "/tmp/npm" ]; then
 	INIT status "Reset permissions on /tmp/npm"
 	sudo chmod 0777 -R /tmp/npm
-fi
-
-if [ -d "$HOME/.npm" ]; then
-	INIT status "Reset permissions on /tmp/npm"
-	sudo chmod 0777 -R "$HOME/.npm"
 fi
