@@ -22,10 +22,7 @@ INIT file-set /etc/logrotate.d/pm2 <<EOF
   missingok
   compress
   notifempty
-  sharedscripts
-  postrotate
-	sudo -u root /usr/bin/node /usr/bin/pm2 flush
-  endscript
+  copytruncate
 }
 EOF
 
