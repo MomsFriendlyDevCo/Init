@@ -5,7 +5,7 @@ source common
 
 
 # Node version to install, ideally a EVEN (LTS) numbered, tested, stable version
-NODE_VERSION=18
+NODE_VERSION=20
 
 
 if [ `which 'node' >/dev/null; echo "$?"` == 0 ]; then
@@ -16,14 +16,27 @@ if [ `which 'node' >/dev/null; echo "$?"` == 0 ]; then
 	fi
 fi
 
-INIT status "Install NodeSource Apt PPA + Update Apt"
-curl -sL "https://deb.nodesource.com/setup_${NODE_VERSION}.x" | sudo -E bash -
+if [ -e "/etc/apt/keyrings/nodesource.gpg" ]; then
+	INIT skip "Install Nodesource GPG keys"
+else
+	INIT status "Install Nodesource GPG keys"
+	INIT apt-install --lazy ca-certificates curl gnupg
+	sudo mkdir -p /etc/apt/keyrings 2>/dev/null
+	curl -fsSL https://deb.nodesource.com/gpgkey/nodesource-repo.gpg.key | sudo gpg --dearmor -o /etc/apt/keyrings/nodesource.gpg
+fi
+
+if [ -e "/etc/apt/sources.list.d/nodesource_${NODE_VERSION}.list" ]; then
+	INIT skip "Install Apt reference for Node ${NODE_VERSION}"
+else
+	INIT status "Install Apt reference for Node ${NODE_VERSION}"
+INIT file-set "/etc/apt/sources.list.d/nodesource_${NODE_VERSION}.list" <<EOF
+deb [signed-by=/etc/apt/keyrings/nodesource.gpg] https://deb.nodesource.com/node_$NODE_VERSION.x nodistro main
+EOF
+fi
 
 INIT status "Install Node from Apt"
+INIT apt-update
 INIT apt-install nodejs
-
-INIT status "Install common Node system Apt packages"
-INIT apt-install imagemagick graphicsmagick potrace
 
 if [ -e "$HOME/.npmrc" ]; then
 	INIT skip "NPM config already exists"
@@ -61,13 +74,6 @@ INIT npm-install \
 	mocha \
 	npm-check-updates \
 
-
-if [ ! -e /usr/bin/json ]; then
-	INIT skip "JSON prettifier already exists as /usr/bin/json"
-else
-	INIT status "Set up symlinks"
-	sudo ln -s /usr/bin/json-prettify /usr/bin/json
-fi
 
 INIT status "Permit Node to have port 80 access"
 INIT apt-install libcap2-bin
