@@ -76,7 +76,7 @@ INIT npm-install \
 
 
 INIT status "Permit Node to have port 80 access"
-INIT apt-install libcap2-bin
+INIT apt-install --lazy libcap2-bin
 sudo setcap cap_net_bind_service=+ep /usr/bin/node
 
 INIT status "Setup NODE_ENV"
