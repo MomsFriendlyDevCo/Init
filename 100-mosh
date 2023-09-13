@@ -17,6 +17,7 @@ INIT source-clone mosh https://github.com/mobile-shell/mosh
 INIT go-src mosh
 
 INIT status "Building Mosh"
+make clean
 ./autogen.sh
 ./configure
 make
@@ -26,4 +27,4 @@ sudo make install
 
 
 INIT status "Allowing Mosh firewall rule"
-ufw allow 60000:61000/udp
+sudo ufw allow 60000:61000/udp
