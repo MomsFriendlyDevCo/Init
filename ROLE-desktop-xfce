@@ -21,7 +21,6 @@ INIT run \
 	030-fix-motd \
 	030-xscreensaver \
 	040-screen-config \
-	050-snap-desktop \
 	050-zsh \
 	090-dtrx \
 	090-fzf \
