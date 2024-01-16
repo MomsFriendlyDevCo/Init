@@ -1,9 +1,15 @@
 #!/bin/bash
 # Install MongoDB
 
+# Mongo versions to attempt
+VERSION_SERVER=5.0.8
+VERSION_SHELL=5.0.8
+VERSION_COMPASS=1.1.2
+
 source common
 
 INIT apt-remove --lazy --header "Remove existing Mongo installs" 'mongodb*'
+
 
 
 # Patch LibSSL1.1 not being available on Ubuntu>22.04
@@ -16,10 +22,10 @@ fi
 
 
 INIT apt-install-url \
-	'https://repo.mongodb.org/apt/ubuntu/dists/focal/mongodb-org/5.0/multiverse/binary-amd64/mongodb-org-server_5.0.8_amd64.deb' \
-	'https://repo.mongodb.org/apt/ubuntu/dists/focal/mongodb-org/5.0/multiverse/binary-amd64/mongodb-org-shell_5.0.8_amd64.deb' \
-	'https://downloads.mongodb.com/compass/mongodb-mongosh_1.1.2_amd64.deb' \
-	'https://fastdl.mongodb.org/tools/db/mongodb-database-tools-ubuntu2004-x86_64-100.5.1.deb' \
+	"https://repo.mongodb.org/apt/ubuntu/dists/focal/mongodb-org/5.0/multiverse/binary-amd64/mongodb-org-server_${VERSION_SERVER}_amd64.deb" \
+	"https://repo.mongodb.org/apt/ubuntu/dists/focal/mongodb-org/5.0/multiverse/binary-amd64/mongodb-org-shell_${VERSION_SHELL}_amd64.deb" \
+	"https://downloads.mongodb.com/compass/mongodb-mongosh_${VERSION_COMPASS}_amd64.deb" \
+	"https://fastdl.mongodb.org/tools/db/mongodb-database-tools-ubuntu2004-x86_64-100.5.1.deb" \
 
 
 if [ `INIT file-grep-matches /etc/mongod.conf 'engine: "wiredTiger"'` == 0 ]; then
