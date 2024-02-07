@@ -13,7 +13,12 @@ cargo install cargo-deb
 
 INIT status "Building Wezterm"
 cargo clean
-cargo build --release
+# NOTE: `--no-default-features` + `--features vendored-fonts` excludes Wayland builds which often causes issues with non-edge versions of Ubuntu - MC 2024-02-07
+cargo build \
+	--release \
+	--no-default-features \
+	--features vendored-fonts \
+
 
 INIT status "Installing Wezterm DEB"
 NOW=`date '+%Y%m%d%H%M%S'`
