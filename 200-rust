@@ -20,29 +20,36 @@ INIT apt-install --lazy --header "Install Cargo prerequisites" \
 
 INIT status "Install common Cargo tools"
 source "$HOME/.cargo/env"
-INIT cargo-install \
-	bat \
-	bandwhich \
-	bottom \
-	broot \
-	diffr \
-	du-dust \
-	exa \
-	fd-find \
-	git-delta \
-	hexyl \
-	jless \
-	lfs \
-	lsd \
-	mcfly \
-	tokei \
-	woodchipper \
-	ytop \
-	xcp \
+CARGO_PKGS='
+	bandwhich    # Show what is using system bandwidth
+	bat          # "cat" alternative with syntax highlighting ~ "bat <files..."
+	bottom       # "top" alternative
+	broot        # Interactive "tree" alterternative
+	dua          # "du" alternative "
+	du-dust      # "du" alternative" with graphs ~ "dust [path]"
+	exa          # "ls" alternative with coloring
+	fd-find      # "find" alternative with a nicer UX
+	git-delta    # Pretty formatting for Git diffs
+	hexyl        # "hexdump" alternative
+	jless        # Interactive JSON explorer  ~ "jless <file.json>"
+	just         # "make" alternative with variable replacement, cd support and other features
+	kalker       # Command line maths calculator
+	lfs          # "df" alternative showing mount-points
+	lsd          # "ls" alternative with coloring and icons
+	mcfly        # ZSH utility to jump around directories by use
+	names        # Random release naming utility
+	onefetch     # GitHub info pages within a repo
+	procs        # "ps" alternative
+	sd           # Moderm Find and replace - "sd foo bar"
+	tokei        # todo and other artifact scanner within projects
+	whalespotter # Utility to find huge files
+	woodchipper  # Log output formatter
+	xcp          # "cp" alternative
+	ytop         # "top" alternative
+'
+CARGO_PKGS=`echo "$CARGO_PKGS" | cut -f 1 -d ' ' | tr '\n' ' '`
 
-
-INIT status "Install Dog"
-INIT cargo-install --git https://github.com/ogham/dog dog
+INIT cargo-install $CARGO_PKGS
 
 
 INIT status "Install RipGrep + PCRE2 support"
