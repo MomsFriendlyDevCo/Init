@@ -1,38 +1,21 @@
 #!/bin/bash
 # Install MongoDB
 
-# Mongo versions to attempt
-VERSION_SERVER=5.0.8
-VERSION_SHELL=5.0.8
-VERSION_COMPASS=1.1.2
-
 source common
+
+# Mongo versions to attempt
+VERSION_SERVER=7.0.5
+VERSION_SHELL=2.1.1
+VERSION_COMPASS=1.41.0
 
 INIT apt-remove --lazy --header "Remove existing Mongo installs" 'mongodb*'
 
 
-
-# Patch LibSSL1.1 not being available on Ubuntu>22.04
-if [ `INIT apt-has 'libssl1.1*'` == 1 ]; then
-	INIT skip "LibSSL1.1 already installed"
-else
-	INIT status "Installing LibSSL1.1 for Ubuntu>=22.04"
-	INIT apt-install-url 'http://archive.ubuntu.com/ubuntu/pool/main/o/openssl/libssl1.1_1.1.1f-1ubuntu2_amd64.deb'
-fi
-
-
 INIT apt-install-url \
-	"https://repo.mongodb.org/apt/ubuntu/dists/focal/mongodb-org/5.0/multiverse/binary-amd64/mongodb-org-server_${VERSION_SERVER}_amd64.deb" \
-	"https://repo.mongodb.org/apt/ubuntu/dists/focal/mongodb-org/5.0/multiverse/binary-amd64/mongodb-org-shell_${VERSION_SHELL}_amd64.deb" \
-	"https://downloads.mongodb.com/compass/mongodb-mongosh_${VERSION_COMPASS}_amd64.deb" \
+	"https://repo.mongodb.org/apt/ubuntu/dists/jammy/mongodb-org/7.0/multiverse/binary-amd64/mongodb-org-server_${VERSION_SERVER}_amd64.deb" \
+	"https://downloads.mongodb.com/compass/mongodb-mongosh_${VERSION_SHELL}_amd64.deb" \
+	"https://downloads.mongodb.com/compass/mongodb-compass_${VERSION_COMPASS}_amd64.deb" \
 	"https://fastdl.mongodb.org/tools/db/mongodb-database-tools-ubuntu2004-x86_64-100.5.1.deb" \
-
-
-if [ `INIT file-grep-matches /etc/mongod.conf 'engine: "wiredTiger"'` == 0 ]; then
-	INIT status "Patch Mongo to use WiredTiger storage engine"
-	# BUGFIX: For some reason Mongo doesn't default to WiredTiger as the storage engine. Despite what the install docs say
-	sudo perl -pi -e 's/^#  engine:.*$/  engine: "wiredTiger"/' /etc/mongod.conf
-fi
 
 
 if [ -f "/etc/logrotate.d/mongodb" ]; then
