@@ -4,10 +4,14 @@
 
 [ -z "$INIT_READY" ] && source common
 
-INIT apt-install --lazy --header "Installing Python3 + PIP" \
-	python3 \
-	python3-pip \
+if [ `which 'node' >/dev/null; echo "$?"` == 0 ]; then
+	INIT apt-install --header "Installing Python3 + PIP" \
+		python3 \
+		python3-pip \
 
+	INIT status "Upgrade Pip3 to latest version"
+	pip3 install --upgrade pip
+fi
 
 if [[ ! -O "$HOME/.cache" || ! -O "$HOME/.cache/pip" ]]; then
 	INIT status "Correcting .cache permissions"
