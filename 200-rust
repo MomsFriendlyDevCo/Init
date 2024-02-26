@@ -25,10 +25,12 @@ CARGO_PKGS='
 	bat          # "cat" alternative with syntax highlighting ~ "bat <files..."
 	bottom       # "top" alternative
 	broot        # Interactive "tree" alterternative
+	csvlens      # Interactive CSV viewer
 	dua          # "du" alternative "
 	du-dust      # "du" alternative" with graphs ~ "dust [path]"
 	exa          # "ls" alternative with coloring
 	fd-find      # "find" alternative with a nicer UX
+	gfold        # Display Git info recrusively for all directories under this one
 	git-delta    # Pretty formatting for Git diffs
 	hexyl        # "hexdump" alternative
 	jless        # Interactive JSON explorer  ~ "jless <file.json>"
@@ -41,6 +43,7 @@ CARGO_PKGS='
 	onefetch     # GitHub info pages within a repo
 	procs        # "ps" alternative
 	sd           # Moderm Find and replace - "sd foo bar"
+	tcalc        # Terminal calculator expressions ~ "tcalc '1+2' 'ans/3' 'abs(ans)'"
 	tokei        # todo and other artifact scanner within projects
 	whalespotter # Utility to find huge files
 	woodchipper  # Log output formatter
