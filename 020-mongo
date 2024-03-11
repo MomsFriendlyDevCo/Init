@@ -18,6 +18,10 @@ INIT apt-install-url \
 	"https://fastdl.mongodb.org/tools/db/mongodb-database-tools-ubuntu2004-x86_64-100.5.1.deb" \
 
 
+INIT status "Cleaning up APT dependencies"
+sudo apt install -f
+
+
 if [ -f "/etc/logrotate.d/mongodb" ]; then
 	INIT skip "Setup Logrotate (already exists)"
 else
