@@ -43,7 +43,7 @@ CARGO_PKGS='
 	onefetch     # GitHub info pages within a repo
 	procs        # "ps" alternative
 	sd           # Moderm Find and replace - "sd foo bar"
-	tcalc        # Terminal calculator expressions ~ "tcalc '1+2' 'ans/3' 'abs(ans)'"
+	tcalc        # Terminal calculator expressions ~ "tcalc 1+2 ans/3 abs(ans)"
 	tokei        # todo and other artifact scanner within projects
 	whalespotter # Utility to find huge files
 	woodchipper  # Log output formatter
