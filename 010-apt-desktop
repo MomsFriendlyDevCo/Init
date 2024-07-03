@@ -8,10 +8,8 @@ INIT apt-install \
 	audacity  \
 	audacious \
 	bmon \
-	conky \
 	easytag \
 	etherape \
-	firefox \
 	filelight \
 	file-roller \
 	flameshot \
@@ -28,27 +26,15 @@ INIT apt-install \
 	htop \
 	git \
 	git-lfs \
-	k3b \
-	krename \
-	liquidwar \
-	luola \
-	luola-nostalgy \
 	ffmpeg \
 	ffmpegthumbs \
 	ffmpegthumbnailer \
-	meld \
 	mplayer \
 	numlockx \
 	openssh-server \
 	libreoffice \
-	pdfshuffler \
-	pidgin \
-	pidgin-extprefs \
-	pidgin-plugin-pack \
-	pidgin-themes \
 	pulseaudio-module-bluetooth \
 	sshuttle \
-	synergy \
 	vlc \
 	wireshark \
 	wmctrl \
