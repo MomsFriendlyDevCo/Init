@@ -20,4 +20,4 @@ FLATPAK_PKGS='
 '
 FLATPAK_PKGS=`echo "$FLATPAK_PKGS" | cut -f 1 -d ' ' | tr '\n' ' '`
 
-flatpak install flathub $FLATPAK_PKGS
+sudo flatpak install flathub $FLATPAK_PKGS
