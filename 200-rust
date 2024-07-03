@@ -46,7 +46,7 @@ CARGO_PKGS='
 	ouch         # "dtrx" alternative for easier (de)compression of files
 	onefetch     # GitHub info pages within a repo
 	procs        # "ps" alternative
-	sd           # Moderm Find and replace - "sd foo bar"
+	sd           # Modern Find and replace - "sd foo bar"
 	rargs        # "xargs" alternative including command templates
 	ruplacer     # Text replacement
 	tailspin     # Log colorizer
