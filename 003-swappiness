@@ -3,12 +3,15 @@
 
 source common
 
+SWAPINESS=80
+
 INIT status "Releasing cache memory"
 sudo sysctl -w vm.drop_caches=3
 
 
 INIT status "Adjusting swappiness"
-# Lower swappiness = cache agressively in RAM, higher = swap to disk more (use less cache RAM)
-sudo sysctl vm.swappiness=80
 
-INIT config-set /etc/sysctl.conf 'vm.swappiness' '80'
+# Lower swappiness = cache agressively in RAM, higher = swap to disk more (use less cache RAM)
+sudo sysctl "vm.swappiness=${SWAPINESS}"
+
+INIT config-set /etc/sysctl.conf 'vm.swappiness' "${SWAPINESS}"
