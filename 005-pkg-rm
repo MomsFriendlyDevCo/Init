@@ -31,5 +31,11 @@ INIT apt-remove --lazy --mode purge --header "Remove heavy non-server packages" 
 	abiword \
 
 
+if [ -f /etc/apt/apt.conf.d/20apt-esm-hook.conf ]; then
+	INIT status "Remove Ubuntu Pro upsell during apt upgrade"
+	rm /etc/apt/apt.conf.d/20apt-esm-hook.conf
+fi
+
+
 INIT status "Cleanup orphaned APT packages"
 sudo apt autoremove -y --purge
