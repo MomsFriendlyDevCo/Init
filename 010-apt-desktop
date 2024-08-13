@@ -30,6 +30,7 @@ INIT apt-install \
 	ffmpegthumbs \
 	ffmpegthumbnailer \
 	mplayer \
+	net-tools \
 	numlockx \
 	openssh-server \
 	libreoffice \
