@@ -20,6 +20,14 @@ INIT apt-install --lazy --header "Install Cargo prerequisites" \
 
 INIT status "Install common Cargo tools"
 source "$HOME/.cargo/env"
+
+# Packages that have fallen out of favour for one reason or another
+CARGO_PKGS_SKIPPED='
+	jnv          # Interactive JQ JSON query UI                        jless is better
+	lsd          # "ls" alternative with coloring and icons            exa offers everything it already does
+	mcfly        # ZSH utility to jump around directories by use       Not used as zsh has a builtin
+'
+
 CARGO_PKGS='
 	bandwhich    # Show what is using system bandwidth
 	bat          # "cat" alternative with syntax highlighting ~ "bat <files..."
@@ -36,12 +44,9 @@ CARGO_PKGS='
 	git-delta    # Pretty formatting for Git diffs
 	hexyl        # "hexdump" alternative
 	jless        # Interactive JSON explorer  ~ "jless <file.json>"
-	jnv          # Interactive JQ JSON query UI
 	just         # "make" alternative with variable replacement, cd support and other features
 	kalker       # Command line maths calculator
 	lfs          # "df" alternative showing mount-points
-	lsd          # "ls" alternative with coloring and icons
-	mcfly        # ZSH utility to jump around directories by use
 	names        # Random release naming utility
 	ouch         # "dtrx" alternative for easier (de)compression of files
 	onefetch     # GitHub info pages within a repo
