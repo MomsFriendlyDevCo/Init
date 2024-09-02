@@ -1,0 +1,33 @@
+#!/bin/bash
+# Clean up temporary files to free up space
+
+source common
+
+INIT status "Removing temporary files (>3 days)"
+find /tmp -type f -mtime +3 -delete
+
+INIT status "Clean apt cache"
+sudo apt autoclean
+
+INIT status "Vacuum kernel logs"
+sudo journalctl --vacuum-time=3d
+
+if [ -d "$HOME/.cache" ]; then
+	INIT status "Clean local ~/.cache"
+	rm -r ~/.cache
+fi
+
+if [ `INIT bin-available cargo-cache` == 1 ]; then
+	INIT status "Clean up Cargo cache"
+	cargo cache -a
+fi
+
+if [ -d "$HOME/.cargo/registry" ]; then
+	INIT status "Clean Cargo crate registry"
+	rm -rf "$HOME/.cargo/registry"
+fi
+
+if [ -d "$HOME/.rustup" ]; then
+	INIT status "Clean Rust-up files"
+	rm -rf "$HOME/.rustup"
+fi
