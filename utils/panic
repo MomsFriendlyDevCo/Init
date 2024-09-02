@@ -1,0 +1,14 @@
+#!/bin/bash
+# Panic and exit the install process
+#
+# @example Panic and exit
+# INIT panic "Nope - not doing that"
+
+[ -z "$INIT_READY" ] && source common
+
+echo
+echo -ne "\e[31m\e[1m 🛇 "
+echo -n "$@"
+echo -e "\e[0m"
+
+exit 1
