@@ -1,0 +1,54 @@
+#!/bin/bash
+# Install common Cargo packages via cargo-binstall
+
+source common
+
+# Packages that have fallen out of favour for one reason or another
+CARGO_PKGS_SKIPPED='
+	jnv          # Interactive JQ JSON query UI                        jless is better
+	lsd          # "ls" alternative with coloring and icons            exa offers everything it already does
+	mcfly        # ZSH utility to jump around directories by use       Not used as zsh has a builtin
+'
+
+CARGO_PKGS='
+	bandwhich    # Show what is using system bandwidth
+	bat          # "cat" alternative with syntax highlighting ~ "bat <files..."
+	bottom       # "top" alternative
+	broot        # Interactive "tree" alterternative
+	choose       # "cut" altenative
+	csvlens      # Interactive CSV viewer
+	dua          # "du" alternative "
+	du-dust      # "du" alternative" with graphs ~ "dust [path]"
+	exa          # "ls" alternative with coloring
+	fclones      # Find duplicate files
+	fd-find      # "find" alternative with a nicer UX
+	gfold        # Display Git info recrusively for all directories under this one
+	git-delta    # Pretty formatting for Git diffs
+	hexyl        # "hexdump" alternative
+	jless        # Interactive JSON explorer  ~ "jless <file.json>"
+	just         # "make" alternative with variable replacement, cd support and other features
+	kalker       # Command line maths calculator
+	lfs          # "df" alternative showing mount-points
+	names        # Random release naming utility
+	ouch         # "dtrx" alternative for easier (de)compression of files
+	onefetch     # GitHub info pages within a repo
+	procs        # "ps" alternative
+	sd           # Modern Find and replace - "sd foo bar"
+	rargs        # "xargs" alternative including command templates
+	ruplacer     # Text replacement
+	tailspin     # Log colorizer
+	tcalc        # Terminal calculator expressions ~ "tcalc 1+2 ans/3 abs(ans)"
+	tokei        # todo and other artifact scanner within projects
+	whalespotter # Utility to find huge files
+	woodchipper  # Log output formatter
+	xcp          # "cp" alternative
+	ytop         # "top" alternative
+'
+CARGO_PKGS=`echo "$CARGO_PKGS" | cut -f 1 -d ' ' | tr '\n' ' '`
+CARGO_PKGS_COUNT=`echo "$CARGO_PKGS" | wc -w`
+
+INIT status "Install ${CARGO_PKGS_COUNT} Cargo packages"
+INIT cargo-install $CARGO_PKGS
+
+INIT status "Install RipGrep + PCRE2 support"
+INIT cargo-install ripgrep --features pcre2
