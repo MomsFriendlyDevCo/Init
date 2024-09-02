@@ -4,9 +4,13 @@
 
 [ -z "$INIT_READY" ] && source common
 
-if [ `INIT bin-available cargo` == 0 ]; then
-	echo "Need to install Rust first"
-	INIT run 200-rust
+if [ `INIT bin-available cargo-cache` == 0 ]; then
+	INIT status "Install pre-requsite: cargo-cache"
+	cargo install cargo-cache
 fi
 
 cargo install "$@"
+
+INIT status "Clear cargo cache"
+# Try to recover some disk space post compile of cargo-binstall
+cargo cache -a
