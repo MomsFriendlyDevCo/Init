@@ -1,0 +1,14 @@
+#!/bin/bash
+# Run a command but ignore if it throws an error
+#
+# @example Run an error prone command
+# INIT tolerate error-prone-script
+
+# Disable exiting on errors
+set +e
+
+# Run the command
+"$@"
+
+# Enable exiting on errors again
+set -e

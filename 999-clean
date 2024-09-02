@@ -4,7 +4,7 @@
 source common
 
 INIT status "Removing temporary files (>3 days)"
-find /tmp -type f -mtime +3 -delete
+INIT tolerate find /tmp -type f -mtime +3 -delete
 
 INIT status "Clean apt cache"
 sudo apt autoclean
