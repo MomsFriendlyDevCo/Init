@@ -28,3 +28,5 @@ INIT run \
 	100-letsencrypt \
 	200-nginx \
 	200-rust \
+	200-rust-pkgs \
+	999-clean \

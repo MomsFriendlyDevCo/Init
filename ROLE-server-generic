@@ -23,3 +23,6 @@ INIT run \
 	050-zsh \
 	090-dtrx \
 	090-fzf \
+	200-rust \
+	200-rust-pkgs \
+	999-clean \
