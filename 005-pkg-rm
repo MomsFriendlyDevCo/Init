@@ -33,9 +33,13 @@ INIT apt-remove --lazy --mode purge --header "Remove heavy non-server packages" 
 
 if [ -f /etc/apt/apt.conf.d/20apt-esm-hook.conf ]; then
 	INIT status "Remove Ubuntu Pro upsell during apt upgrade"
-	rm /etc/apt/apt.conf.d/20apt-esm-hook.conf
+	sudo rm /etc/apt/apt.conf.d/20apt-esm-hook.conf
 fi
 
 
 INIT status "Cleanup orphaned APT packages"
 sudo apt autoremove -y --purge
+
+
+INIT status "Disable useless system services"
+sudo systemctl mask tracker-extract-3.service tracker-miner-fs-3.service tracker-miner-rss-3.service tracker-writeback-3.service tracker-xdg-portal-3.service tracker-miner-fs-control-3.service
