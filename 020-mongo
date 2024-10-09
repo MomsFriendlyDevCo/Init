@@ -19,7 +19,7 @@ INIT apt-install-url \
 
 
 INIT status "Cleaning up APT dependencies"
-sudo apt install -f
+sudo apt install -fy
 
 
 if [ -f "/etc/logrotate.d/mongodb" ]; then
