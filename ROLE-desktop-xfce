@@ -29,4 +29,4 @@ INIT run \
 	100-mosh \
 	100-ubuntu-desktop \
 	200-rust \
-	200-rust-pkgs \
+	201-rust-pkgs \
