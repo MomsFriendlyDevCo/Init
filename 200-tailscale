@@ -1,0 +1,13 @@
+#!/bin/bash
+# Install Tailscale networking
+
+source common
+
+if [ `INIT bin-available tailscale` == 1 ]; then
+	INIT skip "Install Tailscale"
+else
+	INIT apt-install --lazy curl
+
+	INIT status "Install Tailscale"
+	curl -fsSL https://tailscale.com/install.sh | sh
+fi
