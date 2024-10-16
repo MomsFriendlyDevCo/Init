@@ -19,11 +19,9 @@ INIT apt-install --lazy --header "Install Pre-requisites" \
 	pkg-config \
 	python3 \
 	python3-pip \
+	python3-neovim \
 	unzip \
 
-
-INIT status "Install Python module"
-INIT pip-install neovim
 
 INIT source-clone neovim https://github.com/neovim/neovim.git
 INIT go-src neovim
