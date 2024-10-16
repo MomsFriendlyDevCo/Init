@@ -1,0 +1,27 @@
+#!/bin/bash
+# Install the non-snap version of Firefox
+
+source common
+
+if [ `INIT bin-available snap` == 1 ]; then
+	INIT status "Remove Firefox snap"
+	sudo snap remove firefox
+fi
+
+INIT status "Install Firefox PPA"
+sudo apt-add-repository -y ppa:mozillateam/ppa
+
+INIT status "Forbid Firefox Snap override"
+
+INIT file-set /etc/apt/preferences.d/mozilla-firefox <<EOF
+Package: *
+Pin: release o=LP-PPA-mozillateam
+Pin-Priority: 1001
+
+Package: firefox
+Pin: version 1:1snap*
+Pin-Priority: -1
+EOF
+
+INIT status "Install Firefox"
+INIT apt-install firefox
