@@ -29,11 +29,12 @@ INIT apt-install \
 	ffmpeg \
 	ffmpegthumbs \
 	ffmpegthumbnailer \
+	libreoffice \
 	mplayer \
 	net-tools \
 	numlockx \
 	openssh-server \
-	libreoffice \
+	parcellite \
 	pulseaudio-module-bluetooth \
 	sshuttle \
 	vlc \
