@@ -17,6 +17,7 @@ INIT run \
 	010-apt-server \
 	015-apt-xfce \
 	015-chrome \
+	015-firefox \
 	020-node \
 	030-fix-motd \
 	030-xscreensaver \
@@ -28,5 +29,6 @@ INIT run \
 	090-root-bashrc \
 	100-mosh \
 	100-ubuntu-desktop \
+	200-flatpak \
 	200-rust \
 	201-rust-pkgs \
