@@ -1,0 +1,18 @@
+#!/bin/bash
+# Install common Flatpak packages
+
+source common
+
+INIT status "Installing Flatpak packages"
+
+FLATPAK_PKGS='
+	net.puddletag.puddletag                 # Puddletag music tag editor
+	hu.irl.cameractrls                      # Webcam controls
+	org.flameshot.Flameshot                 # Flameshot screenshot manager
+	com.mongodb.Compass                     # MongoDB Compass
+	org.gnome.meld                          # "meld" - pretty diffs and meld tool
+	com.github.jeromerobert.pdfarranger     # PDF arranger  tool
+'
+FLATPAK_PKGS=`echo "$FLATPAK_PKGS" | cut -f 1 -d ' ' | tr '\n' ' '`
+
+sudo flatpak install flathub -y $FLATPAK_PKGS
