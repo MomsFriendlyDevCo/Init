@@ -12,6 +12,7 @@ FLATPAK_PKGS='
 	com.mongodb.Compass                     # MongoDB Compass
 	org.gnome.meld                          # "meld" - pretty diffs and meld tool
 	com.github.jeromerobert.pdfarranger     # PDF arranger  tool
+	com.discordapp.Discord                  # Discord chat suite
 '
 FLATPAK_PKGS=`echo "$FLATPAK_PKGS" | cut -f 1 -d ' ' | tr '\n' ' '`
 
