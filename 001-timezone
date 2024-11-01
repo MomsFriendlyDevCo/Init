@@ -13,8 +13,6 @@ echo
 
 TIMEZONE=`INIT ask --prompt "Timezone" --var "PROFILE_TIMEZONE" --default "$SYS_TIMEZONE"`
 
-echo "WOULD SET TIMEZONE [$TIMEZONE]"
-
 if [ -z "$NEWTIMEZONE" ]; then
 	exit 0
 fi
