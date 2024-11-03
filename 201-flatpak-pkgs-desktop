@@ -13,6 +13,7 @@ FLATPAK_PKGS='
 	org.gnome.meld                          # "meld" - pretty diffs and meld tool
 	com.github.jeromerobert.pdfarranger     # PDF arranger  tool
 	com.discordapp.Discord                  # Discord chat suite
+	us.zoom.Zoom                            # Zoom meetings / video messaging
 '
 FLATPAK_PKGS=`echo "$FLATPAK_PKGS" | cut -f 1 -d ' ' | tr '\n' ' '`
 
