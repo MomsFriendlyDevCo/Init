@@ -24,14 +24,34 @@ make test
 INIT status "Finalizing Redis install"
 sudo make install
 
-
-INIT status "Installing Redis as a service"
+INIT status "Setup redis config"
 sudo mkdir /etc/redis
 sudo cp redis.conf /etc/redis
 
-INIT fixme "Need to check if Redis correctly installs SystemD setup as 'redis-server' here - if so remove this fixme"
-sudo systemctl enable redis-server
-sudo systemctl start redis-server
+if [ ! -f "/etc/systemd/system/redis.service"; then
+	INIT status "Setup Redis as a SystemD service"
+
+INIT file-set /etc/systemd/system/redis.service <<EOF
+[Unit]
+Description=Redis
+After=syslog.target
+
+[Service]
+ExecStart=/usr/local/bin/redis-server /etc/redis/redis.conf
+RestartSec=5s
+Restart=on-success
+
+[Install]
+WantedBy=multi-user.target
+EOF
+
+	sudo systemctl daemon-reload
+	sudo systemctl start redis-server
+	sudo systemctl enable redis-server
+else
+	INIT skip "Setup Redis as a SystemD service"
+fi
+
 
 INIT status "Configuring Redis Server"
 # Active degragging tries to clear up memory fragmentation periodically
