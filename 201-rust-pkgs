@@ -30,6 +30,7 @@ CARGO_PKGS='
 	kalker       # Command line maths calculator
 	lfs          # "df" alternative showing mount-points
 	names        # Random release naming utility
+	nu           # Nushell - Powershell like syntax for pipelines
 	ouch         # "dtrx" alternative for easier (de)compression of files
 	onefetch     # GitHub info pages within a repo
 	procs        # "ps" alternative
