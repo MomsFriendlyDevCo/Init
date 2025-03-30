@@ -10,6 +10,7 @@ CARGO_PKGS_SKIPPED='
 '
 
 CARGO_PKGS='
+	arp-scan     # "arp" alternative which shows both IPs + Hostnames
 	bandwhich    # Show what is using system bandwidth
 	bat          # "cat" alternative with syntax highlighting ~ "bat <files..."
 	bottom       # "top" alternative
@@ -30,10 +31,12 @@ CARGO_PKGS='
 	just         # "make" alternative with variable replacement, cd support and other features
 	kalker       # Command line maths calculator
 	lfs          # "df" alternative showing mount-points
+	lurk-cli     # "strace" alternative
 	names        # Random release naming utility
 	nu           # Nushell - Powershell like syntax for pipelines
 	ouch         # "dtrx" alternative for easier (de)compression of files
 	onefetch     # GitHub info pages within a repo
+	pik          # Process Interactive Killer - pgrep + kill
 	procs        # "ps" alternative
 	sd           # Modern Find and replace - "sd foo bar"
 	rargs        # "xargs" alternative including command templates
