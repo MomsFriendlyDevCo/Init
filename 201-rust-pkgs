@@ -26,6 +26,7 @@ CARGO_PKGS='
 	gfold        # Display Git info recrusively for all directories under this one
 	git-delta    # Pretty formatting for Git diffs
 	hexyl        # "hexdump" alternative
+	hyperfine    # "time" alternative to benchmark CLI programs
 	jless        # Interactive JSON explorer  ~ "jless <file.json>"
 	jnv          # Interactive JQ JSON query UI
 	just         # "make" alternative with variable replacement, cd support and other features

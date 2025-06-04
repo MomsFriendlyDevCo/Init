@@ -46,14 +46,15 @@ INIT apt-install \
 	perl \
 	pv \
 	pwgen \
+	rclone \
 	screen \
 	slurm \
 	sshfs \
 	sshpass \
 	tar \
 	tcpdump \
-	tmux \
 	telnet \
+	tmux \
 	tofrodos \
 	traceroute \
 	vim \
