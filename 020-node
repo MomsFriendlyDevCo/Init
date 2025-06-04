@@ -5,12 +5,12 @@ source common
 
 
 # Node version to install, ideally a EVEN (LTS) numbered, tested, stable version
-NODE_VERSION=20
+NODE_VERSION=22
 
 
 if [ `which 'node' >/dev/null; echo "$?"` == 0 ]; then
 	INIT status "Remove existing Node installs"
-	sudo apt purge nodejs
+	sudo apt purge -y nodejs
 	if [ `which node >/dev/null; echo "$?"` == 0 ]; then
 		sudo rm `which node`
 	fi
