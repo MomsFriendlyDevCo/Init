@@ -5,7 +5,7 @@ source common
 
 
 INIT status "Install all theme packages"
-INIT apt-install --skip-missing \
+INIT apt-install --ignore-missing \
 	arc-theme \
 	materia-gtk-theme \
 	oxygen-cursor-theme \

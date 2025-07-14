@@ -4,7 +4,7 @@
 source common
 
 INIT status "Install Auto-update APT packages"
-INIT apt-install --skip-missing \
+INIT apt-install --ignore-missing \
 	cron-apt \
 	software-properties-common \
 	unattended-upgrades \
