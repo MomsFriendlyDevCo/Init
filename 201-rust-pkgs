@@ -18,7 +18,8 @@ CARGO_PKGS='
 	choose       # "cut" altenative
 	csvlens      # Interactive CSV viewer
 	diskonaut    # Disk space visualizer
-	dua          # "du" alternative "
+	doge-cli     # "dig" alternative"
+	dua          # "du" alternative"
 	du-dust      # "du" alternative" with graphs ~ "dust [path]"
 	exa          # "ls" alternative with coloring
 	fclones      # Find duplicate files
