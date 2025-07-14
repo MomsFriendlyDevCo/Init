@@ -4,7 +4,7 @@
 source common
 
 INIT status "Install Language servers (JS/NPM)"
-INIT npm-install \
+INIT npm-install -g \
 	@vue/language-server \
 	lehre \
 	typescript \
