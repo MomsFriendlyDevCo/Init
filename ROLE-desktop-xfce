@@ -26,6 +26,7 @@ INIT run \
 	090-dtrx \
 	090-fzf \
 	090-neovim \
+	090-neovim-lsp \
 	090-root-bashrc \
 	100-mosh \
 	100-ubuntu-desktop \
