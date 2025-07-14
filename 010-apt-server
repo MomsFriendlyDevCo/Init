@@ -37,7 +37,7 @@ INIT apt-install --ignore-missing \
 	moreutils \
 	mutt \
 	ncftp \
-	netcat \
+	ncat \
 	net-tools \
 	nmap \
 	ntp \
