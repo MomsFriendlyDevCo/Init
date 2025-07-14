@@ -4,7 +4,7 @@
 source common
 
 INIT status "Install desktop APT packages"
-INIT apt-install \
+INIT apt-install --skip-missing \
 	audacity  \
 	audacious \
 	bmon \

@@ -10,7 +10,7 @@ samba
 
 
 INIT status "Install Server APT packages"
-INIT apt-install \
+INIT apt-install --skip-missing \
 	autossh \
 	bmon \
 	build-essential \

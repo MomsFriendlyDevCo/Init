@@ -11,6 +11,10 @@
 #
 # -h, --header <text>      Print the given header only if an action is taken
 #
+# -y                       (APT native) Assume 'Yes' to all questions
+#
+# --skip-missing           (APT native) Skip missing packages if they are not available in this OS
+
 
 [ -z "$INIT_READY" ] && source common
 
