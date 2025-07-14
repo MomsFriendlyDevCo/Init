@@ -35,7 +35,6 @@ INIT apt-install \
 	mc \
 	molly-guard \
 	moreutils \
-	mountpy \
 	mutt \
 	ncftp \
 	netcat \
