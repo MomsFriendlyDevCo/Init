@@ -1,0 +1,19 @@
+#!/bin/bash
+# Install Neovim LSP / Language Server Protocol support
+
+source common
+
+INIT status "Install Language servers (JS/NPM)"
+INIT npm-install \
+	@vue/language-server \
+	lehre \
+	typescript \
+	typescript-language-server \
+	vscode-langservers-extracted \
+
+
+INIT status "Install Language servers (Rust/Cargo)"
+INIT cargo-install \
+	just-lsp \
+
+

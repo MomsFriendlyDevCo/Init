@@ -70,11 +70,9 @@ INIT npm-install \
 	jaywalker \
 	jshint \
 	json-prettify \
-	lehre \
 	mocha \
 	mongoosh \
 	npm-check-updates \
-	typescript \
 
 
 INIT status "Permit Node to have port 80 access"
