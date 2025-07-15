@@ -5,10 +5,14 @@ source common
 
 INIT apt-remove --header "Removing existing Zabbix agents" -m purge --lazy zabbix-agent zabbix-agent2
 
-INIT status "Setup Zabbix-Agent"
+INIT status "Setup Zabbix-Agent (+Plugins)"
 INIT apt-install-url "https://repo.zabbix.com/zabbix/7.4/release/ubuntu/pool/main/z/zabbix-release/zabbix-release_7.4-0.2+ubuntu$(lsb_release -rs)_all.deb"
 INIT apt-update
-INIT apt-install zabbix-agent2 zabbix-agent2-*
+
+INIT apt-install \
+	zabbix-agent2 \
+	zabbix-agent2-plugin-mongodb \
+	zabbix-agent2-plugin-postgresql \
 
 
 if [ -e "/etc/zabbix/zabbix_agentd.psk" ]; then
