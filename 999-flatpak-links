@@ -1,0 +1,30 @@
+#!/bin/bash
+# Clean up temporary files to free up space
+
+source common
+
+FLATPAK_BINS="/var/lib/flatpak/exports/bin"
+FLATPAK_HUMAN_BINS="/var/lib/flatpak/exports/bin-human"
+
+
+if [ ! -d "${FLATPAK_BINS}" ]; then
+	INIT skip "Flatpak not installed - or no Flatpaks can be exported"
+	exit 0
+fi
+
+INIT status "Creating Flatpak links"
+
+if [ ! -d "${FLATPAK_HUMAN_BINS}" ]; then
+	sudo mkdir --mode=0577 "${FLATPAK_HUMAN_BINS}"
+fi
+
+for FILE in $FLATPAK_BINS/*; do
+	if [[ -x "$FILE" ]]; then
+		SHORT_FILE="${FILE##*.}"
+		SHORT_FILE="${SHORT_FILE,,}"
+		if [ ! -f "${FLATPAK_HUMAN_BINS}/${SHORT_FILE}" ]; then
+			echo "Alias ${SHORT_FILE} ($FILE)"
+			sudo ln -s "${FILE}" "${FLATPAK_HUMAN_BINS}/$SHORT_FILE"
+		fi
+	fi
+done
