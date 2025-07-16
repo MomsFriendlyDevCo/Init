@@ -5,7 +5,7 @@
 
 source common
 
-SWAP_SIZE=4G
+SWAP_SIZE=2G
 SWAP_FILE="/var/swap-$(echo "$SWAP_SIZE" | tr '[:upper:]' '[:lower:]').img"
 
 
