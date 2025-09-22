@@ -15,6 +15,7 @@ FLATPAK_PKGS='
 	com.discordapp.Discord                  # Discord chat suite
 	us.zoom.Zoom                            # Zoom meetings / video messaging
 	com.github.tchx84.Flatseal              # Flatpak config GUI
+	org.inkscape.Inkscape                   # Inkscape SVG editor
 '
 FLATPAK_PKGS=`echo "$FLATPAK_PKGS" | cut -f 1 -d ' ' | tr '\n' ' '`
 
