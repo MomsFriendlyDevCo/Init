@@ -12,3 +12,4 @@ INIT go-src fzf
 
 INIT status "Building FZF"
 ./install --key-bindings --completion --update-rc
+sudo cp bin/fzf /bin/
