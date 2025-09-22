@@ -46,7 +46,7 @@ CARGO_PKGS='
 	ruplacer     # Text replacement
 	tailspin     # Log colorizer
 	tcalc        # Terminal calculator expressions ~ "tcalc 1+2 ans/3 abs(ans)"
-	tokei        # todo and other artifact scanner within projects
+	tokei        # Code stats + TODO / FIXME debug arterfact scanner
 	whalespotter # Utility to find huge files
 	woodchipper  # Log output formatter
 	xcp          # "cp" alternative
