@@ -11,6 +11,7 @@ CARGO_PKGS_SKIPPED='
 
 CARGO_PKGS='
 	arp-scan     # "arp" alternative which shows both IPs + Hostnames
+	ast-grep     # Grep by AST code formatting, provides "sg"
 	bandwhich    # Show what is using system bandwidth
 	bat          # "cat" alternative with syntax highlighting ~ "bat <files..."
 	bottom       # "top" alternative
