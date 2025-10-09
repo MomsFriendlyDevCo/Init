@@ -64,7 +64,6 @@ INIT npm-install \
 	gronk \
 	gulp \
 	hanson \
-	jay-repl \
 	jaywalker \
 	jshint \
 	json-prettify \
