@@ -48,6 +48,7 @@ INIT apt-install --ignore-missing \
 	rclone \
 	screen \
 	slurm \
+	shellcheck \
 	sshfs \
 	sshpass \
 	tar \
