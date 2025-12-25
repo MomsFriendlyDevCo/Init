@@ -17,5 +17,6 @@ INIT run \
 	030-mail \
 	040-apache-config \
 	040-apache-symlink \
+	090-btop \
 	090-dtrx \
 	090-monit \

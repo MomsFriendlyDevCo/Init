@@ -1,0 +1,19 @@
+#!/bin/bash
+# Install the BTOP monitoring program
+
+source common
+
+INIT apt-install --lazy --header "Install Pre-requisites" \
+	coreutils \
+	sed \
+
+
+INIT source-clone btop git@github.com:aristocratos/btop.git
+INIT go-src btop
+
+INIT status "Installing BTop"
+sudo make install
+
+INIT status "Install BTop Intel layer"
+sudo make setcap
+sudo make setuid

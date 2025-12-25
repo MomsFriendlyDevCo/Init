@@ -23,6 +23,7 @@ INIT run \
 	030-fix-motd \
 	040-pm2 \
 	050-zsh \
+	090-btop \
 	090-dtrx \
 	090-fzf \
 	100-letsencrypt \

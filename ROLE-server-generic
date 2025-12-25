@@ -21,6 +21,7 @@ INIT run \
 	020-firewall \
 	030-fix-motd \
 	050-zsh \
+	090-btop \
 	090-dtrx \
 	090-fzf \
 	200-rust \
