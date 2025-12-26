@@ -4,7 +4,9 @@
 source common
 
 INIT apt-install --lazy --header "Install Pre-requisites" \
+	build-essential \
 	coreutils \
+	lowdown \
 	sed \
 
 
