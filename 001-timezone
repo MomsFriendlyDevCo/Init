@@ -13,13 +13,13 @@ echo
 
 TIMEZONE=`INIT ask --prompt "Timezone" --var "PROFILE_TIMEZONE" --default "$SYS_TIMEZONE"`
 
-if [ -z "$NEWTIMEZONE" ]; then
+if [ -z "$TIMEZONE" ]; then
 	exit 0
 fi
 
-if [ "$TIMEZONE" != "$NEWTIMEZONE" ]; then
-	INIT status "Change server timezone"
-	sudo timedatectl set-timezone "$NEWTIMEZONE"
+if [ "$TIMEZONE" != "$SYS_TIMEZONE" ]; then
+	INIT status "Change server timezone ${SYS_TIMEZONE} -> ${TIMEZONE}"
+	sudo timedatectl set-timezone "$TIMEZONE"
 	sudo /etc/init.d/cron restart
 	timedatectl
 fi
