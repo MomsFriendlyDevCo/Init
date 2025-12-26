@@ -3,19 +3,39 @@
 
 source common
 
-INIT apt-install --lazy --header "Install Pre-requisites" \
-	build-essential \
-	coreutils \
-	lowdown \
-	sed \
+INIT apt-install --lazy --header "Install Pre-requisites" wget
+
+if [ -d "${INIT_SRC}/btop" ]; then
+	INIT status "Removing older build directory"
+	rm -rf "${INIT_SRC}/btop"
+fi
+
+if [ -d "${INIT_SRC}/btop.tbz" ]; then
+	INIT status "Removing older build tarball"
+	rm "${INIT_SRC}/btop.tbz"
+fi
 
 
-INIT source-clone btop git@github.com:aristocratos/btop.git
-INIT go-src btop
+INIT status "Downloading latest Btop"
+wget https://github.com/aristocratos/btop/releases/latest/download/btop-x86_64-linux-musl.tbz -O "${INIT_SRC}/btop.tbz"
+
+
+INIT status "Extracting Btop"
+cd "${INIT_SRC}"
+tar xf "${INIT_SRC}/btop.tbz"
+rm "${INIT_SRC}/btop.tbz"
+
 
 INIT status "Installing BTop"
+INIT go-src btop
 sudo make install
+
 
 INIT status "Install BTop Intel layer"
 sudo make setcap
 sudo make setuid
+
+
+INIT status "Cleaning up"
+cd
+rm -rf "${INIT_SRC}/btop"
