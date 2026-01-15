@@ -17,7 +17,7 @@ fi
 
 
 INIT status "Downloading latest Btop"
-wget https://github.com/aristocratos/btop/releases/latest/download/btop-x86_64-linux-musl.tbz -O "${INIT_SRC}/btop.tbz"
+wget https://github.com/aristocratos/btop/releases/latest/download/btop-i686-unknown-linux-musl.tbz -O "${INIT_SRC}/btop.tbz"
 
 
 INIT status "Extracting Btop"
