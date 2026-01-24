@@ -39,6 +39,7 @@ echo
 INIT status "Configure Zabbix-agent"
 THIS_HOST=`hostname`
 INIT file-set "/etc/zabbix/zabbix_agent2.conf" <<EOF
+# Zabbix+Init v1.3
 PidFile=/var/run/zabbix/zabbix_agentd.pid
 LogFile=/var/log/zabbix/zabbix_agentd.log
 LogFileSize=128
@@ -54,6 +55,10 @@ TLSAccept=psk
 TLSPSKIdentity=$THIS_HOST
 TLSPSKFile=/etc/zabbix/zabbix_agentd.psk
 
+PluginSocket=/run/zabbix/agent.plugin.sock
+ControlSocket=/run/zabbix/agent.sock
+
+ForceActiveChecksOnStart=1
 Include=/etc/zabbix/zabbix_agent2.d/plugins.d/*.conf
 EOF
 
