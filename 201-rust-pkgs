@@ -43,8 +43,9 @@ CARGO_PKGS='
 	procs        # "ps" alternative
 	sd           # Modern Find and replace - "sd foo bar"
 	rargs        # "xargs" alternative including command templates
+	rip-cli      # Process killer + CPU usage (as "rip")
 	ruplacer     # Text replacement
-	tailspin     # Log colorizer
+	tailspin     # Log colorizer (as "tspin")
 	tcalc        # Terminal calculator expressions ~ "tcalc 1+2 ans/3 abs(ans)"
 	tokei        # Code stats + TODO / FIXME debug arterfact scanner
 	whalespotter # Utility to find huge files
