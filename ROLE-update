@@ -1,0 +1,12 @@
+#!/bin/bash
+# Update this boxes software, assuming an existing install
+
+source common
+
+INIT run \
+	007-apt-update \
+	090-nerovim \
+	200-rust \
+	201-rust-pkgs \
+	999-clean \
+
