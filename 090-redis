@@ -28,7 +28,7 @@ INIT status "Setup redis config"
 sudo mkdir /etc/redis
 sudo cp redis.conf /etc/redis
 
-if [ ! -f "/etc/systemd/system/redis.service"; then
+if [ ! -f "/etc/systemd/system/redis.service" ]; then
 	INIT status "Setup Redis as a SystemD service"
 
 INIT file-set /etc/systemd/system/redis.service <<EOF
@@ -46,8 +46,8 @@ WantedBy=multi-user.target
 EOF
 
 	sudo systemctl daemon-reload
-	sudo systemctl start redis-server
-	sudo systemctl enable redis-server
+	sudo systemctl start redis
+	sudo systemctl enable redis
 else
 	INIT skip "Setup Redis as a SystemD service"
 fi
