@@ -12,6 +12,4 @@ sudo sysctl -w vm.drop_caches=3
 INIT status "Adjusting swappiness"
 
 # Lower swappiness = cache agressively in RAM, higher = swap to disk more (use less cache RAM)
-sudo sysctl "vm.swappiness=${SWAPINESS}"
-
-INIT config-set /etc/sysctl.conf 'vm.swappiness' "${SWAPINESS}"
+sudo sysctl -w "vm.swappiness=${SWAPINESS}"
