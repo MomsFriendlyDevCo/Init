@@ -6,7 +6,8 @@
 source common
 
 SWAP_SIZE=2G
-SWAP_FILE="/var/swap-$(echo "$SWAP_SIZE" | tr '[:upper:]' '[:lower:]').img"
+SWAP_ROOT="/var"
+SWAP_FILE="${SWAP_ROOT}/swap-$(echo "$SWAP_SIZE" | tr '[:upper:]' '[:lower:]').img"
 
 
 INIT status "Setting up ${SWAP_SIZE} Swap file"
