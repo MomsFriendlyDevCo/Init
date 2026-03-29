@@ -3,25 +3,39 @@
 
 source common
 
-INIT apt-install --lazy --header "Install main linux image sources" linux-image-extra-`uname -r`
+INIT apt-remove --lazy --header 'Removing older Docker versions' docker.io
+
+INIT apt-install --lazy --header 'Install docker pre-requisites' ca-certificates curl
+
+if [ ! -e '/etc/apt/keyrings/docker.asc' ]; then
+	INIT status 'Installing Docker Apt key'
+	if [ ! -d '/etc/apt/keyrings' ]; then
+		sudo mkdir '/etc/apt/keyrings'
+	fi
+
+	sudo curl -fsSL https://download.docker.com/linux/ubuntu/gpg -o /etc/apt/keyrings/docker.asc
+	sudo chmod a+r /etc/apt/keyrings/docker.asc
+fi
 
 
-if [ -e '/etc/apt/sources.list.d/docker.list' ]; then
-	INIT skip "PPA already installed"
+if [ -e '/etc/apt/sources.list.d/docker.sources' ]; then
+	INIT skip "Apt source already installed"
 else
 	INIT status "Install Docker PPA key"
-	sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 36A1D7869245C8950F966E92D8576A8BA88D21E9
-
-	INIT status "Add Docker PPA"
-	sudo sh -c "echo deb http://get.docker.io/ubuntu docker main\
-	> /etc/apt/sources.list.d/docker.list"
+	INIT file-set /etc/apt/sources.list.d/docker.sources <<EOF
+Types: deb
+URIs: https://download.docker.com/linux/ubuntu
+Suites: $(. /etc/os-release && echo "${UBUNTU_CODENAME:-$VERSION_CODENAME}")
+Components: stable
+Signed-By: /etc/apt/keyrings/docker.asc
+EOF
 
 	INIT status "Update APT"
 	sudo apt-get update
 fi
 
 INIT status "Install Docker from APT"
-INIT apt-install docker.io git
+INIT apt-install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
 
 INIT status "Adjust firewall policy to allow Docker"
 INIT config-set /etc/default/ufw 'DEFAULT_FORWARD_POLICY' 'ACCEPT'
