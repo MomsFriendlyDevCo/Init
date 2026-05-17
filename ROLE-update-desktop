@@ -5,8 +5,12 @@ source common
 
 INIT run \
 	007-apt-update \
-	090-nerovim \
+	090-neovim \
+	200-flatpak \
+	201-flatpak-pkgs-desktop \
 	200-rust \
 	201-rust-pkgs \
+	900-wezterm \
 	999-clean \
+	999-flatpak-links \
 
