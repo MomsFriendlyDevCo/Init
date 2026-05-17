@@ -3,7 +3,9 @@
 
 source common
 
-SWAPINESS=80
+# Standard Default=60, lower numbers mean more RAM but less disk usage, higher means crash to disk more often
+# For servers, lower is better
+SWAPINESS=30
 
 INIT status "Releasing cache memory"
 sudo sysctl -w vm.drop_caches=3
