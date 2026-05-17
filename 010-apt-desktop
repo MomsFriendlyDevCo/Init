@@ -1,7 +1,7 @@
 #!/bin/bash
 # Install packages suitable for use as a desktop platform.
 
-source common
+source "$(dirname "${BASH_SOURCE[0]}")/./common"
 
 INIT status "Install desktop APT packages"
 INIT apt-install --ignore-missing \

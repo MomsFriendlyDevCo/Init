@@ -2,7 +2,7 @@
 # Query for a hosting profile and apply various patches
 # This script creates a file at /etc/hosting-profile with the selected profile
 
-source common
+source "$(dirname "${BASH_SOURCE[0]}")/./common"
 
 PROFILEFILE="/etc/hosting-profile"
 

@@ -1,7 +1,7 @@
 #!/bin/bash
 # Various misc Ubuntu tweaks for desktop systems
 
-source common
+source "$(dirname "${BASH_SOURCE[0]}")/./common"
 
 INIT status "Disable Apport error reporting"
 INIT config-set /etc/default/apport 'enabled' '1'

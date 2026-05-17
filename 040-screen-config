@@ -1,7 +1,7 @@
 #!/bin/bash
 # Setup screen config
 
-source common
+source "$(dirname "${BASH_SOURCE[0]}")/./common"
 
 INIT status "Patch Screen config"
 INIT config-set /etc/screenrc 'startup_message' 'off'

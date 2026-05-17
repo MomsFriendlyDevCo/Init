@@ -2,7 +2,7 @@
 # Install MFDC Nagios monitoring setup
 # This creates a 'nagios' user and also installs all the Nagios scripts
 
-source common
+source "$(dirname "${BASH_SOURCE[0]}")/./common"
 
 if [ -d '/home/nagios' ]; then
 	INIT skip "Nagios already configured"

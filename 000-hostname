@@ -1,7 +1,7 @@
 #!/bin/bash
 # Correctly setup the domain hostname
 
-source common
+source "$(dirname "${BASH_SOURCE[0]}")/./common"
 
 HOSTNAME=`hostname`
 

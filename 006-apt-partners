@@ -1,7 +1,7 @@
 #!/bin/bash
 # Enables partner repos
 
-source common
+source "$(dirname "${BASH_SOURCE[0]}")/./common"
 
 INIT status "Enable partner APT sources"
 if [ ! -e '/etc/apt/sources.list' ]; then

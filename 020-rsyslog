@@ -1,7 +1,7 @@
 #!/bin/bash
 # Install RSyslogD against a remote server
 
-source common
+source "$(dirname "${BASH_SOURCE[0]}")/./common"
 
 
 INIT apt-install --lazy --header "Install RSyslog" rsyslog

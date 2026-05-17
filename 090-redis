@@ -1,7 +1,7 @@
 #!/bin/bash
 # Install the Redis Client + Server from source
 
-source common
+source "$(dirname "${BASH_SOURCE[0]}")/./common"
 
 INIT apt-remove --lazy --header "Remove Redis APT distributions" redis redis-tools redis-server
 

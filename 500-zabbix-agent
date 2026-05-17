@@ -1,7 +1,7 @@
 #!/bin/bash
 # Setup the Zabbix agent
 
-source common
+source "$(dirname "${BASH_SOURCE[0]}")/./common"
 
 INIT apt-remove --header "Removing existing Zabbix agents" -m purge --lazy zabbix-agent zabbix-agent2
 

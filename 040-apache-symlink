@@ -2,7 +2,7 @@
 # Creates a symlink to the /var/www Apache web directory in the users home dir
 # Also wipes the existing /var/www clean
 
-source common
+source "$(dirname "${BASH_SOURCE[0]}")/./common"
 
 INIT status "Clear /var/www"
 sudo rm -r /var/www

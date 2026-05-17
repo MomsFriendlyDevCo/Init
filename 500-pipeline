@@ -1,7 +1,7 @@
 #!/bin/bash
 # Install the handy `pipeline` ncurses tool
 
-source common
+source "$(dirname "${BASH_SOURCE[0]}")/./common"
 
 INIT status "Install Pipeline prerequisites"
 INIT apt-install \

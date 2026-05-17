@@ -1,7 +1,7 @@
 #!/bin/bash
 # Install LetsEncrypt for a single site
 
-source common
+source "$(dirname "${BASH_SOURCE[0]}")/./common"
 
 # Check if letsencrypt is already installed
 if [ `INIT bin-available certbot` == 1 ]; then

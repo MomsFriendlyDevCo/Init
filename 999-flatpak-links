@@ -1,7 +1,7 @@
 #!/bin/bash
 # Clean up temporary files to free up space
 
-source common
+source "$(dirname "${BASH_SOURCE[0]}")/./common"
 
 FLATPAK_BINS="/var/lib/flatpak/exports/bin"
 FLATPAK_HUMAN_BINS="/var/lib/flatpak/exports/bin-human"

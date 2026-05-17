@@ -1,7 +1,7 @@
 #!/bin/bash
 # Install desktop theme packages
 
-source common
+source "$(dirname "${BASH_SOURCE[0]}")/./common"
 
 
 INIT status "Install all theme packages"

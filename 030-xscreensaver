@@ -1,7 +1,7 @@
 #!/bin/bash
 # Install the latest XScreensaver package
 
-source common
+source "$(dirname "${BASH_SOURCE[0]}")/./common"
 
 INIT status "Install XScreensaver PPA"
 sudo add-apt-repository -y ppa:savoury1/xscreensaver

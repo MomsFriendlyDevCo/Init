@@ -1,7 +1,7 @@
 #!/bin/bash
 # Install QGIS
 
-source common
+source "$(dirname "${BASH_SOURCE[0]}")/./common"
 
 INIT apt-install wget --lazy --header "Install QGIS prefequisites"
 

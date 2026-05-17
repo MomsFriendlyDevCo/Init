@@ -1,7 +1,7 @@
 #!/bin/bash
 # Install common Flatpak packages
 
-source common
+source "$(dirname "${BASH_SOURCE[0]}")/./common"
 
 INIT status "Installing Flatpak packages"
 

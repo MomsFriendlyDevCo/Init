@@ -1,7 +1,7 @@
 #!/bin/bash
 # Install Tailscale networking
 
-source common
+source "$(dirname "${BASH_SOURCE[0]}")/./common"
 
 if [ `INIT bin-available tailscale` == 1 ]; then
 	INIT skip "Install Tailscale"

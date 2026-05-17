@@ -1,7 +1,7 @@
 #!/bin/bash
 # Secure the Port Scan protection
 
-source common
+source "$(dirname "${BASH_SOURCE[0]}")/./common"
 
 
 INIT apt-install --lazy --header "Install PSAD prerequisites" iptables

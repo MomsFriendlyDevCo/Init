@@ -1,7 +1,7 @@
 #!/bin/bash
 # Install all auto-updating APT security packages
 
-source common
+source "$(dirname "${BASH_SOURCE[0]}")/./common"
 
 INIT status "Install Auto-update APT packages"
 INIT apt-install --ignore-missing \

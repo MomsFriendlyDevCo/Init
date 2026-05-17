@@ -1,7 +1,7 @@
 #!/bin/bash
 # Set filesystem journaling to non-crazy limits and purge existing cache
 
-source common
+source "$(dirname "${BASH_SOURCE[0]}")/./common"
 
 INIT status "Limiting JournalCtl log size to 64mb"
 INIT config-set /etc/systemd/journald.conf 'SystemMaxUse' '64M'

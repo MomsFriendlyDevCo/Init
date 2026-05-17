@@ -2,7 +2,7 @@
 # Install the latest ZSH Nightly from source
 # This script is really only for older Linux versions that really need to build ZSH from source
 
-source common
+source "$(dirname "${BASH_SOURCE[0]}")/./common"
 
 INIT apt-install --lazy --header "Install ZSH prerequisites" python2
 

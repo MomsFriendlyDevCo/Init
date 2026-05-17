@@ -1,7 +1,7 @@
 #!/bin/bash
 # Install Neovim LSP / Language Server Protocol support
 
-source common
+source "$(dirname "${BASH_SOURCE[0]}")/./common"
 
 INIT status "Install Language servers (JS/NPM)"
 INIT npm-install -g \

@@ -1,7 +1,7 @@
 #!/bin/bash
 # Removes unneeded default Ubuntu packages
 
-source common
+source "$(dirname "${BASH_SOURCE[0]}")/./common"
 
 INIT apt-remove --lazy --mode purge --header "Remove Postfix" postfix
 

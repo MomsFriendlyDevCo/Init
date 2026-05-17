@@ -1,7 +1,7 @@
 #!/bin/bash
 # Sets up the default firewall
 
-source common
+source "$(dirname "${BASH_SOURCE[0]}")/./common"
 
 if [ `INIT service-available firewalld` == 1 ]; then
 	INIT status "Disable FirewallD (conflicts with UFW)"

@@ -1,7 +1,7 @@
 #!/bin/bash
 # Install common Cargo packages via cargo-binstall
 
-source common
+source "$(dirname "${BASH_SOURCE[0]}")/./common"
 
 # Packages that have fallen out of favour for one reason or another
 CARGO_PKGS_SKIPPED='

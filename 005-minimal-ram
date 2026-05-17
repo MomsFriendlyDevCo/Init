@@ -2,7 +2,7 @@
 # Various fixes for very small VMs
 # Mainly this is just Swap file hacks so NPM doesn't kill itself when searching in <512mb RAM
 
-source common
+source "$(dirname "${BASH_SOURCE[0]}")/./common"
 
 INIT status "Minimal Server Setup"
 ISMINIMAL=`INIT ask --prompt "Is this server a tiny VM server with RAM < 512mb? (y|n)" --default "y"`

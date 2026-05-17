@@ -1,7 +1,7 @@
 #!/bin/bash
 # Install Nginx as a HTTP / HTTPS reverse proxy
 
-source common
+source "$(dirname "${BASH_SOURCE[0]}")/./common"
 
 INIT status "Install Nginx via Apt"
 curl -fsSL https://nginx.org/keys/nginx_signing.key | sudo apt-key add -

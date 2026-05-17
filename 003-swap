@@ -3,7 +3,7 @@
 #
 # NOTE: Use `free -h` to see swap file usage
 
-source common
+source "$(dirname "${BASH_SOURCE[0]}")/./common"
 
 SWAP_SIZE=2G
 SWAP_ROOT="/var"

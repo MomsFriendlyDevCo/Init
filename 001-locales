@@ -1,6 +1,6 @@
 #!/bin/bash
 # Fix the stupid issue on Ubuntu where locales don't get set right because Australia is on another world or something
-source common
+source "$(dirname "${BASH_SOURCE[0]}")/./common"
 
 INIT apt-install --lazy --header "Install locales prerequisites" dialog locales
 

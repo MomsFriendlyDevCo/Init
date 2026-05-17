@@ -1,7 +1,7 @@
 #!/bin/bash
 # Generates the initial RSA identity of this server
 
-source common
+source "$(dirname "${BASH_SOURCE[0]}")/./common"
 
 KEYFILE=$HOME/.ssh/id_ed25519
 

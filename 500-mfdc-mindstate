@@ -1,7 +1,7 @@
 #!/bin/bash
 # Setup the automatic MFDC Mindstate backup process
 
-source common
+source "$(dirname "${BASH_SOURCE[0]}")/./common"
 
 INIT status "Install Common Apt repos"
 INIT apt-install inxi

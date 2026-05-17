@@ -1,7 +1,7 @@
 #!/bin/bash
 # Install Flatpak + basic packages
 
-source common
+source "$(dirname "${BASH_SOURCE[0]}")/./common"
 
 if [ `INIT bin-available flatpak` == 1 ]; then
 	INIT skip "Install Flatpak"

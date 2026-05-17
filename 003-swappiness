@@ -1,7 +1,7 @@
 #!/bin/bash
 # Adjust swappiness (cache RAM usage) for OS's that really care about total RAM used
 
-source common
+source "$(dirname "${BASH_SOURCE[0]}")/./common"
 
 # Standard Default=60, lower numbers mean more RAM but less disk usage, higher means crash to disk more often
 # For servers, lower is better
