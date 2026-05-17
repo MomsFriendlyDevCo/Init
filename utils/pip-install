@@ -2,7 +2,7 @@
 # Install a series of packages via PIP (w/Python3)
 # Usage: ./utils/pip-install <packages...>
 
-[ -z "$INIT_READY" ] && source common
+source "$(dirname "${BASH_SOURCE[0]}")/../common"
 
 if [ `which 'node' >/dev/null; echo "$?"` == 0 ]; then
 	INIT apt-install --header "Installing Python3 + PIP" \

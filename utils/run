@@ -2,7 +2,7 @@
 # Run a step or steps of the init/ directory CDing back when completed
 # Usage: ./utils/run <tasks...>
 
-[ -z "$INIT_READY" ] && source common
+source "$(dirname "${BASH_SOURCE[0]}")/../common"
 
 for TASK in "$@"; do
 	cd "$INIT_HOME"

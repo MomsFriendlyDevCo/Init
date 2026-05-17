@@ -11,7 +11,7 @@
 # This is line 2
 # EOF
 
-[ -z "$INIT_READY" ] && source common
+source "$(dirname "${BASH_SOURCE[0]}")/../common"
 
 # Argument processing {{{
 TEECMD="tee"

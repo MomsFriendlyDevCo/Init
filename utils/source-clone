@@ -14,7 +14,7 @@
 # @example Clone the DTRX repo
 # ./utils/source-clone dtrx https://github.com/brettcs/dtrx.git
 
-[ -z "$INIT_READY" ] && source common
+source "$(dirname "${BASH_SOURCE[0]}")/../common"
 
 INIT go-src
 

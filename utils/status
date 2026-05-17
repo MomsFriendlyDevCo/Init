@@ -2,7 +2,7 @@
 # Simple status reporter to display a status step
 # Usage: ./utils/status <message>
 
-[ -z "$INIT_READY" ] && source common
+source "$(dirname "${BASH_SOURCE[0]}")/../common"
 
 echo -ne "\n\e[34m\e[1m"
 echo -e "$@"

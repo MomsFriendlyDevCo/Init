@@ -2,7 +2,7 @@
 # Set a simple INI setting within a file
 # Usage: INIT config-set <file> <key> <value>
 
-[ -z "$INIT_READY" ] && source common
+source "$(dirname "${BASH_SOURCE[0]}")/../common"
 
 INIT apt-install --lazy --header "Installing Perl Pre-requisite" perl
 

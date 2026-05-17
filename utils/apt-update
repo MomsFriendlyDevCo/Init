@@ -3,6 +3,6 @@
 #
 # Usage: ./utils/apt-update
 
-[ -z "$INIT_READY" ] && source common
+source "$(dirname "${BASH_SOURCE[0]}")/../common"
 
 sudo apt update

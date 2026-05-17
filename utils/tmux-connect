@@ -3,7 +3,7 @@
 # If the session already exists - connect to it, else make the connection and optionally run a comamnd
 # Usage: ./utils/tmux-connect <session-name> [command]
 
-[ -z "$INIT_READY" ] && source common
+source "$(dirname "${BASH_SOURCE[0]}")/../common"
 
 INIT apt-install --lazy-bin --header "Installing TMUX session multiplexor..." tmux
 

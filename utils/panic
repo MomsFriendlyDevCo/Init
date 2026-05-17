@@ -4,7 +4,7 @@
 # @example Panic and exit
 # INIT panic "Nope - not doing that"
 
-[ -z "$INIT_READY" ] && source common
+source "$(dirname "${BASH_SOURCE[0]}")/../common"
 
 echo
 echo -ne "\e[31m\e[1m 🛇 "

@@ -16,7 +16,7 @@
 # --ignore-missing         (APT native) Skip missing packages if they are not available in this OS
 
 
-[ -z "$INIT_READY" ] && source common
+source "$(dirname "${BASH_SOURCE[0]}")/../common"
 
 # Argument processing {{{
 IS_LAZY_DEB=0

@@ -3,4 +3,4 @@
 # This function is really just intended for documentation purposes and making
 # complex if-then-else blocks more readable
 
-[ -z "$INIT_READY" ] && source common
+source "$(dirname "${BASH_SOURCE[0]}")/../common"

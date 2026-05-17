@@ -1,14 +1,19 @@
 #!/bin/bash
 # Common functionality library imported by all other scripts in this directory
 
-# Set a flag to indicate that this script has already loaded
-export INIT_READY=1
+# Quit on any error (must be set per-shell, even if already initialized in a parent)
+set -e
+
+# Skip the rest of setup if INIT has already been defined in this shell.
+# Checking the function directly (rather than an env-var flag) is reliable across
+# newer bash versions where exported functions don't always propagate to subshells.
+declare -F INIT >/dev/null && return 0
 
 # Force all scripts to use non-interactive DPKG prompts on install
 export DEBIAN_FRONTEND=noninteractive
 
-# Import the config
-source config
+# Import the config (resolve via BASH_SOURCE so CWD doesn't matter)
+source "$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)/config"
 export INIT_HOME INIT_SRC INIT_CMD_PATH INIT_AUTO_TMUX
 
 # Call a utility function as sourced within the current shell
@@ -24,8 +29,5 @@ function INIT {
 	fi
 }
 
-# Expose INIT to all sub-shells
+# Expose INIT to all sub-shells (best-effort; the guard above handles the case where it doesn't propagate)
 export -f -- INIT
-
-# Quit on any error
-set -e

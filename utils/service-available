@@ -7,7 +7,7 @@
 #   echo "Is available"
 # fi
 
-[ -z "$INIT_READY" ] && source common
+source "$(dirname "${BASH_SOURCE[0]}")/../common"
 
 if systemctl status "$1" >/dev/null 2>&1; then
 	echo '1'

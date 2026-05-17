@@ -8,7 +8,7 @@
 # -b, --lazy-bin <name>    Exit politely if the given name is avaiable as a binary executable
 #
 
-[ -z "$INIT_READY" ] && source common
+source "$(dirname "${BASH_SOURCE[0]}")/../common"
 
 # Argument processing {{{
 IS_LAZY_BIN=0

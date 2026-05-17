@@ -7,7 +7,7 @@
 #   echo "Is a match"
 # fi
 
-[ -z "$INIT_READY" ] && source common
+source "$(dirname "${BASH_SOURCE[0]}")/../common"
 
 if grep -q "$2" "$1"; then
 	echo "1"

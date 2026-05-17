@@ -12,7 +12,7 @@
 # @example Ask for a server name
 # SERVER=`INIT ask --prompt 'Enter the server to use:' --var 'INIT_SERVER'`
 
-[ -z "$INIT_READY" ] && source common
+source "$(dirname "${BASH_SOURCE[0]}")/../common"
 
 # Argument processing {{{
 ASK_PROMPT=""

@@ -2,7 +2,7 @@
 # Install a Rust packages, including INIT of Rust + Cargo if necessary
 # Usage: ./utils/cargo-install <packages...>
 
-[ -z "$INIT_READY" ] && source common
+source "$(dirname "${BASH_SOURCE[0]}")/../common"
 
 if [ `INIT bin-available cargo-cache` == 0 ]; then
 	INIT status "Install pre-requsite: cargo-cache"

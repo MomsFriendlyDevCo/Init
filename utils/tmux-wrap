@@ -2,7 +2,7 @@
 # Request that the current script be wrapped inside a TMUX session
 # This conditionally wraps if `INIT_AUTO_TMUX` is non-zero
 
-[ -z "$INIT_READY" ] && source common
+source "$(dirname "${BASH_SOURCE[0]}")/../common"
 
 if [ "$INIT_AUTO_TMUX" != 0 ]; then
 	INIT status "Wrapping program in TMUX"
