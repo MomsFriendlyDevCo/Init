@@ -23,6 +23,14 @@ INIT apt-install --lazy --header "Install Pre-requisites" \
 	unzip \
 
 
+INIT status "Installing Tree-Sitter-CLI"
+if [ `INIT bin-available npm` == 0 ]; then
+	echo "NPM needed to install tree-sitter-cli package"
+	exit 1
+fi
+npm i -g tree-sitter-cli
+
+
 INIT source-clone neovim https://github.com/neovim/neovim.git
 INIT go-src neovim
 
