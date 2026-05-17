@@ -5,16 +5,12 @@ source "$(dirname "${BASH_SOURCE[0]}")/./common"
 
 
 INIT apt-install --lazy --header "Install PSAD prerequisites" iptables
+INIT apt-install --lazy --header 'Install PSAD' psad
 
 
-INIT status "Install PSAD"
-INIT apt-install psad
-
-
-grep -q 'daemons@mfdc.io' /etc/psad/psad.conf
-if [ "$?" == 1 ]; then
+if [ `INIT file-grep-matches /etc/psad/psad.conf 'daemons@mfdc.io'` == 0 ]; then
 	INIT status "Configure PSAD"
-	sudo perl -pi -e 's/(EMAIL_ADDRESSES\s+)root@localhost/${1}daemons\@mfdc\.io/g' /etc/psad/psad.conf
+	sudo perl -pi -e 's/(EMAIL_ADDRESSES\s+).*$/${1}daemons\@mfdc\.io;/g' /etc/psad/psad.conf
 	sudo perl -pi -e "s/(HOSTNAME\s+).+$/\${1}$(hostname);/" /etc/psad/psad.conf
 	sudo perl -pi -e 's/(EMAIL_THROTTLE\s+)0/${1}30/' /etc/psad/psad.conf
 	sudo perl -pi -e 's/(ALERT_ALL\s+)N/${1}Y/' /etc/psad/psad.conf
