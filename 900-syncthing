@@ -1,0 +1,62 @@
+#!/bin/bash
+# Install Syncthing
+
+source "$(dirname "${BASH_SOURCE[0]}")/../common"
+
+if [ ! -e '/etc/apt/keyrings/syncthing-archive-keyring.gpg' ]; then
+	INIT status "Installing Syncthing PPA"
+	sudo curl -L -o /etc/apt/keyrings/syncthing-archive-keyring.gpg https://syncthing.net/release-key.gpg
+
+INIT file-set '/etc/apt/sources.list.d/syncthing.list' <<EOF
+deb [signed-by=/etc/apt/keyrings/syncthing-archive-keyring.gpg] https://apt.syncthing.net/ syncthing stable-v2
+EOF
+
+	INIT apt-update
+else
+	INIT skip "Installing Syncthing PPA"
+fi
+
+
+INIT status 'Install Syncthing'
+INIT apt-install syncthing
+
+
+if [ ! -f '/etc/systemd/system/syncthing.service' ]; then
+	INIT status "Setup Syncthing as a SystemD service"
+
+INIT file-set /etc/systemd/system/syncthing.service <<EOF
+[Unit]
+Description=Syncthing - Open Source Continuous File Synchronization
+Documentation=man:syncthing(1)
+StartLimitIntervalSec=60
+StartLimitBurst=4
+
+[Service]
+Environment="STLOGFORMATTIMESTAMP="
+Environment="STLOGFORMATLEVELSTRING=false"
+Environment="STLOGFORMATLEVELSYSLOG=true"
+ExecStart=/usr/bin/syncthing serve --no-browser --no-restart
+Restart=on-failure
+RestartSec=1
+SuccessExitStatus=3 4
+RestartForceExitStatus=3 4
+
+# Hardening
+SystemCallArchitectures=native
+MemoryDenyWriteExecute=true
+NoNewPrivileges=true
+
+# Elevated permissions to sync ownership (disabled by default),
+# see https://docs.syncthing.net/advanced/folder-sync-ownership
+#AmbientCapabilities=CAP_CHOWN CAP_FOWNER
+
+[Install]
+WantedBy=default.target
+EOF
+
+	sudo systemctl daemon-reload
+	sudo systemctl start syncthing
+	sudo systemctl enable syncthing
+else
+	INIT skip "Setup Syncthing as a SystemD service"
+fi
