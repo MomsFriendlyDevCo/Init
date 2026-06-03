@@ -48,6 +48,7 @@ CARGO_PKGS='
 	tailspin     # Log colorizer (as "tspin")
 	tcalc        # Terminal calculator expressions ~ "tcalc 1+2 ans/3 abs(ans)"
 	tokei        # Code stats + TODO / FIXME debug arterfact scanner
+	viu          # Terminal image output, used by FZF for image previews
 	whalespotter # Utility to find huge files
 	woodchipper  # Log output formatter
 	xcp          # "cp" alternative
