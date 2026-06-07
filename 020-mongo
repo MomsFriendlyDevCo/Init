@@ -6,7 +6,6 @@ source "$(dirname "${BASH_SOURCE[0]}")/./common"
 # Mongo versions to attempt
 VERSION_SERVER=7.0.5
 VERSION_SHELL=2.1.1
-VERSION_COMPASS=1.41.0
 
 INIT apt-remove --lazy --header "Remove existing Mongo installs" 'mongodb*'
 
@@ -14,7 +13,6 @@ INIT apt-remove --lazy --header "Remove existing Mongo installs" 'mongodb*'
 INIT apt-install-url \
 	"https://repo.mongodb.org/apt/ubuntu/dists/jammy/mongodb-org/7.0/multiverse/binary-amd64/mongodb-org-server_${VERSION_SERVER}_amd64.deb" \
 	"https://downloads.mongodb.com/compass/mongodb-mongosh_${VERSION_SHELL}_amd64.deb" \
-	"https://downloads.mongodb.com/compass/mongodb-compass_${VERSION_COMPASS}_amd64.deb" \
 	"https://fastdl.mongodb.org/tools/db/mongodb-database-tools-ubuntu2004-x86_64-100.5.1.deb" \
 
 
