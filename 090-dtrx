@@ -1,6 +1,0 @@
-#!/bin/bash
-# Install the `dtrx` swiss-army-knife extrator
-
-source "$(dirname "${BASH_SOURCE[0]}")/./common"
-
-INIT pip-install dtrx
