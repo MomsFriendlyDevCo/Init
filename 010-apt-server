@@ -40,7 +40,7 @@ INIT apt-install --ignore-missing \
 	ncat \
 	net-tools \
 	nmap \
-	ntp \
+	ntpd-rs \
 	openssl \
 	perl \
 	pv \
