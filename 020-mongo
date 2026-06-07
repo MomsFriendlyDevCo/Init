@@ -5,7 +5,7 @@ source "$(dirname "${BASH_SOURCE[0]}")/./common"
 
 # Mongo versions to attempt
 VERSION_SERVER=7.0.5
-VERSION_SHELL=2.1.1
+VERSION_SHELL=2.8.3
 
 INIT apt-remove --lazy --header "Remove existing Mongo installs" 'mongodb*'
 
