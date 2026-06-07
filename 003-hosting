@@ -4,9 +4,9 @@
 
 source "$(dirname "${BASH_SOURCE[0]}")/./common"
 
-PROFILEFILE="/etc/hosting-profile"
+PROFILE_FILE="/etc/hosting-profile"
 
-if [ -e "$PROFILEFILE" ]; then
+if [ -e "$PROFILE_FILE" ]; then
 	INIT skip "Hosting profile already set"
 	exit 0
 fi
@@ -22,22 +22,22 @@ echo "n    Normal / standalone       (none)"
 echo "do   Digital Ocean             (none)"
 echo "bl   Binary Lane               deny-passwords + swap + ulimits + journdald + swappiness"
 echo
-PROFILE=`INIT ask --prompt "Hosting profile" --default "n"`
+SERVER_PROFILE=`INIT ask --prompt "Hosting profile" --default "n"`
 
-if [ "$PROFILE" == "n" ]; then
+if [ "$SERVER_PROFILE" == "n" ]; then
 	echo "Selected normal hosting profile - applying no patches"
-	echo "standalone" | sudo tee "$PROFILEFILE" >/dev/null
-elif [ "$PROFILE" == "do" ]; then
+	echo "standalone" | sudo tee "$PROFILE_FILE" >/dev/null
+elif [ "$SERVER_PROFILE" == "do" ]; then
 	echo "Selected Digital Ocean hosting profile - applying no patches"
-	echo "digialocean" | sudo tee "$PROFILEFILE" >/dev/null
-elif [ "$PROFILE" == "bl" ]; then
+	echo "digialocean" | sudo tee "$PROFILE_FILE" >/dev/null
+elif [ "$SERVER_PROFILE" == "bl" ]; then
 	INIT status "Apply Binary Lane patches"
 	./003-deny-passwords
 	./003-swap
 	./003-ulimits
 	./003-journald
 	./003-swappiness
-	echo "binarylane" | sudo tee "$PROFILEFILE" >/dev/null
+	echo "binarylane" | sudo tee "$PROFILE_FILE" >/dev/null
 else
 	echo "Invalid hosting profile"
 	exit 1
