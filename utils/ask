@@ -55,8 +55,8 @@ done
 # Fetch value from PROFILE_ prefixes
 if [ ! -e "$ASK_VARNAME" ]; then
 	source "./profile"
-	if [ ! -e "${!ASK_VARNAME}" ]; then
-		ASK_DEFAULT="${!ASK_VARNAME}"
+	if [ ! -e "${ASK_VARNAME}" ]; then
+		ASK_DEFAULT="${ASK_VARNAME}"
 	fi
 fi
 
