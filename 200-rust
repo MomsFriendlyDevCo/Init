@@ -10,7 +10,7 @@ INIT bin-download-run 'https://sh.rustup.rs' -y
 INIT apt-install --lazy --header "Install Cargo prerequisites" \
 	cmake \
 	libasound2-dev \
-	libclang1 \
+	libclang1-22 \
 	libexpat1-dev \
 	libfreetype6-dev \
 	libssl-dev \
