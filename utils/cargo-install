@@ -4,6 +4,9 @@
 
 source "$(dirname "${BASH_SOURCE[0]}")/../common"
 
+# Set Cargo tmp directory to local home as /tmp is limited to 500mb on Ubuntu 26.04 default installs
+export CARGO_BUILD_BUILD_DIR=$HOME/.cargo/tmp
+
 if [ `INIT bin-available cargo-cache` == 0 ]; then
 	INIT status "Install pre-requsite: cargo-cache"
 	cargo install cargo-cache
