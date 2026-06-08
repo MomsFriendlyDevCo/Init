@@ -11,9 +11,3 @@ INIT npm-install -g \
 	typescript-language-server \
 	vscode-langservers-extracted \
 
-
-INIT status "Install Language servers (Rust/Cargo)"
-INIT cargo-install \
-	just-lsp \
-
-

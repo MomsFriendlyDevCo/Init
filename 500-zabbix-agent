@@ -6,7 +6,7 @@ source "$(dirname "${BASH_SOURCE[0]}")/./common"
 INIT apt-remove --header "Removing existing Zabbix agents" -m purge --lazy zabbix-agent zabbix-agent2
 
 INIT status "Setup Zabbix-Agent (+Plugins)"
-INIT apt-install-url "https://repo.zabbix.com/zabbix/7.4/release/ubuntu/pool/main/z/zabbix-release/zabbix-release_7.4-0.2+ubuntu$(lsb_release -rs)_all.deb"
+INIT apt-install-url "https://repo.zabbix.com/zabbix/7.4/release/ubuntu/pool/main/z/zabbix-release/zabbix-release_7.4-1+ubuntu$(lsb_release -rs)_all.deb"
 INIT apt-update
 
 INIT apt-install \
