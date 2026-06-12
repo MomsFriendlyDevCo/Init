@@ -58,6 +58,7 @@ INIT npm-install \
 	@momsfriendlydevco/extract \
 	@momsfriendlydevco/o \
 	@momsfriendlydevco/repl \
+	@momsfriendlydevco/wait \
 	depcheck \
 	fkill-cli \
 	fx \
