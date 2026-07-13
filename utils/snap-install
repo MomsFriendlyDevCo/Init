@@ -9,4 +9,4 @@ if [ `INIT bin-available snap` == 0 ]; then
 	INIT run 015-snap
 fi
 
-snap install "$@"
+sudo snap install "$@"
