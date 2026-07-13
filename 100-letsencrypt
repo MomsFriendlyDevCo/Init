@@ -11,9 +11,6 @@ else
 	INIT snap-install --classic certbot
 	sudo snap set certbot trust-plugin-with-root=ok
 
-	INIT status "Install DME LetsEncrypt plugin"
-	INIT snap-install --beta certbot-dns-dnsmadeeasy
-
 	INIT status "Install Cloudflare LetsEncrypt plugin"
 	INIT snap-install certbot-dns-cloudflare
 fi
