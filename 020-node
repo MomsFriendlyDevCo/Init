@@ -66,10 +66,8 @@ INIT npm-install \
 	gulp \
 	hanson \
 	jaywalker \
-	jshint \
 	json-prettify \
 	mocha \
-	mongoosh \
 	npm-check-updates \
 
 
