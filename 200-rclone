@@ -1,0 +1,15 @@
+#!/bin/bash
+# Install Rclone
+
+source "$(dirname "${BASH_SOURCE[0]}")/../common"
+
+RCLONE_VERSION="1.75.0"
+
+INIT apt-install --lazy fuse3 --header 'Install rclone prereqs'
+
+INIT apt-install-url "https://downloads.rclone.org/v1.75.0/rclone-v${RCLONE_VERSION}-linux-amd64.deb"
+
+if [ ! -d "$HOME/.config/rclone" ]; then
+	INIT status 'Creating empty Rclone config'
+	mkdir -p "$HOME/.config/rclone"
+fi

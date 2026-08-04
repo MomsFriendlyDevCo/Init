@@ -27,6 +27,7 @@ INIT run \
 	090-fzf \
 	100-letsencrypt \
 	200-nginx \
+	200-rclone \
 	200-rust \
 	201-rust-pkgs \
 	999-clean \
