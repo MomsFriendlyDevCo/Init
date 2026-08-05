@@ -19,6 +19,7 @@ CARGO_PKGS='
 	choose       # "cut" altenative
 	csvlens      # Interactive CSV viewer
 	diskonaut    # Disk space visualizer
+	drydock      # Analyise Git status across paths
 	dns-doge     # "dig" alternative"
 	dua          # "du" alternative"
 	du-dust      # "du" alternative" with graphs ~ "dust [path]"
