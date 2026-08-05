@@ -8,6 +8,7 @@ INIT bin-download-run 'https://sh.rustup.rs' -y
 
 
 INIT apt-install --lazy --header "Install Cargo prerequisites" \
+	clang \
 	cmake \
 	libasound2-dev \
 	libclang1-20 \
