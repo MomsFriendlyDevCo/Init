@@ -4,10 +4,10 @@
 source "$(dirname "${BASH_SOURCE[0]}")/./common"
 
 INIT status "Removing temporary files (>3 days)"
-INIT tolerate find /tmp -type f -mtime +3 -delete
+INIT tolerate find /tmp -type f -mtime +3 -delete 2>/dev/null
 
 INIT status "Removing temporary Cargo install profiles"
-INIT tolerate rm -r /tmp/*cargo*
+INIT tolerate rm -r /tmp/*cargo* 2>/dev/null
 
 INIT status "Clean apt cache"
 sudo apt autoclean
