@@ -8,7 +8,6 @@ INIT npm-install -g \
 	@vue/language-server \
 	lehre \
 	typescript \
-	@typescript/native-preview \
 	typescript-language-server \
 	vscode-langservers-extracted \
 

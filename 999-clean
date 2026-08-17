@@ -34,3 +34,8 @@ if [ -d "$HOME/.rustup" ]; then
 	INIT status "Clean Rust-up files"
 	rm -rf "$HOME/.rustup"
 fi
+
+if [ `INIT bin-available docker` == 1 ]; then
+	INIT status "Clean Docker cache"
+	docker system prune --force
+fi
