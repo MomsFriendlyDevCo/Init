@@ -57,10 +57,7 @@ INIT npm-install \
 	@momsfriendlydevco/cli-snip \
 	@momsfriendlydevco/extract \
 	@momsfriendlydevco/o \
-	@momsfriendlydevco/repl \
-	@momsfriendlydevco/wait \
 	depcheck \
-	fkill-cli \
 	fx \
 	gronk \
 	gulp \
