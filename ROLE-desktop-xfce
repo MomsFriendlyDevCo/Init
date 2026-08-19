@@ -19,6 +19,7 @@ INIT run \
 	015-chrome \
 	015-firefox \
 	020-node \
+	021-bun \
 	030-fix-motd \
 	030-xscreensaver \
 	040-screen-config \

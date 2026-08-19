@@ -1,0 +1,7 @@
+#!/bin/bash
+# Install Bun via NPM
+
+source "$(dirname "${BASH_SOURCE[0]}")/./common"
+
+INIT status "Install Bun via NPM"
+npm install -g --allow-scripts=bun bun
