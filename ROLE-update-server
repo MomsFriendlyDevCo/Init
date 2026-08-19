@@ -1,0 +1,14 @@
+#!/bin/bash
+# Update this boxes software, assuming an existing install
+
+source "$(dirname "${BASH_SOURCE[0]}")/./common"
+
+INIT run \
+	007-apt-update \
+	090-neovim \
+	200-flatpak \
+	200-rust \
+	201-rust-pkgs \
+	999-clean \
+	999-flatpak-links \
+
