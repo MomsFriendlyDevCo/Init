@@ -63,3 +63,6 @@ INIT cargo-install $CARGO_PKGS
 
 INIT status "Install RipGrep + PCRE2 support"
 INIT cargo-install ripgrep --features pcre2
+
+INIT status "Install Rat-Commander"
+cargo install --git https://github.com/dividebysandwich/rat-commander
