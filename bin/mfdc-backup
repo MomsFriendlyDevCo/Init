@@ -6,6 +6,8 @@
 # @author Matt Carter <m@ttcarter.com>
 # @date 2015-05-18
 
+source "$(dirname "${BASH_SOURCE[0]}")/../common"
+
 # Variable setup {{{
 HOST=`hostname`
 STAMP=`date '+%Y-%m-%dT%H:%M'`
