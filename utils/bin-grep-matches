@@ -9,7 +9,7 @@
 
 source "$(dirname "${BASH_SOURCE[0]}")/../common"
 
-if `$1 2>&1 | grep -q "$2"`; then
+if $1 2>&1 | grep -q "$2"; then
 	echo "1"
 else
 	echo "0"

@@ -41,7 +41,6 @@ while (( "$#" )); do
 			;;
 	esac
 done
-PARAMS=${PARAMS## } # remove leading spaces
 # }}}
 
 cat <&0 | sudo $TEECMD "${PARAMS[0]}" >/dev/null

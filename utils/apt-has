@@ -11,7 +11,7 @@ source "$(dirname "${BASH_SOURCE[0]}")/../common"
 HAS_ALL=1
 
 for PKG in $@; do
-	if ! dpkg -l "$@" >/dev/null 2>&1; then
+	if ! dpkg -l "$PKG" >/dev/null 2>&1; then
 		HAS_ALL=0
 		break
 	fi

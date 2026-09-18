@@ -6,6 +6,6 @@ source "$(dirname "${BASH_SOURCE[0]}")/../common"
 
 if [ "$INIT_AUTO_TMUX" != 0 ]; then
 	INIT status "Wrapping program in TMUX"
-	INIT tmux-connect "$0 $@"
+	INIT tmux-connect "$0" "$@"
 	exit
 fi

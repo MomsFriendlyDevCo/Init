@@ -18,9 +18,9 @@ if [ `INIT bin-grep-matches "tmux list-sessions" "^$TSESSION:"` == 1 ]; then
 
 	# Experimental - try to send a command to ean existing session
 	if [ ! -z "$1" ]; then
-		tmux send-keys -t "$TSESSION" "$@ enter"
+		tmux send-keys -t "$TSESSION" "$@" "enter"
 	fi
-elif [ "$#" > 0 ]; then
+elif [ "$#" -gt 0 ]; then
 	INIT status "Creating new TMUX session '$TSESSION' (With command '$@')"
 	tmux new-session -c "$INIT_HOME" -s "$TSESSION"
 	if [ ! -z "$1" ]; then
