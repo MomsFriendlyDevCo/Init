@@ -46,6 +46,7 @@ CARGO_PKGS='
 	rargs        # "xargs" alternative including command templates
 	rip-cli      # Process killer + CPU usage (as "rip")
 	ruplacer     # Text replacement
+	spacer       # Add line spacers + timestamps to piped log output
 	tailspin     # Log colorizer (as "tspin")
 	tcalc        # Terminal calculator expressions ~ "tcalc 1+2 ans/3 abs(ans)"
 	tokei        # Code stats + TODO / FIXME debug arterfact scanner
@@ -53,6 +54,7 @@ CARGO_PKGS='
 	whalespotter # Utility to find huge files
 	woodchipper  # Log output formatter
 	xcp          # "cp" alternative
+	xh           # Simpligied HTTP(s) request mocker
 	ytop         # "top" alternative
 '
 CARGO_PKGS=`echo "$CARGO_PKGS" | cut -f 1 -d ' ' | tr '\n' ' '`
