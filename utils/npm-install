@@ -1,6 +1,6 @@
 #!/bin/bash
 # Install a series of NPM packages
-# Usage: ./utils/npm-install <packages...>
+# Usage: ./utils/npm-install [npm-options] <packages...>
 
 source "$(dirname "${BASH_SOURCE[0]}")/../common"
 

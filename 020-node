@@ -49,7 +49,7 @@ else
 fi
 
 INIT status "Upgrade NPM to latest"
-INIT npm-install -g npm@latest
+INIT npm-install npm@latest
 
 INIT status "Install common global NPMs"
 INIT npm-install \
