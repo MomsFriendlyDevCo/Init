@@ -67,7 +67,7 @@ INIT status "Install RipGrep + PCRE2 support"
 INIT cargo-install --no-clean ripgrep --features pcre2
 
 INIT status "Install Rat-Commander"
-cargo install --git https://github.com/dividebysandwich/rat-commander
+INIT cargo-install --no-clean --git https://github.com/dividebysandwich/rat-commander
 
 INIT status "Cleanup"
 cargo cache -a

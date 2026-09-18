@@ -10,7 +10,7 @@ INIT status "Install GetDeb repo for APT"
 echo 'deb http://archive.getdeb.net/ubuntu/ xenial-getdeb games' | sudo tee /etc/apt/sources.list.d/getdeb.list
 
 INIT status "Update APT"
-sudo apt-get update
+INIT apt-update
 
 INIT status "Install common games"
 INIT apt-install warsow

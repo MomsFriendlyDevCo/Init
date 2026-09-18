@@ -31,7 +31,7 @@ Signed-By: /etc/apt/keyrings/docker.asc
 EOF
 
 	INIT status "Update APT"
-	sudo apt-get update
+	INIT apt-update
 fi
 
 INIT status "Install Docker from APT"

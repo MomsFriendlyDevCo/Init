@@ -3,10 +3,7 @@
 
 source "$(dirname "${BASH_SOURCE[0]}")/./common"
 
-INIT status "Remove Server unsuitable APT packages"
-
-sudo apt-get remove -y \
-samba
+INIT apt-remove --header "Remove Server unsuitable APT packages" samba
 
 
 INIT status "Install Server APT packages"

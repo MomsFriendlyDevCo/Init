@@ -8,7 +8,7 @@ INIT go-src wezterm
 
 INIT status "Installing dependencies"
 ./get-deps
-cargo install cargo-deb
+INIT cargo-install cargo-deb
 
 
 INIT status "Building Wezterm"

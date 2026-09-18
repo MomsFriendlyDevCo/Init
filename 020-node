@@ -8,10 +8,10 @@ source "$(dirname "${BASH_SOURCE[0]}")/./common"
 NODE_VERSION=24
 
 
-if [ `which 'node' >/dev/null; echo "$?"` == 0 ]; then
+if [ `INIT bin-available node` == 1 ]; then
 	INIT status "Remove existing Node installs"
-	sudo apt purge -y nodejs
-	if [ `which node >/dev/null; echo "$?"` == 0 ]; then
+	INIT apt-remove --mode purge nodejs
+	if [ `INIT bin-available node` == 1 ]; then
 		sudo rm `which node`
 	fi
 fi
@@ -77,7 +77,7 @@ INIT status "Setup NODE_ENV"
 if [ `INIT file-grep-matches "$HOME/.bashrc" "NODE_ENV"` == 1 ]; then
 	INIT skip "NODE_ENV already setup"
 else
-	echo "Installing NODE_ENV into ~/.bashrc, assuming 'production'"
+	INIT status "Installing NODE_ENV into ~/.bashrc, assuming 'production'"
 	echo "export NODE_ENV=production" >>~/.bashrc
 	export NODE_ENV=production
 fi

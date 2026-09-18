@@ -4,4 +4,4 @@
 source "$(dirname "${BASH_SOURCE[0]}")/./common"
 
 INIT status "Update APT"
-sudo apt-get update
+INIT apt-update

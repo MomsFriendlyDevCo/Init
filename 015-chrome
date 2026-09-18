@@ -13,7 +13,7 @@ else
 	echo "deb http://dl.google.com/linux/chrome/deb/ stable main" | sudo tee -a /etc/apt/sources.list.d/google.list >/dev/null
 
 	INIT status "Update APT"
-	sudo apt-get update
+	INIT apt-update
 fi
 
 INIT status "Install Google Chrome"
