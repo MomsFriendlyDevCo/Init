@@ -11,6 +11,8 @@
 #
 # -h, --header <text>      Print the given header only if an action is taken
 #
+# -u, --update             Force apt to update first
+#
 # -y                       (APT native) Assume 'Yes' to all questions
 #
 # --ignore-missing         (APT native) Skip missing packages if they are not available in this OS
@@ -19,6 +21,7 @@
 source "$(dirname "${BASH_SOURCE[0]}")/../common"
 
 # Argument processing {{{
+ARG_UPDATE=0
 IS_LAZY_DEB=0
 IS_LAZY_BIN=0
 HEADER=""
@@ -36,6 +39,10 @@ while (( "$#" )); do
 		-h|--header)
 			HEADER="$2"
 			shift
+			shift
+			;;
+		-u|--update)
+			ARG_UPDATE=1
 			shift
 			;;
 		--) # end argument parsing
@@ -69,8 +76,8 @@ if [[ "$IS_LAZY_DEB" == 1 || "$IS_LAZY_BIN" == 1 ]]; then
 	# }}}
 fi
 
-if [ ! -z `find /var/lib/apt/periodic/update-success-stamp -type f -mtime +1` ]; then
-	INIT status "Need to update Apt database"
+if [[ "${ARG_UPDATE}" == '1' ] || ! -z `find /var/lib/apt/periodic/update-success-stamp -type f -mtime +1` ]]; then
+	INIT status "Update Apt database"
 	sudo apt update
 fi
 
