@@ -61,10 +61,13 @@ CARGO_PKGS=`echo "$CARGO_PKGS" | cut -f 1 -d ' ' | tr '\n' ' '`
 CARGO_PKGS_COUNT=`echo "$CARGO_PKGS" | wc -w`
 
 INIT status "Install ${CARGO_PKGS_COUNT} Cargo packages"
-INIT cargo-install $CARGO_PKGS
+INIT cargo-install --no-clean $CARGO_PKGS
 
 INIT status "Install RipGrep + PCRE2 support"
-INIT cargo-install ripgrep --features pcre2
+INIT cargo-install --no-clean ripgrep --features pcre2
 
 INIT status "Install Rat-Commander"
 cargo install --git https://github.com/dividebysandwich/rat-commander
+
+INIT status "Cleanup"
+cargo cache -a

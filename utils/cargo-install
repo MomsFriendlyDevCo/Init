@@ -1,8 +1,36 @@
 #!/bin/bash
 # Install a Rust packages, including INIT of Rust + Cargo if necessary
-# Usage: ./utils/cargo-install <packages...>
+#
+# Usage: ./utils/cargo-install [options] <packages...>
+#
+# --no-clean             Skip the automatic cleanup - useful if queuing multiple cargo-install commands together
 
 source "$(dirname "${BASH_SOURCE[0]}")/../common"
+
+# Argument processing {{{
+ARG_CLEAN=1
+PARAMS=()
+while (( "$#" )); do
+	case "$1" in
+		--no-clean)
+			ARG_CLEAN=0
+			shift
+			;;
+		--) # end argument parsing
+			shift
+			break
+			;;
+		-*|--*=) # unsupported flags
+			PARAMS+=("$1")
+			shift
+			;;
+		*) # preserve positional arguments
+			PARAMS+=("$1")
+			shift
+			;;
+	esac
+done
+# }}}
 
 if [ `INIT bin-available cargo-cache` == 0 ]; then
 	INIT status "Install pre-requsite: cargo-cache"
@@ -11,8 +39,11 @@ fi
 
 # Set Cargo tmp directory to local home as /tmp is limited to 500mb on Ubuntu 26.04 default installs
 export CARGO_TARGET_DIR="$HOME/.cargo/tmp"
-cargo install "$@"
+cargo install "${PARAMS[@]}"
 
-INIT status "Clear cargo cache"
-# Try to recover some disk space post compile of cargo-binstall
-cargo cache -a
+# Optional cleanup (unless --no-clean)
+if [ "${ARG_CLEAN}" == '1' ]; then
+	INIT status "Clear cargo cache"
+	# Try to recover some disk space post compile of cargo-binstall
+	cargo cache -a
+fi
