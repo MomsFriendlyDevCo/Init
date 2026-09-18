@@ -1,0 +1,16 @@
+#!/bin/bash
+# Install Claude Desktop
+
+source "$(dirname "${BASH_SOURCE[0]}")/./common"
+
+if [ ! -e "sudo curl -fsSLo /usr/share/keyrings/claude-desktop-archive-keyring.asc https://downloads.claude.ai/claude-desktop/key.asc" ]; then
+	INIT status "Install Claude PPA"
+	sudo curl -fsSLo /usr/share/keyrings/claude-desktop-archive-keyring.asc https://downloads.claude.ai/claude-desktop/key.asc
+	INIT file-set /etc/apt/sources.list.d/claude-desktop.list <<EOF
+deb [arch=amd64,arm64 signed-by=/usr/share/keyrings/claude-desktop-archive-keyring.asc] https://downloads.claude.ai/claude-desktop/apt/stable stable main
+EOF
+else
+	INIT skip "Install Claude PPA"
+fi
+
+INIT apt-install --update --header "Install Claude Desktop" --lazy claude-desktop
