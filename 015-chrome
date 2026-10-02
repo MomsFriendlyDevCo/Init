@@ -7,13 +7,7 @@ INIT status "Install Google Chrome PPA"
 if [ -e '/etc/apt/sources.list.d/google.list' ]; then
 	INIT skip "PPA already exists"
 else
-	INIT apt-install --lazy wget
-
-	wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | sudo apt-key add -
-	echo "deb http://dl.google.com/linux/chrome/deb/ stable main" | sudo tee -a /etc/apt/sources.list.d/google.list >/dev/null
-
-	INIT status "Update APT"
-	INIT apt-update
+	INIT apt-repo-install --arch amd64 google https://dl-ssl.google.com/linux/linux_signing_key.pub 'http://dl.google.com/linux/chrome/deb/ stable main'
 fi
 
 INIT status "Install Google Chrome"

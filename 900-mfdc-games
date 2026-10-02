@@ -3,14 +3,8 @@
 
 source "$(dirname "${BASH_SOURCE[0]}")/./common"
 
-INIT status "Install GetDeb key for APT"
-wget -q -O- http://archive.getdeb.net/getdeb-archive.key | sudo apt-key add -
-
 INIT status "Install GetDeb repo for APT"
-echo 'deb http://archive.getdeb.net/ubuntu/ xenial-getdeb games' | sudo tee /etc/apt/sources.list.d/getdeb.list
-
-INIT status "Update APT"
-INIT apt-update
+INIT apt-repo-install getdeb http://archive.getdeb.net/getdeb-archive.key 'http://archive.getdeb.net/ubuntu/ xenial-getdeb games'
 
 INIT status "Install common games"
 INIT apt-install warsow

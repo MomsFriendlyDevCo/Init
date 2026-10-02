@@ -28,7 +28,7 @@ if [ `INIT bin-available npm` == 0 ]; then
 	echo "NPM needed to install tree-sitter-cli package"
 	exit 1
 fi
-npm i -g tree-sitter-cli
+npm i -g tree-sitter-cli --allow-scripts=tree-sitter-cli
 
 
 INIT source-clone neovim https://github.com/neovim/neovim.git

@@ -1,0 +1,92 @@
+#!/bin/bash
+# Install a third-party APT repository + its signing key (replaces the deprecated `apt-key add` method)
+# The key is stored in /etc/apt/keyrings/<name>.{asc,gpg} and the repo in /etc/apt/sources.list.d/<name>.list using `signed-by`
+#
+# Usage: ./utils/apt-repo-install [--lazy] [--arch <arch>] <name> <key-url> <repo-spec>
+#
+# -l, --lazy               Exit politely if the repo list file already exists
+#
+# -a, --arch <arch>        Restrict the repo to the given architecture(s) (e.g. `amd64`)
+#
+# --no-update              Don't update APT after adding the repo
+#
+# @example Install the Nginx repo
+# INIT apt-repo-install nginx https://nginx.org/keys/nginx_signing.key "http://nginx.org/packages/ubuntu $(lsb_release -cs) nginx"
+
+source "$(dirname "${BASH_SOURCE[0]}")/../common"
+
+# Argument processing {{{
+IS_LAZY=0
+ARG_UPDATE=1
+ARCH=""
+PARAMS=()
+while (( "$#" )); do
+	case "$1" in
+		-l|--lazy)
+			IS_LAZY=1
+			shift
+			;;
+		-a|--arch)
+			ARCH="$2"
+			shift
+			shift
+			;;
+		--no-update)
+			ARG_UPDATE=0
+			shift
+			;;
+		--) # end argument parsing
+			shift
+			break
+			;;
+		-*|--*=) # unsupported flags
+			echo "Error: Unsupported flag $1" >&2
+			exit 1
+			;;
+		*) # preserve positional arguments
+			PARAMS+=("$1")
+			shift
+			;;
+	esac
+done
+# }}}
+
+if [[ "${#PARAMS[@]}" != 3 ]]; then
+	INIT panic "Usage: INIT apt-repo-install [--lazy] [--arch <arch>] <name> <key-url> <repo-spec>"
+fi
+
+NAME="${PARAMS[0]}"
+KEY_URL="${PARAMS[1]}"
+REPO_SPEC="${PARAMS[2]}"
+LIST_PATH="/etc/apt/sources.list.d/${NAME}.list"
+
+if [[ "$IS_LAZY" == 1 && -e "$LIST_PATH" ]]; then
+	exit 0
+fi
+
+INIT apt-install --lazy curl
+
+# Download key, storing as .asc (ASCII armored) or .gpg (binary) as APT uses the extension to determine the format
+KEY_TMP=$(mktemp)
+curl -fsSL "$KEY_URL" -o "$KEY_TMP"
+if grep -q -- '-----BEGIN PGP PUBLIC KEY BLOCK-----' "$KEY_TMP"; then
+	KEY_PATH="/etc/apt/keyrings/${NAME}.asc"
+else
+	KEY_PATH="/etc/apt/keyrings/${NAME}.gpg"
+fi
+
+sudo install -d -m 0755 /etc/apt/keyrings
+sudo install -m 0644 "$KEY_TMP" "$KEY_PATH"
+rm "$KEY_TMP"
+
+# Write repo list
+REPO_OPTS="signed-by=${KEY_PATH}"
+if [ ! -z "$ARCH" ]; then
+	REPO_OPTS="arch=${ARCH} ${REPO_OPTS}"
+fi
+
+echo "deb [${REPO_OPTS}] ${REPO_SPEC}" | INIT file-set "$LIST_PATH"
+
+if [[ "$ARG_UPDATE" == 1 ]]; then
+	INIT apt-update
+fi
