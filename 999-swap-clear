@@ -1,0 +1,9 @@
+#!/bin/bash
+# Empty the system swap
+# Note that this won't actually empty the swap entirely, just tell the system to _try_ to do that
+
+source "$(dirname "${BASH_SOURCE[0]}")/./common"
+
+INIT status "Reset system swap"
+sudo swapoff -a
+sudo swapon -a
