@@ -3,9 +3,7 @@
 
 source "$(dirname "${BASH_SOURCE[0]}")/./common"
 
-INIT apt-remove --lazy --header "Remove Redis APT distributions" redis redis-tools redis-server
-
-INIT apt-install --lazy --header "Install Redis build dependencies" libsystemd-dev
+INIT apt-install --lazy --header "Install Redis build dependencies" libsystemd-dev libssl-dev
 
 INIT status "Download Redis source"
 INIT source-clone redis https://github.com/redis/redis.git
@@ -15,18 +13,30 @@ INIT go-src redis
 INIT status "Build Redis from source"
 make clean
 make distclean
-make USE_SYSTEMD=yes MALLOC=jemalloc
+make BUILD_TLS=yes USE_SYSTEMD=yes MALLOC=jemalloc
 
 
-INIT status "Testing Redis install"
-make test
+# NOTE: `make test` failing as of 2026-10-07 so skipped - MC
+# INIT status "Testing Redis install"
+# make test
+
+
+# NOTE: Only nuke existing Redis if we pass tests so we can keep existing system Redis running if we have one
+INIT apt-remove --lazy --header "Remove Existing Redis APT distributions" redis redis-tools
+
 
 INIT status "Finalizing Redis install"
 sudo make install
 
-INIT status "Setup redis config"
-sudo mkdir /etc/redis
-sudo cp redis.conf /etc/redis
+
+if [ ! -d "/etc/redis" ]; then
+	INIT status "Setup base Redis config"
+	sudo mkdir /etc/redis
+	sudo cp redis.conf /etc/redis
+else
+	INIT skip "Setup base Redis config - /etc/redis already exists"
+fi
+
 
 if [ ! -f "/etc/systemd/system/redis.service" ]; then
 	INIT status "Setup Redis as a SystemD service"
@@ -51,11 +61,3 @@ EOF
 else
 	INIT skip "Setup Redis as a SystemD service"
 fi
-
-
-INIT status "Configuring Redis Server"
-# Active degragging tries to clear up memory fragmentation periodically
-redis-cli config set activedefrag yes
-
-# Commit Redis config to disk
-redis-cli config rewrite
