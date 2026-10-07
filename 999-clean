@@ -15,24 +15,49 @@ sudo apt autoclean
 INIT status "Vacuum kernel logs"
 sudo journalctl --vacuum-time=3d
 
-if [ -d "$HOME/.cache" ]; then
-	INIT status "Clean local ~/.cache"
-	rm -r ~/.cache
+CLEAN_DIRS=(
+	"$HOME/.cache"
+	"$HOME/.cargo/registry"
+	"$HOME/.node-gyp"
+	"$HOME/.rustup"
+	"$HOME/.local/share/Trash"
+	"/home/*/.rust/tmp"
+)
+
+INIT status "Clean directories"
+shopt -s nullglob
+for PATTERN in "${CLEAN_DIRS[@]}"; do
+	for DIR in $PATTERN; do
+		[ -d "$DIR" ] || continue
+		INIT status "Removing $DIR"
+		sudo rm -rf "$DIR"
+	done
+done
+shopt -u nullglob
+
+if [ `INIT bin-available flatpak` == 1 ]; then
+	INIT status "Clean Flatpak unused packages"
+	flatpak uninstall --unused
+fi
+
+if [ `INIT bin-available npm` == 1 ]; then
+	INIT status "Clean NPM cache"
+	npm cache clean --force
+fi
+
+if [ `INIT bin-available pnpm` == 1 ]; then
+	INIT status "Clean PNPM cache"
+	pnpm store prune
+fi
+
+if [ `INIT bin-available yarn` == 1 ]; then
+	INIT status "Clean Yarn cache"
+	yarn cache clean
 fi
 
 if [ `INIT bin-available cargo-cache` == 1 ]; then
-	INIT status "Clean up Cargo cache"
+	INIT status "Clean Cargo cache"
 	cargo cache -a
-fi
-
-if [ -d "$HOME/.cargo/registry" ]; then
-	INIT status "Clean Cargo crate registry"
-	rm -rf "$HOME/.cargo/registry"
-fi
-
-if [ -d "$HOME/.rustup" ]; then
-	INIT status "Clean Rust-up files"
-	rm -rf "$HOME/.rustup"
 fi
 
 if [ `INIT bin-available docker` == 1 ]; then
