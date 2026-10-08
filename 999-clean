@@ -19,7 +19,8 @@ CLEAN_DIRS=(
 	"$HOME/.cache"
 	"$HOME/.cargo/registry"
 	"$HOME/.node-gyp"
-	"$HOME/.rustup"
+	"$HOME/.rustup/downloads"
+	"$HOME/.rustup/tmp"
 	"$HOME/.local/share/Trash"
 	"/home/*/.rust/tmp"
 )

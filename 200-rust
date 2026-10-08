@@ -4,7 +4,9 @@
 source "$(dirname "${BASH_SOURCE[0]}")/./common"
 
 INIT status "Install / Upgrade Rust"
-INIT bin-download-run 'https://sh.rustup.rs' -y
+INIT bin-download-run 'https://sh.rustup.rs' -y --default-toolchain stable
+source "$HOME/.cargo/env"
+rustup default stable
 
 
 INIT apt-install --lazy --header "Install Cargo prerequisites" \
@@ -19,5 +21,3 @@ INIT apt-install --lazy --header "Install Cargo prerequisites" \
 	pkg-config \
 
 
-INIT status "Install common Cargo tools"
-source "$HOME/.cargo/env"
