@@ -11,9 +11,9 @@ KEY=$2
 VALUE=$3
 DATE=`date '+%Y-%m-%dT%H:%M:%SZ%z'`
 
-if grep -q "$KEY\s*=" "$FILE"; then
-	# Update existing setting
-	sudo perl -pi -e "my \$key = quotemeta('$KEY'); my \$val = '$VALUE'; s!^\#?\s*\$key\s*=.*\$!\$key=\$val!" "$FILE"
+if sudo grep -qsP "^\s*#?\s*\Q${KEY}\E\s*=" "$FILE"; then
+	# Update existing setting - key + value are passed as arguments so they need no escaping
+	sudo perl -pi -e 'BEGIN { $key = shift; $val = shift } s/^\s*#?\s*\Q$key\E\s*=.*$/$key=$val/' "$KEY" "$VALUE" "$FILE"
 else
 	# Append setting
 

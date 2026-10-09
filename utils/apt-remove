@@ -49,11 +49,18 @@ done
 # }}}
 
 if [ "$IS_LAZY" == 1 ]; then
-	# Lazy mode {{{
+	# Lazy mode - only remove the packages which are actually installed {{{
 	NEED_REMOVE=0
-	if [ `INIT apt-has "${PARAMS[@]}"` == 1 ]; then
-		NEED_REMOVE=1
-	fi
+	LAZY_PARAMS=()
+	for PARAM in "${PARAMS[@]}"; do
+		if [[ "$PARAM" == -* ]]; then
+			LAZY_PARAMS+=("$PARAM")
+		elif [ `INIT apt-has "$PARAM"` == 1 ]; then
+			LAZY_PARAMS+=("$PARAM")
+			NEED_REMOVE=1
+		fi
+	done
+	PARAMS=("${LAZY_PARAMS[@]}")
 	# }}}
 fi
 

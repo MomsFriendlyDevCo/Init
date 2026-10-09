@@ -76,7 +76,12 @@ if [[ "$IS_LAZY_DEB" == 1 || "$IS_LAZY_BIN" == 1 ]]; then
 	# }}}
 fi
 
-if [[ "${ARG_UPDATE}" == '1' || -n "$(find /var/lib/apt/periodic/update-success-stamp -type f -mtime +1)" ]]; then
+APT_STAMP='/var/lib/apt/periodic/update-success-stamp'
+if [[
+	"${ARG_UPDATE}" == '1'
+	|| ! -e "$APT_STAMP"
+	|| -n "$(find "$APT_STAMP" -type f -mtime +1)"
+]]; then
 	INIT status "Update Apt database"
 	sudo apt update
 fi

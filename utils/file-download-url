@@ -28,6 +28,7 @@ while (( "$#" )); do
 			;;
 		--) # end argument parsing
 			shift
+			break
 			;;
 		-*|--*=) # unsupported flags
 			PARAMS+=("$1")
@@ -39,23 +40,26 @@ while (( "$#" )); do
 			;;
 	esac
 done
+PARAMS+=("$@")
 # }}}
 
 # Calculate what header to use {{{
-if [ -z "$HEADER" ]; then
-	if [ "${#PARAMS[@]}" == 1 ]; then
-		INIT status "Downloading URL ${PARAMS[0]}"
-	else
-		INIT status "Downloading ${#PARAMS[@]} URLS"
-	fi
+if [ -n "$HEADER" ]; then
+	INIT status "$HEADER"
+elif [ "${#PARAMS[@]}" == 1 ]; then
+	INIT status "Downloading URL ${PARAMS[0]}"
+else
+	INIT status "Downloading ${#PARAMS[@]} URLS"
 fi
 # }}}
 
 # Calculate what tool to use (if in 'auto' mode) {{{
-if [ "${#PARAMS[@]}" == 1 ]; then
-	TOOL="wget"
-else
-	TOOL="aria2"
+if [ "$TOOL" == 'auto' ]; then
+	if [ "${#PARAMS[@]}" == 1 ]; then
+		TOOL="wget"
+	else
+		TOOL="aria2"
+	fi
 fi
 # }}}
 
