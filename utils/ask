@@ -1,6 +1,8 @@
 #!/bin/bash
 # Ask a simple text based question, using an answers file if available
-# Usage: ./utils/ask --prompt <prompt> [--var <var-name>] [--default VALUE]
+# Usage: ./utils/ask --prompt <prompt> [--var <var-name>] [--default VALUE] [--bool]
+#
+# -b, --bool              Treat the response as a yes/no question, returning `1` for yes (y / yes / 1 / true) or `0` otherwise
 #
 # -p, --prompt <prompt>   The prompt text to display as a question prefix
 #
@@ -11,6 +13,11 @@
 #
 # @example Ask for a server name
 # SERVER=`INIT ask --prompt 'Enter the server to use:' --var 'INIT_SERVER'`
+#
+# @example Ask a yes/no question
+# if [ `INIT ask --bool --prompt 'Install Foo? (y|n)' --default 'y'` == 1 ]; then
+#   echo "Installing Foo"
+# fi
 
 source "$(dirname "${BASH_SOURCE[0]}")/../common"
 
@@ -18,6 +25,7 @@ source "$(dirname "${BASH_SOURCE[0]}")/../common"
 ASK_PROMPT=""
 ASK_VARNAME=""
 ASK_DEFAULT=""
+ASK_BOOL=0
 PARAMS=()
 while (( "$#" )); do
 	case "$1" in
@@ -29,6 +37,10 @@ while (( "$#" )); do
 		-v|--var)
 			ASK_VARNAME="$2"
 			shift
+			shift
+			;;
+		-b|--bool)
+			ASK_BOOL=1
 			shift
 			;;
 		-d|--default)
@@ -69,4 +81,11 @@ if [ -z "$ASK_RESPONSE" ]; then
 	ASK_RESPONSE="$ASK_DEFAULT"
 fi
 
-echo -n "$ASK_RESPONSE"
+if [ "$ASK_BOOL" == 1 ]; then
+	case "${ASK_RESPONSE,,}" in
+		y|yes|1|true) echo -n '1' ;;
+		*) echo -n '0' ;;
+	esac
+else
+	echo -n "$ASK_RESPONSE"
+fi
