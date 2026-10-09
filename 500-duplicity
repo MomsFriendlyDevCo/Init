@@ -17,17 +17,17 @@ wget 'https://sourceforge.net/projects/ftplicity/files/duply%20%28simple%20dupli
 tar xvfz duply.tar.gz
 rm duply.tar.gz
 cd duply*/
-cp duply /usr/local/bin
+sudo cp duply /usr/local/bin
 cd ..
 rm -r duply*
 
 
 INIT status "Configure Duply"
-mkdir /etc/duply
-chmod 700 /etc/duply
+sudo mkdir -p /etc/duply
+sudo chmod 700 /etc/duply
 
 
 INIT status "Manual setup"
 echo "Recommended settings:"
 echo "* Create basic profile: > duply serverBackup create"
-echo "* Change TARGET: TARGET='sftp://backups@zapp.mfdc.biz/backups/$HOST'"
+echo "* Change TARGET: TARGET='sftp://backups@zapp.mfdc.biz/backups/`hostname`'"

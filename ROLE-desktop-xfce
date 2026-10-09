@@ -24,7 +24,6 @@ INIT run \
 	030-xscreensaver \
 	040-screen-config \
 	050-zsh \
-	090-dtrx \
 	090-fzf \
 	090-neovim \
 	090-neovim-lsp \
@@ -36,4 +35,4 @@ INIT run \
 	200-rust \
 	201-flatpak-pkgs-desktop \
 	201-rust-pkgs \
-	201-rust-pkgs-desktop \
+	202-rust-pkgs-desktop \

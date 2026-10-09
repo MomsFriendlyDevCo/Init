@@ -11,8 +11,7 @@ cd
 if [ -d "Init" ]; then
 	echo " - Init directory already exists within $HOME. Skipping git clone"
 else
-	dpkg -l git | grep -q '^ii\s\+git'
-	if [ "$?" == 1 ]; then
+	if ! dpkg -l git 2>/dev/null | grep -q '^ii\s\+git'; then
 		echo " - Git not found, installing..."
 		echo
 		sudo apt install -y git

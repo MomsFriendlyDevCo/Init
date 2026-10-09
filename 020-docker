@@ -37,8 +37,12 @@ fi
 INIT status "Install Docker from APT"
 INIT apt-install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
 
-INIT status "Adjust firewall policy to allow Docker"
-INIT config-set /etc/default/ufw 'DEFAULT_FORWARD_POLICY' 'ACCEPT'
+if [ `INIT bin-available ufw` == 1 ]; then
+	INIT status "Adjust firewall policy to allow Docker"
+	INIT config-set /etc/default/ufw 'DEFAULT_FORWARD_POLICY' 'ACCEPT'
 
-INIT status "Reload firewall"
-sudo ufw reload
+	INIT status "Reload firewall"
+	sudo ufw reload
+else
+	INIT skip "Adjust firewall policy to allow Docker - UFW not installed"
+fi

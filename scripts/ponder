@@ -5,9 +5,12 @@
 
 FILE=`mktemp`
 
-"$@" >$FILE
+"$@" >"$FILE" 2>&1
+EXIT_CODE=$?
 
-if [ "$?" != 0 ]; then
+if [ "$EXIT_CODE" != 0 ]; then
 	cat "$FILE"
 fi
 rm "$FILE"
+
+exit "$EXIT_CODE"

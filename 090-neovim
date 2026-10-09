@@ -59,9 +59,9 @@ else
 	INIT status "Setup MC Nvim config"
 	cd
 	git clone https://github.com/hash-bang/vimrc.git .vim
-	if [ ! -d "$HOME/.config" ]; then
-		mkdir "$HOME/.config/nvim"
+	mkdir -p "$HOME/.config"
+	if [ ! -e "$HOME/.config/nvim" ]; then
+		ln -s "$HOME/.vim" "$HOME/.config/nvim"
 	fi
-	ln -s "$HOME/.vim" "$HOME/.config/nvim"
 	$HOME/.vim/setup
 fi

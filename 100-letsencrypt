@@ -9,8 +9,4 @@ if [ `INIT bin-available certbot` == 1 ]; then
 else
 	INIT status "Install LetsEncrypt"
 	INIT snap-install --classic certbot
-	sudo snap set certbot trust-plugin-with-root=ok
-
-	INIT status "Install Cloudflare LetsEncrypt plugin"
-	INIT snap-install certbot-dns-cloudflare
 fi

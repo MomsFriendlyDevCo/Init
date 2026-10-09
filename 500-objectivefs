@@ -9,8 +9,7 @@ INIT apt-install-url 'https://objectivefs.com/user/download/axn2xgkwt/objectivef
 INIT status "Setup ObjectiveFS"
 sudo mount.objectivefs config
 
-grep -s objectivefs /etc/fstab
-if [ "$?" == 0 ]; then
+if grep -qs objectivefs /etc/fstab; then
 	INIT skip "OFS already configured in /etc/fstab"
 
 	INIT status "Unmounting OFS in fstab"

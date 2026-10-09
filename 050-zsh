@@ -9,4 +9,6 @@ INIT apt-install zsh
 
 INIT status "Set shell"
 sudo chsh "$USER" -s /bin/zsh
-sudo chown -R "$USER:$USER" "$HOME/.zsh"
+if [ -d "$HOME/.zsh" ]; then
+	sudo chown -R "$USER:$USER" "$HOME/.zsh"
+fi

@@ -19,8 +19,8 @@ if [ -e "/etc/zabbix/zabbix_agentd.psk" ]; then
 	INIT skip "Generate Zabbix PSK Key"
 else
 	INIT status "Generate Zabbix PSK key"
-	sudo sh -c "openssl rand -hex 32 > /etc/zabbix/zabbix_agentd.psk"
-	PSK=`cat /etc/zabbix/zabbix_agentd.psk`
+	sudo sh -c "umask 077 && openssl rand -hex 32 > /etc/zabbix/zabbix_agentd.psk"
+	PSK=`sudo cat /etc/zabbix/zabbix_agentd.psk`
 
 	echo
 	echo "Zabbix agent setup to continue with PSK [name = `hostname`] [PSK = [ $PSK ]]"
@@ -29,6 +29,10 @@ else
 	echo
 	read
 fi
+
+INIT status "Restrict Zabbix PSK key permissions"
+sudo chown zabbix:zabbix /etc/zabbix/zabbix_agentd.psk
+sudo chmod 600 /etc/zabbix/zabbix_agentd.psk
 
 
 echo

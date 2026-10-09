@@ -18,11 +18,12 @@ sudo journalctl --vacuum-time=3d
 CLEAN_DIRS=(
 	"$HOME/.cache"
 	"$HOME/.cargo/registry"
+	"$HOME/.cargo/tmp"
 	"$HOME/.node-gyp"
 	"$HOME/.rustup/downloads"
 	"$HOME/.rustup/tmp"
 	"$HOME/.local/share/Trash"
-	"/home/*/.rust/tmp"
+	"/home/*/.cargo/tmp"
 )
 
 INIT status "Clean directories"
@@ -38,7 +39,7 @@ shopt -u nullglob
 
 if [ `INIT bin-available flatpak` == 1 ]; then
 	INIT status "Clean Flatpak unused packages"
-	flatpak uninstall --unused
+	flatpak uninstall --unused -y
 fi
 
 if [ `INIT bin-available npm` == 1 ]; then

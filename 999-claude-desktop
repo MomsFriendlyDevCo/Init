@@ -3,7 +3,7 @@
 
 source "$(dirname "${BASH_SOURCE[0]}")/./common"
 
-if [ ! -e "sudo curl -fsSLo /usr/share/keyrings/claude-desktop-archive-keyring.asc https://downloads.claude.ai/claude-desktop/key.asc" ]; then
+if [ ! -e "/usr/share/keyrings/claude-desktop-archive-keyring.asc" ]; then
 	INIT status "Install Claude PPA"
 	sudo curl -fsSLo /usr/share/keyrings/claude-desktop-archive-keyring.asc https://downloads.claude.ai/claude-desktop/key.asc
 	INIT file-set /etc/apt/sources.list.d/claude-desktop.list <<EOF
