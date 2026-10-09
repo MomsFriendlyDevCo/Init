@@ -3,11 +3,19 @@
 
 source "$(dirname "${BASH_SOURCE[0]}")/./common"
 
-INIT apt-remove --header "Removing existing Zabbix agents" -m purge --lazy zabbix-agent zabbix-agent2
+ZABBIX_VERSION="7.4"
+
+INIT apt-remove --header "Removing legacy Zabbix agent" -m purge --lazy zabbix-agent
+
+if [[ "`dpkg-query -W -f='${Version}' zabbix-release 2>/dev/null`" == *"${ZABBIX_VERSION}-"* ]]; then
+	INIT skip "Setup Zabbix ${ZABBIX_VERSION} APT repo - already installed"
+else
+	INIT status "Setup Zabbix ${ZABBIX_VERSION} APT repo"
+	INIT apt-install-url "https://repo.zabbix.com/zabbix/${ZABBIX_VERSION}/release/ubuntu/pool/main/z/zabbix-release/zabbix-release_${ZABBIX_VERSION}-1+ubuntu$(lsb_release -rs)_all.deb"
+	INIT apt-update
+fi
 
 INIT status "Setup Zabbix-Agent (+Plugins)"
-INIT apt-install-url "https://repo.zabbix.com/zabbix/7.4/release/ubuntu/pool/main/z/zabbix-release/zabbix-release_7.4-1+ubuntu$(lsb_release -rs)_all.deb"
-INIT apt-update
 
 INIT apt-install \
 	zabbix-agent2 \
