@@ -4,7 +4,7 @@
 
 source "$(dirname "${BASH_SOURCE[0]}")/../common"
 
-if [ `INIT bin-available node` == 1 ]; then
+if [ `INIT bin-available pip3` == 0 ]; then
 	INIT apt-install --header "Installing Python3 + PIP" \
 		python3 \
 		python3-pip \

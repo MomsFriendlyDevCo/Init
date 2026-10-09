@@ -1,25 +1,42 @@
 #!/bin/bash
 # Set the contents of a file (clobbering it if specified) as the root user
 #
-# Usage: ./utils/file-set <path> <<EOF CONTENTS\n EOF
+# Usage: ./utils/file-set [--append] [--lazy] [--confirm] <path> <<EOF CONTENTS\n EOF
 #
 # -a, --append          Append to existing file if found
+#
+# -l, --lazy            (With --append) Only append lines which are not already present in the file
+#
+# -c, --confirm         Ask before overwriting an existing file whose contents differ, showing a diff of the changes
 #
 # @example set a file as root
 # INIT file-set /etc/somefile.txt <<EOF
 # This is line 1
 # This is line 2
 # EOF
+#
+# @example Append a line only if its not already present
+# echo 'vm.foo=1' | INIT file-set --append --lazy /etc/sysctl.conf
 
 source "$(dirname "${BASH_SOURCE[0]}")/../common"
 
 # Argument processing {{{
-TEECMD="tee"
+IS_APPEND=0
+IS_LAZY=0
+IS_CONFIRM=0
 PARAMS=()
 while (( "$#" )); do
 	case "$1" in
 		-a|--append)
-			TEECMD="tee -a"
+			IS_APPEND=1
+			shift
+			;;
+		-l|--lazy)
+			IS_LAZY=1
+			shift
+			;;
+		-c|--confirm)
+			IS_CONFIRM=1
 			shift
 			;;
 		-h|--header)
@@ -43,4 +60,45 @@ while (( "$#" )); do
 done
 # }}}
 
-cat <&0 | sudo $TEECMD "${PARAMS[0]}" >/dev/null
+FILE="${PARAMS[0]}"
+CONTENT_FILE=`mktemp`
+trap 'rm -f "$CONTENT_FILE"' EXIT
+cat <&0 >"$CONTENT_FILE"
+
+if [ "$IS_APPEND" == 1 ]; then
+	if [ "$IS_LAZY" == 1 ]; then
+		# Reduce the content to only the non-blank lines not already present in the file
+		MISSING=`sudo cat "$FILE" 2>/dev/null | grep -vxF -f - "$CONTENT_FILE" | grep -v '^\s*$' || true`
+		if [ -z "$MISSING" ]; then
+			exit 0
+		fi
+		echo "$MISSING" >"$CONTENT_FILE"
+	fi
+
+	sudo tee -a "$FILE" <"$CONTENT_FILE" >/dev/null
+	exit 0
+fi
+
+if sudo test -e "$FILE" && sudo cmp -s "$FILE" "$CONTENT_FILE"; then
+	# Contents already match - nothing to do
+	exit 0
+fi
+
+if [ "$IS_CONFIRM" == 1 ] && sudo test -e "$FILE"; then
+	INIT status "File '$FILE' already exists with different contents"
+	sudo diff -u "$FILE" "$CONTENT_FILE" >&2 || true
+
+	# STDIN is the file content so the question needs to be asked via the terminal (assuming 'no' if there isn't one)
+	if (exec </dev/tty) 2>/dev/null; then
+		CONFIRM=`INIT ask --bool --prompt "Overwrite '$FILE' with the above changes? (y|n)" --default 'n' </dev/tty`
+	else
+		CONFIRM=0
+	fi
+
+	if [ "$CONFIRM" != 1 ]; then
+		INIT skip "Overwrite '$FILE' - keeping existing file"
+		exit 0
+	fi
+fi
+
+sudo tee "$FILE" <"$CONTENT_FILE" >/dev/null

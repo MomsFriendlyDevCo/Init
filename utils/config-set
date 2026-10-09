@@ -1,26 +1,65 @@
 #!/bin/bash
 # Set a simple INI setting within a file
-# Usage: INIT config-set <file> <key> <value>
+# Usage: INIT config-set [--space] <file> <key> <value>
+#
+# -s, --space           Use space delimited `key value` settings (e.g. screenrc) rather than `key=value`
+#                       Existing `key=value` lines are also rewritten to this format
+#
+# @example Set a space delimited setting
+# INIT config-set --space /etc/screenrc 'vbell' 'off'
 
 source "$(dirname "${BASH_SOURCE[0]}")/../common"
 
+# Argument processing {{{
+IS_SPACE=0
+PARAMS=()
+while (( "$#" )); do
+	case "$1" in
+		-s|--space)
+			IS_SPACE=1
+			shift
+			;;
+		--) # end argument parsing
+			shift
+			break
+			;;
+		-*|--*=) # unsupported flags
+			echo "Error: Unsupported flag $1" >&2
+			exit 1
+			;;
+		*) # preserve positional arguments
+			PARAMS+=("$1")
+			shift
+			;;
+	esac
+done
+# }}}
+
 INIT apt-install --lazy --header "Installing Perl Pre-requisite" perl
 
-FILE=$1
-KEY=$2
-VALUE=$3
+FILE="${PARAMS[0]}"
+KEY="${PARAMS[1]}"
+VALUE="${PARAMS[2]}"
 DATE=`date '+%Y-%m-%dT%H:%M:%SZ%z'`
 
-if sudo grep -qsP "^\s*#?\s*\Q${KEY}\E\s*=" "$FILE"; then
-	# Update existing setting - key + value are passed as arguments so they need no escaping
-	sudo perl -pi -e 'BEGIN { $key = shift; $val = shift } s/^\s*#?\s*\Q$key\E\s*=.*$/$key=$val/' "$KEY" "$VALUE" "$FILE"
+if [ "$IS_SPACE" == 1 ]; then
+	KEY_MATCH='(?:\s*=|\s|$)'
+	SEPARATOR=' '
+else
+	KEY_MATCH='\s*='
+	SEPARATOR='='
+fi
+
+if sudo grep -qsP "^\s*#?\s*\Q${KEY}\E${KEY_MATCH}" "$FILE"; then
+	# Update existing setting - key, value + format are passed as arguments so they need no escaping
+	sudo perl -pi -e 'BEGIN { $key = shift; $val = shift; $match = shift; $sep = shift } s/^\s*#?\s*\Q$key\E$match.*$/$key$sep$val/' "$KEY" "$VALUE" "$KEY_MATCH" "$SEPARATOR" "$FILE"
 else
 	# Append setting
 
 INIT file-set "$FILE" --append <<EOF
 
 # Added by INIT process on $DATE
-$KEY=$VALUE
+$KEY$SEPARATOR$VALUE
 
 EOF
 fi
