@@ -4,5 +4,5 @@
 source "$(dirname "${BASH_SOURCE[0]}")/./common"
 
 INIT status "Patch Screen config"
-INIT config-set /etc/screenrc 'startup_message' 'off'
-INIT config-set /etc/screenrc 'vbell' 'off'
+INIT config-set --space /etc/screenrc 'startup_message' 'off'
+INIT config-set --space /etc/screenrc 'vbell' 'off'

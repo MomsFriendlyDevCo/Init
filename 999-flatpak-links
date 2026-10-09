@@ -22,7 +22,7 @@ for FILE in $FLATPAK_BINS/*; do
 	if [[ -x "$FILE" ]]; then
 		SHORT_FILE="${FILE##*.}"
 		SHORT_FILE="${SHORT_FILE,,}"
-		if [ ! -f "${FLATPAK_HUMAN_BINS}/${SHORT_FILE}" ]; then
+		if [[ ! -e "${FLATPAK_HUMAN_BINS}/${SHORT_FILE}" && ! -L "${FLATPAK_HUMAN_BINS}/${SHORT_FILE}" ]]; then
 			echo "Alias ${SHORT_FILE} ($FILE)"
 			sudo ln -s "${FILE}" "${FLATPAK_HUMAN_BINS}/$SHORT_FILE"
 		fi

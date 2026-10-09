@@ -32,7 +32,7 @@ NGINX_DOMAIN=`basename "$(dirname "$NGINX_CERT")"`
 
 
 INIT status "Configure Nginx for $NGINX_DOMAIN (certificate $NGINX_CERT)"
-INIT file-set /etc/nginx/nginx.conf <<EOF
+INIT file-set --confirm /etc/nginx/nginx.conf <<EOF
 pid /var/run/nginx.pid;
 worker_processes auto; # 'auto' = Use CPU count as worker count
 

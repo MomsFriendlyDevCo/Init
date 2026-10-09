@@ -3,7 +3,7 @@
 
 source "$(dirname "${BASH_SOURCE[0]}")/./common"
 
-if [ `INIT bin-available snap` == 1 ]; then
+if [ `INIT bin-available snap` == 1 ] && snap list firefox >/dev/null 2>&1; then
 	INIT status "Remove Firefox snap"
 	sudo snap remove firefox
 fi

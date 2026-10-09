@@ -8,7 +8,7 @@ if [ `INIT bin-available flatpak` == 1 ]; then
 else
 	INIT status "Install Flatpak"
 	INIT apt-install flatpak
-
-	INIT skip "Configure Flathub"
-	flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo
 fi
+
+INIT status "Configure Flathub"
+sudo flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo

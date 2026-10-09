@@ -17,7 +17,9 @@ INIT source-clone mosh https://github.com/mobile-shell/mosh
 INIT go-src mosh
 
 INIT status "Building Mosh"
-make clean
+if [ -f Makefile ]; then
+	make clean
+fi
 ./autogen.sh
 ./configure
 make

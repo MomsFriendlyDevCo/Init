@@ -4,7 +4,12 @@ source "$(dirname "${BASH_SOURCE[0]}")/./common"
 
 INIT apt-install --lazy --header "Install locales prerequisites" dialog locales
 
-INIT status "Setting Australian locale correctly"
-sudo locale-gen en_US en_US.UTF-8
-sudo locale-gen en_AU en_AU.UTF-8
-sudo dpkg-reconfigure -f noninteractive locales
+# Expect all of en_US, en_US.utf8, en_AU, en_AU.utf8 to be present
+if [ "`locale -a | grep -cxE 'en_(US|AU)(\.utf8)?'`" == 4 ]; then
+	INIT skip "Setting Australian locale correctly - already generated"
+else
+	INIT status "Setting Australian locale correctly"
+	sudo locale-gen en_US en_US.UTF-8
+	sudo locale-gen en_AU en_AU.UTF-8
+	sudo dpkg-reconfigure -f noninteractive locales
+fi

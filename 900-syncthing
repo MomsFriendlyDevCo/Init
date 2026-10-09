@@ -1,7 +1,7 @@
 #!/bin/bash
 # Install Syncthing
 
-source "$(dirname "${BASH_SOURCE[0]}")/../common"
+source "$(dirname "${BASH_SOURCE[0]}")/./common"
 
 if [ ! -e '/etc/apt/keyrings/syncthing-archive-keyring.gpg' ]; then
 	INIT status "Installing Syncthing PPA"

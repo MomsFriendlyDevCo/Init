@@ -11,7 +11,7 @@ echo "Please enter the domain name of this system or enter to accept this"
 echo "e.g. mywebsite.com"
 echo
 
-NEWHOSTNAME=`INIT ask --prompt "Hostname" --var "PROFILE_HOSTNAME"`
+NEWHOSTNAME=`INIT ask --prompt "Hostname" --var "PROFILE_HOSTNAME" --default "$HOSTNAME"`
 
 if [ "$HOSTNAME" != "$NEWHOSTNAME" ]; then
 	INIT status "Change server hostname"

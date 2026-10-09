@@ -104,6 +104,9 @@ fi
 |                   | `INIT source-clone <alias> <git-url>`          |        | Clone / update a Git-Url into `~/src/$ALIAS` (use `INIT go-src <alias>` to change to it)           |
 | Files             | `INIT file-grep-matches <file> <grep>`         |        | Return `1` if the given file path contains the given Grep expression                               |
 |                   | `INIT file-set <file> <<HEREDOC`               | Yes    | Output contents of HEREDOC into a file                                                             |
+|                   | `INIT file-set --append --lazy <file> <<HEREDOC`| Yes   | Append only the lines of HEREDOC not already present in a file                                     |
+|                   | `INIT file-set --confirm <file> <<HEREDOC`     | Yes    | As `file-set` but show a diff + ask before overwriting an existing file with different contents    |
+|                   | `INIT swap-create <file> <size>`               | Yes    | Create + enable a swap file and install it into `/etc/fstab` (skipping if already present)         |
 | System querying   | `INIT bin-available <bins...>`                 |        | Return `1` if a all listed Binaries are available and within the PATH                              |
 |                   | `INIT bin-grep-matches <cmd> <grep>`           |        | Run a program and return `1` if it matches the specified grep expression                           |
 |                   | `INIT service-available <service>`             |        | Return `1` if the given service is available (even if disabled)                                    |

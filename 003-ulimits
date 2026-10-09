@@ -5,7 +5,7 @@ source "$(dirname "${BASH_SOURCE[0]}")/./common"
 
 INIT status "Adjust system limits..."
 
-INIT file-set --append /etc/security/limits.conf <<EOF
+INIT file-set --append --lazy /etc/security/limits.conf <<EOF
 root            soft    nproc           62188
 root            hard    nproc           62188
 root            hard    memlock         64
