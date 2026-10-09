@@ -1,12 +1,15 @@
 #!/bin/bash
-# Install common Cargo packages via cargo-binstall
+# Install common Cargo packages via cargo install
 
 source "$(dirname "${BASH_SOURCE[0]}")/./common"
 
 # Packages that have fallen out of favour for one reason or another
 CARGO_PKGS_SKIPPED='
-	lsd          # "ls" alternative with coloring and icons            exa offers everything it already does
+	diskonaut    # Disk space visualizer                               Unmaintained
+	exa          # "ls" alternative with coloring                      Unmaintained, replaced by eza
+	lsd          # "ls" alternative with coloring and icons            eza offers everything it already does
 	mcfly        # ZSH utility to jump around directories by use       Not used as zsh has a builtin
+	ytop         # "top" alternative                                   Unmaintained, replaced by bottom
 '
 
 CARGO_PKGS='
@@ -18,12 +21,11 @@ CARGO_PKGS='
 	broot        # Interactive "tree" alterternative
 	choose       # "cut" altenative
 	csvlens      # Interactive CSV viewer
-	diskonaut    # Disk space visualizer
 	drydock      # Analyise Git status across paths
 	dns-doge     # "dig" alternative"
 	dua          # "du" alternative"
 	du-dust      # "du" alternative" with graphs ~ "dust [path]"
-	exa          # "ls" alternative with coloring
+	eza          # "ls" alternative with coloring
 	fclones      # Find duplicate files
 	fd-find      # "find" alternative with a nicer UX
 	gfold        # Display Git info recrusively for all directories under this one
@@ -55,13 +57,20 @@ CARGO_PKGS='
 	woodchipper  # Log output formatter
 	xcp          # "cp" alternative
 	xh           # Simpligied HTTP(s) request mocker
-	ytop         # "top" alternative
 '
 CARGO_PKGS=`echo "$CARGO_PKGS" | cut -f 1 -d ' ' | tr '\n' ' '`
 CARGO_PKGS_COUNT=`echo "$CARGO_PKGS" | wc -w`
 
 INIT status "Install ${CARGO_PKGS_COUNT} Cargo packages"
-INIT cargo-install --no-clean $CARGO_PKGS
+CARGO_PKGS_FAILED=()
+for PKG in $CARGO_PKGS; do
+	INIT status "Install Cargo package ${PKG}"
+	INIT cargo-install --no-clean "$PKG" || CARGO_PKGS_FAILED+=("$PKG")
+done
+
+if [ "${#CARGO_PKGS_FAILED[@]}" -gt 0 ]; then
+	INIT fixme "Failed to install ${#CARGO_PKGS_FAILED[@]} Cargo packages: ${CARGO_PKGS_FAILED[*]}"
+fi
 
 INIT status "Install RipGrep + PCRE2 support"
 INIT cargo-install --no-clean ripgrep --features pcre2
