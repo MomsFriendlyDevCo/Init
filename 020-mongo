@@ -56,7 +56,7 @@ echo never | sudo tee /sys/kernel/mm/transparent_hugepage/defrag >/dev/null
 
 
 INIT status "Disable Kernel hugepages (install into rc.local)"
-INIT file-set /etc/rc.local <<EOF
+INIT file-set --confirm /etc/rc.local <<EOF
 #!/bin/sh -e
 echo never > /sys/kernel/mm/transparent_hugepage/enabled
 echo never > /sys/kernel/mm/transparent_hugepage/defrag

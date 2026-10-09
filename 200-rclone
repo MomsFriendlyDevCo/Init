@@ -7,7 +7,11 @@ RCLONE_VERSION="1.75.0"
 
 INIT apt-install --lazy fuse3 --header 'Install rclone prereqs'
 
-INIT apt-install-url "https://downloads.rclone.org/v${RCLONE_VERSION}/rclone-v${RCLONE_VERSION}-linux-amd64.deb"
+if [ "`dpkg-query -W -f='${Version}' rclone 2>/dev/null`" == "${RCLONE_VERSION}" ]; then
+	INIT skip "Install Rclone ${RCLONE_VERSION} - already installed"
+else
+	INIT apt-install-url "https://downloads.rclone.org/v${RCLONE_VERSION}/rclone-v${RCLONE_VERSION}-linux-amd64.deb"
+fi
 
 if [ ! -d "$HOME/.config/rclone" ]; then
 	INIT status 'Creating empty Rclone config'

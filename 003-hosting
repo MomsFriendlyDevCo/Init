@@ -29,7 +29,7 @@ if [ "$SERVER_PROFILE" == "n" ]; then
 	echo "standalone" | sudo tee "$PROFILE_FILE" >/dev/null
 elif [ "$SERVER_PROFILE" == "do" ]; then
 	echo "Selected Digital Ocean hosting profile - applying no patches"
-	echo "digialocean" | sudo tee "$PROFILE_FILE" >/dev/null
+	echo "digitalocean" | sudo tee "$PROFILE_FILE" >/dev/null
 elif [ "$SERVER_PROFILE" == "bl" ]; then
 	INIT status "Apply Binary Lane patches"
 	./003-deny-passwords
