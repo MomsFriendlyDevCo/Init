@@ -1,0 +1,110 @@
+#!/bin/bash
+# Generate an RDP client profile (.rdp file) to connect to this server, as setup by 999-rdp
+# Usage: rdp-gen-profile [--server <host>] [--port <port>] [--user <user>] [--output <file|->]
+#
+# -s, --server <host>    Server address to connect to (default: certificate domain, falling back to `hostname -f`)
+#
+# -p, --port <port>      Port to connect on (default: port from /etc/xrdp/xrdp.ini, falling back to 3389)
+#
+# -u, --user <user>      Username to prefill (default: current user)
+#
+# -o, --output <file|->  File to write, `-` for STDOUT (default: `<server>.rdp` in the current directory)
+#
+# NOTES:
+# * The server address should match the TLS certificate domain as the profile refuses connections to servers with invalid certificates
+# * Colour depth is fixed at 32bpp as XRDP only resumes an existing session if the colour depth matches
+#
+# @example Generate a profile for the user "bob"
+# ./scripts/rdp-gen-profile --user bob
+
+# Argument processing {{{
+RDP_SERVER=""
+RDP_PORT=""
+RDP_USER="$USER"
+RDP_OUTPUT=""
+while (( "$#" )); do
+	case "$1" in
+		-s|--server)
+			RDP_SERVER="$2"
+			shift
+			shift
+			;;
+		-p|--port)
+			RDP_PORT="$2"
+			shift
+			shift
+			;;
+		-u|--user)
+			RDP_USER="$2"
+			shift
+			shift
+			;;
+		-o|--output)
+			RDP_OUTPUT="$2"
+			shift
+			shift
+			;;
+		*)
+			echo "Error: Unsupported argument $1" >&2
+			exit 1
+			;;
+	esac
+done
+# }}}
+
+if [ -z "$RDP_SERVER" ] && sudo test -f /etc/xrdp/rdp-cert.pem; then
+	RDP_SERVER=`sudo openssl x509 -in /etc/xrdp/rdp-cert.pem -noout -subject -nameopt RFC2253 | sed -n 's/^.*CN=\([^,]*\).*$/\1/p'`
+
+	if [[ "$RDP_SERVER" == \** ]]; then # Wildcard certificate - cant use as a host
+		RDP_SERVER=""
+	fi
+fi
+
+if [ -z "$RDP_SERVER" ]; then
+	RDP_SERVER=`hostname -f`
+fi
+
+if [ -z "$RDP_PORT" ] && [ -f /etc/xrdp/xrdp.ini ]; then
+	RDP_PORT=`grep -m 1 -E '^\s*port\s*=' /etc/xrdp/xrdp.ini | grep -oE '[0-9]+\s*$' | tr -d '[:space:]'`
+fi
+
+if [ -z "$RDP_PORT" ]; then
+	RDP_PORT=3389
+fi
+
+if [ -z "$RDP_OUTPUT" ]; then
+	RDP_OUTPUT="$RDP_SERVER.rdp"
+fi
+
+
+RDP_PROFILE=$(cat <<EOF
+full address:s:$RDP_SERVER:$RDP_PORT
+username:s:$RDP_USER
+prompt for credentials:i:0
+enablecredsspsupport:i:0
+negotiate security layer:i:1
+authentication level:i:1
+session bpp:i:32
+screen mode id:i:2
+dynamic resolution:i:1
+smart sizing:i:0
+autoreconnection enabled:i:1
+compression:i:1
+networkautodetect:i:1
+bandwidthautodetect:i:1
+connection type:i:7
+redirectclipboard:i:1
+redirectdrives:i:0
+redirectprinters:i:0
+redirectcomports:i:0
+redirectsmartcards:i:0
+audiomode:i:2
+EOF
+)
+
+if [ "$RDP_OUTPUT" == '-' ]; then
+	echo "$RDP_PROFILE"
+else
+	echo "$RDP_PROFILE" > "$RDP_OUTPUT"
+	echo "Generated RDP profile '$RDP_OUTPUT' for $RDP_USER@$RDP_SERVER:$RDP_PORT" >&2
+fi

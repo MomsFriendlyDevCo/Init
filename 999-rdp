@@ -1,0 +1,251 @@
+#!/bin/bash
+# Add RDP / Remote Desktop support to an Ubuntu-Server setup via XRDP + a minimal XFCE desktop
+# Sessions are persistent - disconnecting leaves the session running and reconnecting (as the same user) resumes it
+#
+# Security:
+# * TLS only, using the system LetsEncrypt certificate (/etc/letsencrypt/live/*/fullchain.pem - prompted for if not found)
+# * Root login disabled
+# * Only members of the RDP group (PROFILE_RDP_GROUP, default `rdp-access`) can connect
+# * Fail2Ban jail for repeated failed logins
+# * Screen locking optionally disabled (XRDP login already authenticates every reconnect)
+#
+# Enabling a user to login via RDP:
+# 1. Add them to the RDP group:        sudo adduser <user> rdp-access
+# 2. Make sure they have a password:   sudo passwd <user>    (RDP authenticates by password, SSH keys are not used)
+# 3. Generate a client profile:        ./scripts/rdp-gen-profile --user <user>
+#    Then open the resulting .rdp file with any RDP client (mstsc, Remmina, Microsoft Remote Desktop etc.)
+#
+# Reconnecting as the same user (with the same colour depth) resumes the existing session
+
+source "$(dirname "${BASH_SOURCE[0]}")/./common"
+
+INIT apt-install --header "Install minimal XFCE desktop" --no-install-recommends \
+	dbus-x11 \
+	x11-xserver-utils \
+	xfce4 \
+	xfce4-terminal \
+	xfonts-base \
+	xorg \
+
+
+INIT apt-install --lazy --header "Install XRDP" \
+	xorgxrdp \
+	xrdp \
+
+
+INIT status "Set XFCE as the default X session manager"
+sudo update-alternatives --set x-session-manager /usr/bin/xfce4-session
+
+
+if [ ! -f "$HOME/.xsession" ]; then
+	INIT status "Set XFCE as the X session for $USER"
+	echo 'exec startxfce4' > "$HOME/.xsession"
+else
+	INIT skip "Set XFCE as the X session for $USER - ~/.xsession already exists"
+fi
+
+
+INIT status "Configure XRDP to keep disconnected sessions alive"
+INIT config-set /etc/xrdp/sesman.ini 'KillDisconnected' 'false'
+INIT config-set /etc/xrdp/sesman.ini 'DisconnectedTimeLimit' '0'
+INIT config-set /etc/xrdp/sesman.ini 'IdleTimeLimit' '0'
+INIT config-set /etc/xrdp/sesman.ini 'Policy' 'Default'
+
+
+# TLS certificate {{{
+RDP_CERT_GLOB='/etc/letsencrypt/live/*/fullchain.pem'
+while true; do
+	RDP_CERT=`sudo bash -c "ls -1d $RDP_CERT_GLOB 2>/dev/null" | head -n 1`
+
+	if [ -n "$RDP_CERT" ] && sudo test -d "$RDP_CERT"; then
+		RDP_CERT="${RDP_CERT%/}/fullchain.pem"
+	fi
+
+	RDP_KEY="`dirname "$RDP_CERT"`/privkey.pem"
+
+	if [ -n "$RDP_CERT" ] && sudo test -f "$RDP_CERT" && sudo test -f "$RDP_KEY"; then
+		break
+	fi
+
+	INIT fixme "No LetsEncrypt certificate found matching '$RDP_CERT_GLOB' (+ privkey.pem alongside it) - install one or enter its path"
+	RDP_CERT_GLOB=`INIT ask --prompt "Path / glob to LetsEncrypt fullchain.pem (or its live directory)" --default "$RDP_CERT_GLOB"`
+done
+
+INIT status "Install TLS certificate for XRDP from $RDP_CERT"
+sudo install -o root -g xrdp -m 640 "$RDP_CERT" /etc/xrdp/rdp-cert.pem
+sudo install -o root -g xrdp -m 640 "$RDP_KEY" /etc/xrdp/rdp-key.pem
+
+
+if [ -d /etc/letsencrypt ]; then
+	INIT status "Install LetsEncrypt renewal hook to refresh the XRDP certificate"
+	sudo mkdir -p /etc/letsencrypt/renewal-hooks/deploy
+INIT file-set /etc/letsencrypt/renewal-hooks/deploy/xrdp <<EOF
+#!/bin/bash
+# Copy renewed LetsEncrypt certificate into XRDP - installed by Init/999-rdp
+
+[ "\$RENEWED_LINEAGE" == "`dirname "$RDP_CERT"`" ] || exit 0
+
+install -o root -g xrdp -m 640 "$RDP_CERT" /etc/xrdp/rdp-cert.pem
+install -o root -g xrdp -m 640 "$RDP_KEY" /etc/xrdp/rdp-key.pem
+systemctl restart xrdp
+EOF
+	sudo chmod +x /etc/letsencrypt/renewal-hooks/deploy/xrdp
+else
+	INIT skip "Install LetsEncrypt renewal hook - /etc/letsencrypt not present"
+fi
+
+
+INIT status "Force XRDP to use TLS only"
+INIT config-set /etc/xrdp/xrdp.ini 'security_layer' 'tls'
+INIT config-set /etc/xrdp/xrdp.ini 'ssl_protocols' 'TLSv1.2, TLSv1.3'
+INIT config-set /etc/xrdp/xrdp.ini 'certificate' '/etc/xrdp/rdp-cert.pem'
+INIT config-set /etc/xrdp/xrdp.ini 'key_file' '/etc/xrdp/rdp-key.pem'
+# }}}
+
+
+INIT status "Disable XRDP root login"
+INIT config-set /etc/xrdp/sesman.ini 'AllowRootLogin' 'false'
+
+
+# RDP group policy {{{
+RDP_GROUP=`INIT ask --prompt "Group allowed to connect via RDP" --var "PROFILE_RDP_GROUP" --default "rdp-access"`
+
+if [ -z "`getent group "$RDP_GROUP"`" ]; then
+	INIT status "Create RDP group '$RDP_GROUP'"
+	sudo groupadd "$RDP_GROUP"
+else
+	INIT skip "Create RDP group '$RDP_GROUP' - already exists"
+fi
+
+INIT status "Add $USER to RDP group '$RDP_GROUP'"
+sudo usermod -aG "$RDP_GROUP" "$USER"
+
+INIT status "Restrict XRDP logins to members of '$RDP_GROUP'"
+INIT config-set /etc/xrdp/sesman.ini 'TerminalServerUsers' "$RDP_GROUP"
+INIT config-set /etc/xrdp/sesman.ini 'AlwaysGroupCheck' 'true'
+# }}}
+
+
+# Screen lock {{{
+if [ `INIT ask --bool --prompt "Disable screen locking within RDP sessions? (y|n)" --var "PROFILE_RDP_DISABLE_SCREENLOCK" --default "y"` == 1 ]; then
+	INIT apt-remove --lazy --header "Remove light-locker screen lock" light-locker
+	INIT apt-remove --lazy --header "Remove XFCE screensaver / screen lock" xfce4-screensaver
+
+	INIT status "Disable X screen blanking within desktop sessions"
+INIT file-set /etc/xdg/autostart/xrdp-no-screen-lock.desktop <<EOF
+[Desktop Entry]
+Type=Application
+Name=Disable screen blanking
+Comment=Screen locking is redundant as XRDP authenticates each connection - installed by Init/999-rdp
+Exec=xset s off -dpms
+NoDisplay=true
+EOF
+else
+	INIT skip "Disable screen locking within RDP sessions"
+	sudo rm -f /etc/xdg/autostart/xrdp-no-screen-lock.desktop
+fi
+# }}}
+
+
+INIT status "Allow XRDP to read the system SSL certificate"
+sudo usermod -aG ssl-cert xrdp
+
+
+INIT status "Suppress Polkit authentication prompts within RDP sessions"
+if [ -d /etc/polkit-1/rules.d ]; then
+INIT file-set /etc/polkit-1/rules.d/45-xrdp.rules <<EOF
+polkit.addRule(function(action, subject) {
+	if (
+		(
+			action.id == 'org.freedesktop.color-manager.create-device'
+			|| action.id == 'org.freedesktop.color-manager.create-profile'
+			|| action.id == 'org.freedesktop.color-manager.delete-device'
+			|| action.id == 'org.freedesktop.color-manager.delete-profile'
+			|| action.id == 'org.freedesktop.color-manager.modify-device'
+			|| action.id == 'org.freedesktop.color-manager.modify-profile'
+			|| action.id == 'org.freedesktop.packagekit.system-sources-refresh'
+		)
+		&& subject.isInGroup('sudo')
+	) {
+		return polkit.Result.YES;
+	}
+});
+EOF
+else
+	sudo mkdir -p /etc/polkit-1/localauthority/50-local.d
+INIT file-set /etc/polkit-1/localauthority/50-local.d/45-xrdp.pkla <<EOF
+[Allow colord for XRDP sessions]
+Identity=unix-group:sudo
+Action=org.freedesktop.color-manager.create-device;org.freedesktop.color-manager.create-profile;org.freedesktop.color-manager.delete-device;org.freedesktop.color-manager.delete-profile;org.freedesktop.color-manager.modify-device;org.freedesktop.color-manager.modify-profile
+ResultAny=no
+ResultInactive=no
+ResultActive=yes
+
+[Allow package refresh for XRDP sessions]
+Identity=unix-group:sudo
+Action=org.freedesktop.packagekit.system-sources-refresh
+ResultAny=yes
+ResultInactive=yes
+ResultActive=yes
+EOF
+fi
+
+
+if [ `INIT bin-available ufw` == 1 ]; then
+	INIT status "Allowing RDP firewall rule"
+	sudo ufw allow 3389/tcp
+else
+	INIT skip "Allowing RDP firewall rule - UFW not installed"
+fi
+
+
+INIT status "Enable + restart XRDP services"
+sudo systemctl enable xrdp xrdp-sesman
+sudo systemctl restart xrdp-sesman xrdp
+
+
+# Fail2Ban {{{
+INIT apt-install --lazy --header "Install Fail2Ban" fail2ban
+
+INIT status "Install Fail2Ban XRDP filter"
+INIT file-set /etc/fail2ban/filter.d/xrdp.conf <<EOF
+# Failed XRDP logins - installed by Init/999-rdp
+# Matches lines like: [20261009-10:22:33] [INFO ] AUTHFAIL: user=bob ip=::ffff:1.2.3.4 time=1791541353
+
+[Definition]
+failregex = AUTHFAIL: user=.* ip=<HOST> time=\d+
+ignoreregex =
+datepattern = ^\[%%Y%%m%%d-%%H:%%M:%%S\]
+EOF
+
+INIT status "Install Fail2Ban XRDP jail"
+sudo touch /var/log/xrdp-sesman.log
+INIT file-set /etc/fail2ban/jail.d/xrdp.conf <<EOF
+# Ban repeated failed XRDP logins - installed by Init/999-rdp
+
+[xrdp]
+enabled = true
+port = 3389
+filter = xrdp
+backend = auto
+logpath = /var/log/xrdp-sesman.log
+maxretry = 5
+findtime = 10m
+bantime = 1h
+EOF
+
+INIT status "Restarting Fail2Ban"
+sudo systemctl enable fail2ban
+sudo systemctl restart fail2ban
+# }}}
+
+
+if [ "`sudo passwd -S "$USER" | awk '{print $2}'`" != 'P' ]; then
+	INIT fixme "User $USER has no usable password - set one with 'sudo passwd $USER' before logging in via RDP"
+fi
+
+
+INIT status "RDP setup complete - to enable a user to login via RDP:"
+INIT status "  1. Add them to the RDP group:      sudo adduser <user> $RDP_GROUP"
+INIT status "  2. Make sure they have a password: sudo passwd <user>"
+INIT status "  3. Generate a client profile:      ./scripts/rdp-gen-profile --user <user>"
