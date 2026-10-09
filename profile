@@ -4,6 +4,9 @@ PROFILE_TIMEZONE=
 # Preferred hostname, leave blank to always prompt
 PROFILE_HOSTNAME=
 
+# Swap file size (003-swap)
+PROFILE_SWAP_SIZE=4G
+
 # Default Zabbix server to use
 PROFILE_ZABBIX_SERVER=calculon.mfdc.io
 

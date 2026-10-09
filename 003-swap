@@ -1,11 +1,11 @@
 #!/bin/bash
-# Set up a 4gb swap file using disk storage
+# Set up a swap file using disk storage, size is set via PROFILE_SWAP_SIZE
 #
 # NOTE: Use `free -h` to see swap file usage
 
 source "$(dirname "${BASH_SOURCE[0]}")/./common"
 
-SWAP_SIZE=2G
+SWAP_SIZE=`INIT ask --prompt "Swap file size" --var "PROFILE_SWAP_SIZE" --default "2G"`
 SWAP_ROOT="/var"
 SWAP_FILE="${SWAP_ROOT}/swap-$(echo "$SWAP_SIZE" | tr '[:upper:]' '[:lower:]').img"
 
