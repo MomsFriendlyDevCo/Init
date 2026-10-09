@@ -8,7 +8,9 @@ source "$(dirname "${BASH_SOURCE[0]}")/./common"
 NODE_VERSION=24
 
 
-if [ `INIT bin-available node` == 1 ]; then
+if [[ `INIT bin-available node` == 1 && "`node --version`" == "v${NODE_VERSION}."* ]]; then
+	INIT skip "Remove existing Node installs - Node ${NODE_VERSION} already installed"
+elif [ `INIT bin-available node` == 1 ]; then
 	INIT status "Remove existing Node installs"
 	INIT apt-remove --mode purge nodejs
 	if [ `INIT bin-available node` == 1 ]; then
