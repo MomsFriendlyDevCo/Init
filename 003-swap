@@ -9,6 +9,10 @@ SWAP_SIZE=`INIT ask --prompt "Swap file size" --var "PROFILE_SWAP_SIZE" --defaul
 SWAP_ROOT="/var"
 SWAP_FILE="${SWAP_ROOT}/swap-$(echo "$SWAP_SIZE" | tr '[:upper:]' '[:lower:]').img"
 
+if [ -e "${SWAP_FILE}" ]; then
+	INIT panic "Swap file \"${SWAP_FILE}\" already exists - refusing to overwrite"
+fi
+
 
 INIT status "Setting up ${SWAP_SIZE} Swap file"
 sudo touch "${SWAP_FILE}"
