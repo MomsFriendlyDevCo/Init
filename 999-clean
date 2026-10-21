@@ -66,3 +66,23 @@ if [ `INIT bin-available docker` == 1 ]; then
 	INIT status "Clean Docker cache"
 	docker system prune --force
 fi
+
+if [ `INIT bin-available snap` == 1 ]; then
+	INIT status "Optimize Snap cache"
+	sudo snap set system refresh.retain=2
+	sudo snap set system snapshots.automatic.retention=no
+
+	if [ -d "/var/lib/snapd/cache" ]; then
+		INIT status "Clean Snap cache"
+		# NOTE: Snap needs the dir, we have to delete its contents instead
+		sudo rm -rf /var/lib/snapd/cache/*
+	fi
+
+	snap list --all | awk '/disabled/{print $1, $3}' | while read SNAP_NAME SNAP_REV; do
+		echo "- Clean snap revision $SNAP_NAME@$SNAP_REV"
+		sudo snap remove "$SNAP_NAME" --revision="$SNAP_REV"
+	done
+fi
+
+INIT status "Report root file-system usage"
+df -h /
