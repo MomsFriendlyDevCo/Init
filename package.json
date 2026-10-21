@@ -1,0 +1,15 @@
+{
+  "name": "@momsfriendlydevco/init",
+  "description": "MFDC server initalization scripts",
+  "version": "1.7.0",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/MomsFriendlyDevCo/Init.git"
+  },
+  "author": {
+    "name": "Matt Carter",
+    "email": "m@ttcarter.com",
+    "url": "https://github.com/hash-bang"
+  },
+  "license": "MIT"
+}
