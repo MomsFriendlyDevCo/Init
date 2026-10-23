@@ -6,7 +6,7 @@ INIT apt-install --lazy --header "Install locales prerequisites" dialog locales
 
 # Expect all of en_US, en_US.utf8, en_AU, en_AU.utf8 to be present
 if [ "`locale -a | grep -cxE 'en_(US|AU)(\.utf8)?'`" == 4 ]; then
-	INIT skip "Setting Australian locale correctly - already generated"
+	INIT status-skip "Setting Australian locale correctly - already generated"
 else
 	INIT status "Setting Australian locale correctly"
 	sudo locale-gen en_US en_US.UTF-8

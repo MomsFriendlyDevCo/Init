@@ -4,7 +4,7 @@
 source "$(dirname "${BASH_SOURCE[0]}")/./common"
 
 if [ `INIT bin-available flatpak` == 1 ]; then
-	INIT skip "Install Flatpak"
+	INIT status-skip "Install Flatpak"
 else
 	INIT status "Install Flatpak"
 	INIT apt-install flatpak

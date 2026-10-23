@@ -6,7 +6,7 @@ source "$(dirname "${BASH_SOURCE[0]}")/./common"
 KEYFILE=$HOME/.ssh/id_ed25519
 
 if [ -e "$KEYFILE" ]; then
-	INIT skip "RSA key already present"
+	INIT status-skip "RSA key already present"
 	exit 0
 fi
 

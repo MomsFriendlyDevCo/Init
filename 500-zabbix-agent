@@ -8,7 +8,7 @@ ZABBIX_VERSION="7.4"
 INIT apt-remove --header "Removing legacy Zabbix agent" -m purge --lazy zabbix-agent
 
 if [[ "`dpkg-query -W -f='${Version}' zabbix-release 2>/dev/null`" == *"${ZABBIX_VERSION}-"* ]]; then
-	INIT skip "Setup Zabbix ${ZABBIX_VERSION} APT repo - already installed"
+	INIT status-skip "Setup Zabbix ${ZABBIX_VERSION} APT repo - already installed"
 else
 	INIT status "Setup Zabbix ${ZABBIX_VERSION} APT repo"
 	INIT apt-install-url "https://repo.zabbix.com/zabbix/${ZABBIX_VERSION}/release/ubuntu/pool/main/z/zabbix-release/zabbix-release_${ZABBIX_VERSION}-1+ubuntu$(lsb_release -rs)_all.deb"
@@ -24,7 +24,7 @@ INIT apt-install \
 
 
 if [ -e "/etc/zabbix/zabbix_agentd.psk" ]; then
-	INIT skip "Generate Zabbix PSK Key"
+	INIT status-skip "Generate Zabbix PSK Key"
 else
 	INIT status "Generate Zabbix PSK key"
 	sudo sh -c "umask 077 && openssl rand -hex 32 > /etc/zabbix/zabbix_agentd.psk"

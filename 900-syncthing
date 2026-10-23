@@ -13,7 +13,7 @@ EOF
 
 	INIT apt-update
 else
-	INIT skip "Installing Syncthing PPA"
+	INIT status-skip "Installing Syncthing PPA"
 fi
 
 
@@ -58,5 +58,5 @@ EOF
 	sudo systemctl start syncthing
 	sudo systemctl enable syncthing
 else
-	INIT skip "Setup Syncthing as a SystemD service"
+	INIT status-skip "Setup Syncthing as a SystemD service"
 fi

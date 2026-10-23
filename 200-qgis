@@ -20,7 +20,7 @@ Components: main
 Signed-By: /etc/apt/keyrings/qgis-archive-keyring.gpg
 EOF
 else
-	INIT skip "Install QGIS keyring + apt repo"
+	INIT status-skip "Install QGIS keyring + apt repo"
 fi
 
 

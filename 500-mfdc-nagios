@@ -5,7 +5,7 @@
 source "$(dirname "${BASH_SOURCE[0]}")/./common"
 
 if [ -d '/home/nagios' ]; then
-	INIT skip "Nagios already configured"
+	INIT status-skip "Nagios already configured"
 else
 	INIT status "Create 'nagios' user"
 	sudo useradd -m nagios

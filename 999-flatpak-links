@@ -8,7 +8,7 @@ FLATPAK_HUMAN_BINS="/var/lib/flatpak/exports/bin-human"
 
 
 if [ ! -d "${FLATPAK_BINS}" ]; then
-	INIT skip "Flatpak not installed - or no Flatpaks can be exported"
+	INIT status-skip "Flatpak not installed - or no Flatpaks can be exported"
 	exit 0
 fi
 

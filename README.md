@@ -56,7 +56,7 @@ Each script _must_:
 
 Each script _should_:
 
-* Use `INIT status <text>` or `INIT skip <text>` as a reporting mechanism instead of plain `echo`, following self contained steps with `INIT status-done`
+* Use `INIT status <text>` or `INIT status-skip <text>` as a reporting mechanism instead of plain `echo`, following self contained steps with `INIT status-done`
 * Require little to no interaction past the initial execution
 
 
@@ -80,7 +80,7 @@ fi
 |-------------------|------------------------------------------------|--------|----------------------------------------------------------------------------------------------------|
 | User input        | `INIT ask -p <message> -v <var> -d <default>`  | Yes    | Prompt the user for various inputs using the `profile` file for defaults (`-b` for yes/no as 1/0)  |
 | Status Output     | `INIT fixme <message>`                         |        | Mark that a script needs attention on the next clean system install                                |
-|                   | `INIT skip <message>`                          |        | Same as `INIT status` but display that the operation was skipped                                   |
+|                   | `INIT status-skip <message>`                   |        | Same as `INIT status` but display that the operation was skipped                                   |
 |                   | `INIT status <message>`                        |        | Display a status message                                                                           |
 |                   | `INIT status-done`                             |        | Display a "Done" message marking the previous `INIT status` step as finished                       |
 | Change directory  | `INIT go-init`                                 |        | Change back to the base Init directory, should be called last on any script which changes anything |

@@ -114,7 +114,7 @@ if [ "$IS_CONFIRM" == 1 ] && sudo test -e "$FILE"; then
 	fi
 
 	if [ "$CONFIRM" != 1 ]; then
-		INIT skip "Overwrite '$FILE' - keeping existing file"
+		INIT status-skip "Overwrite '$FILE' - keeping existing file"
 		exit 0
 	fi
 fi

@@ -19,7 +19,7 @@ if [ `INIT file-grep-matches /etc/psad/psad.conf 'daemons@mfdc.io'` == 0 ]; then
 	INIT status "Configure PSAD whitelist"
 	echo -e '# MFDC office\n103.96.6.111     0;' | sudo tee -a /etc/psad/auto_dl >/dev/null
 else
-	INIT skip "Configure PSAD"
+	INIT status-skip "Configure PSAD"
 fi
 
 

@@ -1,0 +1,11 @@
+#!/bin/bash
+# Simple status reporter to display a status step being skipped
+# Usage: ./utils/status-skip {message}
+
+source "$(dirname "${BASH_SOURCE[0]}")/../common"
+
+if [ -n "$1" ]; then
+	echo -e "\e[30m\e[1m ✘  Skipped - \e[22m$*\e[0m"
+else
+	echo -e "\e[30m\e[1m ✘  Skipped\e[0m"
+fi

@@ -9,7 +9,7 @@ INIT apt-install --lazy --header "Install RSyslog" rsyslog
 UPSTREAM=`INIT ask --prompt "Upstream RSyslog server" --var "PROFILE_RSYSLOG_UPSTREAM"`
 
 if [ `INIT file-grep-matches /etc/rsyslog.d/20-remote.conf "target=\"${UPSTREAM}\""` == 1 ]; then
-	INIT skip "Adding upstream config to RSyslog config (already present)"
+	INIT status-skip "Adding upstream config to RSyslog config (already present)"
 else
 	INIT status "Adding upstream config to RSyslog config"
 

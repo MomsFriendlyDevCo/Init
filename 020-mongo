@@ -21,7 +21,7 @@ sudo apt install -fy
 
 
 if [ -f "/etc/logrotate.d/mongodb" ]; then
-	INIT skip "Setup Logrotate (already exists)"
+	INIT status-skip "Setup Logrotate (already exists)"
 else
 	INIT status "Setup Logrotate for Mongo"
 

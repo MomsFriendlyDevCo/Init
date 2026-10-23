@@ -9,7 +9,7 @@ NODE_VERSION=24
 
 
 if [[ `INIT bin-available node` == 1 && "`node --version`" == "v${NODE_VERSION}."* ]]; then
-	INIT skip "Remove existing Node installs - Node ${NODE_VERSION} already installed"
+	INIT status-skip "Remove existing Node installs - Node ${NODE_VERSION} already installed"
 elif [ `INIT bin-available node` == 1 ]; then
 	INIT status "Remove existing Node installs"
 	INIT apt-remove --mode purge nodejs
@@ -19,7 +19,7 @@ elif [ `INIT bin-available node` == 1 ]; then
 fi
 
 if [ -e "/etc/apt/keyrings/nodesource.gpg" ]; then
-	INIT skip "Install Nodesource GPG keys"
+	INIT status-skip "Install Nodesource GPG keys"
 else
 	INIT status "Install Nodesource GPG keys"
 	INIT apt-install --lazy ca-certificates curl gnupg
@@ -28,7 +28,7 @@ else
 fi
 
 if [ -e "/etc/apt/sources.list.d/nodesource_${NODE_VERSION}.list" ]; then
-	INIT skip "Install Apt reference for Node ${NODE_VERSION}"
+	INIT status-skip "Install Apt reference for Node ${NODE_VERSION}"
 else
 	INIT status "Install Apt reference for Node ${NODE_VERSION}"
 INIT file-set "/etc/apt/sources.list.d/nodesource_${NODE_VERSION}.list" <<EOF
@@ -41,7 +41,7 @@ INIT apt-update
 INIT apt-install nodejs
 
 if [ -e "$HOME/.npmrc" ]; then
-	INIT skip "NPM config already exists"
+	INIT status-skip "NPM config already exists"
 else
 	INIT status "Install NPM config"
 	echo 'bin-links=true' >>~/.npmrc
@@ -77,7 +77,7 @@ sudo setcap cap_net_bind_service=+ep /usr/bin/node
 INIT status "Setup NODE_ENV"
 
 if [ `INIT file-grep-matches "$HOME/.bashrc" "NODE_ENV"` == 1 ]; then
-	INIT skip "NODE_ENV already setup"
+	INIT status-skip "NODE_ENV already setup"
 else
 	INIT status "Installing NODE_ENV into ~/.bashrc, assuming 'production'"
 	echo "export NODE_ENV=production" >>~/.bashrc

@@ -41,7 +41,7 @@ if [ ! -f "$HOME/.xsession" ]; then
 	INIT status "Set XFCE as the X session for $USER"
 	echo 'exec startxfce4' > "$HOME/.xsession"
 else
-	INIT skip "Set XFCE as the X session for $USER - ~/.xsession already exists"
+	INIT status-skip "Set XFCE as the X session for $USER - ~/.xsession already exists"
 fi
 
 
@@ -91,7 +91,7 @@ systemctl restart xrdp
 EOF
 	sudo chmod +x /etc/letsencrypt/renewal-hooks/deploy/xrdp
 else
-	INIT skip "Install LetsEncrypt renewal hook - /etc/letsencrypt not present"
+	INIT status-skip "Install LetsEncrypt renewal hook - /etc/letsencrypt not present"
 fi
 
 
@@ -114,7 +114,7 @@ if [ -z "`getent group "$RDP_GROUP"`" ]; then
 	INIT status "Create RDP group '$RDP_GROUP'"
 	sudo groupadd "$RDP_GROUP"
 else
-	INIT skip "Create RDP group '$RDP_GROUP' - already exists"
+	INIT status-skip "Create RDP group '$RDP_GROUP' - already exists"
 fi
 
 INIT status "Add $USER to RDP group '$RDP_GROUP'"
@@ -141,7 +141,7 @@ Exec=xset s off -dpms
 NoDisplay=true
 EOF
 else
-	INIT skip "Disable screen locking within RDP sessions"
+	INIT status-skip "Disable screen locking within RDP sessions"
 	sudo rm -f /etc/xdg/autostart/xrdp-no-screen-lock.desktop
 fi
 # }}}
@@ -195,7 +195,7 @@ if [ `INIT bin-available ufw` == 1 ]; then
 	INIT status "Allowing RDP firewall rule"
 	sudo ufw allow 3389/tcp
 else
-	INIT skip "Allowing RDP firewall rule - UFW not installed"
+	INIT status-skip "Allowing RDP firewall rule - UFW not installed"
 fi
 
 

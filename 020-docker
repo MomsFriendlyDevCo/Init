@@ -19,7 +19,7 @@ fi
 
 
 if [ -e '/etc/apt/sources.list.d/docker.sources' ]; then
-	INIT skip "Apt source already installed"
+	INIT status-skip "Apt source already installed"
 else
 	INIT status "Install Docker PPA key"
 	INIT file-set /etc/apt/sources.list.d/docker.sources <<EOF
@@ -44,5 +44,5 @@ if [ `INIT bin-available ufw` == 1 ]; then
 	INIT status "Reload firewall"
 	sudo ufw reload
 else
-	INIT skip "Adjust firewall policy to allow Docker - UFW not installed"
+	INIT status-skip "Adjust firewall policy to allow Docker - UFW not installed"
 fi

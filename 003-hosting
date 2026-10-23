@@ -7,7 +7,7 @@ source "$(dirname "${BASH_SOURCE[0]}")/./common"
 PROFILE_FILE="/etc/hosting-profile"
 
 if [ -e "$PROFILE_FILE" ]; then
-	INIT skip "Hosting profile already set"
+	INIT status-skip "Hosting profile already set"
 	exit 0
 fi
 

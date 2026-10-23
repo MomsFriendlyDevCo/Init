@@ -5,7 +5,7 @@ source "$(dirname "${BASH_SOURCE[0]}")/./common"
 
 INIT status "Install Google Chrome PPA"
 if [ -e '/etc/apt/sources.list.d/google.list' ]; then
-	INIT skip "PPA already exists"
+	INIT status-skip "PPA already exists"
 else
 	INIT apt-repo-install --arch amd64 google https://dl-ssl.google.com/linux/linux_signing_key.pub 'http://dl.google.com/linux/chrome/deb/ stable main'
 fi

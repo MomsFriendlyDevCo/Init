@@ -4,7 +4,7 @@
 source "$(dirname "${BASH_SOURCE[0]}")/./common"
 
 if sudo grep -q '/inc/scripts/hosts' /root/.bashrc; then
-	INIT skip "Root .bashrc file already configured"
+	INIT status-skip "Root .bashrc file already configured"
 else
 	INIT status "Install PATH into root users .bashrc"
 	echo "PATH=\$PATH:/inc/scripts/hosts/`hostname`:/inc/scripts/users/`whoami`:/inc/scripts" | sudo tee -a /root/.bashrc >/dev/null
