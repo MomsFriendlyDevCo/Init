@@ -103,6 +103,7 @@ fi
 |                   | `INIT file-download-url <urls..>`              | Yes    | Download one or more URLs into the current directory                                               |
 |                   | `INIT source-clone <alias> <git-url>`          |        | Clone / update a Git-Url into `~/src/$ALIAS` (use `INIT go-src <alias>` to change to it)           |
 | Files             | `INIT file-grep-matches <file> <grep>`         |        | Return `1` if the given file path contains the given Grep expression                               |
+|                   | `INIT rm-lazy <paths-or-globs...>`             | Yes    | Remove paths / quoted globs only if at least one non-empty match exists (`--header`, `--sudo`)     |
 |                   | `INIT file-set <file> <<HEREDOC`               | Yes    | Output contents of HEREDOC into a file                                                             |
 |                   | `INIT file-set --append --lazy <file> <<HEREDOC`| Yes   | Append only the lines of HEREDOC not already present in a file                                     |
 |                   | `INIT file-set --confirm <file> <<HEREDOC`     | Yes    | As `file-set` but show a diff + ask before overwriting an existing file with different contents    |

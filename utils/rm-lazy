@@ -1,0 +1,67 @@
+#!/bin/bash
+# Remove a series of paths / globs, only if at least one item within them exists
+#
+# Usage: ./utils/rm-lazy [--header text] [--sudo] <paths-or-globs...>
+#
+# -h, --header <text>      Print the given header only if a delete is performed
+#
+# -s, --sudo               Perform the delete as root
+#
+# NOTE: Globs should be quoted so they are expanded here rather than by the calling shell
+#
+# @example Remove all Cargo temp directories for all users
+# INIT rm-lazy --sudo --header "Clean Cargo temp files" '/home/*/.cargo/tmp'
+
+
+source "$(dirname "${BASH_SOURCE[0]}")/../common"
+
+# Argument processing {{{
+HEADER=""
+SUDO=""
+PATTERNS=()
+while (( "$#" )); do
+	case "$1" in
+		-h|--header)
+			HEADER="$2"
+			shift
+			shift
+			;;
+		-s|--sudo)
+			SUDO="sudo"
+			shift
+			;;
+		--) # end argument parsing
+			shift
+			PATTERNS+=("$@")
+			break
+			;;
+		*) # preserve positional arguments
+			PATTERNS+=("$1")
+			shift
+			;;
+	esac
+done
+# }}}
+
+# Expand all patterns into existing paths, ignoring empty directories {{{
+TARGETS=()
+for PATTERN in "${PATTERNS[@]}"; do
+	while IFS= read -r MATCH; do
+		if [[ -z "$($SUDO ls -A "$MATCH" 2>/dev/null)" ]] && $SUDO test -d "$MATCH"; then
+			continue
+		fi
+		TARGETS+=("$MATCH")
+	done < <($SUDO bash -c 'compgen -G "$1"' _ "$PATTERN")
+done
+# }}}
+
+# Nothing to do?
+if [ ${#TARGETS[@]} == 0 ]; then
+	exit 0
+fi
+
+if [ ! -z "$HEADER" ]; then
+	INIT status "$HEADER"
+fi
+
+$SUDO rm -rf "${TARGETS[@]}"
