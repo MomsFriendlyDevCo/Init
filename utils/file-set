@@ -9,6 +9,10 @@
 #
 # -c, --confirm         Ask before overwriting an existing file whose contents differ, showing a diff of the changes
 #
+# -h, --header <text>   Print the given header only if the file is written, implies calling "INIT status-done" after writing unless "--no-done"
+#
+# --no-done             Disable calling 'INIT status-done' after writing if '--header' is also specified
+#
 # @example set a file as root
 # INIT file-set /etc/somefile.txt <<EOF
 # This is line 1
@@ -24,6 +28,8 @@ source "$(dirname "${BASH_SOURCE[0]}")/../common"
 IS_APPEND=0
 IS_LAZY=0
 IS_CONFIRM=0
+HEADER=""
+ARG_DONE=1
 PARAMS=()
 while (( "$#" )); do
 	case "$1" in
@@ -42,6 +48,10 @@ while (( "$#" )); do
 		-h|--header)
 			HEADER="$2"
 			shift
+			shift
+			;;
+		--no-done)
+			ARG_DONE=0
 			shift
 			;;
 		--) # end argument parsing
@@ -75,7 +85,15 @@ if [ "$IS_APPEND" == 1 ]; then
 		echo "$MISSING" >"$CONTENT_FILE"
 	fi
 
+	if [ -n "$HEADER" ]; then
+		INIT status "$HEADER"
+	fi
+
 	sudo tee -a "$FILE" <"$CONTENT_FILE" >/dev/null
+
+	if [[ -n "$HEADER" && "$ARG_DONE" == '1' ]]; then
+		INIT status-done
+	fi
 	exit 0
 fi
 
@@ -101,4 +119,12 @@ if [ "$IS_CONFIRM" == 1 ] && sudo test -e "$FILE"; then
 	fi
 fi
 
+if [ -n "$HEADER" ]; then
+	INIT status "$HEADER"
+fi
+
 sudo tee "$FILE" <"$CONTENT_FILE" >/dev/null
+
+if [[ -n "$HEADER" && "$ARG_DONE" == '1' ]]; then
+	INIT status-done
+fi

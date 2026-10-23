@@ -56,7 +56,7 @@ Each script _must_:
 
 Each script _should_:
 
-* Use `INIT status <text>` or `INIT skip <text>` as a reporting mechanism instead of plain `echo`
+* Use `INIT status <text>` or `INIT skip <text>` as a reporting mechanism instead of plain `echo`, following self contained steps with `INIT status-done`
 * Require little to no interaction past the initial execution
 
 
@@ -82,6 +82,7 @@ fi
 | Status Output     | `INIT fixme <message>`                         |        | Mark that a script needs attention on the next clean system install                                |
 |                   | `INIT skip <message>`                          |        | Same as `INIT status` but display that the operation was skipped                                   |
 |                   | `INIT status <message>`                        |        | Display a status message                                                                           |
+|                   | `INIT status-done`                             |        | Display a "Done" message marking the previous `INIT status` step as finished                       |
 | Change directory  | `INIT go-init`                                 |        | Change back to the base Init directory, should be called last on any script which changes anything |
 |                   | `INIT go-src [sub-dir]`                        |        | Change to the $INIT_SRC directory (+ optional sub-dir), creating it/them if they dont exist        |
 | Config            | `INIT config-set <file> <key> <val>`           |        | Set an INI file setting, creating it if not already present                                        |

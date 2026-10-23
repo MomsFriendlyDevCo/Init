@@ -16,12 +16,15 @@
 # -y                       (APT native) Assume 'Yes' to all questions
 #
 # --ignore-missing         (APT native) Skip missing packages if they are not available in this OS
+#
+# --no-done                Disable calling 'INIT status-done' after installing if '--header' is also specified
 
 
 source "$(dirname "${BASH_SOURCE[0]}")/../common"
 
 # Argument processing {{{
 ARG_UPDATE=0
+ARG_DONE=1
 IS_LAZY_DEB=0
 IS_LAZY_BIN=0
 HEADER=""
@@ -43,6 +46,10 @@ while (( "$#" )); do
 			;;
 		-u|--update)
 			ARG_UPDATE=1
+			shift
+			;;
+		--no-done)
+			ARG_DONE=0
 			shift
 			;;
 		--) # end argument parsing
@@ -93,3 +100,7 @@ if [ ! -z "$HEADER" ]; then
 fi
 
 sudo apt install --assume-yes "${PARAMS[@]}"
+
+if [[ -n "$HEADER" && "$ARG_DONE" == '1' ]]; then
+	INIT status-done
+fi

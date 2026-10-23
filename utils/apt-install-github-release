@@ -7,18 +7,25 @@
 #
 # -b, --lazy-bin <name>    Exit politely if the given name is avaiable as a binary executable
 #
+# -h, --header <text>      Print the given header instead of a generic "Installing latest version of REPO-URL"
 
 source "$(dirname "${BASH_SOURCE[0]}")/../common"
 
 # Argument processing {{{
 IS_LAZY_BIN=0
 BIN_NAME=""
+ARG_HEADER=""
 PARAMS=()
 while (( "$#" )); do
 	case "$1" in
 		-b|--lazy-bin)
 			IS_LAZY_BIN=1
 			BIN_NAME="$2"
+			shift
+			shift
+			;;
+		-h|--header)
+			ARG_HEADER="$2"
 			shift
 			shift
 			;;
@@ -50,8 +57,13 @@ fi
 
 INIT go-src
 
-INIT status "Installing latest version of GitHub ${GITHUB_REPO}"
+if [ -n "${ARG_HEADER}" ]; then
+	INIT status "${ARG_HEADER}"
+else
+	INIT status "Installing latest version of GitHub ${GITHUB_REPO}"
+fi
 
 GITHUB_URL=`wget -c -t 0 -T 30 "https://api.github.com/repos/${GITHUB_REPO}/releases" -qO- | grep browser_download_url | grep '64[.]deb' | head -n 1 | cut -d '"' -f 4`
 
 INIT apt-install-url "${GITHUB_URL}"
+INIT status-done
