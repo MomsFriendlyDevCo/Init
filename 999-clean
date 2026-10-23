@@ -12,6 +12,9 @@ INIT tolerate rm -r /tmp/*cargo* 2>/dev/null
 INIT status "Clean apt cache"
 sudo apt autoclean
 
+INIT status "Clean apt dependencies"
+sudo apt -y autoremove
+
 INIT status "Vacuum kernel logs"
 sudo journalctl --vacuum-time=3d
 
