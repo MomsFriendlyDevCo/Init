@@ -85,6 +85,12 @@ if [ `INIT bin-available docker` == 1 ]; then
 	INIT status "Clean Docker cache"
 	docker system prune --force
 	INIT status-done
+
+	if [ -d "/var/lib/docker/containers" ]; then
+		INIT status "Clean Docker container logs"
+		INIT tolerate sudo truncate -s 0 /var/lib/docker/containers/*/*-json.log
+		INIT status-done
+	fi
 fi
 
 if [ `INIT bin-available snap` == 1 ]; then
