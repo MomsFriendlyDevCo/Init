@@ -1,0 +1,70 @@
+#!/bin/bash
+# Download a file from a given URL to a given path, installing Curl if needed
+# If the destination directory is not writable by the current user the download is performed via sudo
+#
+# Usage: ./utils/download [--header text] [--no-done] <url> <path>
+#
+# <url>                    The URL to download
+#
+# <path>                   The destination file path to save to
+#
+# -h, --header <text>      Print the given header before downloading
+#
+# --no-done                Disable calling 'INIT status-done' after downloading if '--header' is also specified
+
+source "$(dirname "${BASH_SOURCE[0]}")/../common"
+
+# Argument processing {{{
+ARG_HEADER=""
+ARG_DONE=1
+PARAMS=()
+while (( "$#" )); do
+	case "$1" in
+		-h|--header)
+			ARG_HEADER="$2"
+			shift
+			shift
+			;;
+		--no-done)
+			ARG_DONE=0
+			shift
+			;;
+		--) # end argument parsing
+			shift
+			break
+			;;
+		-*|--*=) # unsupported flags
+			echo "Error: Unsupported flag $1" >&2
+			exit 1
+			;;
+		*) # preserve positional arguments
+			PARAMS+=("$1")
+			shift
+			;;
+	esac
+done
+PARAMS+=("$@")
+# }}}
+
+if [[ "${#PARAMS[@]}" != 2 ]]; then
+	INIT panic "Usage: INIT download [--header text] [--no-done] <url> <path>"
+fi
+
+URL="${PARAMS[0]}"
+DST="${PARAMS[1]}"
+
+INIT apt-install --lazy --header "Installing Curl downloader" curl
+
+if [ -n "${ARG_HEADER}" ]; then
+	INIT status "${ARG_HEADER}"
+fi
+
+if [ -w "$(dirname "${DST}")" ]; then
+	curl -fsSL "${URL}" -o "${DST}"
+else
+	sudo curl -fsSL "${URL}" -o "${DST}"
+fi
+
+if [[ -n "${ARG_HEADER}" && "${ARG_DONE}" == '1' ]]; then
+	INIT status-done
+fi

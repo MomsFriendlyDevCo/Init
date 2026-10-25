@@ -5,7 +5,7 @@ source "$(dirname "${BASH_SOURCE[0]}")/./common"
 
 if [ ! -e '/etc/apt/keyrings/syncthing-archive-keyring.gpg' ]; then
 	INIT status "Installing Syncthing PPA"
-	sudo curl -L -o /etc/apt/keyrings/syncthing-archive-keyring.gpg https://syncthing.net/release-key.gpg
+	INIT download https://syncthing.net/release-key.gpg /etc/apt/keyrings/syncthing-archive-keyring.gpg
 
 INIT file-set '/etc/apt/sources.list.d/syncthing.list' <<EOF
 deb [signed-by=/etc/apt/keyrings/syncthing-archive-keyring.gpg] https://apt.syncthing.net/ syncthing stable-v2

@@ -64,11 +64,9 @@ if [[ "$IS_LAZY" == 1 && -e "$LIST_PATH" ]]; then
 	exit 0
 fi
 
-INIT apt-install --lazy curl
-
 # Download key, storing as .asc (ASCII armored) or .gpg (binary) as APT uses the extension to determine the format
 KEY_TMP=$(mktemp)
-curl -fsSL "$KEY_URL" -o "$KEY_TMP"
+INIT download "$KEY_URL" "$KEY_TMP"
 if grep -q -- '-----BEGIN PGP PUBLIC KEY BLOCK-----' "$KEY_TMP"; then
 	KEY_PATH="/etc/apt/keyrings/${NAME}.asc"
 else

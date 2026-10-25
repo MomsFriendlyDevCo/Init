@@ -23,9 +23,12 @@ if [ -e "/etc/apt/keyrings/nodesource.gpg" ]; then
 	INIT status-skip "Install Nodesource GPG keys"
 else
 	INIT status "Install Nodesource GPG keys"
-	INIT apt-install --lazy ca-certificates curl gnupg
+	INIT apt-install --lazy ca-certificates gnupg
 	sudo mkdir -p /etc/apt/keyrings 2>/dev/null
-	curl -fsSL https://deb.nodesource.com/gpgkey/nodesource-repo.gpg.key | sudo gpg --dearmor -o /etc/apt/keyrings/nodesource.gpg
+	KEY_TMP=$(mktemp)
+	INIT download https://deb.nodesource.com/gpgkey/nodesource-repo.gpg.key "$KEY_TMP"
+	sudo gpg --dearmor -o /etc/apt/keyrings/nodesource.gpg "$KEY_TMP"
+	rm "$KEY_TMP"
 	INIT status-done
 fi
 

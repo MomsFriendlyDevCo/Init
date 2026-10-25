@@ -5,7 +5,7 @@ source "$(dirname "${BASH_SOURCE[0]}")/./common"
 
 INIT apt-remove --lazy --header 'Removing older Docker versions' docker.io
 
-INIT apt-install --lazy --header 'Install docker pre-requisites' ca-certificates curl
+INIT apt-install --lazy --header 'Install Docker pre-requisites' ca-certificates
 
 if [ ! -e '/etc/apt/keyrings/docker.asc' ]; then
 	INIT status 'Installing Docker Apt key'
@@ -13,7 +13,7 @@ if [ ! -e '/etc/apt/keyrings/docker.asc' ]; then
 		sudo mkdir '/etc/apt/keyrings'
 	fi
 
-	sudo curl -fsSL https://download.docker.com/linux/ubuntu/gpg -o /etc/apt/keyrings/docker.asc
+	INIT download https://download.docker.com/linux/ubuntu/gpg /etc/apt/keyrings/docker.asc
 	sudo chmod a+r /etc/apt/keyrings/docker.asc
 fi
 
