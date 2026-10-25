@@ -97,6 +97,7 @@ if [ `INIT bin-available snap` == 1 ]; then
 	INIT status "Optimize Snap cache"
 	sudo snap set system refresh.retain=2
 	sudo snap set system snapshots.automatic.retention=no
+	INIT status-done
 
 	if [ -d "/var/lib/snapd/cache" ]; then
 		INIT status "Clean Snap cache"
