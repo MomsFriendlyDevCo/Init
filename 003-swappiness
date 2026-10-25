@@ -1,11 +1,9 @@
 #!/bin/bash
-# Adjust swappiness (cache RAM usage) for OS's that really care about total RAM used
+# Adjust swappiness (cache RAM usage) for OS's that really care about total RAM used, value is set via PROFILE_SWAPPINESS
 
 source "$(dirname "${BASH_SOURCE[0]}")/./common"
 
-# Standard Default=60, lower numbers mean more RAM but less disk usage, higher means crash to disk more often
-# For servers, lower is better
-SWAPINESS=30
+SWAPINESS=`INIT ask --prompt "Swappiness value" --var "PROFILE_SWAPPINESS" --default "30"`
 
 INIT status "Releasing cache memory"
 sudo sysctl -w vm.drop_caches=3

@@ -7,6 +7,11 @@ PROFILE_HOSTNAME=
 # Swap file size (003-swap)
 PROFILE_SWAP_SIZE=4G
 
+# Swappiness (003-swappiness)
+# Standard Default=60, lower numbers mean more RAM but less disk usage, higher means crash to disk more often
+# For servers, lower is better
+PROFILE_SWAPPINESS=30
+
 # Default Zabbix server to use
 PROFILE_ZABBIX_SERVER=calculon.mfdc.io
 
