@@ -17,6 +17,7 @@ INIT apt-install --lazy --header "Installing Tmux prerequisites" \
 INIT status "Downloading Tmux"
 INIT source-clone tmux https://github.com/tmux/tmux.git
 cd "$INIT_SRC/tmux"
+INIT status-done
 
 
 INIT status "Building Tmux"
@@ -28,3 +29,5 @@ make
 
 # Note: install-exec-hook installs the manpage
 sudo make install install-exec-hook
+
+INIT status-done

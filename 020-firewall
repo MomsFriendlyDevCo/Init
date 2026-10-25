@@ -6,10 +6,10 @@ source "$(dirname "${BASH_SOURCE[0]}")/./common"
 if [ `INIT service-available firewalld` == 1 ]; then
 	INIT status "Disable FirewallD (conflicts with UFW)"
 	sudo systemctl disable firewalld
+	INIT status-done
 fi
 
-INIT status "Install Firewall scripts"
-INIT apt-install ufw
+INIT apt-install --lazy --header "Install Firewall scripts" ufw
 
 
 INIT status "Configure Firewall"
@@ -18,10 +18,10 @@ sudo ufw default allow outgoing
 sudo ufw allow ssh
 sudo ufw allow http
 sudo ufw allow https
+INIT status-done
 
 
-INIT status "Enable Firewall"
+INIT status "Enable + Start Firewall"
 INIT config-set /etc/ufw/ufw.conf 'ENABLED' 'yes'
-
-INIT status "Start Firewall"
 sudo ufw --force enable
+INIT status-done

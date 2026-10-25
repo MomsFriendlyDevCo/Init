@@ -12,13 +12,12 @@ deb [signed-by=/etc/apt/keyrings/syncthing-archive-keyring.gpg] https://apt.sync
 EOF
 
 	INIT apt-update
+	INIT status-done
 else
 	INIT status-skip "Installing Syncthing PPA"
 fi
 
-
-INIT status 'Install Syncthing'
-INIT apt-install syncthing
+INIT apt-install --lazy --header 'Install Syncthing' syncthing
 
 
 if [ ! -f '/etc/systemd/system/syncthing.service' ]; then
@@ -57,6 +56,7 @@ EOF
 	sudo systemctl daemon-reload
 	sudo systemctl start syncthing
 	sudo systemctl enable syncthing
+	INIT status-done
 else
-	INIT status-skip "Setup Syncthing as a SystemD service"
+	INIT status-skip "Setup Syncthing as a SystemD service - already present"
 fi

@@ -22,4 +22,5 @@ if [ "$TIMEZONE" != "$SYS_TIMEZONE" ]; then
 	sudo timedatectl set-timezone "$TIMEZONE"
 	sudo /etc/init.d/cron restart
 	timedatectl
+	INIT status-done
 fi

@@ -5,15 +5,18 @@ source "$(dirname "${BASH_SOURCE[0]}")/./common"
 
 RCLONE_VERSION="1.75.0"
 
-INIT apt-install --lazy fuse3 --header 'Install rclone prereqs'
+INIT apt-install --lazy fuse3 --header 'Install RClone prereqs'
 
 if [ "`dpkg-query -W -f='${Version}' rclone 2>/dev/null`" == "${RCLONE_VERSION}" ]; then
-	INIT status-skip "Install Rclone ${RCLONE_VERSION} - already installed"
+	INIT status-skip "Install RClone ${RCLONE_VERSION} - already installed"
 else
 	INIT apt-install-url "https://downloads.rclone.org/v${RCLONE_VERSION}/rclone-v${RCLONE_VERSION}-linux-amd64.deb"
 fi
 
-if [ ! -d "$HOME/.config/rclone" ]; then
-	INIT status 'Creating empty Rclone config'
+if [ -d "$HOME/.config/rclone" ]; then
+	INIT status-skip 'Creating empty RClone config - Already present'
+else
+	INIT status 'Creating empty RClone config'
 	mkdir -p "$HOME/.config/rclone"
-fi
+	INIT status-done
+else

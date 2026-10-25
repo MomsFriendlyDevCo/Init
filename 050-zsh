@@ -5,6 +5,7 @@ source "$(dirname "${BASH_SOURCE[0]}")/./common"
 
 INIT status "Install ZSH"
 INIT apt-install zsh
+INIT status-done
 
 
 INIT status "Set shell"
@@ -12,3 +13,4 @@ sudo chsh "$USER" -s /bin/zsh
 if [ -d "$HOME/.zsh" ]; then
 	sudo chown -R "$USER:$USER" "$HOME/.zsh"
 fi
+INIT status-done

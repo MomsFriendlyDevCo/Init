@@ -23,5 +23,4 @@ Pin: version 1:1snap*
 Pin-Priority: -1
 EOF
 
-INIT status "Install Firefox"
-INIT apt-install firefox
+INIT apt-install --lazy --header "Install Firefox" firefox

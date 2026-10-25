@@ -13,20 +13,23 @@ INIT apt-install --lazy --header "Install Pre-requisites" \
 	zlib1g-dev \
 
 
+INIT status "Download + Build Mosh from source"
 INIT source-clone mosh https://github.com/mobile-shell/mosh
 INIT go-src mosh
 
-INIT status "Building Mosh"
 if [ -f Makefile ]; then
 	make clean
 fi
+
 ./autogen.sh
 ./configure
 make
 
-INIT status "Installing Mosh"
 sudo make install
+INIT status-done
+
 
 
 INIT status "Allowing Mosh firewall rule"
 sudo ufw allow 60000:61000/udp
+INIT status-done

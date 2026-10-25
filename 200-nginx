@@ -6,6 +6,7 @@ source "$(dirname "${BASH_SOURCE[0]}")/./common"
 INIT status "Install Nginx via Apt"
 INIT apt-repo-install nginx https://nginx.org/keys/nginx_signing.key "http://nginx.org/packages/ubuntu $(lsb_release -cs) nginx"
 INIT apt-install nginx
+INIT status-done
 
 
 # TLS certificate {{{
@@ -90,8 +91,10 @@ http {
 	# }}}
 }
 EOF
+INIT status-done
 
 
 INIT status "Restart Nginx"
 sudo nginx -t
 sudo systemctl restart nginx
+INIT status-done

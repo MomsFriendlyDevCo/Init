@@ -3,12 +3,15 @@
 
 source "$(dirname "${BASH_SOURCE[0]}")/./common"
 
+INIT status "Download + Build Wezterm from source"
 INIT source-clone "wezterm" https://github.com/wez/wezterm.git
 INIT go-src wezterm
+INIT status-done
 
 INIT status "Installing dependencies"
 ./get-deps
 INIT cargo-install cargo-deb
+INIT status-done
 
 
 INIT status "Building Wezterm"
@@ -17,7 +20,8 @@ cargo clean
 cargo build \
 	--release \
 	--no-default-features \
-	--features vendored-fonts \
+	--features vendored-fonts
+INIT status-done
 
 
 INIT status "Installing Wezterm DEB"
@@ -36,3 +40,5 @@ cargo deb \
 	--install \
 	--package wezterm-gui \
 	--deb-revision "$NOW"
+
+INIT status-done

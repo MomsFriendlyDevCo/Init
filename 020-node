@@ -15,6 +15,7 @@ elif [ `INIT bin-available node` == 1 ]; then
 	INIT apt-remove --mode purge nodejs
 	if [ `INIT bin-available node` == 1 ]; then
 		sudo rm `which node`
+		INIT status-done
 	fi
 fi
 
@@ -25,33 +26,38 @@ else
 	INIT apt-install --lazy ca-certificates curl gnupg
 	sudo mkdir -p /etc/apt/keyrings 2>/dev/null
 	curl -fsSL https://deb.nodesource.com/gpgkey/nodesource-repo.gpg.key | sudo gpg --dearmor -o /etc/apt/keyrings/nodesource.gpg
+	INIT status-done
 fi
 
 if [ -e "/etc/apt/sources.list.d/nodesource_${NODE_VERSION}.list" ]; then
-	INIT status-skip "Install Apt reference for Node ${NODE_VERSION}"
+	INIT status-skip "Install Apt reference for Node ${NODE_VERSION} - already present"
 else
 	INIT status "Install Apt reference for Node ${NODE_VERSION}"
 INIT file-set "/etc/apt/sources.list.d/nodesource_${NODE_VERSION}.list" <<EOF
 deb [signed-by=/etc/apt/keyrings/nodesource.gpg] https://deb.nodesource.com/node_$NODE_VERSION.x nodistro main
 EOF
+	INIT status-done
 fi
 
 INIT status "Install Node from Apt"
 INIT apt-update
 INIT apt-install nodejs
+	INIT status-done
 
 if [ -e "$HOME/.npmrc" ]; then
-	INIT status-skip "NPM config already exists"
+	INIT status-skip "Install NPM config - NPM config already exists"
 else
 	INIT status "Install NPM config"
 	echo 'bin-links=true' >>~/.npmrc
 	echo 'save=true' >>~/.npmrc
 	echo 'loglevel=http' >>~/.npmrc
 	echo 'registry=https://registry.npmjs.org' >>~/.npmrc
+	INIT status-done
 fi
 
 INIT status "Upgrade NPM to latest"
 INIT npm-install npm@latest
+INIT status-done
 
 INIT status "Install common global NPMs"
 INIT npm-install \
@@ -69,22 +75,24 @@ INIT npm-install \
 	mocha \
 	npm-check-updates \
 
+INIT status-done
+
 
 INIT status "Permit Node to have port 80 access"
 INIT apt-install --lazy libcap2-bin
 sudo setcap cap_net_bind_service=+ep /usr/bin/node
 
-INIT status "Setup NODE_ENV"
-
 if [ `INIT file-grep-matches "$HOME/.bashrc" "NODE_ENV"` == 1 ]; then
-	INIT status-skip "NODE_ENV already setup"
+	INIT status "Setup NODE_ENV - NODE_ENV already setup"
 else
 	INIT status "Installing NODE_ENV into ~/.bashrc, assuming 'production'"
 	echo "export NODE_ENV=production" >>~/.bashrc
 	export NODE_ENV=production
+	INIT status-done
 fi
 
 if [ -d "/tmp/npm" ]; then
 	INIT status "Reset permissions on /tmp/npm"
 	sudo chmod 0777 -R /tmp/npm
+	INIT status-done
 fi

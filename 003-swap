@@ -25,3 +25,5 @@ sudo swapon "${SWAP_FILE}"
 INIT file-set --append /etc/fstab <<EOF
 ${SWAP_FILE}    none    swap    sw    0    0
 EOF
+
+INIT status-done

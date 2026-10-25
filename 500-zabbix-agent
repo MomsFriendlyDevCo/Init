@@ -13,18 +13,17 @@ else
 	INIT status "Setup Zabbix ${ZABBIX_VERSION} APT repo"
 	INIT apt-install-url "https://repo.zabbix.com/zabbix/${ZABBIX_VERSION}/release/ubuntu/pool/main/z/zabbix-release/zabbix-release_${ZABBIX_VERSION}-1+ubuntu$(lsb_release -rs)_all.deb"
 	INIT apt-update
+	INIT status-done
 fi
 
-INIT status "Setup Zabbix-Agent (+Plugins)"
-
-INIT apt-install \
+INIT apt-install --header "Install Zabbix components" \
 	zabbix-agent2 \
 	zabbix-agent2-plugin-mongodb \
 	zabbix-agent2-plugin-postgresql \
 
 
 if [ -e "/etc/zabbix/zabbix_agentd.psk" ]; then
-	INIT status-skip "Generate Zabbix PSK Key"
+	INIT status-skip "Generate Zabbix PSK Key - already present"
 else
 	INIT status "Generate Zabbix PSK key"
 	sudo sh -c "umask 077 && openssl rand -hex 32 > /etc/zabbix/zabbix_agentd.psk"
@@ -36,11 +35,13 @@ else
 	echo "Press enter to continue, when this has been noted"
 	echo
 	read
+	INIT status-done
 fi
 
 INIT status "Restrict Zabbix PSK key permissions"
 sudo chown zabbix:zabbix /etc/zabbix/zabbix_agentd.psk
 sudo chmod 600 /etc/zabbix/zabbix_agentd.psk
+INIT status-done
 
 
 echo
@@ -80,7 +81,9 @@ EOF
 
 sudo systemctl restart zabbix-agent2
 sudo systemctl enable zabbix-agent2
+INIT status-done
 
 
-INIT status "Installing Firewall rule"
+INIT status "Installing Zabbix Agent Active firewall rule"
 sudo ufw allow 10050/tcp
+INIT status-done

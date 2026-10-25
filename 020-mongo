@@ -53,6 +53,7 @@ fi
 INIT status "Disable Kernel hugepages"
 echo never | sudo tee /sys/kernel/mm/transparent_hugepage/enabled >/dev/null
 echo never | sudo tee /sys/kernel/mm/transparent_hugepage/defrag >/dev/null
+INIT status-done
 
 
 INIT status "Disable Kernel hugepages (install into rc.local)"
@@ -64,11 +65,14 @@ exit 0
 EOF
 
 sudo chmod +x /etc/rc.local
+INIT status-done
 
 
 INIT status "Enable Mongo at startup"
 sudo systemctl enable mongod
+INIT status-done
 
 
 INIT status "Start Mongo service"
 sudo systemctl start mongod
+INIT status-done

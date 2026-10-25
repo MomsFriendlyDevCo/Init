@@ -7,3 +7,4 @@ INIT apt-install --lazy --header 'Install Silicon pre-requisites' pkg-config lib
 
 INIT status "Install Silicon"
 INIT cargo-install silicon
+INIT status-done

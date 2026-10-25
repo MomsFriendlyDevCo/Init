@@ -4,10 +4,11 @@
 source "$(dirname "${BASH_SOURCE[0]}")/./common"
 
 if [ `INIT bin-available tailscale` == 1 ]; then
-	INIT status-skip "Install Tailscale"
+	INIT status-skip "Install Tailscale - already installed"
 else
-	INIT apt-install --lazy curl
+	INIT apt-install --header 'Download Curl' --lazy curl
 
 	INIT status "Install Tailscale"
 	curl -fsSL https://tailscale.com/install.sh | sh
+	INIT status-done
 fi

@@ -5,8 +5,9 @@ source "$(dirname "${BASH_SOURCE[0]}")/./common"
 
 # Check if letsencrypt is already installed
 if [ `INIT bin-available certbot` == 1 ]; then
-	INIT status-skip "LetsEncrypt is already installed"
+	INIT status-skip "Install LetsEncrypt - already installed"
 else
 	INIT status "Install LetsEncrypt"
 	INIT snap-install --classic certbot
+	INIT status-done
 fi

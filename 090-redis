@@ -5,15 +5,13 @@ source "$(dirname "${BASH_SOURCE[0]}")/./common"
 
 INIT apt-install --lazy --header "Install Redis build dependencies" libsystemd-dev libssl-dev
 
-INIT status "Download Redis source"
+INIT status "Build Redis from source"
 INIT source-clone redis https://github.com/redis/redis.git
 INIT go-src redis
-
-
-INIT status "Build Redis from source"
 make clean
 make distclean
 make BUILD_TLS=yes USE_SYSTEMD=yes MALLOC=jemalloc
+INIT status-done
 
 
 # NOTE: `make test` failing as of 2026-10-07 so skipped - MC
@@ -25,14 +23,16 @@ make BUILD_TLS=yes USE_SYSTEMD=yes MALLOC=jemalloc
 INIT apt-remove --lazy --header "Remove Existing Redis APT distributions" redis redis-tools
 
 
-INIT status "Finalizing Redis install"
+INIT status "Installing Redis binary"
 sudo make install
+INIT status-done
 
 
 if [ ! -d "/etc/redis" ]; then
 	INIT status "Setup base Redis config"
 	sudo mkdir /etc/redis
 	sudo cp redis.conf /etc/redis
+	INIT status-done
 else
 	INIT status-skip "Setup base Redis config - /etc/redis already exists"
 fi
@@ -58,6 +58,7 @@ EOF
 	sudo systemctl daemon-reload
 	sudo systemctl start redis
 	sudo systemctl enable redis
+	INIT status-done
 else
-	INIT status-skip "Setup Redis as a SystemD service"
+	INIT status-skip "Setup Redis as a SystemD service - already present"
 fi

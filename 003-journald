@@ -5,10 +5,14 @@ source "$(dirname "${BASH_SOURCE[0]}")/./common"
 
 INIT status "Limiting JournalCtl log size to 64mb"
 INIT config-set /etc/systemd/journald.conf 'SystemMaxUse' '64M'
+INIT status-done
 
 
 INIT status "Vacuum existing JournalCtl logs"
 sudo journalctl --vacuum-size=64M
+INIT status-done
+
 
 INIT status "Restart JournalD"
 sudo systemctl restart systemd-journald
+INIT status-done

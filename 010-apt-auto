@@ -3,8 +3,7 @@
 
 source "$(dirname "${BASH_SOURCE[0]}")/./common"
 
-INIT status "Install Auto-update APT packages"
-INIT apt-install --ignore-missing \
+INIT apt-install --lazy --header "Install Auto-update APT packages" --ignore-missing \
 	cron-apt \
 	software-properties-common \
 	unattended-upgrades \

@@ -5,3 +5,4 @@ source "$(dirname "${BASH_SOURCE[0]}")/./common"
 
 INIT status "Disable Apport error reporting"
 INIT config-set /etc/default/apport 'enabled' '0'
+INIT status-done

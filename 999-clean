@@ -5,30 +5,39 @@ source "$(dirname "${BASH_SOURCE[0]}")/./common"
 
 INIT status "Removing temporary files (>3 days)"
 INIT tolerate find /tmp -type f -mtime +3 -delete 2>/dev/null
+INIT status-done
 
 INIT status "Removing persistent temporary files (>10 days)"
 INIT tolerate sudo find /var/tmp -type f -mtime +10 -delete 2>/dev/null
+INIT status-done
 
 INIT status "Clean systemd managed temporary files"
 INIT tolerate sudo systemd-tmpfiles --clean
+INIT status-done
 
 INIT status "Removing temporary Cargo install profiles"
 INIT tolerate rm -r /tmp/*cargo* 2>/dev/null
+INIT status-done
 
 INIT status "Clean apt cache"
 sudo apt autoclean
+INIT status-done
 
 INIT status "Clean apt dependencies"
 sudo apt -y autoremove
+INIT status-done
 
 INIT status "Vacuum kernel logs"
 sudo journalctl --vacuum-time=3d
+INIT status-done
 
 INIT status "Removing rotated logs"
 INIT tolerate sudo find /var/log -type f \( -name '*.gz' -o -name '*.[0-9]' -o -name '*.old' \) -delete 2>/dev/null
+INIT status-done
 
 INIT status "Removing crash reports + core dumps"
 INIT tolerate sudo find /var/crash /var/lib/systemd/coredump -mindepth 1 -type f -delete 2>/dev/null
+INIT status-done
 
 INIT rm-lazy --sudo --header "Clean user cache" "$HOME/.cache"
 INIT rm-lazy --sudo --header "Clean legacy thumbnail cache" "$HOME/.thumbnails"
@@ -45,31 +54,37 @@ INIT rm-lazy --sudo --header "Clean root user cache" /root/.cache
 if [ `INIT bin-available flatpak` == 1 ]; then
 	INIT status "Clean Flatpak unused packages"
 	flatpak uninstall --unused -y
+	INIT status-done
 fi
 
 if [ `INIT bin-available npm` == 1 ]; then
 	INIT status "Clean NPM cache"
 	npm cache clean --force
+	INIT status-done
 fi
 
 if [ `INIT bin-available pnpm` == 1 ]; then
 	INIT status "Clean PNPM cache"
 	pnpm store prune
+	INIT status-done
 fi
 
 if [ `INIT bin-available yarn` == 1 ]; then
 	INIT status "Clean Yarn cache"
 	yarn cache clean
+	INIT status-done
 fi
 
 if [ `INIT bin-available cargo-cache` == 1 ]; then
 	INIT status "Clean Cargo cache"
 	cargo cache -a
+	INIT status-done
 fi
 
 if [ `INIT bin-available docker` == 1 ]; then
 	INIT status "Clean Docker cache"
 	docker system prune --force
+	INIT status-done
 fi
 
 if [ `INIT bin-available snap` == 1 ]; then
@@ -87,6 +102,7 @@ if [ `INIT bin-available snap` == 1 ]; then
 		echo "- Clean snap revision $SNAP_NAME@$SNAP_REV"
 		sudo snap remove "$SNAP_NAME" --revision="$SNAP_REV"
 	done
+	INIT status-done
 fi
 
 INIT status "Report root file-system usage"

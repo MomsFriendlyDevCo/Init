@@ -4,8 +4,7 @@
 source "$(dirname "${BASH_SOURCE[0]}")/./common"
 
 
-INIT status "Install all theme packages"
-INIT apt-install --ignore-missing \
+INIT apt-install --lazy --header "Install all theme packages" --ignore-missing \
 	arc-theme \
 	materia-gtk-theme \
 	oxygen-cursor-theme \

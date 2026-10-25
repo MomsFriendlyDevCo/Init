@@ -7,3 +7,4 @@ source "$(dirname "${BASH_SOURCE[0]}")/./common"
 INIT status "Reset system swap"
 sudo swapoff -a
 sudo swapon -a
+INIT status-done

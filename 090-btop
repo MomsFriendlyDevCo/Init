@@ -8,34 +8,41 @@ INIT apt-install --lazy --header "Install Pre-requisites" wget
 if [ -d "${INIT_SRC}/btop" ]; then
 	INIT status "Removing older build directory"
 	rm -rf "${INIT_SRC}/btop"
+	INIT status-done
 fi
 
 if [ -f "${INIT_SRC}/btop.tar.gz" ]; then
 	INIT status "Removing older build tarball"
 	rm "${INIT_SRC}/btop.tar.gz"
+	INIT status-done
 fi
 
 
 INIT status "Downloading latest Btop"
 wget https://github.com/aristocratos/btop/releases/latest/download/btop-x86_64-unknown-linux-musl.tar.gz -O "${INIT_SRC}/btop.tar.gz"
+	INIT status-done
 
 
 INIT status "Extracting Btop"
 cd "${INIT_SRC}"
 tar xf "${INIT_SRC}/btop.tar.gz"
 rm "${INIT_SRC}/btop.tar.gz"
+	INIT status-done
 
 
 INIT status "Installing BTop"
 INIT go-src btop
 sudo make install
+	INIT status-done
 
 
 INIT status "Install BTop Intel layer"
 sudo make setcap
 sudo make setuid
+	INIT status-done
 
 
 INIT status "Cleaning up"
 cd
 rm -rf "${INIT_SRC}/btop"
+INIT status-done

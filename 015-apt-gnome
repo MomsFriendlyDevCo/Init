@@ -3,9 +3,7 @@
 
 source "$(dirname "${BASH_SOURCE[0]}")/./common"
 
-INIT status "Install common GNOME modules"
-
-INIT apt-install \
+INIT apt-install --lazy --header "Install common GNOME modules" \
 	gnome-art \
 	gnome-netstatus-applet \
 	gnome-themes-extras \

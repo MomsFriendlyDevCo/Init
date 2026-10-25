@@ -7,9 +7,10 @@
 
 source "$(dirname "${BASH_SOURCE[0]}")/./common"
 
+INIT status "Downloading + Building FZF"
 INIT source-clone fzf https://github.com/junegunn/fzf.git
 INIT go-src fzf
 
-INIT status "Building FZF"
 ./install --key-bindings --completion --update-rc
 sudo cp bin/fzf /bin/
+INIT status-done

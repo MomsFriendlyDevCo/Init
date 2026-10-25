@@ -9,6 +9,7 @@ SWAPINESS=30
 
 INIT status "Releasing cache memory"
 sudo sysctl -w vm.drop_caches=3
+INIT status-done
 
 
 INIT status "Adjusting swappiness"
@@ -17,3 +18,5 @@ INIT status "Adjusting swappiness"
 sudo sysctl "vm.swappiness=${SWAPINESS}"
 
 INIT config-set /etc/sysctl.conf 'vm.swappiness' "${SWAPINESS}"
+
+INIT status-done

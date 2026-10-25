@@ -3,8 +3,7 @@
 
 source "$(dirname "${BASH_SOURCE[0]}")/./common"
 
-INIT status "Install CPAN"
-INIT apt-install cpan
+INIT apt-install --lazy --header "Install CPAN" cpan
 
 
 INIT status "Install CPAN base modules"

@@ -4,11 +4,13 @@
 source "$(dirname "${BASH_SOURCE[0]}")/./common"
 
 if [ `INIT bin-available flatpak` == 1 ]; then
-	INIT status-skip "Install Flatpak"
+	INIT status-skip "Install Flatpak - already installled"
 else
 	INIT status "Install Flatpak"
 	INIT apt-install flatpak
+	INIT status-done
 fi
 
 INIT status "Configure Flathub"
 sudo flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo
+INIT status-done

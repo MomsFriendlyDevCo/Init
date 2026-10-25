@@ -6,17 +6,15 @@ source "$(dirname "${BASH_SOURCE[0]}")/./common"
 
 INIT apt-install --lazy --header "Install ZSH prerequisites" python2
 
+INIT status "Download + Build ZSH from source"
 INIT source-clone zsh https://github.com/zsh-users/zsh.git
 INIT go-src zsh
-
 
 if [ -f Makefile ]; then
 	INIT status "Clearing state"
 	make distclean
 fi
 
-
-INIT status "Build ZSH"
 ./Util/preconfig
 ./configure --prefix=/usr/local --bindir=/bin --sbindir=/sbin
 make
@@ -25,3 +23,4 @@ make
 # Note we skip `make install` and pick the specifics as the `make install.man` is bugged at time of writing - MC 2022-03-15
 sudo make install.bin
 sudo make install.modules
+INIT status-done

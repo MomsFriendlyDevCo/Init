@@ -5,6 +5,14 @@ source "$(dirname "${BASH_SOURCE[0]}")/./common"
 
 INIT status "Install XScreensaver PPA"
 sudo add-apt-repository -y ppa:savoury1/xscreensaver
+INIT status-done
 
-INIT status "Install XScreensaver components"
-INIT apt-install xscreensaver xscreensaver-screensaver-bsod xscreensaver-gl xscreensaver-gl-extra xscreensaver-data xscreensaver-data-extra
+INIT apt-install --lazy --header "Install XScreensaver components" \
+	xscreensaver \
+	xscreensaver-screensaver-bsod \
+	xscreensaver-gl \
+	xscreensaver-gl-extra \
+	xscreensaver-data \
+	xscreensaver-data-extra \
+
+INIT status-done

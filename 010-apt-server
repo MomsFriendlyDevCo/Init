@@ -3,11 +3,9 @@
 
 source "$(dirname "${BASH_SOURCE[0]}")/./common"
 
-INIT apt-remove --header "Remove Server unsuitable APT packages" samba
+INIT apt-remove --lazy --header "Remove Server unsuitable APT packages" samba
 
-
-INIT status "Install Server APT packages"
-INIT apt-install --ignore-missing \
+INIT apt-install --lazy --header "Install Server APT packages" --ignore-missing \
 	autossh \
 	bmon \
 	build-essential \

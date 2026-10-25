@@ -3,8 +3,7 @@
 
 source "$(dirname "${BASH_SOURCE[0]}")/./common"
 
-INIT status "Install common XFCE modules"
-INIT apt-install \
+INIT apt-install --lazy --header "Install common XFCE modules" \
 	ffmpegthumbnailer \
 	tumbler \
 	tumbler-plugins-extra \

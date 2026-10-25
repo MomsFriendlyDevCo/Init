@@ -70,13 +70,18 @@ done
 
 if [ "${#CARGO_PKGS_FAILED[@]}" -gt 0 ]; then
 	INIT fixme "Failed to install ${#CARGO_PKGS_FAILED[@]} Cargo packages: ${CARGO_PKGS_FAILED[*]}"
+else
+	INIT status-done
 fi
 
 INIT status "Install RipGrep + PCRE2 support"
 INIT cargo-install --no-clean ripgrep --features pcre2
+INIT status-done
 
 INIT status "Install Rat-Commander"
 INIT cargo-install --no-clean --git https://github.com/dividebysandwich/rat-commander
+INIT status-done
 
 INIT status "Cleanup"
 cargo cache -a
+INIT status-done

@@ -19,7 +19,7 @@
 
 source "$(dirname "${BASH_SOURCE[0]}")/./common"
 
-INIT apt-install --header "Install minimal XFCE desktop" --no-install-recommends \
+INIT apt-install --lazy --header "Install minimal XFCE desktop" --no-install-recommends \
 	dbus-x11 \
 	x11-xserver-utils \
 	xfce4 \
@@ -35,11 +35,13 @@ INIT apt-install --lazy --header "Install XRDP" \
 
 INIT status "Set XFCE as the default X session manager"
 sudo update-alternatives --set x-session-manager /usr/bin/xfce4-session
+INIT status-done
 
 
 if [ ! -f "$HOME/.xsession" ]; then
 	INIT status "Set XFCE as the X session for $USER"
 	echo 'exec startxfce4' > "$HOME/.xsession"
+	INIT status-done
 else
 	INIT status-skip "Set XFCE as the X session for $USER - ~/.xsession already exists"
 fi
@@ -50,6 +52,7 @@ INIT config-set /etc/xrdp/sesman.ini 'KillDisconnected' 'false'
 INIT config-set /etc/xrdp/sesman.ini 'DisconnectedTimeLimit' '0'
 INIT config-set /etc/xrdp/sesman.ini 'IdleTimeLimit' '0'
 INIT config-set /etc/xrdp/sesman.ini 'Policy' 'Default'
+INIT status-done
 
 
 # TLS certificate {{{
@@ -74,6 +77,7 @@ done
 INIT status "Install TLS certificate for XRDP from $RDP_CERT"
 sudo install -o root -g xrdp -m 640 "$RDP_CERT" /etc/xrdp/rdp-cert.pem
 sudo install -o root -g xrdp -m 640 "$RDP_KEY" /etc/xrdp/rdp-key.pem
+INIT status-done
 
 
 if [ -d /etc/letsencrypt ]; then
@@ -90,6 +94,7 @@ install -o root -g xrdp -m 640 "$RDP_KEY" /etc/xrdp/rdp-key.pem
 systemctl restart xrdp
 EOF
 	sudo chmod +x /etc/letsencrypt/renewal-hooks/deploy/xrdp
+	INIT status-done
 else
 	INIT status-skip "Install LetsEncrypt renewal hook - /etc/letsencrypt not present"
 fi
@@ -100,11 +105,13 @@ INIT config-set /etc/xrdp/xrdp.ini 'security_layer' 'tls'
 INIT config-set /etc/xrdp/xrdp.ini 'ssl_protocols' 'TLSv1.2, TLSv1.3'
 INIT config-set /etc/xrdp/xrdp.ini 'certificate' '/etc/xrdp/rdp-cert.pem'
 INIT config-set /etc/xrdp/xrdp.ini 'key_file' '/etc/xrdp/rdp-key.pem'
+INIT status-done
 # }}}
 
 
 INIT status "Disable XRDP root login"
 INIT config-set /etc/xrdp/sesman.ini 'AllowRootLogin' 'false'
+INIT status-done
 
 
 # RDP group policy {{{
@@ -113,16 +120,19 @@ RDP_GROUP=`INIT ask --prompt "Group allowed to connect via RDP" --var "PROFILE_R
 if [ -z "`getent group "$RDP_GROUP"`" ]; then
 	INIT status "Create RDP group '$RDP_GROUP'"
 	sudo groupadd "$RDP_GROUP"
+	INIT status-done
 else
 	INIT status-skip "Create RDP group '$RDP_GROUP' - already exists"
 fi
 
 INIT status "Add $USER to RDP group '$RDP_GROUP'"
 sudo usermod -aG "$RDP_GROUP" "$USER"
+INIT status-done
 
 INIT status "Restrict XRDP logins to members of '$RDP_GROUP'"
 INIT config-set /etc/xrdp/sesman.ini 'TerminalServerUsers' "$RDP_GROUP"
 INIT config-set /etc/xrdp/sesman.ini 'AlwaysGroupCheck' 'true'
+INIT status-done
 # }}}
 
 
@@ -140,6 +150,7 @@ Comment=Screen locking is redundant as XRDP authenticates each connection - inst
 Exec=xset s off -dpms
 NoDisplay=true
 EOF
+	INIT status-done
 else
 	INIT status-skip "Disable screen locking within RDP sessions"
 	sudo rm -f /etc/xdg/autostart/xrdp-no-screen-lock.desktop
@@ -149,6 +160,7 @@ fi
 
 INIT status "Allow XRDP to read the system SSL certificate"
 sudo usermod -aG ssl-cert xrdp
+INIT status-done
 
 
 INIT status "Suppress Polkit authentication prompts within RDP sessions"
@@ -171,6 +183,7 @@ polkit.addRule(function(action, subject) {
 	}
 });
 EOF
+	INIT status-done
 else
 	sudo mkdir -p /etc/polkit-1/localauthority/50-local.d
 INIT file-set /etc/polkit-1/localauthority/50-local.d/45-xrdp.pkla <<EOF
@@ -188,12 +201,14 @@ ResultAny=yes
 ResultInactive=yes
 ResultActive=yes
 EOF
+	INIT status-done
 fi
 
 
 if [ `INIT bin-available ufw` == 1 ]; then
 	INIT status "Allowing RDP firewall rule"
 	sudo ufw allow 3389/tcp
+	INIT status-done
 else
 	INIT status-skip "Allowing RDP firewall rule - UFW not installed"
 fi
@@ -202,42 +217,7 @@ fi
 INIT status "Enable + restart XRDP services"
 sudo systemctl enable xrdp xrdp-sesman
 sudo systemctl restart xrdp-sesman xrdp
-
-
-# Fail2Ban {{{
-INIT apt-install --lazy --header "Install Fail2Ban" fail2ban
-
-INIT status "Install Fail2Ban XRDP filter"
-INIT file-set /etc/fail2ban/filter.d/xrdp.conf <<EOF
-# Failed XRDP logins - installed by Init/999-rdp
-# Matches lines like: [20261009-10:22:33] [INFO ] AUTHFAIL: user=bob ip=::ffff:1.2.3.4 time=1791541353
-
-[Definition]
-failregex = AUTHFAIL: user=.* ip=<HOST> time=\d+
-ignoreregex =
-datepattern = ^\[%%Y%%m%%d-%%H:%%M:%%S\]
-EOF
-
-INIT status "Install Fail2Ban XRDP jail"
-sudo touch /var/log/xrdp-sesman.log
-INIT file-set /etc/fail2ban/jail.d/xrdp.conf <<EOF
-# Ban repeated failed XRDP logins - installed by Init/999-rdp
-
-[xrdp]
-enabled = true
-port = 3389
-filter = xrdp
-backend = auto
-logpath = /var/log/xrdp-sesman.log
-maxretry = 5
-findtime = 10m
-bantime = 1h
-EOF
-
-INIT status "Restarting Fail2Ban"
-sudo systemctl enable fail2ban
-sudo systemctl restart fail2ban
-# }}}
+INIT status-done
 
 
 if [ "`sudo passwd -S "$USER" | awk '{print $2}'`" != 'P' ]; then

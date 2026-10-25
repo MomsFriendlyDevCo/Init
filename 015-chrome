@@ -10,5 +10,4 @@ else
 	INIT apt-repo-install --arch amd64 google https://dl-ssl.google.com/linux/linux_signing_key.pub 'http://dl.google.com/linux/chrome/deb/ stable main'
 fi
 
-INIT status "Install Google Chrome"
-INIT apt-install google-chrome-stable
+INIT apt-install --lazy --header "Install Google Chrome" google-chrome-stable

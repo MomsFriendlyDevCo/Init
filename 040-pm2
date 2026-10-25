@@ -5,6 +5,7 @@ source "$(dirname "${BASH_SOURCE[0]}")/./common"
 
 INIT status "Install PM2 globally"
 INIT npm-install pm2
+INIT status-done
 
 
 if [ -f "/etc/logrotate.d/pm2" ]; then
@@ -25,7 +26,9 @@ INIT file-set /etc/logrotate.d/pm2 <<EOF
   copytruncate
 }
 EOF
+	INIT status-done
 
 	INIT status "Restarting + Flushing Logrotate"
 	sudo systemctl restart logrotate
+	INIT status-done
 fi

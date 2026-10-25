@@ -3,5 +3,4 @@
 
 source "$(dirname "${BASH_SOURCE[0]}")/./common"
 
-INIT status "Install Snap"
-INIT apt-install snapd
+INIT apt-install --lazy --header "Install Snap" snapd

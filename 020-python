@@ -3,5 +3,6 @@
 
 source "$(dirname "${BASH_SOURCE[0]}")/./common"
 
-INIT status "Install Python + PIP"
-INIT apt-install python3 python3-pip
+INIT apt-install --lazy --header "Install Python + PIP" \
+	python3 \
+	python3-pip

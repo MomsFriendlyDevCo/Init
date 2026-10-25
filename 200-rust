@@ -7,6 +7,7 @@ INIT status "Install / Upgrade Rust"
 INIT bin-download-run 'https://sh.rustup.rs' -y --default-toolchain stable
 source "$HOME/.cargo/env"
 rustup default stable
+INIT status-done
 
 
 INIT apt-install --lazy --header "Install Cargo prerequisites" \
@@ -19,5 +20,4 @@ INIT apt-install --lazy --header "Install Cargo prerequisites" \
 	libssl-dev \
 	libxcb-composite0-dev \
 	pkg-config \
-
 

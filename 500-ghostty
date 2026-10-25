@@ -3,7 +3,8 @@
 
 source "$(dirname "${BASH_SOURCE[0]}")/./common"
 
-INIT status "Install latest Ghostty"
+INIT status "Install Ghostty PPA + Package"
 sudo add-apt-repository -y ppa:mkasberg/ghostty-ubuntu
 INIT apt-update
 INIT apt-install ghostty
+INIT status-done

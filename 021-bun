@@ -5,3 +5,4 @@ source "$(dirname "${BASH_SOURCE[0]}")/./common"
 
 INIT status "Install Bun via NPM"
 INIT npm-install --allow-scripts=bun bun
+INIT status-done

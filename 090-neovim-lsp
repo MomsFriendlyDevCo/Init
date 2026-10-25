@@ -12,3 +12,4 @@ INIT npm-install -g \
 	typescript-language-server \
 	vscode-langservers-extracted \
 
+INIT status-done

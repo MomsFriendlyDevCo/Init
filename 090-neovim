@@ -29,25 +29,29 @@ if [ `INIT bin-available npm` == 0 ]; then
 	exit 1
 fi
 npm i -g tree-sitter-cli --allow-scripts=tree-sitter-cli
+INIT status-done
 
 
+INIT status "Setup NeoVIM"
 INIT source-clone neovim https://github.com/neovim/neovim.git
 INIT go-src neovim
-
-INIT status "Clearing build state"
 make distclean
+INIT status-done
 
 INIT status "Building Neovim"
 make CMAKE_BUILD_TYPE=RelWithDebInfo
+INIT status-done
 
 INIT status "Installing Neovim"
 sudo make install
+INIT status-done
 
 INIT status "Set alternate linking for vi / vim / editor"
 NVIM=`which nvim`
 sudo update-alternatives --install /usr/bin/vi vi "$NVIM" 60
 sudo update-alternatives --install /usr/bin/vim vim "$NVIM" 60
 sudo update-alternatives --install /usr/bin/editor editor "$NVIM" 60
+INIT status-done
 
 
 if [ -e "$HOME/.vim/setup" ]; then
@@ -55,6 +59,7 @@ if [ -e "$HOME/.vim/setup" ]; then
 	cd ~/.vim
 	git pull
 	$HOME/.vim/setup
+	INIT status-done
 else
 	INIT status "Setup MC Nvim config"
 	cd
@@ -64,4 +69,5 @@ else
 		ln -s "$HOME/.vim" "$HOME/.config/nvim"
 	fi
 	$HOME/.vim/setup
+	INIT status-done
 fi

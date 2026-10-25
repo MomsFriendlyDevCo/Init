@@ -6,7 +6,7 @@ source "$(dirname "${BASH_SOURCE[0]}")/./common"
 INIT apt-install wget --lazy --header "Install QGIS prefequisites"
 
 if [ ! -e "/etc/apt/sources.list.d/qgis.sources" ]; then
-	INIT status "Install QGIS keyring + apt repo"
+	INIT status "Install QGIS keyring + APT repo"
 	sudo wget -O /etc/apt/keyrings/qgis-archive-keyring.gpg https://download.qgis.org/downloads/qgis-archive-keyring.gpg
 
 	SUITES=`lsb_release -cs`
@@ -19,11 +19,13 @@ Architectures: amd64
 Components: main
 Signed-By: /etc/apt/keyrings/qgis-archive-keyring.gpg
 EOF
+	INIT status-done
 else
-	INIT status-skip "Install QGIS keyring + apt repo"
+	INIT status-skip "Install QGIS keyring + APT repo - already installed"
 fi
 
 
 INIT status "Install QGIS"
 INIT apt-update
 INIT apt-install qgis
+INIT status-done

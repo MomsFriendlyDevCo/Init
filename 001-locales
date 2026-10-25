@@ -12,4 +12,5 @@ else
 	sudo locale-gen en_US en_US.UTF-8
 	sudo locale-gen en_AU en_AU.UTF-8
 	sudo dpkg-reconfigure -f noninteractive locales
+	INIT status-done
 fi

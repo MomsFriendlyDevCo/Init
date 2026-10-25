@@ -12,3 +12,5 @@ root            hard    memlock         64
 root            soft    sigpending      62188
 root            hard    sigpending      62188
 EOF
+
+INIT status-done

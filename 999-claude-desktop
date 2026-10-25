@@ -9,8 +9,9 @@ if [ ! -e "/usr/share/keyrings/claude-desktop-archive-keyring.asc" ]; then
 	INIT file-set /etc/apt/sources.list.d/claude-desktop.list <<EOF
 deb [arch=amd64,arm64 signed-by=/usr/share/keyrings/claude-desktop-archive-keyring.asc] https://downloads.claude.ai/claude-desktop/apt/stable stable main
 EOF
+	INIT status-done
 else
-	INIT status-skip "Install Claude PPA"
+	INIT status-skip "Install Claude PPA - already present"
 fi
 
 INIT apt-install --update --header "Install Claude Desktop" --lazy claude-desktop

@@ -4,14 +4,11 @@
 source "$(dirname "${BASH_SOURCE[0]}")/./common"
 
 
-INIT status "Install Fail2Ban"
-INIT apt-install fail2ban
+INIT apt-install --lazy --header "Install Fail2Ban" fail2ban
 
 
-INIT status "Add MFDC to Fail2Ban IP whitelist"
+INIT status "Add MFDC to Fail2Ban IP whitelist + Restart Fail2Ban"
 INIT config-set /etc/fail2ban/jail.conf 'ignoreip' '127.0.0.1/8 10.0.0.1/24 59.100.88.0/24 103.96.6.111/'
-
-
-INIT status "Restarting Fail2Ban"
 sudo systemctl enable fail2ban
 sudo systemctl start fail2ban
+INIT status-done
