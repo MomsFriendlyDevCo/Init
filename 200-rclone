@@ -19,4 +19,4 @@ else
 	INIT status 'Creating empty RClone config'
 	mkdir -p "$HOME/.config/rclone"
 	INIT status-done
-else
+fi
