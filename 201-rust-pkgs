@@ -81,6 +81,7 @@ INIT status "Install Rat-Commander"
 INIT cargo-install --no-clean --git https://github.com/dividebysandwich/rat-commander
 INIT status-done
 
-INIT status "Cleanup"
-cargo cache -a
+INIT status "Install ZTL"
+# Timeone comparison tool
+INIT cargo-install --locked --git https://github.com/findyourexit/zonetimeline-tui zonetimeline-tui
 INIT status-done
