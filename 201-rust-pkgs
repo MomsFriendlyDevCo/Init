@@ -17,13 +17,12 @@ CARGO_PKGS='
 	ast-grep     # Grep by AST code formatting, provides "sg"
 	bandwhich    # Show what is using system bandwidth
 	bat          # "cat" alternative with syntax highlighting ~ "bat <files..."
-	bottom       # "top" alternative
+	bottom       # "top" alternative via "btm"
 	broot        # Interactive "tree" alterternative
 	choose       # "cut" altenative
 	csvlens      # Interactive CSV viewer
 	drydock      # Analyise Git status across paths
 	dns-doge     # "dig" alternative"
-	dua          # "du" alternative"
 	du-dust      # "du" alternative" with graphs ~ "dust [path]"
 	eza          # "ls" alternative with coloring
 	fclones      # Find duplicate files
