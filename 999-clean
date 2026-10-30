@@ -81,6 +81,11 @@ if [ `INIT bin-available cargo-cache` == 1 ]; then
 	INIT status-done
 fi
 
+if [ -d '/root/.config/Cypress/cy/production/projects' ]; then
+	INIT status "Clean Cypress temporary files"
+	rm -r /root/.config/Cypress/cy/production/projects/tmp.*
+fi
+
 if [ `INIT bin-available docker` == 1 ]; then
 	INIT status "Clean Docker cache"
 	docker system prune --force
