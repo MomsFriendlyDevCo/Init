@@ -27,16 +27,17 @@ fi
 
 
 INIT status "Performing YARA scan"
-export YARA_RULES_OUTPUT="/tmp/yara-report-${date +%F)}.json"
+export YARA_RULES_OUTPUT="/tmp/yara-report-$(date +%F).json"
 sudo \
 	nice -n 19 \
 	ionice -c3 \
-	yr scan \
+	`which yr` scan \
 		--ignore-invalid-rules \
 		--recursive \
 		--timeout 60 \
 		--print-tags \
 		--output-format ndjson \
+		--compiled-rules \
 		/opt/yara-rules/packages/full/yara-rules-full.yarx \
 		/ \
 	| tee "${YARA_RULES_OUTPUT}"

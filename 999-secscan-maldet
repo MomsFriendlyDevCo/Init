@@ -1,0 +1,12 @@
+#!/bin/bash
+# Install common server seucirty hardening tools
+
+source "$(dirname "${BASH_SOURCE[0]}")/./common"
+
+INIT status "Performing MalDet scan"
+sudo \
+	nice -n 19 \
+	ionice -c3 \
+	`which maldet` \
+		--scan-all /
+INIT status-done

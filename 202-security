@@ -9,3 +9,14 @@ INIT apt-install --lazy --header "Install YARA prerequisites" unzip
 INIT status "Install YARA-X"
 INIT cargo-install yara-x-cli
 INIT status-done
+
+
+if [ `INIT bin-available maldet` == 1 ]; then
+	INIT status-skip "MalDet already installed"
+else
+	INIT status "Install MalDet"
+	INIT source-clone maldet 'https://github.com/rfxn/linux-malware-detect.git'
+	INIT go-src maldet
+	sudo ./install.sh
+	INIT status-done
+fi
