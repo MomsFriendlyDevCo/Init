@@ -7,12 +7,5 @@ INIT apt-install --lazy --header "Install YARA prerequisites" unzip
 
 
 INIT status "Install YARA-X"
-cargo-install yara-x-cli
+INIT cargo-install yara-x-cli
 INIT status-done
-
-
-INIT status "Install YARA rules: YARA-Forge"
-sudo mkdir -p /opt/yara-rules && cd /opt/yara-rules
-INIT download --no-done https://github.com/YARAHQ/yara-forge/releases/latest/download/yara-forge-rules-full.zip yara-forge-rules-full.zip
-sudo unzip -o yara-forge-rules-full.zip
-sudo rm yara-forge-rules-full.zip

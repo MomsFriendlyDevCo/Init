@@ -1,0 +1,30 @@
+#!/bin/bash
+# Install common server seucirty hardening tools
+
+source "$(dirname "${BASH_SOURCE[0]}")/./common"
+
+if [ -e "/opt/yara-rules/packages/full/yara-rules-full.yar" ]; then
+	INIT status-skip "Download YARA rules - already installed"
+else
+	INIT status "Download YARA rules: YARA-Forge (Full)"
+	sudo mkdir -p /opt/yara-rules
+	cd /opt/yara-rules
+	INIT rm-lazy yara-forge-rules-full.zip
+	INIT download --no-done https://github.com/YARAHQ/yara-forge/releases/latest/download/yara-forge-rules-full.zip yara-forge-rules-full.zip
+	sudo unzip -o yara-forge-rules-full.zip
+	INIT rm-lazy yara-forge-rules-full.zip
+fi
+
+
+if [ -e "/opt/yara-rules/packages/full/yara-rules-full.yarx" ]; then
+	INIT status-skip "Compile YARA rules - already compiled"
+else
+	INIT status "Compile YARA rules: YARA-Forge (Full)"
+	cd "/opt/yara-rules/packages/full"
+	yr compile --relaxed-re-syntax -o yara-forge-rules-full.yarx yara-forge-rules-full.yar
+fi
+
+
+INIT status "Performing YARA scan"
+yr scan -r /opt/yara-rules/packages/full/yara-rules-full.yar /var/www
+INIT status-done
