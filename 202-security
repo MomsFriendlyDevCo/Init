@@ -13,7 +13,7 @@ fi
 
 
 INIT status "Install YARA-X"
-INIT cargo-install yara-x-cli
+INIT cargo-install --locked yara-x-cli
 INIT status-done
 
 if [ `INIT bin-available maldet` == 1 ]; then
