@@ -1,0 +1,8 @@
+#!/bin/bash
+# Install common server seucirty hardening tools
+
+source "$(dirname "${BASH_SOURCE[0]}")/./common"
+
+INIT status "Performing YARA scan"
+yr scan -r /opt/yara-rules/packages/core/yara-rules-full.yar /var/www
+INIT status-done
