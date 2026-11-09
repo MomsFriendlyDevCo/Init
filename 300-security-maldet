@@ -3,10 +3,14 @@
 
 source "$(dirname "${BASH_SOURCE[0]}")/./common"
 
-INIT apt-install --lazy --header "Install Marldet prerequisites" moreutils
+INIT apt-install --lazy --header "Install Marldet prerequisites" \
+	clamav \
+	clamav-freshclam \
+	inotify-tools \
+	moreutils \
+	sed \
 
 
-INIT status "Install MalDet"
 INIT source-clone maldet 'https://github.com/rfxn/linux-malware-detect.git'
 INIT go-src maldet
 sudo ./install.sh
@@ -22,7 +26,6 @@ findmnt --raw --noheadings --output TARGET \
 	| cat /usr/local/maldetect/ignore_paths - \
 	| sort --unique \
 	| sponge /usr/local/maldetect/ignore_paths
-
 INIT status-done
 
 
