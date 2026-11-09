@@ -6,10 +6,15 @@ source "$(dirname "${BASH_SOURCE[0]}")/./common"
 INIT apt-install --lazy --header "Install YARA prerequisites" unzip
 
 
+if [ `INIT bin-available cargo` != 1 ]; then
+	INIT status-skip "Cargo / Rust not available - run ./200-rust first"
+	exit 1
+fi
+
+
 INIT status "Install YARA-X"
 INIT cargo-install yara-x-cli
 INIT status-done
-
 
 if [ `INIT bin-available maldet` == 1 ]; then
 	INIT status-skip "MalDet already installed"
