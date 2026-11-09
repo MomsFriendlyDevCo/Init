@@ -9,10 +9,10 @@ else
 	INIT status "Download YARA rules: YARA-Forge (Full)"
 	sudo mkdir -p /opt/yara-rules
 	cd /opt/yara-rules
-	INIT rm-lazy yara-forge-rules-full.zip
+	INIT tolerate rm yara-forge-rules-full.zip
 	INIT download --no-done https://github.com/YARAHQ/yara-forge/releases/latest/download/yara-forge-rules-full.zip yara-forge-rules-full.zip
 	sudo unzip -o yara-forge-rules-full.zip
-	INIT rm-lazy yara-forge-rules-full.zip
+	INIT tolerate rm yara-forge-rules-full.zip
 fi
 
 
@@ -21,10 +21,15 @@ if [ -e "/opt/yara-rules/packages/full/yara-rules-full.yarx" ]; then
 else
 	INIT status "Compile YARA rules: YARA-Forge (Full)"
 	cd "/opt/yara-rules/packages/full"
-	yr compile --relaxed-re-syntax -o yara-forge-rules-full.yarx yara-forge-rules-full.yar
+	yr compile --disable-warnings -o yara-rules-full.yarx yara-rules-full.yar
+	INIT status-done
 fi
 
 
 INIT status "Performing YARA scan"
-yr scan -r /opt/yara-rules/packages/full/yara-rules-full.yar /var/www
+yr scan \
+	--ignore-invalid-rules \
+	--recursive \
+	/opt/yara-rules/packages/full/yara-rules-full.yarx \
+	/
 INIT status-done
