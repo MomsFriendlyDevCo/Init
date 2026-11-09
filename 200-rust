@@ -12,9 +12,8 @@ INIT status-done
 
 INIT apt-install --lazy --header "Install Cargo prerequisites" \
 	clang \
-	cmake \
 	libasound2-dev \
-	libclang1-20 \
+	libclang1 \
 	libexpat1-dev \
 	libfreetype6-dev \
 	libssl-dev \
