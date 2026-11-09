@@ -1,14 +1,29 @@
 #!/bin/bash
 # Run a command but ignore if it throws an error
 #
+# @param {--quiet} [quiet] Optional flag to send all output (STDOUT + STDERR) to /dev/null
+#
 # @example Run an error prone command
 # INIT tolerate error-prone-script
+#
+# @example Run an error prone command silently
+# INIT tolerate --quiet error-prone-script
+
+QUIET=0
+if [ "$1" == "--quiet" ]; then
+	QUIET=1
+	shift
+fi
 
 # Disable exiting on errors
 set +e
 
 # Run the command
-"$@"
+if [ "$QUIET" == 1 ]; then
+	"$@" >/dev/null 2>&1
+else
+	"$@"
+fi
 
 # Enable exiting on errors again
 set -e
