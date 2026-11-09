@@ -4,16 +4,23 @@
 # Usage: ./utils/cargo-install [options] <packages...>
 #
 # --no-clean             Skip the automatic cleanup - useful if queuing multiple cargo-install commands together
+#
+# --no-prereq            Skip installing cargo prerequisites
 
 source "$(dirname "${BASH_SOURCE[0]}")/../common"
 
 # Argument processing {{{
 ARG_CLEAN=1
+ARG_PREREQ=1
 PARAMS=()
 while (( "$#" )); do
 	case "$1" in
 		--no-clean)
 			ARG_CLEAN=0
+			shift
+			;;
+		--no-prereq)
+			ARG_PREREQ=0
 			shift
 			;;
 		--) # end argument parsing
@@ -32,14 +39,27 @@ while (( "$#" )); do
 done
 # }}}
 
-if [ `INIT bin-available cargo-cache` == 0 ]; then
-	INIT status "Install pre-requsite: cargo-cache"
+
+# Enable cargo install caching - to let Rust reuse existing package builds
+if [[ "${ARG_PREREQ}" == 1 && `INIT bin-available sccache` == 0 ]]; then
+	INIT status "Install Cargo pre-requsite: sccache"
+	cargo install sccache
+fi
+# Use sccache wrapper - to enable build reuse
+export RUSTC_WRAPPER=sccache
+
+
+# Check cargo-cache is installed so we can easily purge the cache later
+if [[ "${ARG_PREREQ}" == 1 && `INIT bin-available cargo-cache` == 0 ]]; then
+	INIT status "Install Cargo pre-requsite: cargo-cache"
 	cargo install cargo-cache
 fi
+
 
 # Set Cargo tmp directory to local home as /tmp is limited to 500mb on Ubuntu 26.04 default installs
 export CARGO_TARGET_DIR="$HOME/.cargo/tmp"
 cargo install "${PARAMS[@]}"
+
 
 # Optional cleanup (unless --no-clean)
 if [ "${ARG_CLEAN}" == '1' ]; then
