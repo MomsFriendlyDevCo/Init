@@ -30,5 +30,7 @@ INIT run \
 	200-rclone \
 	200-rust \
 	201-rust-pkgs \
-	202-security \
+	300-security-maldet \
+	300-security-yara \
+	301-security-nginx \
 	999-clean \

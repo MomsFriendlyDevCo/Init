@@ -3,10 +3,12 @@
 
 source "$(dirname "${BASH_SOURCE[0]}")/./common"
 
+
+if [ `INIT bin-available maldet` != 1 ]; then
+	INIT panic "maldet binary not available - run ./300-security-maldet first"
+fi
+
+
 INIT status "Performing MalDet scan"
-sudo \
-	nice -n 19 \
-	ionice -c3 \
-	`which maldet` \
-		--scan-all /
+sudo `which maldet` --scan-all /
 INIT status-done

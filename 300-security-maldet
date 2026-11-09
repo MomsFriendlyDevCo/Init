@@ -1,0 +1,36 @@
+#!/bin/bash
+# Install Maldet malware scanner
+
+source "$(dirname "${BASH_SOURCE[0]}")/./common"
+
+INIT apt-install --lazy --header "Install Marldet prerequisites" moreutils
+
+
+INIT status "Install MalDet"
+INIT source-clone maldet 'https://github.com/rfxn/linux-malware-detect.git'
+INIT go-src maldet
+sudo ./install.sh
+INIT status-done
+
+
+INIT status "Compute Maldet ignore paths"
+# Find all mount points and flush to ignore file so Maldet doesn't leave this file system
+findmnt --raw --noheadings --output TARGET \
+	| grep -v '^/$' \
+	| grep -vP '^/(dev|var|run|sys)/' \
+	| grep -v '^[[:space:]]*$' \
+	| cat /usr/local/maldetect/ignore_paths - \
+	| sort --unique \
+	| sponge /usr/local/maldetect/ignore_paths
+
+INIT status-done
+
+
+INIT status "Configure MalDet service"
+# Setup root dir as actual monitor path
+echo '/' >/usr/local/maldetect/monitor_paths
+# Tweak config to point to above path
+sed -i 's|^default_monitor_mode=.*|default_monitor_mode="/usr/local/maldetect/monitor_paths"|' /usr/local/maldetect/conf.maldet
+# Start system service
+sudo systemctl start maldet.service
+INIT status-done

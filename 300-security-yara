@@ -1,0 +1,16 @@
+#!/bin/bash
+# Install YARA malware scanner
+
+source "$(dirname "${BASH_SOURCE[0]}")/./common"
+
+if [ `INIT bin-available cargo` != 1 ]; then
+	INIT panic "Cargo / Rust not available - run ./200-rust first"
+fi
+
+
+INIT apt-install --lazy --header "Install YARA prerequisites" unzip
+
+
+INIT status "Install YARA-X"
+INIT cargo-install --locked yara-x-cli
+INIT status-done

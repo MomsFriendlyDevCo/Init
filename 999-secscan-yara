@@ -3,6 +3,10 @@
 
 source "$(dirname "${BASH_SOURCE[0]}")/./common"
 
+if [ `INIT bin-available yr` != 1 ]; then
+	INIT panic "yr binary not available - run ./300-security-yara first"
+fi
+
 if [ -e "/opt/yara-rules/packages/full/yara-rules-full.yar" ]; then
 	INIT status-skip "Download YARA rules - already installed"
 else
