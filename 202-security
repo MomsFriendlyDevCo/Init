@@ -33,7 +33,7 @@ else
 	if [ -e '/usr/local/modsecurity/lib/libmodsecurity.so' ]; then
 		INIT status-skip "Nginx LibModSecurity already installed"
 	else
-		INIT apt-install --lazy --header "Install LibModSecurity prerequisites" doxygen libcurl4 libtool
+		INIT apt-install --lazy --header "Install LibModSecurity prerequisites" doxygen libcurl4 libpcre2-dev libtool
 
 		INIT status "Install LibModSecurity"
 		INIT source-clone LibModSecurity 'https://github.com/owasp-modsecurity/ModSecurity'
