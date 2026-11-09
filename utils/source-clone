@@ -22,13 +22,16 @@ if [ -d "$1" ]; then
 	INIT status "Updating ${1^} source"
 	cd "$1"
 	git pull
+	INIT status-done
 
 	if [ -e '.gitmodules' ]; then
 		INIT status "Updating ${1^} Submodules"
 		git submodule update --recursive
+		INIT status-done
 	fi
 else
 	INIT status "Cloning ${1^} source"
 	git clone --recursive --depth=1 --shallow-submodules "$2" "$1"
 	cd "$1"
+	INIT status-done
 fi
