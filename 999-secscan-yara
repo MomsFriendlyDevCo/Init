@@ -27,9 +27,12 @@ fi
 
 
 INIT status "Performing YARA scan"
-yr scan \
-	--ignore-invalid-rules \
-	--recursive \
-	/opt/yara-rules/packages/full/yara-rules-full.yarx \
-	/
+sudo \
+	nice -n 19 \
+	ionice -c3 \
+	yr scan \
+		--ignore-invalid-rules \
+		--recursive \
+		/opt/yara-rules/packages/full/yara-rules-full.yarx \
+		/
 INIT status-done
