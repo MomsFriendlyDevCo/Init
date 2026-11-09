@@ -67,6 +67,7 @@ else
 		INIT tolerate make clean
 		sudo ./configure --with-compat --add-dynamic-module="../ModSecurity-Nginx"
 		sudo make modules
+		INIT tolerate --quiet sudo mkdir -p /etc/nginx/modules-available/ /etc/nginx/modules-enabled/
 		sudo cp objs/ngx_http_modsecurity_module.so /etc/nginx/modules-available/
 		INIT status-done
 	fi
