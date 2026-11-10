@@ -2,6 +2,9 @@
   "version": "1.8.0",
   "name": "@momsfriendlydevco/init",
   "description": "MFDC server initalization scripts",
+  "scripts": {
+    "start": "./pick"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/MomsFriendlyDevCo/Init.git"
