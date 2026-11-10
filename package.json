@@ -1,7 +1,7 @@
 {
+  "version": "1.8.0",
   "name": "@momsfriendlydevco/init",
   "description": "MFDC server initalization scripts",
-  "version": "1.7.0",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/MomsFriendlyDevCo/Init.git"
