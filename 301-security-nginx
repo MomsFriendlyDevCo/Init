@@ -72,10 +72,16 @@ else
 	sudo mv crs-setup.conf.example /etc/nginx/modsec/crs/crs-setup.conf
 
 	INIT file-set /etc/nginx/modsec/main.conf <<EOF
+Include /etc/nginx/modsec/overrides.conf
 Include /etc/nginx/modsec/modsecurity.conf
 Include /etc/nginx/modsec/crs/crs-setup.conf
 Include /etc/nginx/modsec/crs/rules/*.conf
 EOF
+
+	if [ ! -e '/etc/nginx/modsec/overrides.conf' ]; then
+		# Create stub overrides file if it doesn't already exist
+		touch '/etc/nginx/modsec/overrides.conf'
+	fi
 
 	if [ ! -L "/etc/nginx/modules-enabled/ngx_http_modsecurity_module.so" ]; then
 		cd "/etc/nginx/modules-enabled"
