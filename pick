@@ -1,0 +1,149 @@
+#!/bin/bash
+# Interactively pick which Init scripts to run via a checkbox UI
+# Usage: ./pick [-n|--no-select] [globs...]
+#
+# Globs are matched against files in the Init base directory and default to '*'
+# Only executable files are listed (excluding `pick` + `setup`), selected scripts are run in sort order via `INIT run`
+# All scripts start selected unless `--no-select` is given
+#
+# Keys: Space/Tab toggle, Ctrl+A select all, Ctrl+D select none, Ctrl+R invert, Enter run, Esc cancel
+#
+# -n, --no-select   Start with no scripts selected
+#
+# @example Pick from all scripts
+# ./pick
+#
+# @example Pick from only the 0xx + 2xx level scripts, starting with nothing selected
+# ./pick -n '0*' '2*'
+
+source "$(dirname "${BASH_SOURCE[0]}")/./common"
+
+# Argument processing {{{
+ARG_SELECT=1
+GLOBS=()
+while (( "$#" )); do
+	case "$1" in
+		-n|--no-select)
+			ARG_SELECT=0
+			shift
+			;;
+		--) # end argument parsing
+			shift
+			GLOBS+=("$@")
+			break
+			;;
+		-*)
+			INIT panic "Unknown flag '$1'"
+			;;
+		*)
+			GLOBS+=("$1")
+			shift
+			;;
+	esac
+done
+[ "${#GLOBS[@]}" == 0 ] && GLOBS=('*')
+# }}}
+
+# Ensure a recent enough FZF is available (distro packages are often too old for the options used here) {{{
+function fzf-capable {
+	echo 'x' | fzf --filter '' --multi --no-input --gutter ' ' --accept-nth 1 --bind 'load:select-all,enter:transform:true' >/dev/null 2>&1
+}
+
+if ! fzf-capable; then
+	INIT status "Installing latest FZF TUI chooser"
+	INIT run 090-fzf
+	cd "$INIT_HOME"
+	hash -r
+	fzf-capable || INIT panic "FZF is installed but does not support the required options - $(fzf --version 2>/dev/null)"
+fi
+# }}}
+
+# Collect matching scripts {{{
+cd "$INIT_HOME"
+shopt -s nullglob
+declare -A SEEN
+SCRIPTS=()
+for GLOB in "${GLOBS[@]}"; do
+	for FILE in $GLOB; do
+		FILE="${FILE#./}"
+		[[ "$FILE" == 'pick' || "$FILE" == 'setup' ]] && continue
+		[[ -f "$FILE" && -x "$FILE" && "$FILE" != */* ]] || continue
+		[ -n "${SEEN[$FILE]}" ] && continue
+		SEEN[$FILE]=1
+		SCRIPTS+=("$FILE")
+	done
+done
+shopt -u nullglob
+
+[ "${#SCRIPTS[@]}" == 0 ] && INIT panic "No scripts match: ${GLOBS[*]}"
+
+mapfile -t SCRIPTS < <(printf '%s\n' "${SCRIPTS[@]}" | sort)
+# }}}
+
+# Build list lines (padded name + dimmed description) {{{
+declare -A DESCS
+TAG_WIDTH=0
+DESC_WIDTH=0
+for FILE in "${SCRIPTS[@]}"; do
+	DESC=$(sed -n '2{s/^#[[:space:]]*//;p;q}' "$FILE")
+	DESCS[$FILE]="$DESC"
+	(( ${#FILE} > TAG_WIDTH )) && TAG_WIDTH=${#FILE}
+	(( ${#DESC} > DESC_WIDTH )) && DESC_WIDTH=${#DESC}
+done
+
+LINES_OUT=()
+for FILE in "${SCRIPTS[@]}"; do
+	LINES_OUT+=("$(printf "%-${TAG_WIDTH}s  \e[2m%s\e[0m" "$FILE" "${DESCS[$FILE]}")")
+done
+# }}}
+
+# Box sizing - fit to contents and center via margins {{{
+ROWS=$(tput lines 2>/dev/null || echo 24)
+COLS=$(tput cols 2>/dev/null || echo 80)
+HELP='space toggle · ^A all · ^D none · ^R invert · enter run · esc cancel'
+
+BOX_WIDTH=$(( TAG_WIDTH + 2 + DESC_WIDTH + 8 ))
+(( BOX_WIDTH < ${#HELP} + 6 )) && BOX_WIDTH=$(( ${#HELP} + 6 ))
+BOX_HEIGHT=$(( ${#SCRIPTS[@]} + 4 ))
+
+MARGIN_X=$(( (COLS - BOX_WIDTH) / 2 ))
+MARGIN_Y=$(( (ROWS - BOX_HEIGHT) / 2 ))
+(( MARGIN_X < 1 )) && MARGIN_X=1
+(( MARGIN_Y < 0 )) && MARGIN_Y=0
+# }}}
+
+LOAD_ACTION='load:select-all'
+(( ARG_SELECT )) || LOAD_ACTION='load:deselect-all'
+
+SELECTED=$(printf '%s\n' "${LINES_OUT[@]}" | fzf \
+	--multi \
+	--ansi \
+	--no-input \
+	--no-sort \
+	--layout reverse \
+	--info hidden \
+	--margin "${MARGIN_Y},${MARGIN_X}" \
+	--border rounded \
+	--border-label ' Init - Pick scripts ' \
+	--header "$HELP" \
+	--gutter ' ' \
+	--pointer '▶' \
+	--marker '✔' \
+	--color 'marker:green:bold,pointer:cyan,header:italic,label:bold' \
+	--accept-nth 1 \
+	--bind "${LOAD_ACTION}" \
+	--bind 'space:toggle,ctrl-a:select-all,ctrl-d:deselect-all,ctrl-r:toggle-all' \
+	--bind "enter:transform:[ \"\$FZF_SELECT_COUNT\" -gt 0 ] && echo accept || echo 'change-header(Nothing selected - ^A to select all, esc to cancel)'" \
+) || {
+	INIT status-skip 'Cancelled'
+	exit 0
+}
+
+mapfile -t RUN < <(echo "$SELECTED" | sed '/^$/d')
+
+if [ "${#RUN[@]}" == 0 ]; then
+	INIT status-skip 'No scripts selected'
+	exit 0
+fi
+
+INIT run "${RUN[@]}"

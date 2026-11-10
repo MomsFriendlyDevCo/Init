@@ -40,6 +40,12 @@ For example to install NodeJS, Python and Rust you could run:
 
 	./020-node && ./020-python && ./200-rust
 
+Alternatively, use `./pick` to choose scripts from a checkbox UI (installing a recent `fzf` via `090-fzf` if needed). An optional list of globs filters which scripts are shown. All scripts start selected unless `-n` / `--no-select` is passed. Keys are `Space` toggle, `Ctrl+A` select all, `Ctrl+D` select none, `Ctrl+R` invert, `Enter` run and `Esc` cancel:
+
+	./pick                 # All scripts
+	./pick '0*' '2*'       # Only the 0xx + 2xx level scripts
+	./pick -n '9*'         # Only the 9xx level scripts, starting with none selected
+
 
 Rules
 =====
