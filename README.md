@@ -27,6 +27,8 @@ Available roles: `ROLE-desktop-xfce`, `ROLE-server-generic`, `ROLE-server-node`,
 
 Defaults for interactive prompts (hostname, timezone etc.) can be preset in the `profile` file.
 
+Scripts can read a profile value directly with `get_profile_var <name> [default]` (provided by `common`), e.g. ``SIZE=`get_profile_var PROFILE_SWAP_SIZE 2G` ``.
+
 
 Cherry-picking guide
 --------------------

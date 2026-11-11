@@ -66,10 +66,7 @@ done
 
 # Fetch value from PROFILE_ prefixes
 if [ -n "$ASK_VARNAME" ]; then
-	source "$(dirname "${BASH_SOURCE[0]}")/../profile"
-	if [ -n "${!ASK_VARNAME}" ]; then
-		ASK_DEFAULT="${!ASK_VARNAME}"
-	fi
+	ASK_DEFAULT=`get_profile_var "$ASK_VARNAME" "$ASK_DEFAULT"`
 fi
 
 

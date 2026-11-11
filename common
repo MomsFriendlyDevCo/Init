@@ -4,6 +4,24 @@
 # Quit on any error (must be set per-shell, even if already initialized in a parent)
 set -e
 
+# Output a PROFILE_* variable from the `profile` file, falling back to a default if unset or empty
+# Defined before the INIT guard below as functions are not inherited by utility sub-processes
+# The profile file is only sourced once per shell
+#
+# Usage: get_profile_var <name> [default]
+#
+# @example Fetch the swap size, defaulting to 2G
+# SWAP_SIZE=`get_profile_var PROFILE_SWAP_SIZE 2G`
+function get_profile_var {
+	if [ -z "$INIT_PROFILE_LOADED" ]; then
+		source "$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)/profile"
+		INIT_PROFILE_LOADED=1
+	fi
+
+	local VALUE="${!1}"
+	echo -n "${VALUE:-$2}"
+}
+
 # Skip the rest of setup if INIT has already been defined in this shell.
 # Checking the function directly (rather than an env-var flag) is reliable across
 # newer bash versions where exported functions don't always propagate to subshells.
