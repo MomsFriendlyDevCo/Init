@@ -1,7 +1,7 @@
 #!/bin/bash
 # Configure the system MTA (Postfix) to send all outgoing email via an SMTP relay
 #
-# Settings are read from the profile file:
+# Settings are read from the profile file, if PROFILE_MTA_SMTP_SERVER is set any other blank settings are prompted for:
 #
 #     PROFILE_MTA_SMTP_SERVER   SMTP relay hostname - if blank this whole script is skipped
 #     PROFILE_MTA_SMTP_PORT     SMTP relay port (default 587, use 465 for implicit TLS)
@@ -14,18 +14,33 @@
 
 source "$(dirname "${BASH_SOURCE[0]}")/./common"
 
+# Use a profile variable if set, otherwise prompt for it
+#
+# Usage: profile_or_ask <var-name> <prompt> [default] [extra INIT ask flags...]
+function profile_or_ask {
+	local VALUE=`get_profile_var "$1"`
+	if [ -n "$VALUE" ]; then
+		echo -n "$VALUE"
+	else
+		INIT ask --prompt "$2" --default "$3" "${@:4}"
+	fi
+}
+
 SMTP_SERVER=`get_profile_var PROFILE_MTA_SMTP_SERVER`
-SMTP_PORT=`get_profile_var PROFILE_MTA_SMTP_PORT 587`
-SMTP_USER=`get_profile_var PROFILE_MTA_SMTP_USER`
-SMTP_PASS=`get_profile_var PROFILE_MTA_SMTP_PASS`
-SMTP_FROM=`get_profile_var PROFILE_MTA_SMTP_FROM`
-TEST_TO=`get_profile_var PROFILE_MTA_TEST_TO`
-RELAY_HOST="[${SMTP_SERVER}]:${SMTP_PORT}"
 
 if [ -z "$SMTP_SERVER" ]; then
 	INIT status-skip "Configure SMTP relay - PROFILE_MTA_SMTP_SERVER is not set"
 	exit 0
 fi
+
+SMTP_PORT=`profile_or_ask PROFILE_MTA_SMTP_PORT "SMTP relay port (587 STARTTLS, 465 implicit TLS)" 587`
+SMTP_USER=`profile_or_ask PROFILE_MTA_SMTP_USER "SMTP username (blank to skip authentication)"`
+if [ -n "$SMTP_USER" ]; then
+	SMTP_PASS=`profile_or_ask PROFILE_MTA_SMTP_PASS "SMTP password for ${SMTP_USER}" "" --secret`
+fi
+SMTP_FROM=`profile_or_ask PROFILE_MTA_SMTP_FROM "Rewrite all outgoing sender addresses to (blank to skip)"`
+TEST_TO=`profile_or_ask PROFILE_MTA_TEST_TO "Send test email to (blank to skip)"`
+RELAY_HOST="[${SMTP_SERVER}]:${SMTP_PORT}"
 
 
 if [ `INIT apt-has postfix` == 1 ]; then
@@ -93,5 +108,5 @@ INIT status-done
 if [ -z "$TEST_TO" ]; then
 	INIT status-skip "Send test email - PROFILE_MTA_TEST_TO is not set"
 else
-	INIT run 999-mta-test
+	"$(dirname "${BASH_SOURCE[0]}")/999-mta-test" --to "$TEST_TO"
 fi
