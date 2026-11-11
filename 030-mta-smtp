@@ -1,0 +1,97 @@
+#!/bin/bash
+# Configure the system MTA (Postfix) to send all outgoing email via an SMTP relay
+#
+# Settings are read from the profile file:
+#
+#     PROFILE_MTA_SMTP_SERVER   SMTP relay hostname - if blank this whole script is skipped
+#     PROFILE_MTA_SMTP_PORT     SMTP relay port (default 587, use 465 for implicit TLS)
+#     PROFILE_MTA_SMTP_USER     SMTP username - if blank authentication setup is skipped
+#     PROFILE_MTA_SMTP_PASS     SMTP password
+#     PROFILE_MTA_SMTP_FROM     Rewrite all outgoing sender addresses to this - if blank rewriting is skipped
+#     PROFILE_MTA_TEST_TO       If non-empty, send a test email via ./999-mta-test when done
+#
+# NOTE: Test email sending at any time with ./999-mta-test
+
+source "$(dirname "${BASH_SOURCE[0]}")/./common"
+
+SMTP_SERVER=`get_profile_var PROFILE_MTA_SMTP_SERVER`
+SMTP_PORT=`get_profile_var PROFILE_MTA_SMTP_PORT 587`
+SMTP_USER=`get_profile_var PROFILE_MTA_SMTP_USER`
+SMTP_PASS=`get_profile_var PROFILE_MTA_SMTP_PASS`
+SMTP_FROM=`get_profile_var PROFILE_MTA_SMTP_FROM`
+TEST_TO=`get_profile_var PROFILE_MTA_TEST_TO`
+RELAY_HOST="[${SMTP_SERVER}]:${SMTP_PORT}"
+
+if [ -z "$SMTP_SERVER" ]; then
+	INIT status-skip "Configure SMTP relay - PROFILE_MTA_SMTP_SERVER is not set"
+	exit 0
+fi
+
+
+if [ `INIT apt-has postfix` == 1 ]; then
+	INIT status-skip "Preseed Postfix install options - Postfix already installed"
+else
+	INIT status "Preseed Postfix install options"
+	sudo debconf-set-selections <<EOF
+postfix postfix/main_mailer_type select Satellite system
+postfix postfix/mailname string $(hostname -f)
+postfix postfix/relayhost string ${RELAY_HOST}
+EOF
+	INIT status-done
+fi
+
+INIT apt-install --lazy --header "Install Postfix + SASL modules" postfix libsasl2-modules ca-certificates
+
+
+INIT status "Configure Postfix relay host ${RELAY_HOST}"
+TLS_WRAPPER=`[ "$SMTP_PORT" == 465 ] && echo 'yes' || echo 'no'`
+sudo postconf -e \
+	"relayhost = ${RELAY_HOST}" \
+	'smtp_tls_security_level = encrypt' \
+	"smtp_tls_wrappermode = ${TLS_WRAPPER}" \
+	'smtp_tls_CAfile = /etc/ssl/certs/ca-certificates.crt'
+INIT status-done
+
+
+if [ -z "$SMTP_USER" ]; then
+	INIT status-skip "Configure SMTP authentication - PROFILE_MTA_SMTP_USER is not set"
+else
+	INIT status "Configure SMTP authentication for ${SMTP_USER}"
+	sudo test -e /etc/postfix/sasl_passwd || sudo install -m 600 /dev/null /etc/postfix/sasl_passwd
+
+	INIT file-set /etc/postfix/sasl_passwd <<EOF
+${RELAY_HOST} ${SMTP_USER}:${SMTP_PASS}
+EOF
+	sudo chmod 600 /etc/postfix/sasl_passwd
+	sudo postmap /etc/postfix/sasl_passwd
+	sudo chmod 600 /etc/postfix/sasl_passwd.db
+
+	sudo postconf -e \
+		'smtp_sasl_auth_enable = yes' \
+		'smtp_sasl_password_maps = hash:/etc/postfix/sasl_passwd' \
+		'smtp_sasl_security_options = noanonymous' \
+		'smtp_sasl_tls_security_options = noanonymous'
+	INIT status-done
+fi
+
+
+if [ -z "$SMTP_FROM" ]; then
+	INIT status-skip "Rewrite outgoing sender address - PROFILE_MTA_SMTP_FROM is not set"
+else
+	INIT status "Rewrite outgoing sender address to ${SMTP_FROM}"
+	sudo postconf -e "sender_canonical_maps = static:${SMTP_FROM}"
+	INIT status-done
+fi
+
+
+INIT status "Restart Postfix"
+sudo systemctl enable postfix
+sudo systemctl restart postfix
+INIT status-done
+
+
+if [ -z "$TEST_TO" ]; then
+	INIT status-skip "Send test email - PROFILE_MTA_TEST_TO is not set"
+else
+	INIT run 999-mta-test
+fi

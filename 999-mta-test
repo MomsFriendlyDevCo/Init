@@ -1,0 +1,73 @@
+#!/bin/bash
+# Send a test email via the system MTA (i.e. `sendmail`)
+#
+# Usage: ./999-mta-test [--to <email>] [--from <email>] [--subject <text>]
+#
+# -t, --to <email>        Recipient address, defaults to PROFILE_MTA_TEST_TO
+#
+# -f, --from <email>      Sender address, defaults to PROFILE_MTA_TEST_FROM (or the MTA default if blank)
+#
+# -s, --subject <text>    Email subject, defaults to PROFILE_MTA_TEST_SUBJECT (or "Test email from <hostname>" if blank)
+#
+# NOTE: Check the mail log with `sudo journalctl -u postfix -n 50` or `sudo tail /var/log/mail.log`
+
+source "$(dirname "${BASH_SOURCE[0]}")/./common"
+
+# Argument processing {{{
+MAIL_TO=`get_profile_var PROFILE_MTA_TEST_TO`
+MAIL_FROM=`get_profile_var PROFILE_MTA_TEST_FROM`
+MAIL_SUBJECT=`get_profile_var PROFILE_MTA_TEST_SUBJECT "Test email from $(hostname)"`
+while (( "$#" )); do
+	case "$1" in
+		-t|--to)
+			MAIL_TO="$2"
+			shift
+			shift
+			;;
+		-f|--from)
+			MAIL_FROM="$2"
+			shift
+			shift
+			;;
+		-s|--subject)
+			MAIL_SUBJECT="$2"
+			shift
+			shift
+			;;
+		*)
+			INIT panic "Unknown argument '$1' - usage: $0 [--to <email>] [--from <email>] [--subject <text>]"
+			;;
+	esac
+done
+# }}}
+
+if [ -z "$MAIL_TO" ]; then
+	INIT panic "No recipient - specify --to <email> or set PROFILE_MTA_TEST_TO"
+fi
+
+if [ ! -x /usr/sbin/sendmail ]; then
+	INIT panic "No system MTA available (/usr/sbin/sendmail) - run ./030-mta-smtp first"
+fi
+
+
+INIT status "Send test email to ${MAIL_TO}"
+
+SENDMAIL_ARGS=(-t)
+if [ -n "$MAIL_FROM" ]; then
+	SENDMAIL_ARGS+=(-f "$MAIL_FROM")
+fi
+
+{
+	[ -n "$MAIL_FROM" ] && echo "From: ${MAIL_FROM}"
+	echo "To: ${MAIL_TO}"
+	echo "Subject: ${MAIL_SUBJECT}"
+	echo "Date: $(date -R)"
+	echo
+	echo "This is a test email sent by $(basename "$0") on $(hostname -f) at $(date)."
+} | /usr/sbin/sendmail "${SENDMAIL_ARGS[@]}" || INIT panic "sendmail failed to queue the test email"
+
+INIT status-done
+
+echo
+echo "NOTE: Email queued - check delivery with \`sudo journalctl -u postfix -n 50\` or \`mailq\`"
+echo
