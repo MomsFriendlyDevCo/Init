@@ -1,0 +1,123 @@
+#!/bin/bash
+# Set one or more PROFILE_* variables within the `profile` file, overwriting any existing value
+# Variables not already present in the profile are appended to the end of the file
+#
+# Usage: ./999-set-profile-var <KEY> <VALUE>
+#        ./999-set-profile-var <<EOF KEY=VALUE\n... EOF
+#
+# HEREDOC input is read as one `KEY=VALUE` per line, blank lines and `#` comments are ignored
+# Values may optionally be wrapped in matching single or double quotes, which are stripped
+# Values are written back to the profile file single-quoted if they contain anything other than simple characters
+#
+# @example Set a single variable
+# ./999-set-profile-var PROFILE_SWAP_SIZE 8G
+#
+# @example Set multiple variables via a HEREDOC (quote 'EOF' to stop the local shell expanding `$` etc.)
+# ./999-set-profile-var <<'EOF'
+# PROFILE_HOSTNAME=webserver
+# PROFILE_MTA_SMTP_SERVER=smtp.example.com
+# PROFILE_MTA_SMTP_PORT=465
+# PROFILE_MTA_SMTP_PASS='p@ss w0rd$'
+# EOF
+#
+# @example Set multiple variables on a remote server via SSH + HEREDOC
+# ssh user@server '~/Init/999-set-profile-var' <<'EOF'
+# PROFILE_ZABBIX_SERVER=zabbix.example.com
+# PROFILE_RSYSLOG_UPSTREAM=zabbix.example.com
+# EOF
+
+source "$(dirname "${BASH_SOURCE[0]}")/./common"
+
+PROFILE_FILE="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)/profile"
+
+KEYS=()
+declare -A VALUES
+
+# Queue a variable to be set, validating its key
+#
+# Usage: queue_var <key> <value>
+function queue_var {
+	if [[ ! "$1" =~ ^[A-Za-z_][A-Za-z0-9_]*$ ]]; then
+		INIT panic "Invalid profile variable name '$1'"
+	fi
+
+	if [ -z "${VALUES[$1]+x}" ]; then
+		KEYS+=("$1")
+	fi
+	VALUES[$1]="$2"
+}
+
+# Output a value in a form safe to be sourced by Bash
+#
+# Usage: quote_val <value>
+function quote_val {
+	if [[ "$1" =~ ^[A-Za-z0-9_./:@,+=%-]+$ ]]; then
+		echo -n "$1"
+	else
+		local ESCAPED="'\\''"
+		echo -n "'${1//\'/$ESCAPED}'"
+	fi
+}
+
+# Argument processing {{{
+if [ "$#" == 2 ]; then
+	queue_var "$1" "$2"
+elif [ "$#" == 0 ] && [ ! -t 0 ]; then
+	while IFS= read -r LINE || [ -n "$LINE" ]; do
+		# Trim surrounding whitespace + optional `export` prefix
+		LINE="${LINE#"${LINE%%[![:space:]]*}"}"
+		LINE="${LINE%"${LINE##*[![:space:]]}"}"
+		LINE="${LINE#export }"
+
+		if [[ -z "$LINE" || "$LINE" == \#* ]]; then
+			continue
+		elif [[ "$LINE" != *=* ]]; then
+			INIT panic "Invalid input line '$LINE' - expected KEY=VALUE"
+		fi
+
+		KEY="${LINE%%=*}"
+		VAL="${LINE#*=}"
+		if [[ "$VAL" =~ ^\'(.*)\'$ || "$VAL" =~ ^\"(.*)\"$ ]]; then
+			VAL="${BASH_REMATCH[1]}"
+		fi
+
+		queue_var "$KEY" "$VAL"
+	done
+else
+	INIT panic "Usage: $0 <KEY> <VALUE> - or pipe KEY=VALUE lines via STDIN / HEREDOC"
+fi
+
+if [ "${#KEYS[@]}" == 0 ]; then
+	INIT panic "No profile variables specified"
+fi
+# }}}
+
+INIT status "Set profile variables: ${KEYS[*]}"
+
+declare -A FOUND
+OUTPUT=''
+while IFS= read -r LINE || [ -n "$LINE" ]; do
+	if [[ "$LINE" =~ ^[[:space:]]*(export[[:space:]]+)?([A-Za-z_][A-Za-z0-9_]*)= ]] && [ -n "${VALUES[${BASH_REMATCH[2]}]+x}" ]; then
+		KEY="${BASH_REMATCH[2]}"
+		FOUND[$KEY]=1
+		OUTPUT+="${KEY}=$(quote_val "${VALUES[$KEY]}")"$'\n'
+	else
+		OUTPUT+="${LINE}"$'\n'
+	fi
+done <"$PROFILE_FILE"
+
+APPENDED=0
+for KEY in "${KEYS[@]}"; do
+	if [ -z "${FOUND[$KEY]}" ]; then
+		if [ "$APPENDED" == 0 ]; then
+			OUTPUT+=$'\n'"# Added by 999-set-profile-var on $(date '+%Y-%m-%dT%H:%M:%S%z')"$'\n'
+			APPENDED=1
+		fi
+		OUTPUT+="${KEY}=$(quote_val "${VALUES[$KEY]}")"$'\n'
+	fi
+done
+
+# Write in-place (rather than replacing the file) to preserve ownership + permissions
+printf '%s' "$OUTPUT" >"$PROFILE_FILE"
+
+INIT status-done

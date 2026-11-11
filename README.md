@@ -29,6 +29,8 @@ Defaults for interactive prompts (hostname, timezone etc.) can be preset in the 
 
 Scripts can read a profile value directly with `get_profile_var <name> [default]` (provided by `common`), e.g. ``SIZE=`get_profile_var PROFILE_SWAP_SIZE 2G` ``.
 
+Profile values can be set with `./999-set-profile-var <KEY> <VALUE>`, or several at once by piping `KEY=VALUE` lines (e.g. a HEREDOC, including over SSH). See the script header for examples.
+
 
 Cherry-picking guide
 --------------------
