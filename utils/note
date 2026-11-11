@@ -1,0 +1,101 @@
+#!/bin/bash
+# Display a highlighted note to the user and log it to $INIT_HOME/notes
+# Notes are accepted as arguments (single line) or via STDIN / HEREDOC (multi-line)
+# The source of the note is detected from the calling script (via $INIT_CALLER set by `INIT`) unless `--source` is given
+#
+# Usage: ./utils/note [--source <alias>] [message...]
+#
+# -s, --source <alias>   Override the detected source of the note
+#
+# @example Single line note
+# INIT note "Reboot required to finish setup"
+#
+# @example Multi-line note
+# INIT note <<EOF
+# Edit /etc/foo.conf to tweak settings
+# Test with \`foo --test\`
+# EOF
+
+source "$(dirname "${BASH_SOURCE[0]}")/../common"
+
+# Argument processing {{{
+NOTE_SOURCE="${INIT_CALLER:-shell}"
+PARAMS=()
+while (( "$#" )); do
+	case "$1" in
+		-s|--source)
+			NOTE_SOURCE="$2"
+			shift
+			shift
+			;;
+		--) # end argument parsing
+			shift
+			PARAMS+=("$@")
+			break
+			;;
+		*) # preserve positional arguments
+			PARAMS+=("$1")
+			shift
+			;;
+	esac
+done
+# }}}
+
+# Read note body from args or STDIN {{{
+if [ ${#PARAMS[@]} -gt 0 ]; then
+	NOTE_BODY="${PARAMS[*]}"
+elif [ ! -t 0 ]; then
+	NOTE_BODY=`cat`
+else
+	INIT panic "No note provided - pass as arguments or via STDIN / HEREDOC"
+fi
+# }}}
+
+# Draw the box {{{
+TERM_COLS="${COLUMNS:-$(tput cols 2>/dev/null || echo 80)}"
+MAX_INNER=$(( TERM_COLS - 4 ))
+[ "$MAX_INNER" -lt 20 ] && MAX_INNER=20
+
+mapfile -t NOTE_LINES < <(echo -n "$NOTE_BODY" | fold -s -w "$MAX_INNER")
+
+HEADER_TEXT=" NOTE: ${NOTE_SOURCE} "
+INNER_WIDTH=$(( ${#HEADER_TEXT} + 2 ))
+for LINE in "${NOTE_LINES[@]}"; do
+	[ ${#LINE} -gt "$INNER_WIDTH" ] && INNER_WIDTH=${#LINE}
+done
+[ "$INNER_WIDTH" -gt "$MAX_INNER" ] && INNER_WIDTH=$MAX_INNER
+
+# Repeat a character N times
+# @param {string} $1 The character to repeat
+# @param {number} $2 The number of repeats
+function repeat {
+	local OUT=''
+	local I
+	for (( I=0; I<$2; I++ )); do OUT+="$1"; done
+	echo -n "$OUT"
+}
+
+C_BORDER='\e[1;33m'
+C_HEADER='\e[1;30;43m'
+C_TEXT='\e[1;37m'
+C_RESET='\e[0m'
+
+echo
+echo -e "${C_BORDER}╭─${C_HEADER}${HEADER_TEXT}${C_RESET}${C_BORDER}$(repeat '─' $(( INNER_WIDTH - ${#HEADER_TEXT} )))─╮${C_RESET}"
+for LINE in "${NOTE_LINES[@]}"; do
+	PAD=$(( INNER_WIDTH - ${#LINE} ))
+	[ "$PAD" -lt 0 ] && PAD=0
+	echo -e "${C_BORDER}│${C_RESET} ${C_TEXT}${LINE//\\/\\\\}$(repeat ' ' "$PAD")${C_RESET} ${C_BORDER}│${C_RESET}"
+done
+echo -e "${C_BORDER}╰$(repeat '─' $(( INNER_WIDTH + 2 )))╯${C_RESET}"
+echo
+# }}}
+
+# Log to notes file {{{
+{
+	echo "[$(date '+%Y-%m-%d %H:%M:%S')] ${NOTE_SOURCE}"
+	echo "$NOTE_BODY"
+	echo
+	echo
+} >>"$INIT_HOME/notes" 2>/dev/null || echo "Unable to write to $INIT_HOME/notes" >&2
+# }}}

@@ -95,6 +95,7 @@ fi
 |                   | `INIT go-src [sub-dir]`                        |        | Change to the $INIT_SRC directory (+ optional sub-dir), creating it/them if they dont exist        |
 | Config            | `INIT config-set <file> <key> <val>`           |        | Set an INI file setting, creating it if not already present                                        |
 | Misc              | `INIT noop`                                    |        | Do nothing, intends to make if-then-else blocks more readable - like Pythons 'pass'                |
+|                   | `INIT note <message>` / `INIT note <<HEREDOC`  |        | Display a boxed note (source = calling script, override with `--source`) + log it to `./notes`     |
 |                   | `INIT panic <message>`                         |        | Display an error message and exit the install process                                              |
 |                   | `INIT tolerate <cmd...>`                       |        | Run a command, ignoring any errors it throws                                                       |
 | Packages / Apt    | `INIT apt-has <pkgs...>`                       |        | Query if all packages are installed                                                                |

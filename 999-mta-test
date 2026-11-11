@@ -68,6 +68,4 @@ fi
 
 INIT status-done
 
-echo
-echo "NOTE: Email queued - check delivery with \`sudo journalctl -u postfix -n 50\` or \`mailq\`"
-echo
+INIT note "Email queued - check delivery with \`sudo journalctl -u postfix -n 50\` or \`mailq\`"

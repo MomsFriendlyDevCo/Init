@@ -43,9 +43,9 @@ sudo systemctl restart maldet.service
 INIT status-done
 
 if [ `INIT file-grep-matches /usr/local/maldetect/conf.maldet 'smtp_relay=""'` == 1 ]; then
-	echo
-	echo "NOTE: Using server default MTA to send email!"
-	echo "      Edit /usr/local/maldetect/conf.maldet and tweak email settings + SMTP if needed"
-	echo "      Test email sending with maldet --test-alert scan email"
-	echo
+	INIT note <<'EOF'
+Using server default MTA to send email!
+Edit /usr/local/maldetect/conf.maldet and tweak email settings + SMTP if needed
+Test email sending with `maldet --test-alert scan email`
+EOF
 fi

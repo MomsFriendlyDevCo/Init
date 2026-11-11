@@ -39,6 +39,10 @@ function INIT {
 	UTIL="$1"
 	shift
 
+	# Expose the calling script name to utilities (used by `INIT note` to detect the note source)
+	local INIT_CALLER="$(basename "${BASH_SOURCE[1]:-shell}")"
+	export INIT_CALLER
+
 	# Special case for go-* where these scripts need including as source so we can change dir (rather than isolating them to their own Bash process)
 	if [[ "$UTIL" == go-* ]]; then
 		source "$INIT_HOME/utils/$UTIL" "$@"
