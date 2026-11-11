@@ -15,9 +15,7 @@ INIT status "Clean systemd managed temporary files"
 INIT tolerate sudo systemd-tmpfiles --clean
 INIT status-done
 
-INIT status "Removing temporary Cargo install profiles"
-INIT tolerate rm -r /tmp/*cargo* 2>/dev/null
-INIT status-done
+INIT rm-lazy --sudo --header "Removing temporary Cargo install profiles" '/tmp/*cargo*'
 
 INIT status "Clean apt cache"
 sudo apt autoclean
@@ -82,10 +80,7 @@ if [ `INIT bin-available cargo-cache` == 1 ]; then
 	INIT status-done
 fi
 
-if [ -d '/root/.config/Cypress/cy/production/projects' ]; then
-	INIT status "Clean Cypress temporary files"
-	rm -r /root/.config/Cypress/cy/production/projects/tmp.*
-fi
+INIT rm-lazy --sudo --header "Clean Cypress temporary files" '/root/.config/Cypress/cy/production/projects/tmp.*'
 
 if [ `INIT bin-available docker` == 1 ]; then
 	INIT status "Clean Docker cache"
@@ -105,11 +100,8 @@ if [ `INIT bin-available snap` == 1 ]; then
 	sudo snap set system snapshots.automatic.retention=no
 	INIT status-done
 
-	if [ -d "/var/lib/snapd/cache" ]; then
-		INIT status "Clean Snap cache"
-		# NOTE: Snap needs the dir, we have to delete its contents instead
-		sudo rm -rf /var/lib/snapd/cache/*
-	fi
+	# NOTE: Snap needs the dir, we have to delete its contents instead
+	INIT rm-lazy --sudo --no-done --header "Clean Snap cache" '/var/lib/snapd/cache/*'
 
 	snap list --all | awk '/disabled/{print $1, $3}' | while read SNAP_NAME SNAP_REV; do
 		echo "- Clean snap revision $SNAP_NAME@$SNAP_REV"

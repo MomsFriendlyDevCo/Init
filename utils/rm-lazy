@@ -1,5 +1,6 @@
 #!/bin/bash
 # Remove a series of paths / globs, only if at least one item within them exists
+# Globs (containing `*`, `?` or `[`) are expanded, skipping empty directories. Literal paths are removed only if they exist
 #
 # Usage: ./utils/rm-lazy [--header text] [--sudo] <paths-or-globs...>
 #
@@ -50,9 +51,16 @@ while (( "$#" )); do
 done
 # }}}
 
-# Expand all patterns into existing paths, ignoring empty directories {{{
+# Expand all patterns into existing paths, ignoring empty directories for globs, literal paths are used if they exist {{{
 TARGETS=()
 for PATTERN in "${PATTERNS[@]}"; do
+	if [[ "$PATTERN" != *[\*\?\[]* ]]; then
+		if $SUDO test -e "$PATTERN" || $SUDO test -L "$PATTERN"; then
+			TARGETS+=("$PATTERN")
+		fi
+		continue
+	fi
+
 	while IFS= read -r MATCH; do
 		if [[ -z "$($SUDO ls -A "$MATCH" 2>/dev/null)" ]] && $SUDO test -d "$MATCH"; then
 			continue

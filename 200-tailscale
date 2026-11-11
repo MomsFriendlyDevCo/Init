@@ -10,6 +10,6 @@ else
 	INSTALL_TMP=$(mktemp)
 	INIT download https://tailscale.com/install.sh "$INSTALL_TMP"
 	sh "$INSTALL_TMP"
-	rm "$INSTALL_TMP"
+	INIT rm-lazy "$INSTALL_TMP"
 	INIT status-done
 fi

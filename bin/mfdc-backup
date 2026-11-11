@@ -75,7 +75,7 @@ if [ `INIT bin-available mongodump` == 1 ]; then
 	echo "* Dumping MongoDB databases..."
 	mongodump -o mongodb
 	tar cvfj "mongo.tar.bz2" mongodb
-	rm -r mongodb
+	INIT rm-lazy "$DIR/mongodb"
 	DONE="$DONE MongoDB"
 fi
 # }}}
@@ -109,7 +109,7 @@ rsync -auvP "$DIR/" "$RSERVER:$RDIR/"
 
 # Cleanup + Exit {{{
 echo '* Cleaning up...'
-rm -r "$DIR"
+INIT rm-lazy "$DIR"
 
 echo
 echo "BACKUP COMPLETE"

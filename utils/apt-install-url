@@ -6,13 +6,8 @@ source "$(dirname "${BASH_SOURCE[0]}")/../common"
 
 INIT go-src
 
-if [ ! -d "$INIT_SRC/deb" ]; then
-	mkdir "$INIT_SRC/deb"
-else
-	INIT status "Erasing existing Source directory"
-	rm -r "$INIT_SRC/deb"
-	mkdir "$INIT_SRC/deb"
-fi
+INIT rm-lazy --header "Erasing existing Source directory" "$INIT_SRC/deb"
+mkdir "$INIT_SRC/deb"
 cd "$INIT_SRC/deb"
 
 INIT file-download-url "$@"
@@ -20,9 +15,8 @@ INIT file-download-url "$@"
 INIT status "Installing .DEB files"
 sudo dpkg -i *.deb
 
-INIT status "Cleaning up .DEB files"
 cd "$INIT_SRC"
-rm -r deb
+INIT rm-lazy --header "Cleaning up .DEB files" "$INIT_SRC/deb"
 
 # Go back to base
 cd "$INIT_HOME"

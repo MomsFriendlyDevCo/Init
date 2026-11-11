@@ -40,7 +40,7 @@ else
 	cd "${INIT_SRC}"
 	INIT download "https://nginx.org/download/nginx-${NGINX_VERSION}.tar.gz" "./nginx-${NGINX_VERSION}.tar.gz"
 	tar xf "nginx-${NGINX_VERSION}.tar.gz"
-	INIT tolerate --quiet rm "nginx-${NGINX_VERSION}.tar.gz"
+	INIT rm-lazy "${INIT_SRC}/nginx-${NGINX_VERSION}.tar.gz"
 	cd "nginx-${NGINX_VERSION}"
 
 	INIT tolerate make clean
@@ -66,7 +66,7 @@ else
 	INIT source-clone crs 'https://github.com/coreruleset/coreruleset.git'
 	INIT go-src crs
 	cd ..
-	INIT tolerate --quiet sudo rm -r /etc/nginx/modsec/crs
+	INIT rm-lazy --sudo /etc/nginx/modsec/crs
 	sudo mv crs /etc/nginx/modsec/
 	cd /etc/nginx/modsec/crs
 	sudo mv crs-setup.conf.example /etc/nginx/modsec/crs/crs-setup.conf

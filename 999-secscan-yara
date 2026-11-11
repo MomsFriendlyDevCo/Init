@@ -13,10 +13,10 @@ else
 	INIT status "Download YARA rules: YARA-Forge (Full)"
 	sudo mkdir -p /opt/yara-rules
 	cd /opt/yara-rules
-	INIT tolerate --quiet rm yara-forge-rules-full.zip
+	INIT rm-lazy --sudo /opt/yara-rules/yara-forge-rules-full.zip
 	INIT download --no-done https://github.com/YARAHQ/yara-forge/releases/latest/download/yara-forge-rules-full.zip yara-forge-rules-full.zip
 	sudo unzip -o yara-forge-rules-full.zip
-	INIT tolerate --quiet rm yara-forge-rules-full.zip
+	INIT rm-lazy --sudo /opt/yara-rules/yara-forge-rules-full.zip
 fi
 
 

@@ -153,7 +153,7 @@ EOF
 	INIT status-done
 else
 	INIT status-skip "Disable screen locking within RDP sessions"
-	sudo rm -f /etc/xdg/autostart/xrdp-no-screen-lock.desktop
+	INIT rm-lazy --sudo /etc/xdg/autostart/xrdp-no-screen-lock.desktop
 fi
 # }}}
 

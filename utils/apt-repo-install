@@ -75,7 +75,7 @@ fi
 
 sudo install -d -m 0755 /etc/apt/keyrings
 sudo install -m 0644 "$KEY_TMP" "$KEY_PATH"
-rm "$KEY_TMP"
+INIT rm-lazy "$KEY_TMP"
 
 # Write repo list
 REPO_OPTS="signed-by=${KEY_PATH}"

@@ -5,17 +5,8 @@ source "$(dirname "${BASH_SOURCE[0]}")/./common"
 
 INIT apt-install --lazy --header "Install Pre-requisites" wget
 
-if [ -d "${INIT_SRC}/btop" ]; then
-	INIT status "Removing older build directory"
-	rm -rf "${INIT_SRC}/btop"
-	INIT status-done
-fi
-
-if [ -f "${INIT_SRC}/btop.tar.gz" ]; then
-	INIT status "Removing older build tarball"
-	rm "${INIT_SRC}/btop.tar.gz"
-	INIT status-done
-fi
+INIT rm-lazy --header "Removing older build directory" "${INIT_SRC}/btop"
+INIT rm-lazy --header "Removing older build tarball" "${INIT_SRC}/btop.tar.gz"
 
 
 INIT status "Downloading latest Btop"
@@ -26,7 +17,7 @@ INIT status-done
 INIT status "Extracting Btop"
 cd "${INIT_SRC}"
 tar xf "${INIT_SRC}/btop.tar.gz"
-rm "${INIT_SRC}/btop.tar.gz"
+INIT rm-lazy "${INIT_SRC}/btop.tar.gz"
 INIT status-done
 
 
@@ -42,7 +33,5 @@ sudo make setuid
 INIT status-done
 
 
-INIT status "Cleaning up"
 cd
-rm -rf "${INIT_SRC}/btop"
-INIT status-done
+INIT rm-lazy --header "Cleaning up" "${INIT_SRC}/btop"

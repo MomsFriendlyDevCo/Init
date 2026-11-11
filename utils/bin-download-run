@@ -14,6 +14,6 @@ shift
 wget "$URL" -O "$INIT_BIN_PATH"
 chmod +x "$INIT_BIN_PATH"
 "$INIT_BIN_PATH" "$@"
-rm "$INIT_BIN_PATH"
+INIT rm-lazy "$INIT_BIN_PATH"
 
 cd "$INIT_HOME"
