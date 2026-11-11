@@ -1,6 +1,6 @@
 #!/bin/bash
 # Ask a simple text based question, using an answers file if available
-# Usage: ./utils/ask --prompt <prompt> [--var <var-name>] [--default VALUE] [--bool]
+# Usage: ./utils/ask --prompt <prompt> [--var <var-name>] [--default VALUE] [--bool] [--secret]
 #
 # -b, --bool              Treat the response as a yes/no question, returning `1` for yes (y / yes / 1 / true) or `0` otherwise
 #
@@ -10,6 +10,8 @@
 #
 # -v, --var <var-name>    The internal variable name to use
 #
+# -s, --secret            Hide the response while typing and mask any default value in the prompt
+#
 #
 # @example Ask for a server name
 # SERVER=`INIT ask --prompt 'Enter the server to use:' --var 'INIT_SERVER'`
@@ -18,6 +20,9 @@
 # if [ `INIT ask --bool --prompt 'Install Foo? (y|n)' --default 'y'` == 1 ]; then
 #   echo "Installing Foo"
 # fi
+#
+# @example Ask for a password without echoing it
+# PASS=`INIT ask --secret --prompt 'Password'`
 
 source "$(dirname "${BASH_SOURCE[0]}")/../common"
 
@@ -26,6 +31,7 @@ ASK_PROMPT=""
 ASK_VARNAME=""
 ASK_DEFAULT=""
 ASK_BOOL=0
+ASK_SECRET=0
 PARAMS=()
 while (( "$#" )); do
 	case "$1" in
@@ -41,6 +47,10 @@ while (( "$#" )); do
 			;;
 		-b|--bool)
 			ASK_BOOL=1
+			shift
+			;;
+		-s|--secret)
+			ASK_SECRET=1
 			shift
 			;;
 		-d|--default)
@@ -71,7 +81,16 @@ fi
 
 
 echo >&2
-read -p "${ASK_PROMPT} [${ASK_DEFAULT}] > " ASK_RESPONSE
+if [ "$ASK_SECRET" == 1 ]; then
+	ASK_DEFAULT_DISPLAY=""
+	if [ -n "$ASK_DEFAULT" ]; then
+		ASK_DEFAULT_DISPLAY='********'
+	fi
+	read -s -p "${ASK_PROMPT} [${ASK_DEFAULT_DISPLAY}] > " ASK_RESPONSE
+	echo >&2
+else
+	read -p "${ASK_PROMPT} [${ASK_DEFAULT}] > " ASK_RESPONSE
+fi
 echo >&2
 
 if [ -z "$ASK_RESPONSE" ]; then
