@@ -23,3 +23,8 @@ PROFILE_RDP_GROUP=rdp-access
 
 # Disable screen locking within RDP sessions (y|n) (999-rdp)
 PROFILE_RDP_DISABLE_SCREENLOCK=y
+
+# Try to use few system resources when using `INIT cargo-install`
+# This will make the builds slower but consume fewer system resources
+# ENUM: 0 (use regular install profile), 1 (optimize), 'auto' ('1' if CPU count >2)
+PROFILE_CARGO_INSTALL_OPTIMIZE=0

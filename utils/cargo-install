@@ -9,6 +9,8 @@
 # --no-clean             Skip the automatic cleanup - useful if queuing multiple cargo-install commands together
 #
 # --no-prereq            Skip installing cargo prerequisites
+#
+# Respects PROFILE_CARGO_INSTALL_OPTIMIZE (see ./profile) to reduce RAM/CPU usage during builds
 
 source "$(dirname "${BASH_SOURCE[0]}")/../common"
 
@@ -49,10 +51,43 @@ done
 # }}}
 
 
+# Install a lighter linker (LLD) than the GNU default
+if [[ "${ARG_PREREQ}" == 1 && `INIT bin-available ld.lld` == 0 ]]; then
+	INIT apt-install --lazy --header "Install Cargo pre-requsite: lld" lld
+fi
+
+# Use LLD if available
+if [[ `INIT bin-available ld.lld` == 1 ]]; then
+	export RUSTFLAGS="${RUSTFLAGS:+$RUSTFLAGS }-C link-arg=-fuse-ld=lld"
+fi
+
+
+# Determine whether to use low-resource build settings
+CARGO_OPTIMIZE=`get_profile_var PROFILE_CARGO_INSTALL_OPTIMIZE 0`
+if [ "${CARGO_OPTIMIZE}" == 'auto' ]; then
+	if [ `nproc` -gt 2 ]; then
+		CARGO_OPTIMIZE=1
+	else
+		CARGO_OPTIMIZE=0
+	fi
+fi
+
+if [ "${CARGO_OPTIMIZE}" == 1 ]; then
+	export CARGO_PROFILE_RELEASE_LTO=false # LTO is a huge RAM spike at link time
+	export CARGO_PROFILE_RELEASE_CODEGEN_UNITS=16 # Undo any codegen-units=1 the crate sets
+	export CARGO_PROFILE_RELEASE_DEBUG=0
+	export CARGO_PROFILE_RELEASE_OPT_LEVEL=s # Less LLVM work, slightly slower binary
+fi
+
+
+# Set Cargo build directory to local home as /tmp is a RAM backed tmpfs (limited to 500mb on Ubuntu 26.04 default installs)
+export CARGO_TARGET_DIR="$HOME/.cargo-build"
+
+
 # Enable cargo install caching - to let Rust reuse existing package builds
 if [[ "${ARG_CHAIN}" == 1 && `INIT bin-available sccache` == 0 ]]; then
 	INIT status "Install Cargo pre-requsite: sccache"
-	cargo install sccache
+	cargo install --locked sccache
 fi
 
 # Use sccache wrapper if available - to enable build reuse
@@ -68,8 +103,6 @@ if [[ "${ARG_PREREQ}" == 1 && `INIT bin-available cargo-cache` == 0 ]]; then
 fi
 
 
-# Set Cargo tmp directory to local home as /tmp is limited to 500mb on Ubuntu 26.04 default installs
-export CARGO_TARGET_DIR="$HOME/.cargo/tmp"
 cargo install "${PARAMS[@]}"
 
 
