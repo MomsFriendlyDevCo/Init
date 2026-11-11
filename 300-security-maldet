@@ -36,7 +36,7 @@ echo '/' >/usr/local/maldetect/monitor_paths
 sed -i 's|^default_monitor_mode=.*|default_monitor_mode="/usr/local/maldetect/monitor_paths"|' /usr/local/maldetect/conf.maldet
 # Configure email
 sed -i 's!^email_alert=.*!email_alert="1"!' /usr/local/maldetect/conf.maldet
-sed -i "s!^email_addr=.*!email_addr=\"daemons+$(hostname)@mfdc.io\"!" /usr/local/maldetect/conf.maldet
+sed -i "s!^email_addr=.*!email_addr=\"daemons+$(hostname)@mfdc.dev\"!" /usr/local/maldetect/conf.maldet
 sed -i 's!^email_ignore_clean=.*!email_ignore_clean="0"!' /usr/local/maldetect/conf.maldet
 # Start system service
 sudo systemctl restart maldet.service
@@ -46,5 +46,6 @@ if [ `INIT file-grep-matches /usr/local/maldetect/conf.maldet 'smtp_relay=""'` =
 	echo
 	echo "NOTE: Using server default MTA to send email!"
 	echo "      Edit /usr/local/maldetect/conf.maldet and tweak email settings + SMTP if needed"
+	echo "      Test email sending with maldet --test-alert scan email"
 	echo
 fi
