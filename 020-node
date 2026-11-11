@@ -13,10 +13,6 @@ if [[ `INIT bin-available node` == 1 && "`node --version`" == "v${NODE_VERSION}.
 elif [ `INIT bin-available node` == 1 ]; then
 	INIT status "Remove existing Node installs"
 	INIT apt-remove --mode purge nodejs
-	if [ `INIT bin-available node` == 1 ]; then
-		sudo rm `which node`
-		INIT status-done
-	fi
 fi
 
 if [ -e "/etc/apt/keyrings/nodesource.gpg" ]; then
