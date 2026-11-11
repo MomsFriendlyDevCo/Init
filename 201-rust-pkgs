@@ -64,7 +64,7 @@ INIT status "Install ${CARGO_PKGS_COUNT} Cargo packages"
 CARGO_PKGS_FAILED=()
 for PKG in $CARGO_PKGS; do
 	INIT status "Install Cargo package ${PKG}"
-	INIT cargo-install --no-clean "$PKG" || CARGO_PKGS_FAILED+=("$PKG")
+	INIT cargo-install --chain "$PKG" || CARGO_PKGS_FAILED+=("$PKG")
 done
 
 if [ "${#CARGO_PKGS_FAILED[@]}" -gt 0 ]; then
@@ -74,14 +74,14 @@ else
 fi
 
 INIT status "Install RipGrep + PCRE2 support"
-INIT cargo-install --no-clean ripgrep --features pcre2
+INIT cargo-install --chain ripgrep --features pcre2
 INIT status-done
 
 INIT status "Install Rat-Commander"
-INIT cargo-install --no-clean --git https://github.com/dividebysandwich/rat-commander
+INIT cargo-install --chain --git https://github.com/dividebysandwich/rat-commander
 INIT status-done
 
 INIT status "Install ZTL"
 # Timeone comparison tool
-INIT cargo-install --locked --git https://github.com/findyourexit/zonetimeline-tui zonetimeline-tui
+INIT cargo-install --chain --locked --git https://github.com/findyourexit/zonetimeline-tui zonetimeline-tui
 INIT status-done

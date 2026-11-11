@@ -3,6 +3,9 @@
 #
 # Usage: ./utils/cargo-install [options] <packages...>
 #
+# --chain                Optimize for multiple cargo installs by installing "sscache" if its not already present
+#                        Also implies '--no-clean'
+#
 # --no-clean             Skip the automatic cleanup - useful if queuing multiple cargo-install commands together
 #
 # --no-prereq            Skip installing cargo prerequisites
@@ -11,10 +14,16 @@ source "$(dirname "${BASH_SOURCE[0]}")/../common"
 
 # Argument processing {{{
 ARG_CLEAN=1
+ARG_CHAIN=0
 ARG_PREREQ=1
 PARAMS=()
 while (( "$#" )); do
 	case "$1" in
+		-c|--chain)
+			ARG_CHAIN=1
+			ARG_CLEAN=0
+			shift
+			;;
 		--no-clean)
 			ARG_CLEAN=0
 			shift
@@ -41,12 +50,15 @@ done
 
 
 # Enable cargo install caching - to let Rust reuse existing package builds
-if [[ "${ARG_PREREQ}" == 1 && `INIT bin-available sccache` == 0 ]]; then
+if [[ "${ARG_CHAIN}" == 1 && `INIT bin-available sccache` == 0 ]]; then
 	INIT status "Install Cargo pre-requsite: sccache"
 	cargo install sccache
 fi
-# Use sccache wrapper - to enable build reuse
-export RUSTC_WRAPPER=sccache
+
+# Use sccache wrapper if available - to enable build reuse
+if [[ `INIT bin-available sccache` == 1 ]]; then
+	export RUSTC_WRAPPER=sccache
+fi
 
 
 # Check cargo-cache is installed so we can easily purge the cache later

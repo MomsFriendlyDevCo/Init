@@ -6,5 +6,5 @@ source "$(dirname "${BASH_SOURCE[0]}")/./common"
 INIT apt-install --lazy --header 'Install Silicon pre-requisites' pkg-config libasound2-dev libssl-dev cmake libfreetype6-dev libexpat1-dev libxcb-composite0-dev libharfbuzz-dev
 
 INIT status "Install Silicon"
-INIT cargo-install silicon
+INIT cargo-install --chain silicon
 INIT status-done
