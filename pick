@@ -3,6 +3,7 @@
 # Usage: ./pick [-n|--no-select] [--no-auto-glob] [globs...]
 #
 # Globs are matched against files in the Init base directory and default to '*'
+# Multiple expressions are OR'd together - any script matching at least one expression is listed
 # Any expression without a glob character (`*`, `?` or `[`) is wrapped as `*expr*` unless `--no-auto-glob` is given
 # Only executable files are listed (excluding `pick` + `setup`), selected scripts are run in sort order via `INIT run`
 # All scripts start selected unless `--no-select` is given
@@ -20,6 +21,9 @@
 #
 # @example Pick from any script containing 'node' (equivalent to '*node*')
 # ./pick node
+#
+# @example Pick from any script containing 'node' OR 'python'
+# ./pick node python
 
 source "$(dirname "${BASH_SOURCE[0]}")/./common"
 
