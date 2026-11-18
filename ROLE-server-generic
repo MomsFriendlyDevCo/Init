@@ -27,5 +27,4 @@ INIT run \
 	201-rust-pkgs \
 	300-security-maldet \
 	300-security-yara \
-	301-security-nginx \
 	999-clean \

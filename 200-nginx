@@ -1,97 +1,139 @@
 #!/bin/bash
-# Install Nginx as a HTTP / HTTPS reverse proxy
+# Install or update Nginx + LibModSecurity
 
 source "$(dirname "${BASH_SOURCE[0]}")/./common"
 
-INIT status "Install Nginx via Apt"
-INIT apt-repo-install nginx https://nginx.org/keys/nginx_signing.key "http://nginx.org/packages/ubuntu $(lsb_release -cs) nginx"
-INIT apt-install nginx
-INIT status-done
+if command -v nginx >/dev/null; then
+	NGINX_VERSION=$(nginx -v 2>&1 | sed -E 's|.*nginx/([0-9.]+).*|\1|')
+else
+	NGINX_VERSION='none'
+fi
 
+if [ -e '/etc/apt/sources.list/nginx.list' ]; then
+	INIT status-skip "Nginx Apt repo already installed"
+else
+	INIT status "Install Nginx Apt repo"
+	INIT apt-repo-install nginx https://nginx.org/keys/nginx_signing.key "http://nginx.org/packages/mainline/ubuntu $(lsb_release -cs) nginx"
+	INIT status-done
 
-# TLS certificate {{{
-NGINX_CERT_GLOB='/etc/letsencrypt/live/*/fullchain.pem'
-while true; do
-	NGINX_CERT=`sudo bash -c "ls -1d $NGINX_CERT_GLOB 2>/dev/null" | head -n 1`
-
-	if [ -n "$NGINX_CERT" ] && sudo test -d "$NGINX_CERT"; then
-		NGINX_CERT="${NGINX_CERT%/}/fullchain.pem"
+	# Update Nginx version offered by the nginx.org repo (e.g. `1.27.3-1~noble`)
+	NGINX_APT_VERSION=$(apt-cache madison nginx | grep 'nginx.org' | head -n 1 | awk -F'|' '{gsub(/ /, "", $2); print $2}')
+	if [ -z "$NGINX_APT_VERSION" ]; then
+		INIT panic "Unable to determine latest Nginx version from the nginx.org Apt repo"
 	fi
+	NGINX_VERSION=$(echo "$NGINX_APT_VERSION" | sed -E 's/^[0-9]+://; s/-.*$//')
 
-	NGINX_KEY="`dirname "$NGINX_CERT"`/privkey.pem"
+	INIT status "Install Nginx v${NGINX_VERSION} via Apt"
+	INIT apt-install "nginx=${NGINX_APT_VERSION}"
+	INIT status-done
+fi
 
-	if [ -n "$NGINX_CERT" ] && sudo test -f "$NGINX_CERT" && sudo test -f "$NGINX_KEY"; then
-		break
-	fi
-
-	INIT fixme "No LetsEncrypt certificate found matching '$NGINX_CERT_GLOB' (+ privkey.pem alongside it) - install one (e.g. 'sudo certbot certonly --nginx -d <domain>') or enter its path"
-	NGINX_CERT_GLOB=`INIT ask --prompt "Path / glob to LetsEncrypt fullchain.pem (or its live directory)" --default "$NGINX_CERT_GLOB"`
-done
-
-NGINX_DOMAIN=`basename "$(dirname "$NGINX_CERT")"`
-# }}}
+if [ -z "$NGINX_VERSION" ]; then
+	INIT panic "Unable to determine Nginx version"
+fi
 
 
-INIT status "Configure Nginx for $NGINX_DOMAIN (certificate $NGINX_CERT)"
-INIT file-set --confirm /etc/nginx/nginx.conf <<EOF
-pid /var/run/nginx.pid;
-worker_processes auto; # 'auto' = Use CPU count as worker count
+if [ -e '/usr/local/modsecurity/lib/libmodsecurity.so' ]; then
+	INIT status-skip "Nginx LibModSecurity already installed"
+else
+	INIT apt-install --lazy --header "Install LibModSecurity prerequisites" doxygen libcurl4 libpcre2-dev libtool
 
-events {
-	worker_connections 4096;
-}
+	INIT status "Install LibModSecurity"
+	INIT source-clone LibModSecurity 'https://github.com/owasp-modsecurity/ModSecurity'
+	INIT go-src LibModSecurity
+	git submodule update --init --recursive
+	INIT tolerate make clean
+	./build.sh
+	./configure
+	make
+	sudo make install
+	INIT status-done
+fi
 
-http {
-	# Upload config {{{
-	client_max_body_size 500M;
-	# }}}
 
-	# Compression {{{
-	include /etc/nginx/mime.types;
-	default_type application/octet-stream;
-	gzip on;
-	gzip_http_version 1.0;
-	gzip_comp_level 2;
-	gzip_proxied any;
-	gzip_min_length  1100;
-	gzip_buffers 16 8k;
-	gzip_types text/plain text/css application/x-javascript text/xml application/xml application/xml+rss text/javascript;
-	#  }}}
+if [ -e "/etc/nginx/modules-available/ngx_http_modsecurity_module.so" ]; then
+	INIT status-skip "ModSecurity-Nginx already installed"
+else
+	INIT status "Install ModSecurity-Nginx"
+	INIT source-clone ModSecurity-Nginx 'https://github.com/owasp-modsecurity/ModSecurity-nginx'
+	INIT status-done
 
-	# Redirect http -> https {{{
-	server {
-		listen 80;
-		return 301 https://\$host\$request_uri;
-	}
-	# }}}
+	INIT status "Build Nginx v${NGINX_VERSION} with ModSecurity-Nginx"
+	cd "${INIT_SRC}"
+	INIT download "https://nginx.org/download/nginx-${NGINX_VERSION}.tar.gz" "./nginx-${NGINX_VERSION}.tar.gz"
+	tar xf "nginx-${NGINX_VERSION}.tar.gz"
+	INIT rm-lazy "${INIT_SRC}/nginx-${NGINX_VERSION}.tar.gz"
+	cd "nginx-${NGINX_VERSION}"
 
-	# ${NGINX_DOMAIN} {{{
-	server {
-		listen 443 ssl http2;
-		listen [::]:443 ssl http2;
-		server_name ${NGINX_DOMAIN};
+	INIT tolerate make clean
+	sudo ./configure --with-compat --add-dynamic-module="../ModSecurity-Nginx"
+	sudo make modules
+	INIT tolerate --quiet sudo mkdir -p /etc/nginx/modules-available/ /etc/nginx/modules-enabled/
+	sudo cp objs/ngx_http_modsecurity_module.so /etc/nginx/modules-available/
+	INIT status-done
+fi
 
-		ssl_certificate ${NGINX_CERT};
-		ssl_certificate_key ${NGINX_KEY};
 
-		location / {
-			proxy_pass http://localhost:8001;
-			proxy_redirect off;
+if [ -e "/etc/nginx/modsec/main.conf" ]; then
+	INIT status-skip "Nginx + ModSecurity config already setup"
+else
+	INIT status "Nginx + ModSecurity config setup"
 
-			proxy_http_version 1.1;
-			proxy_set_header Accept-Encoding "";
-			proxy_set_header X-Real-IP \$remote_addr;
-			proxy_set_header X-Forwarded-For \$proxy_add_x_forwarded_for;
-			proxy_set_header Upgrade \$http_upgrade;
-			proxy_set_header Connection "upgrade";
-			proxy_set_header Host \$host;
-			proxy_set_header X-Forwarded-Proto \$scheme;
-		}
-	}
-	# }}}
-}
+	sudo mkdir -p /etc/nginx/modsec
+	cd /etc/nginx/modsec
+	INIT download 'https://raw.githubusercontent.com/owasp-modsecurity/ModSecurity/v3/master/modsecurity.conf-recommended' 'modsecurity.conf'
+	INIT download 'https://raw.githubusercontent.com/owasp-modsecurity/ModSecurity/v3/master/unicode.mapping' 'unicode.mapping'
+	sudo sed -i 's/SecRuleEngine DetectionOnly/SecRuleEngine On/' modsecurity.conf
+
+	INIT source-clone crs 'https://github.com/coreruleset/coreruleset.git'
+	INIT go-src crs
+	cd ..
+	INIT rm-lazy --sudo /etc/nginx/modsec/crs
+	sudo mv crs /etc/nginx/modsec/
+	cd /etc/nginx/modsec/crs
+	sudo mv crs-setup.conf.example /etc/nginx/modsec/crs/crs-setup.conf
+
+	INIT file-set /etc/nginx/modsec/main.conf <<EOF
+Include /etc/nginx/modsec/overrides.conf
+Include /etc/nginx/modsec/modsecurity.conf
+Include /etc/nginx/modsec/crs/crs-setup.conf
+Include /etc/nginx/modsec/crs/rules/*.conf
 EOF
-INIT status-done
+
+	if [ ! -e '/etc/nginx/modsec/overrides.conf' ]; then
+		# Create stub overrides file if it doesn't already exist
+		touch '/etc/nginx/modsec/overrides.conf'
+	fi
+
+	if [ ! -L "/etc/nginx/modules-enabled/ngx_http_modsecurity_module.so" ]; then
+		cd "/etc/nginx/modules-enabled"
+		ln -s '../modules-available/ngx_http_modsecurity_module.so' .
+	fi
+
+	INIT status-done
+fi
+
+
+INIT "Check Nginx config"
+if nginx -t -c nginx -t -c /etc/nginx/nginx.conf; then
+	INIT note "Nginx config passes checkes"
+else
+	INIT note <<'EOF'
+Nginx config FAILS checkes against /etc/nginx/nginx.conf
+   - To retun checks use 'nginx -t -c /etc/nginx/nginx.conf'
+EOF
+fi
+
+
+
+INIT note <<'EOF'
+Install instructions:
+   - Add 'load_module /etc/nginx/modules-enabled/ngx_http_modsecurity_module.so;' in /etc/nginx/nginx.conf file at the top of the file
+   - Add 'modsecurity on;'
+   - Add 'modsecurity_rules_file /etc/nginx/modsec/main.conf;'
+   - Verify Nginx setup with 'nginx -t -c /etc/nginx/nginx.conf'
+   - Test by running: curl -I 'http://localhost/?exec=/bin/bash'
+EOF
 
 
 INIT status "Restart Nginx"
