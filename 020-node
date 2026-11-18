@@ -63,6 +63,7 @@ INIT npm-install \
 	@hash-bang/pss \
 	@momsfriendlydevco/cli-snip \
 	@momsfriendlydevco/extract \
+	@momsfriendlydevco/pause \
 	@momsfriendlydevco/o \
 	depcheck \
 	fx \
