@@ -51,9 +51,31 @@ else
 fi
 
 
-if [ -e "/etc/nginx/modules-available/ngx_http_modsecurity_module.so" ]; then
-	INIT status-skip "ModSecurity-Nginx already installed"
+# Test-load the ModSecurity-Nginx module into the installed Nginx binary
+# Nginx refuses to load dynamic modules built against a different version, so a clean load means the module matches
+# This also confirms the module can resolve libmodsecurity.so
+#
+# @returns {number} 0 if the module exists and loads cleanly, 1 otherwise
+function modsec_module_matches {
+	local MODULE='/etc/nginx/modules-available/ngx_http_modsecurity_module.so'
+	[ -e "$MODULE" ] || return 1
+
+	local TMPDIR_TEST=$(mktemp -d)
+	printf 'load_module %s;\nevents {}\n' "$MODULE" > "${TMPDIR_TEST}/nginx.conf"
+
+	local RESULT=0
+	nginx -t -q -p "${TMPDIR_TEST}/" -e stderr -c "${TMPDIR_TEST}/nginx.conf" >/dev/null 2>&1 || RESULT=1
+	rm -rf "$TMPDIR_TEST"
+	return $RESULT
+}
+
+if modsec_module_matches; then
+	INIT status-skip "ModSecurity-Nginx already installed and compiled against Nginx v${NGINX_VERSION}"
 else
+	if [ -e "/etc/nginx/modules-available/ngx_http_modsecurity_module.so" ]; then
+		INIT note "ModSecurity-Nginx module does not match Nginx v${NGINX_VERSION} - rebuilding"
+	fi
+
 	INIT status "Install ModSecurity-Nginx"
 	INIT source-clone ModSecurity-Nginx 'https://github.com/owasp-modsecurity/ModSecurity-nginx'
 	INIT status-done
