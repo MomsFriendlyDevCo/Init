@@ -52,7 +52,7 @@ INIT rm-lazy --sudo --header "Clean root user cache" /root/.cache
 
 if [ `INIT bin-available flatpak` == 1 ]; then
 	INIT status "Clean Flatpak unused packages"
-	flatpak uninstall --unused -y
+	sudo flatpak uninstall --unused -y
 	INIT status-done
 fi
 
