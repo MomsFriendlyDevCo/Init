@@ -1,30 +1,40 @@
 #!/bin/bash
 # Interactively pick which Init scripts to run via a checkbox UI
-# Usage: ./pick [-n|--no-select] [globs...]
+# Usage: ./pick [-n|--no-select] [--no-auto-glob] [globs...]
 #
 # Globs are matched against files in the Init base directory and default to '*'
+# Any expression without a glob character (`*`, `?` or `[`) is wrapped as `*expr*` unless `--no-auto-glob` is given
 # Only executable files are listed (excluding `pick` + `setup`), selected scripts are run in sort order via `INIT run`
 # All scripts start selected unless `--no-select` is given
 #
 # Keys: Space/Tab toggle, Ctrl+A select all, Ctrl+D select none, Ctrl+R invert, Enter run, Esc cancel
 #
 # -n, --no-select   Start with no scripts selected
+# --no-auto-glob    Use expressions as-is, without wrapping plain text in `*...*`
 #
 # @example Pick from all scripts
 # ./pick
 #
 # @example Pick from only the 0xx + 2xx level scripts, starting with nothing selected
 # ./pick -n '0*' '2*'
+#
+# @example Pick from any script containing 'node' (equivalent to '*node*')
+# ./pick node
 
 source "$(dirname "${BASH_SOURCE[0]}")/./common"
 
 # Argument processing {{{
 ARG_SELECT=1
+ARG_AUTO_GLOB=1
 GLOBS=()
 while (( "$#" )); do
 	case "$1" in
 		-n|--no-select)
 			ARG_SELECT=0
+			shift
+			;;
+		--no-auto-glob)
+			ARG_AUTO_GLOB=0
 			shift
 			;;
 		--) # end argument parsing
@@ -42,6 +52,12 @@ while (( "$#" )); do
 	esac
 done
 [ "${#GLOBS[@]}" == 0 ] && GLOBS=('*')
+
+if (( ARG_AUTO_GLOB )); then
+	for I in "${!GLOBS[@]}"; do
+		[[ "${GLOBS[$I]}" == *[\*\?\[]* ]] || GLOBS[$I]="*${GLOBS[$I]}*"
+	done
+fi
 # }}}
 
 # Ensure a recent enough FZF is available (distro packages are often too old for the options used here) {{{
