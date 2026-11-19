@@ -5,7 +5,7 @@ source "$(dirname "${BASH_SOURCE[0]}")/./common"
 
 NGINX_VERSION="1.31.9"
 
-INIT apt-install --lazy --header "Install LibModSecurity + ModSecurity-Nginx prerequisites" autoconf automake doxygen libcurl4-openssl-dev libpcre2-dev libssl-dev libtool libxml2-dev libyajl-dev pkg-config zlib1g-dev
+INIT apt-install --lazy --header "Install LibModSecurity + ModSecurity-Nginx prerequisites" autoconf automake build-essential doxygen libcurl4-openssl-dev libpcre2-dev libssl-dev libtool libxml2-dev libyajl-dev pkg-config zlib1g-dev
 
 
 INIT status "Install LibModSecurity"
@@ -49,7 +49,6 @@ INIT tolerate make clean
 	--with-http_flv_module \
 	--with-http_gunzip_module \
 	--with-http_gzip_static_module \
-	--with-http_json_module \
 	--with-http_mp4_module \
 	--with-http_random_index_module \
 	--with-http_realip_module \
@@ -60,15 +59,14 @@ INIT tolerate make clean
 	--with-http_sub_module \
 	--with-http_v2_module \
 	--with-http_v3_module \
-	--with-mail \
-	--with-mail_ssl_module \
+	--with-pcre-jit \
 	--with-stream \
 	--with-stream_realip_module \
 	--with-stream_ssl_module \
 	--with-stream_ssl_preread_module \
 	--add-dynamic-module="../ModSecurity-Nginx"
 
-make -j"$(nproc)" modules
+make -j"$(nproc)"
 INIT apt-remove --lazy nginx
 sudo make install
 INIT tolerate --quiet sudo mkdir -p /etc/nginx/modules-available/ /etc/nginx/modules-enabled/
