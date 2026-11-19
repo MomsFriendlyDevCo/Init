@@ -3,91 +3,39 @@
 
 source "$(dirname "${BASH_SOURCE[0]}")/./common"
 
-if command -v nginx >/dev/null; then
-	NGINX_VERSION=$(nginx -v 2>&1 | sed -E 's|.*nginx/([0-9.]+).*|\1|')
-else
-	NGINX_VERSION='none'
-fi
-
-INIT apt-repo-install --lazy nginx https://nginx.org/keys/nginx_signing.key "http://nginx.org/packages/mainline/ubuntu $(lsb_release -cs) nginx"
-
-# Nginx version offered by the nginx.org repo (e.g. `1.27.3-1~noble`)
-NGINX_APT_VERSION=$(apt-cache madison nginx | grep 'nginx.org' | head -n 1 | awk -F'|' '{gsub(/ /, "", $2); print $2}')
-if [ -z "$NGINX_APT_VERSION" ]; then
-	INIT panic "Unable to determine latest Nginx version from the nginx.org Apt repo"
-fi
-NGINX_APT_VERSION_SHORT=$(echo "$NGINX_APT_VERSION" | sed -E 's/^[0-9]+://; s/-.*$//')
-
-if [ "$NGINX_VERSION" == "$NGINX_APT_VERSION_SHORT" ]; then
-	INIT status-skip "Nginx v${NGINX_VERSION} already installed"
-else
-	INIT status "Install Nginx v${NGINX_APT_VERSION_SHORT} via Apt"
-	INIT apt-install "nginx=${NGINX_APT_VERSION}"
-	NGINX_VERSION="$NGINX_APT_VERSION_SHORT"
-	INIT status-done
-fi
-
+NGINX_VERSION="1.31.9"
 
 INIT apt-install --lazy --header "Install LibModSecurity + ModSecurity-Nginx prerequisites" autoconf automake doxygen libcurl4-openssl-dev libpcre2-dev libssl-dev libtool libxml2-dev libyajl-dev pkg-config zlib1g-dev
 
-if [ -e '/usr/local/modsecurity/lib/libmodsecurity.so' ]; then
-	INIT status-skip "Nginx LibModSecurity already installed"
-else
-	INIT status "Install LibModSecurity"
-	INIT source-clone LibModSecurity 'https://github.com/owasp-modsecurity/ModSecurity'
-	INIT go-src LibModSecurity
-	INIT tolerate make clean
-	./build.sh
-	./configure
-	make -j"$(nproc)"
-	sudo make install
-	INIT status-done
-fi
+
+INIT status "Install LibModSecurity"
+INIT source-clone LibModSecurity 'https://github.com/owasp-modsecurity/ModSecurity'
+INIT go-src LibModSecurity
+INIT tolerate make clean
+./build.sh
+./configure
+make -j"$(nproc)"
+sudo make install
+INIT status-done
 
 
-# Test-load the ModSecurity-Nginx module into the installed Nginx binary
-# Nginx refuses to load dynamic modules built against a different version, so a clean load means the module matches
-# This also confirms the module can resolve libmodsecurity.so
-#
-# @returns {number} 0 if the module exists and loads cleanly, 1 otherwise
-function modsec_module_matches {
-	local MODULE='/etc/nginx/modules-available/ngx_http_modsecurity_module.so'
-	[ -e "$MODULE" ] || return 1
+INIT status "Install ModSecurity-Nginx"
+INIT source-clone ModSecurity-Nginx 'https://github.com/owasp-modsecurity/ModSecurity-nginx'
+INIT status-done
 
-	local TMPDIR_TEST=$(mktemp -d)
-	printf 'load_module %s;\nevents {}\n' "$MODULE" > "${TMPDIR_TEST}/nginx.conf"
 
-	local RESULT=0
-	nginx -t -q -p "${TMPDIR_TEST}/" -e stderr -c "${TMPDIR_TEST}/nginx.conf" >/dev/null 2>&1 || RESULT=1
-	rm -rf "$TMPDIR_TEST"
-	return $RESULT
-}
-
-if modsec_module_matches; then
-	INIT status-skip "ModSecurity-Nginx already installed and compiled against Nginx v${NGINX_VERSION}"
-else
-	if [ -e "/etc/nginx/modules-available/ngx_http_modsecurity_module.so" ]; then
-		INIT note "ModSecurity-Nginx module does not match Nginx v${NGINX_VERSION} - rebuilding"
-	fi
-
-	INIT status "Install ModSecurity-Nginx"
-	INIT source-clone ModSecurity-Nginx 'https://github.com/owasp-modsecurity/ModSecurity-nginx'
-	INIT status-done
-
-	INIT status "Build Nginx v${NGINX_VERSION} with ModSecurity-Nginx"
-	cd "${INIT_SRC}"
-	INIT download "https://nginx.org/download/nginx-${NGINX_VERSION}.tar.gz" "./nginx-${NGINX_VERSION}.tar.gz"
-	tar xf "nginx-${NGINX_VERSION}.tar.gz"
-	INIT rm-lazy "${INIT_SRC}/nginx-${NGINX_VERSION}.tar.gz"
-	cd "nginx-${NGINX_VERSION}"
-
-	INIT tolerate make clean
-	./configure --with-compat --add-dynamic-module="../ModSecurity-Nginx"
-	make -j"$(nproc)" modules
-	INIT tolerate --quiet sudo mkdir -p /etc/nginx/modules-available/ /etc/nginx/modules-enabled/
-	sudo cp objs/ngx_http_modsecurity_module.so /etc/nginx/modules-available/
-	INIT status-done
-fi
+INIT status "Build Nginx v${NGINX_VERSION} with ModSecurity-Nginx"
+cd "${INIT_SRC}"
+INIT download "https://nginx.org/download/nginx-${NGINX_VERSION}.tar.gz" "./nginx-${NGINX_VERSION}.tar.gz"
+tar xf "nginx-${NGINX_VERSION}.tar.gz"
+INIT rm-lazy "${INIT_SRC}/nginx-${NGINX_VERSION}.tar.gz"
+cd "nginx-${NGINX_VERSION}"
+INIT tolerate make clean
+./configure --with-compat --add-dynamic-module="../ModSecurity-Nginx"
+make -j"$(nproc)" modules
+INIT tolerate --quiet sudo mkdir -p /etc/nginx/modules-available/ /etc/nginx/modules-enabled/
+sudo cp objs/ngx_http_modsecurity_module.so /etc/nginx/modules-available/
+INIT status-done
 
 
 if [ -e "/etc/nginx/modsec/main.conf" ]; then
@@ -104,7 +52,8 @@ else
 	INIT source-clone crs 'https://github.com/coreruleset/coreruleset.git'
 	INIT go-src
 	INIT rm-lazy --sudo /etc/nginx/modsec/crs
-	sudo cp -r crs /etc/nginx/modsec/
+	sudo mkdir -p /etc/nginx/modsec/crs
+	sudo cp -r crs/rules crs/crs-setup.conf.example /etc/nginx/modsec/crs/
 	sudo mv /etc/nginx/modsec/crs/crs-setup.conf.example /etc/nginx/modsec/crs/crs-setup.conf
 
 	INIT file-set /etc/nginx/modsec/main.conf <<EOF
