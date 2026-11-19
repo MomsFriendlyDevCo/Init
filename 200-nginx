@@ -167,6 +167,7 @@ if sudo nginx -t -q -c /etc/nginx/nginx.conf; then
 	INIT status-done "Nginx config passes checks"
 
 	INIT status "Restart Nginx"
+	sudo systemctl daemon-reload
 	sudo systemctl restart nginx
 	INIT status-done
 else
