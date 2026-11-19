@@ -39,8 +39,6 @@ INIT tolerate make clean
 	--http-log-path=/var/log/nginx/access.log \
 	--pid-path=/var/run/nginx.pid \
 	--lock-path=/var/run/nginx.lock \
-	--user=nginx \
-	--group=nginx \
 	--with-file-aio \
 	--with-threads \
 	--with-http_addition_module \
