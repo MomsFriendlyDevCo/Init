@@ -3,10 +3,9 @@
 # Sessions are persistent - disconnecting leaves the session running and reconnecting (as the same user) resumes it
 #
 # Security:
-# * TLS only, using the system LetsEncrypt certificate (/etc/letsencrypt/live/*/fullchain.pem - prompted for if not found)
+# * TLS only, using the system LetsEncrypt certificate (/etc/letsencrypt/live/*/fullchain.pem - prompted for if not found, optionally falling back to the XRDP self-signed certificate)
 # * Root login disabled
 # * Only members of the RDP group (PROFILE_RDP_GROUP, default `rdp-access`) can connect
-# * Fail2Ban jail for repeated failed logins
 # * Screen locking optionally disabled (XRDP login already authenticates every reconnect)
 #
 # Enabling a user to login via RDP:
@@ -31,6 +30,12 @@ INIT apt-install --lazy --header "Install minimal XFCE desktop" --no-install-rec
 INIT apt-install --lazy --header "Install XRDP" \
 	xorgxrdp \
 	xrdp \
+
+
+INIT status "Uncomment ';' commented XRDP settings so they are updated in place"
+sudo sed -i -E 's/^;\s*(KillDisconnected|DisconnectedTimeLimit|IdleTimeLimit|Policy|AllowRootLogin|TerminalServerUsers|AlwaysGroupCheck)\s*=/\1=/' /etc/xrdp/sesman.ini
+sudo sed -i -E 's/^;\s*(security_layer|ssl_protocols|certificate|key_file)\s*=/\1=/' /etc/xrdp/xrdp.ini
+INIT status-done
 
 
 INIT status "Set XFCE as the default X session manager"
@@ -71,9 +76,24 @@ while true; do
 	fi
 
 	INIT fixme "No LetsEncrypt certificate found matching '$RDP_CERT_GLOB' (+ privkey.pem alongside it) - install one or enter its path"
+	if [ `INIT ask --bool --prompt "Skip TLS certificate setup and use the XRDP default self-signed certificate? (y|n)" --var "PROFILE_RDP_SKIP_CERT" --default "n"` == 1 ]; then
+		RDP_CERT=''
+		break
+	fi
 	RDP_CERT_GLOB=`INIT ask --prompt "Path / glob to LetsEncrypt fullchain.pem (or its live directory)" --default "$RDP_CERT_GLOB"`
 done
 
+if [ -z "$RDP_CERT" ]; then
+	INIT status-skip "Install TLS certificate for XRDP - using XRDP default self-signed certificate"
+	INIT status-skip "Install LetsEncrypt renewal hook - no certificate selected"
+	INIT rm-lazy --sudo /etc/letsencrypt/renewal-hooks/deploy/xrdp
+
+	INIT status "Use XRDP default self-signed certificate"
+	INIT config-set /etc/xrdp/xrdp.ini 'certificate' ''
+	INIT config-set /etc/xrdp/xrdp.ini 'key_file' ''
+	sudo usermod -aG ssl-cert xrdp
+	INIT status-done
+else
 INIT status "Install TLS certificate for XRDP from $RDP_CERT"
 sudo install -o root -g xrdp -m 640 "$RDP_CERT" /etc/xrdp/rdp-cert.pem
 sudo install -o root -g xrdp -m 640 "$RDP_KEY" /etc/xrdp/rdp-key.pem
@@ -85,7 +105,7 @@ if [ -d /etc/letsencrypt ]; then
 	sudo mkdir -p /etc/letsencrypt/renewal-hooks/deploy
 INIT file-set /etc/letsencrypt/renewal-hooks/deploy/xrdp <<EOF
 #!/bin/bash
-# Copy renewed LetsEncrypt certificate into XRDP - installed by Init/999-rdp
+# Copy renewed LetsEncrypt certificate into XRDP - installed by Init/200-rdp
 
 [ "\$RENEWED_LINEAGE" == "`dirname "$RDP_CERT"`" ] || exit 0
 
@@ -99,12 +119,16 @@ else
 	INIT status-skip "Install LetsEncrypt renewal hook - /etc/letsencrypt not present"
 fi
 
+INIT status "Use installed TLS certificate for XRDP"
+INIT config-set /etc/xrdp/xrdp.ini 'certificate' '/etc/xrdp/rdp-cert.pem'
+INIT config-set /etc/xrdp/xrdp.ini 'key_file' '/etc/xrdp/rdp-key.pem'
+INIT status-done
+fi
+
 
 INIT status "Force XRDP to use TLS only"
 INIT config-set /etc/xrdp/xrdp.ini 'security_layer' 'tls'
 INIT config-set /etc/xrdp/xrdp.ini 'ssl_protocols' 'TLSv1.2, TLSv1.3'
-INIT config-set /etc/xrdp/xrdp.ini 'certificate' '/etc/xrdp/rdp-cert.pem'
-INIT config-set /etc/xrdp/xrdp.ini 'key_file' '/etc/xrdp/rdp-key.pem'
 INIT status-done
 # }}}
 
@@ -146,7 +170,7 @@ INIT file-set /etc/xdg/autostart/xrdp-no-screen-lock.desktop <<EOF
 [Desktop Entry]
 Type=Application
 Name=Disable screen blanking
-Comment=Screen locking is redundant as XRDP authenticates each connection - installed by Init/999-rdp
+Comment=Screen locking is redundant as XRDP authenticates each connection - installed by Init/200-rdp
 Exec=xset s off -dpms
 NoDisplay=true
 EOF
@@ -156,11 +180,6 @@ else
 	INIT rm-lazy --sudo /etc/xdg/autostart/xrdp-no-screen-lock.desktop
 fi
 # }}}
-
-
-INIT status "Allow XRDP to read the system SSL certificate"
-sudo usermod -aG ssl-cert xrdp
-INIT status-done
 
 
 INIT status "Suppress Polkit authentication prompts within RDP sessions"
