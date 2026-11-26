@@ -17,6 +17,7 @@ FLATPAK_PKGS='
 	com.github.tchx84.Flatseal              # Flatpak config GUI
 	org.inkscape.Inkscape                   # Inkscape SVG editor
 	io.dbeaver.DBeaverCommunity             # Postgres UI
+	org.remmina.Remmina                     # RDP client
 '
 FLATPAK_PKGS=`echo "$FLATPAK_PKGS" | cut -f 1 -d ' ' | tr '\n' ' '`
 
